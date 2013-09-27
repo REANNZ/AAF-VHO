@@ -8,7 +8,7 @@
     <div class="hero-unit">
       <h2>Email sent!</h2>
 
-      <p>An email has been sent to the address you provided with information about your AAF Virtual Home account.</p>
+      <p>An email has been sent to the address you provided with information about your Tuakiri Virtual Home account.</p>
     </div>
   </body>
 </html>

@@ -31,7 +31,7 @@
               <li>
                 <g:link controller="dashboard" action="welcome"><g:message encodeAs='HTML' code="branding.nav.welcome" /></g:link>
               </li>
-              <li><a href="http://support.aaf.edu.au" target="_blank"><g:message encodeAs='HTML' code="branding.nav.support" /></a></li>
+              <li><a href="https://tuakiri.ac.nz/confluence/display/Tuakiri/Support+Desk" target="_blank"><g:message encodeAs='HTML' code="branding.nav.support" /></a></li>
             </ul>
 
           </div>

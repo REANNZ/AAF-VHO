@@ -11,7 +11,7 @@
     </p>
 
     <p>
-      This is usally because you've already activated your account. You only need to do this once then you're ready to login to AAF connected services.
+      This is usally because you've already activated your account. You only need to do this once then you're ready to login to Tuakiri connected services.
     </p>
 
     <p><g:message code="branding.application.supportdesk"/></p>

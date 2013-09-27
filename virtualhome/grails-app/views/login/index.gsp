@@ -7,8 +7,8 @@
 
       <div class="row">
         <div id="description" class="span6">
-          <h2>Welcome to the new AAF Virtual Home</h2>
-          <p>Over the past few months we've been hard at work on this new version of the AAF Virtual Home.</p>
+          <h2>Welcome to the new Tuakiri Virtual Home</h2>
+          <p>Over the past few months AAF have been hard at work on this new version of the Virtual Home.</p>
           <p> The new version will enable small organisations, including collaborative research facilities, to manage user identities for international, government and industry based researchers.</p>
 
           <p>Users are provided with:</p>

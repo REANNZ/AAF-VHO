@@ -229,12 +229,12 @@
                                 <tr>
                                     <td valign="top">
                                         <div >
-                                           An important message from the AAF Virtual Home
+                                           An important message from the Tuakiri Virtual Home
                                         </div>
                                       </td>
                                       <td valign="top" width="190">
                                         <div >
-                                            Do you need help?<br /><a href="http://support.aaf.edu.au" target="_blank">Access the AAF Support service</a>.
+                                            Do you need help?<br /><a href="mailto:support@tuakiri.ac.nz">Get in touch with Tuakiri support at support@tuakiri.ac.nz</a>
                                           </div>
                                       </td>
                                   </tr>
@@ -285,7 +285,7 @@
                                                 <tr>
                                                     <td colspan="2" valign="middle" id="social" style="background-color:#FAFAFA; border:0;">
                                                         <div style="text-align:center;">
-                                                            &nbsp;<a href="http://twitter.com/ausaccessfed" style="font-weight: bold; color:#E36C0A;">Follow on Twitter</a> | <a href="http://www.facebook.com/ausaccessfed" style="font-weight: bold; color:#E36C0A;">Friend on Facebook</a> | <a href="https://support.aaf.edu.au" style="font-weight: bold; color:#E36C0A;">Get AAF Support</a>&nbsp;
+                                                            &nbsp;<a href="mailto:support@tuakiri.ac.nz" style="font-weight: bold; color:#E36C0A;">Get Tuakiri Support</a>&nbsp;
                                                         </div>
                                                     </td>
                                                 </tr>

@@ -9,8 +9,8 @@
     <div class="hero-unit">
       <h3>We couldn't figure out which service you where trying to access  :(</h3>
       <p>To login to services simply visit one of the many which are available via the AAF.</p>
-      <p>Then follow the AAF login prompts and select "AAF Virtual Home" when asked.</p>
-      <a href="http://www.aaf.edu.au/servicecatalogue/" class="btn btn-info btn-large pull-right"><i class="icon-globe icon-white"></i> Show me the services!</a>
+      <p>Then follow the login prompts and select "Tuakiri Virtual Home" when asked.</p>
+      <a href="https://tuakiri.ac.nz/confluence/display/Tuakiri/Services" class="btn btn-info btn-large pull-right"><i class="icon-globe icon-white"></i> Show me the services!</a>
     </div>
   </body>
 </html>
