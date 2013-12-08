@@ -233,7 +233,7 @@ class ManagedSubjectServiceSpec extends IntegrationSpec {
     greenMail.getReceivedMessages().length == 1
 
     def message = greenMail.getReceivedMessages()[0]
-    message.subject == 'Action Required: Your new AAF Virtual Home account is almost ready!'
+    message.subject == 'Action Required: Your new Tuakiri Virtual Home account is almost ready!'
     GreenMailUtil.getBody(message).contains("This is an email for ${managedSubject.cn} telling them")
     GreenMailUtil.getAddressList(message.getRecipients(Message.RecipientType.TO)) == managedSubject.email
 
@@ -422,12 +422,12 @@ class ManagedSubjectServiceSpec extends IntegrationSpec {
     greenMail.getReceivedMessages().length == expectedLinesProcessed
 
     def message = greenMail.getReceivedMessages()[0]
-    message.subject == 'Action Required: Your new AAF Virtual Home account is almost ready!'
+    message.subject == 'Action Required: Your new Tuakiri Virtual Home account is almost ready!'
     GreenMailUtil.getBody(message).contains('This is an email for Test User telling them')
     GreenMailUtil.getAddressList(message.getRecipients(Message.RecipientType.TO)) == 'testuser@testdomain.com'
 
     def message2 = greenMail.getReceivedMessages()[1]
-    message2.subject == 'Action Required: Your new AAF Virtual Home account is almost ready!'
+    message2.subject == 'Action Required: Your new Tuakiri Virtual Home account is almost ready!'
     GreenMailUtil.getBody(message2).contains('This is an email for Test User2 telling them')
     GreenMailUtil.getAddressList(message2.getRecipients(Message.RecipientType.TO)) == 'testuser2@testdomain.com'
 

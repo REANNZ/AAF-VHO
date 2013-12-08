@@ -1,6 +1,6 @@
 Hello ${managedSubject.cn.encodeAsHTML()},<br><br>
 
-You have been provided with new account in the AAF Virtual Home that allows you to access the wide range of online services connected to the Australian Access Federation.<br><br>
+You have been provided with new account in the Tuakiri Virtual Home that allows you to access the wide range of online services connected to Tuakiri.<br><br>
 
 <g:if test="${managedSubject.group.welcomeMessage}">
   <h5>A message from your account administrator</h5>

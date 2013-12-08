@@ -1,8 +1,8 @@
 Hello ${managedSubject.cn.encodeAsHTML()},<br><br>
 
-We have received a request to reset the password you use for logging in to the AAF Virtual Home.<br><br>
+We have received a request to reset the password you use for logging in to the Tuakiri Virtual Home.<br><br>
 
-If you did not request a password reset please contact support@aaf.edu.au immediately, providing your account details and a copy of this notification.<br><br>
+If you did not request a password reset please contact support@tuakiri.ac.nz immediately, providing your account details and a copy of this notification.<br><br>
 
 <h5>Your action is now required</h5>
 

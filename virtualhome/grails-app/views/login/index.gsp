@@ -28,7 +28,7 @@
           </ul>
 
           <br><br>
-          <center><r:img file="loginlogos.png" width="304" height="297"/></center>
+          <center><r:img file="MBIE-logo-pos-FULL.png" width="380" height="117"/></center>
         </div>
 
         <div id="loginform" class="span5 offset1">

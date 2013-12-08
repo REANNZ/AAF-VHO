@@ -31,7 +31,7 @@
         <div class="controls">
           <div class="span5">
             <recaptcha:ifEnabled>
-              <recaptcha:recaptcha theme="white"/>
+              <recaptcha:recaptcha theme="clean"/>
             </recaptcha:ifEnabled>
           </div>
           <div class="span4">
