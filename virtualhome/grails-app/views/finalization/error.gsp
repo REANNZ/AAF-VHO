@@ -10,9 +10,9 @@
     </div>
 
     <p>
-      This is usally because you've already activated your account. You only need to do this once then you're ready to login to AAF connected services.
+      This is usually because you've already activated your account. You only need to do this once then you're ready to login to Tuakiri connected services.
     </p>
 
-    <p>If you're still having trouble please contact <a href="http://support.aaf.edu.au">AAF Support</a> or email <a href="mailto:support@aaf.edu.au">support@aaf.edu.au</a></p>
+    <p>If you're still having trouble please email <a href="mailto:support@tuakiri.ac.nz">support@tuakiri.ac.nz</a></p>
   </body>
 </html>

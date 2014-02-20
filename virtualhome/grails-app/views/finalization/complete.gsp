@@ -7,8 +7,8 @@
   <body>
     <div class="hero-unit">
       <h1>You're ready to go!</h1>
-      <p>To login to services simply select <strong>AAF Virtual Home</strong> from the list of available organisations when asked to nominate your organisation.</p>
-      <a href="http://www.aaf.edu.au/servicecatalogue/" class="btn btn-info btn-large pull-right"><i class="icon-globe icon-white"></i> Show me the services!</a>
+      <p>To login to services simply select <strong>Tuakiri Virtual Home</strong> from the list of available organisations when asked to nominate your organisation.</p>
+      <a href="https://tuakiri.ac.nz/confluence/display/Tuakiri/Service+Catalogue" class="btn btn-info btn-large pull-right"><i class="icon-globe icon-white"></i> Show me the services!</a>
     </div>
 
     <h4>Your account details</h4>

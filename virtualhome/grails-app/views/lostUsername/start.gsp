@@ -19,7 +19,7 @@
           </div>
           <div class="span4">
             <span class="help-block">
-              <p>Please enter the email address associated with your AAF Virtual Home account.</p>
+              <p>Please enter the email address associated with your Tuakiri Virtual Home account.</p>
             </span>
           </div>
         </div>
@@ -32,7 +32,7 @@
         <div class="controls">
           <div class="span5">
             <recaptcha:ifEnabled>
-              <recaptcha:recaptcha theme="white"/>
+              <recaptcha:recaptcha theme="clean"/>
             </recaptcha:ifEnabled>
           </div>
           <div class="span4">

@@ -13,7 +13,7 @@
       </div>
       <div class="span9">
         <p>
-          From now on when you're logging into the AAF Virtual Home you'll need to <strong>use your new password</strong>.
+          From now on when you're logging into the Tuakiri Virtual Home you'll need to <strong>use your new password</strong>.
         </p>
         <p>
           Thanks for undertaking this process for us. We won't need to bother you with it again.

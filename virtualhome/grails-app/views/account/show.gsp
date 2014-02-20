@@ -22,8 +22,8 @@
 
     <g:if test="${!managedSubjectInstance.canLogin()}">
       <div class="alert alert-warning">
-        <h3>Account unable to access AAF services</h3>
-        <p>Your account has been restricted and is currently unable to be used to access AAF services.</p>
+        <h3>Account unable to access Tuakiri services</h3>
+        <p>Your account has been restricted and is currently unable to be used to access Tuakiri services.</p>
         <p>Please contact one of the administrators shown in the table <strong>Assistance with your account</strong> below for help in re-enabling your access.</p>
       </div>
     </g:if>
