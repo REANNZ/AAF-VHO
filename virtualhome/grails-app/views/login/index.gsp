@@ -9,10 +9,11 @@
         <div id="description" class="span6">
           <h2>Welcome to the new Tuakiri Virtual Home</h2>
           <p>Over the past few months AAF have been hard at work on this new version of the Virtual Home.</p>
-          <p> The new version will enable small organisations, including collaborative research facilities, to manage user identities for international, government and industry based researchers.</p>
+          <p> The new version will enable small organisations, including collaborative research facilities, to manage user identities for international, government and industry based researchers, as well as collaborators who are sponsored by a Tuakiri subscribed organisation.</p>
 
           <p>Users are provided with:</p>
           <ul>
+            <li>Access to federated services;</li>
             <li>A view of account details to assist with maintenance of your personal information;</li>
             <li>Secure management of passwords;</li>
             <li>The ability to reset a forgotten password 24/7 with our simple online tools; and</li>

@@ -9,14 +9,9 @@ class PasswordValidationService {
   def grailsApplication
   def cryptoService
 
-  ArrayWordList awl
   Properties msgs
 
   public PasswordValidationService() {
-    def readers = new java.io.Reader[1]
-    readers[0] = new InputStreamReader(getClass().getResourceAsStream('dictionary-top5000.txt'))
-    awl = WordLists.createFromReader(readers, false, new ArraysSort());
-
     msgs = new Properties()
     msgs.load(getClass().getResourceAsStream("passwordvalidation.txt"))
   }
@@ -26,37 +21,23 @@ class PasswordValidationService {
     values have been populated with a plain text representation
     of the password attempting to be set by the subject
 
-    NIST 800-63-1
-    http://csrc.nist.gov/publications/nistpubs/800-63-1/SP-800-63-1.pdf
-    Memorized Secret Token
-    Level 2
+    The AAF decided on Tuesday 3/12/2013 in a planning meeting
+    to reduce the restrictions on passwords (along with other measures)
+    due to support issues that have been encountered. Issue: #146
 
-    The memorized secret may be a randomly generated PIN consisting 
-    of 6 or more digits, a user generated string consisting of 8 or 
-    more characters chosen from an alphabet of 90 or more characters, 
-    or a secret with equivalent entropy.
-
-    CSP implements dictionary or composition rule to constrain 
-    usergenerated secrets.
-
-    8 char dict + composition = 30 entropy - Table A.1
-    16 char = 30 entropy - Table A.1
-
-    Thus we enforce:
+    We enforce:
       All passwords:
       Do not contain the login name
       Minimum length 8 char
 
       Password is 8 - 15 char:
-      No whitespace
-      At least 1 number
-      At least 1 Non Alpha
-      At least 1 Uppercase Character
-      At least 1 Lowercase Chatacter
-      No dictionary words (dictionary file contains 235924 words)
+      * No whitespace;
+      * At least 1 number;
+      * At least 1 Uppercase character; and
+      * At least 1 Lowercase chatacter
 
       Password is 16 char or greater:
-      Minimum length 16 char
+      * Minimum length of 16 char only
   */
   def validate(ManagedSubject subject) {
     if(subject.plainPassword != subject.plainPasswordConfirmation) {
@@ -96,21 +77,13 @@ class PasswordValidationService {
 
       CharacterCharacteristicsRule charRule = new CharacterCharacteristicsRule()
       charRule.getRules().add(new DigitCharacterRule(1))
-      charRule.getRules().add(new NonAlphanumericCharacterRule(1))
       charRule.getRules().add(new UppercaseCharacterRule(1))
       charRule.getRules().add(new LowercaseCharacterRule(1))
-      charRule.setNumberOfCharacteristics(4)
-
-      WordListDictionary dict = new WordListDictionary(awl);
-      DictionarySubstringRule dictRule = new DictionarySubstringRule(dict)
-      dictRule.setWordLength(4)
-      dictRule.setMatchBackwards(true)
+      charRule.setNumberOfCharacteristics(3)
 
       ruleList.add(whitespaceRule)
-
       ruleList.add(lengthRule)
       ruleList.add(charRule)
-      ruleList.add(dictRule)
     } else {
       LengthRule lengthRule = new LengthRule()
       lengthRule.minimumLength = 16
@@ -129,8 +102,11 @@ class PasswordValidationService {
     }
     else {
       validator.getMessages(result).unique().each { e ->
-        subject.errors.rejectValue('plainPassword', e)
-        log.info "Password error for ${subject}: $e"
+        // We don't want to double on error messages for CharacterCharacteristicsRule it confuses users
+        if(!e.equals('aaf.vhr.passwordvalidationservice.insufficent.characters')) {
+          subject.errors.rejectValue('plainPassword', e)
+          log.info "Password error for ${subject}: $e"
+        }
       }
       subject.discard()
       [false, validator.getMessages(result)]

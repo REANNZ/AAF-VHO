@@ -117,29 +117,7 @@ class PasswordValidationServiceSpec extends UnitSpec {
 
     where:
       val << ['Abb!deXgh', 'Ab1ddeXgh', 'ab1!dexgh', 'AB1!DEXGH', 'Ab1!deXgh']
-      expected << [false, false, false, false, true]
-  }
-
-  def 'confirm short password meets no dictionary word rules'() {
-    setup:
-    def subject = ManagedSubject.build()
-    subject.plainPassword = val
-    subject.plainPasswordConfirmation = val
-
-    when:
-    def result = pv.validate(subject)
-
-    then:
-    result[0] == expected
-
-    if(!expected) {
-      assert result[1].size() >= 1
-      assert result[1].contains('aaf.vhr.passwordvalidationservice.dictionary.word')
-    }
-
-    where:
-      val << ['Ab1!deXgh', 'Ab1!password', 'DirectoR1!deXgh', 'Ab1!DEaTh', 'Ab1!PEOPLE']
-      expected << [true, false, false, false, false]
+      expected << [false, true, false, false, true]
   }
 
   def 'confirm longer password (16+) is allowed dictionary words and does not need to meet char characteristics'() {

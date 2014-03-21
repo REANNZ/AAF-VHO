@@ -6,7 +6,7 @@ import org.apache.shiro.SecurityUtils
 class ManagedSubjectController {
 
   static defaultAction = "list"
-  static allowedMethods = [save: "POST", update: "POST", delete: "DELETE", resend:"POST"]
+  static allowedMethods = [save: "POST", update: "POST", delete: "DELETE", resend:"POST", resettwosteplogin:"POST", enforcetwosteplogin:"POST"]
 
   def beforeInterceptor = [action: this.&validManagedSubject, except: ['list', 'create', 'save', 'createcsv', 'savecsv']]
 
@@ -157,14 +157,6 @@ class ManagedSubjectController {
   def edit(Long id) {
     def managedSubjectInstance = ManagedSubject.get(id)
 
-    if(!SecurityUtils.subject.isPermitted('app:administrator') && !managedSubjectInstance.finalized) {
-      log.warn "Attempt to do administrative ManagedSubject edit by $subject was denied - not global administrator, and account has not been finalized"
-      flash.type = 'error'
-      flash.message = 'controllers.aaf.vhr.managedsubject.edit.notfinalized'
-      redirect(action: "show", id: managedSubjectInstance.id)
-      return
-    }
-
     if(managedSubjectInstance.canMutate()) {
       log.info "Action: edit, Subject: $subject, Object: managedSubjectInstance"
 
@@ -178,12 +170,6 @@ class ManagedSubjectController {
 
   def update(Long id, Long version) {
     def managedSubjectInstance = ManagedSubject.get(id)
-
-    if(!SecurityUtils.subject.isPermitted('app:administrator') && !managedSubjectInstance.finalized) {
-      log.warn "Attempt to do administrative ManagedSubject edit by $subject was denied - not global administrator, and account has not been finalized"
-      response.sendError 403
-      return
-    }
 
     if(managedSubjectInstance.canMutate()) {
       if (version == null) {
@@ -199,7 +185,20 @@ class ManagedSubjectController {
         return
       }
 
-      bindData(managedSubjectInstance, params, [include: ['login', 'cn', 'email', 'eduPersonAssurance', 'displayName', 'accountExpires', 
+      // Only allow administrators to change login, not set initial value
+      // Initial login choice is for users and made during finalization process
+      if(SecurityUtils.subject.isPermitted("app:administrator") || managedSubjectInstance.login != null) {
+        bindData(managedSubjectInstance, params, [include: 'login'])
+      } else {
+        if(params.login) {
+          flash.type = 'error'
+          flash.message = 'controllers.aaf.vhr.managedsubject.update.noset.login'
+          render(view: "edit", model: [managedSubjectInstance: managedSubjectInstance])
+          return
+        }
+      }
+
+      bindData(managedSubjectInstance, params, [include: ['cn', 'email', 'eduPersonAssurance', 'displayName', 'accountExpires',
                                                           'givenName', 'surname', 'mobileNumber', 'telephoneNumber', 'postalAddress', 
                                                           'organizationalUnit']])
 
@@ -207,10 +206,12 @@ class ManagedSubjectController {
         bindData(managedSubjectInstance, params, [include: 'sharedToken'])
       }
 
-      if(params.eduPersonAffiliation instanceof String)
-        managedSubjectInstance.eduPersonAffiliation = params.eduPersonAffiliation
-      else
-        managedSubjectInstance.eduPersonAffiliation = params.eduPersonAffiliation.join(';')
+      if(params.eduPersonAffiliation) {
+        if(params.eduPersonAffiliation instanceof String)
+          managedSubjectInstance.eduPersonAffiliation = params.eduPersonAffiliation
+        else
+          managedSubjectInstance.eduPersonAffiliation = params.eduPersonAffiliation.join(';')
+      }
 
       if(params.eduPersonEntitlement) {
         managedSubjectInstance.eduPersonEntitlement = params.eduPersonEntitlement.replaceAll("\r\n|\n\r|\n|\r",";")
@@ -269,6 +270,53 @@ class ManagedSubjectController {
     }
     else {
       log.warn "Attempt to do administrative ManagedSubject resend by $subject was denied - not permitted by assigned permissions"
+      response.sendError 403
+    }
+  }
+
+  def resettwosteplogin(Long id) {
+    def managedSubjectInstance = ManagedSubject.get(id)
+    if(managedSubjectInstance.canMutate()) {
+      managedSubjectInstance.totpKey = null
+
+      if(!managedSubjectInstance.save()) {
+        log.warn "Failed to save totpkey reset for $managedSubjectInstance"
+        response.sendError 500
+        return
+      }
+
+      log.info "Action: resettwosteplogin, Subject: $subject, Object: $managedSubjectInstance"
+      flash.type = 'success'
+      flash.message = 'controllers.aaf.vhr.managedsubject.resettwosteplogin.success'
+      redirect(action: "show", id: managedSubjectInstance.id)
+    }
+    else {
+      log.warn "Attempt to do administrative ManagedSubject resettwosteplogin by $subject was denied - not permitted by assigned permissions"
+      response.sendError 403
+    }
+  }
+
+  def enforcetwosteplogin(Long id, boolean enforce) {
+    def managedSubjectInstance = ManagedSubject.get(id)
+    if(managedSubjectInstance.canMutate()) {
+      managedSubjectInstance.totpForce = enforce
+
+      if(!managedSubjectInstance.save()) {
+        log.warn "Failed to save change of two-step enforce for $managedSubjectInstance"
+        response.sendError 500
+        return
+      }
+
+      log.info "Action: enforcetwosteplogin, Subject: $subject, Object: $managedSubjectInstance"
+      flash.type = 'success'
+      if(enforce)
+        flash.message = 'controllers.aaf.vhr.managedsubject.enforcetwosteplogin.enable.success'
+      else
+        flash.message = 'controllers.aaf.vhr.managedsubject.enforcetwosteplogin.disable.success'
+      redirect(action: "show", id: managedSubjectInstance.id)
+    }
+    else {
+      log.warn "Attempt to do administrative ManagedSubject enforcetwosteplogin by $subject was denied - not permitted by assigned permissions"
       response.sendError 403
     }
   }
