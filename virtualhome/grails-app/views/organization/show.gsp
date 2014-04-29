@@ -50,7 +50,7 @@
       <li class="active"><a href="#tab-overview" data-toggle="tab"><g:message encodeAs='HTML' code="label.overview" /></a></li>
       <li><a href="#tab-groups" data-toggle="tab"><g:message encodeAs='HTML' code="label.groups" /></a></li>
       <aaf:hasPermission target="app:manage:organization:${organizationInstance.id}:manage:administrators">
-        <li><a href="#tab-managedsubjects" data-toggle="tab"><g:message encodeAs='HTML' code="label.managedsubjects" /></a></li>
+        <li><a href="#tab-accounts" data-toggle="tab"><g:message encodeAs='HTML' code="label.managedsubjects" /></a></li>
       </aaf:hasPermission>
       <li><a href="#tab-administrators" data-toggle="tab"><g:message encodeAs='HTML' code="label.administrators" /></a></li>
 
@@ -202,60 +202,26 @@
       </div>
 
       <aaf:hasPermission target="app:manage:organization:${organizationInstance.id}:manage:administrators">
-        <div id="tab-managedsubjects" class="tab-pane">
-          <table class="table table-borderless table-sortable">
-            <thead>
-              <tr>
-                  <th><g:message encodeAs='HTML' code="label.login" /></th> 
-                  <th><g:message encodeAs='HTML' code="label.cn" /></th> 
-                  <th><g:message encodeAs='HTML' code="label.email" /></th> 
-                  <th/>
-              </tr>
-            </thead>
-            <tbody>
-            <g:each in="${organizationInstance.subjects.findAll{!it.archived}}" status="i" var="managedSubjectInstance">
-              <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-                <td>${fieldValue(bean: managedSubjectInstance, field: "login")}</td>
-                <td>${fieldValue(bean: managedSubjectInstance, field: "cn")}</td>
-                <td>${fieldValue(bean: managedSubjectInstance, field: "email")}</td>
-                <td>
-                  <aaf:hasPermission target="app:manage:organization:${managedSubjectInstance.organization.id}:group:${managedSubjectInstance.group.id}:managedsubject:show">
-                    <g:link action="show" controller="managedSubject" id="${managedSubjectInstance.id}" class="btn btn-small"><g:message encodeAs='HTML' code="label.view"/></g:link>
-                  </aaf:hasPermission>
-                </td>
-              </tr>
-            </g:each>
-            </tbody>
-          </table>
+        <div id="tab-accounts" class="tab-pane">
 
-          <g:if test="${organizationInstance.subjects.findAll{it.archived}?.size() > 0}">
-            <hr>
-            <h4><g:message encodeAs='HTML' code="label.archived"/></h4>
-            <table class="table table-borderless table-sortable">
-              <thead>
-                <tr>
-                    <th><g:message encodeAs='HTML' code="label.login" /></th> 
-                    <th><g:message encodeAs='HTML' code="label.cn" /></th> 
-                    <th><g:message encodeAs='HTML' code="label.email" /></th> 
-                    <th/>
-                </tr>
-              </thead>
-              <tbody>
-              <g:each in="${organizationInstance.subjects.findAll{it.archived}}" status="i" var="managedSubjectInstance">
-                <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-                  <td>${fieldValue(bean: managedSubjectInstance, field: "login")}</td>
-                  <td>${fieldValue(bean: managedSubjectInstance, field: "cn")}</td>
-                  <td>${fieldValue(bean: managedSubjectInstance, field: "email")}</td>
-                  <td>
-                    <aaf:hasPermission target="app:manage:organization:${managedSubjectInstance.organization.id}:group:${managedSubjectInstance.group.id}:managedsubject:show">
-                      <g:link action="show" controller="managedSubject" id="${managedSubjectInstance.id}" class="btn btn-small"><g:message encodeAs='HTML' code="label.view"/></g:link>
-                    </aaf:hasPermission>
-                  </td>
-                </tr>
-              </g:each>
-              </tbody>
-            </table>
-          </g:if>
+          <ul class="nav nav-pills">
+            <li class="active"><a href="#tab-accounts-functioning" data-toggle="tab">Functioning</a></li>
+            <li><a href="#tab-accounts-inactive"  data-toggle="tab">Inactive</a></li>
+            <li><a href="#tab-accounts-expired" data-toggle="tab">Expired</a></li>
+            <li><a href="#tab-accounts-archived" data-toggle="tab">Archived</a></li>
+            <li><a href="#tab-accounts-locked" data-toggle="tab">Locked</a></li>
+            <li><a href="#tab-accounts-blocked" data-toggle="tab">Blocked</a></li>
+          </ul>
+
+          <div class="tab-content">
+            <g:render template="/templates/render_accounts" model="[tab:'tab-accounts-functioning', cssclass:'active', collection:organizationInstance.subjects.findAll{it.functioning()}]" />
+            <g:render template="/templates/render_accounts" model="[tab:'tab-accounts-inactive', collection:organizationInstance.subjects.findAll{!it.active}]" />
+            <g:render template="/templates/render_accounts" model="[tab:'tab-accounts-expired', collection:organizationInstance.subjects.findAll{it.isExpired()}]" />
+            <g:render template="/templates/render_accounts" model="[tab:'tab-accounts-archived', collection:organizationInstance.subjects.findAll{it.archived}]" />
+            <g:render template="/templates/render_accounts" model="[tab:'tab-accounts-locked', collection:organizationInstance.subjects.findAll{it.locked}]" />
+            <g:render template="/templates/render_accounts" model="[tab:'tab-accounts-blocked', collection:organizationInstance.subjects.findAll{it.blocked}]" />
+          </div>
+
         </div>
       </aaf:hasPermission>
 

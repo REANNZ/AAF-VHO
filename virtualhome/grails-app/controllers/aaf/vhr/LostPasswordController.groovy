@@ -15,7 +15,6 @@ class LostPasswordController {
   final static defaultAction = "start"
 
   def messageSource
-  def recaptchaService
   def passwordValidationService
   def cryptoService
   def emailManagerService
@@ -27,53 +26,45 @@ class LostPasswordController {
   }
 
   def obtainsubject() {
-    if (!recaptchaService.verifyAnswer(session, request.getRemoteAddr(), params)) {
-      log.error "Recaptcha incorrect when attempting to obtain subject"
-        
-      flash.type = 'error'
-      flash.message = 'controllers.aaf.vhr.lostpassword.recaptcha.error'
-      render view:'start', model:[login:params.login]
-
-      return
-    }
-
     def managedSubjectInstance = ManagedSubject.findWhere(login: params.login)
     if(!managedSubjectInstance) {
       log.error "No ManagedSubject representing ${params.login} found, requesting login before accessing password change"
-      
+
       flash.type = 'info'
       flash.message = 'controllers.aaf.vhr.lostpassword.requiresaccount'
       redirect action: 'start'
 
-      return
+
+    } else {
+      session.setAttribute(CURRENT_USER, managedSubjectInstance.id)
+
+      if(!managedSubjectInstance.canChangePassword()) {
+        log.error "Unable to reset password for $managedSubjectInstance as account is not currently able to change passwords"
+        redirect action: 'support'
+
+        return
+      }
+
+      if(!managedSubjectInstance.isFinalized()) {
+        log.error "Unable to reset password for $managedSubjectInstance as account has not been finalized"
+        redirect action: 'support'
+
+        return
+      }
+
+      redirect action: 'reset'
     }
-
-    session.setAttribute(CURRENT_USER, managedSubjectInstance.id)
-
-    if(!managedSubjectInstance.canChangePassword()) {
-      log.error "Unable to reset password for $managedSubjectInstance as account is not currently able to change passwords"
-      redirect action: 'support'
-
-      return
-    }
-
-    if(!managedSubjectInstance.isFinalized()) {
-      log.error "Unable to reset password for $managedSubjectInstance as account has not been finalized"
-      redirect action: 'support'
-
-      return
-    }
-
-    redirect action: 'reset'
   }
 
   def reset() {
     def managedSubjectInstance = ManagedSubject.get(session.getAttribute(CURRENT_USER))
 
-    if(managedSubjectInstance.resetCode == null || (managedSubjectInstance.mobileNumber && managedSubjectInstance.resetCodeExternal == null)) {
-      managedSubjectInstance.resetCode = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
+    if(managedSubjectInstance.resetCode == null || (grailsApplication.config.aaf.vhr.passwordreset.second_factor_required && managedSubjectInstance.mobileNumber && managedSubjectInstance.resetCodeExternal == null)) {
       if(grailsApplication.config.aaf.vhr.passwordreset.second_factor_required && managedSubjectInstance.mobileNumber) {
         managedSubjectInstance.resetCodeExternal = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
+      } else {
+        // When second factor is disabled (i.e no SMS such as in the test federation) do it over email.
+        managedSubjectInstance.resetCode = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
       }
       sendResetCodes(managedSubjectInstance)
     }
@@ -109,21 +100,22 @@ class LostPasswordController {
   def validatereset() {
     def managedSubjectInstance = ManagedSubject.get(session.getAttribute(CURRENT_USER))
 
-    if(managedSubjectInstance.resetCode != params.resetCode) {
-      managedSubjectInstance.increaseFailedResets()
-
-      flash.type = 'error'
-      flash.message = 'controllers.aaf.vhr.lostpassword.emailcode.error'
-      redirect action: 'reset'
-      return
-    }
-
     if(grailsApplication.config.aaf.vhr.passwordreset.second_factor_required) {
       if(managedSubjectInstance.resetCodeExternal != params.resetCodeExternal) {
         managedSubjectInstance.increaseFailedResets()
 
         flash.type = 'error'
         flash.message = 'controllers.aaf.vhr.lostpassword.externalcode.error'
+        redirect action: 'reset'
+        return
+      }
+    } else {
+      // When second factor is disabled (i.e no SMS such as in the test federation) validate email code.
+      if(managedSubjectInstance.resetCode != params.resetCode) {
+        managedSubjectInstance.increaseFailedResets()
+
+        flash.type = 'error'
+        flash.message = 'controllers.aaf.vhr.lostpassword.emailcode.error'
         redirect action: 'reset'
         return
       }
@@ -219,11 +211,6 @@ Remote IP: ${request.getRemoteAddr()}"""
   }
 
   private void sendResetCodes(ManagedSubject managedSubjectInstance) {
-    // Email reset code
-    def emailSubject = messageSource.getMessage(EMAIL_CODE_SUBJECT, [] as Object[], EMAIL_CODE_SUBJECT, LocaleContextHolder.locale)
-    def emailTemplate = EmailTemplate.findWhere(name:"email_password_code")
-    emailManagerService.send(managedSubjectInstance.email, emailSubject, emailTemplate, [managedSubject:managedSubjectInstance])
-
     if(grailsApplication.config.aaf.vhr.passwordreset.second_factor_required) {
       // SMS reset code (UI asks to contact admin if no mobile)
       if(managedSubjectInstance.mobileNumber) {
@@ -232,6 +219,11 @@ Remote IP: ${request.getRemoteAddr()}"""
           return
         }
       }
+    } else {
+      // When second factor is disabled (i.e no SMS such as in the test federation) do it over email.
+      def emailSubject = messageSource.getMessage(EMAIL_CODE_SUBJECT, [] as Object[], EMAIL_CODE_SUBJECT, LocaleContextHolder.locale)
+      def emailTemplate = EmailTemplate.findWhere(name:"email_password_code")
+      emailManagerService.send(managedSubjectInstance.email, emailSubject, emailTemplate, [managedSubject:managedSubjectInstance])
     }
   }
 

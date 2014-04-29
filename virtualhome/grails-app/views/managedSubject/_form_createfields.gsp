@@ -1,9 +1,9 @@
-<g:if test="${actionName == 'edit' || actionName == 'update'}">
+<g:if test="${((actionName == 'edit' || actionName == 'update') && managedSubjectInstance.canMutateLogin())}">
   <h4><g:message encodeAs='HTML' code="label.coreattributes"/></h4>
   <div class="control-group ${hasErrors(bean: managedSubjectInstance, field: 'login', 'error')}">
     <label class="control-label" for="login"><g:message encodeAs='HTML' code="label.username"/></label>
     <div class="controls">
-      <g:textField name="login" required="" value="${managedSubjectInstance?.login}"/>
+      <g:textField name="login" value="${managedSubjectInstance?.login}"/>
       <a href="#" rel="tooltip" title="${g.message(encodeAs:'HTML', code:'help.inline.aaf.vhr.managedsubject.login')}"><i class="icon icon-question-sign"></i></a>
     </div>
   </div>

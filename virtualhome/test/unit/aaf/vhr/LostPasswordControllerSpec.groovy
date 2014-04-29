@@ -13,16 +13,12 @@ import aaf.base.identity.*
 @Mock([Organization, Group, StateChange])
 class LostPasswordControllerSpec extends spock.lang.Specification {
 
-  def recaptchaService
   def passwordValidationService
   def cryptoService
   def emailManagerService
   def smsDeliveryService
 
   def setup() {
-    recaptchaService = Mock(com.megatome.grails.RecaptchaService)
-    controller.recaptchaService = recaptchaService
-
     passwordValidationService = Mock(aaf.vhr.PasswordValidationService)
     controller.passwordValidationService = passwordValidationService
 
@@ -96,21 +92,6 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     result
   }
 
-  def 'obtainsubject errors on invalid captcha'() {
-    setup:
-    params.login = 'testuser'
-
-    when:
-    controller.obtainsubject()
-
-    then:
-    1 * recaptchaService.verifyAnswer(_,_,_) >> false
-    flash.type == 'error'
-    flash.message == 'controllers.aaf.vhr.lostpassword.recaptcha.error'
-    view == '/lostPassword/start'
-    model.login == 'testuser'
-  }
-
   def 'obtainsubject errors if invalid login provided'() {
     setup:
     params.login = 'testuser'
@@ -119,7 +100,6 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     controller.obtainsubject()
 
     then:
-    1 * recaptchaService.verifyAnswer(_,_,_) >> true
     flash.type == 'info'
     flash.message == 'controllers.aaf.vhr.lostpassword.requiresaccount'
     response.redirectedUrl == "/lostPassword/start"
@@ -134,7 +114,6 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     controller.obtainsubject()
 
     then:
-    1 * recaptchaService.verifyAnswer(_,_,_) >> true
     response.redirectedUrl == "/lostPassword/support"
   }
 
@@ -148,7 +127,6 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     controller.obtainsubject()
 
     then:
-    1 * recaptchaService.verifyAnswer(_,_,_) >> true
     response.redirectedUrl == "/lostPassword/support"
   }
 
@@ -163,7 +141,6 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     controller.obtainsubject()
 
     then:
-    1 * recaptchaService.verifyAnswer(_,_,_) >> true
     response.redirectedUrl == "/lostPassword/reset"
     ms.resetCode == '1234'
     ms.resetCodeExternal == '5678'
@@ -214,7 +191,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     def model = controller.reset()
 
     then:
-    1 * emailManagerService.send(ms.email, _, _, [managedSubject:ms])
+    0 * emailManagerService.send(ms.email, _, _, [managedSubject:ms])
     0 * smsDeliveryService.send(_,_)
     ms.resetCode.length() == 6
 
@@ -223,7 +200,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     model.organizationRole
   }
 
-  def 'reset does not resend email if no mobileNumber and no externalcode'() {
+  def 'reset does not send email if no mobileNumber and no externalcode'() {
     setup:
     def ms = ManagedSubject.build(resetCode: '123456')
     session.setAttribute(controller.CURRENT_USER, ms.id)
@@ -264,9 +241,9 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     def model = controller.reset()
 
     then:
-    1 * emailManagerService.send(ms.email, _, _, [managedSubject:ms])
+    0 * emailManagerService.send(ms.email, _, _, [managedSubject:ms])
     1 * smsDeliveryService.send(_,_) >> false
-    ms.resetCode.length() == 6
+    ms.resetCode == null
     ms.resetCodeExternal.length() == 6
 
     response.redirectedUrl == "/lostPassword/unavailable"
@@ -291,9 +268,9 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     def model = controller.reset()
 
     then:
-    1 * emailManagerService.send(ms.email, _, _, [managedSubject:ms])
+    0 * emailManagerService.send(ms.email, _, _, [managedSubject:ms])
     1 * smsDeliveryService.send(ms.mobileNumber, _ as String) >> true
-    ms.resetCode.length() == 6
+    ms.resetCode == null
     ms.resetCodeExternal.length() == 6
 
     model.managedSubjectInstance == ms
@@ -330,7 +307,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     controller.resend()
 
     then:
-    1 * emailManagerService.send(ms.email, _, _, [managedSubject:ms])
+    0 * emailManagerService.send(ms.email, _, _, [managedSubject:ms])
     ms.resetCode == '1234'
   }
 
@@ -351,10 +328,10 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
 
   def 'validatereset increases failure count it resetCodes do not match'() {
     setup:
-    def ms = ManagedSubject.build(resetCode:'1234')
+    def ms = ManagedSubject.build(resetCodeExternal:'1234')
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
-    params.resetCode = '5678'
+    params.resetCodeExternal = '5678'
 
     expect:
     ms.failedResets == 0
@@ -365,7 +342,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     then:
     ms.failedResets == 1
     flash.type == 'error'
-    flash.message == 'controllers.aaf.vhr.lostpassword.emailcode.error'
+    flash.message == 'controllers.aaf.vhr.lostpassword.externalcode.error'
     response.redirectedUrl == "/lostPassword/reset"
   }
 

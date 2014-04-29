@@ -25,7 +25,7 @@ import aaf.vhr.idp.VhrSessionValidator;
 
 public class VhrFilter implements Filter {
 	
-	final String SSO_COOKIE_NAME = "vhr_login";
+	final String SSO_COOKIE_NAME = "_vh_l1";
 	
 	private String vhrLoginEndpoint;
 	private VhrSessionValidator vhrSessionValidator;
@@ -42,6 +42,12 @@ public class VhrFilter implements Filter {
 		
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
+		
+		if(request.getRemoteUser() != null) {
+			log.info("Found REMOTE_USER of {} was already set by previous filter or webserver module. Disabling VHR authentication process.", req.getRemoteHost());
+			chain.doFilter(request, response);
+			return;
+		}
 		
 		URLCodec codec = new URLCodec();
 		StorageService storageService = HttpServletHelper.getStorageService(req.getServletContext());

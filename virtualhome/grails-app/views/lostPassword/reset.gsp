@@ -25,22 +25,7 @@
 
     <g:form action="validatereset" class="form-horizontal myaccount" name="accountform">
 
-        <div class="control-group">
-          <label class="control-label" for="resetCode">Email Code</label>
-          <div class="controls">
-            <div class="span5">
-              <input class="required" name="resetCode" id="resetCode" type="text" autofocus="autofocus" autocomplete="off">
-            </div>
-            <div class="span4">
-              <span class="help-block">
-                <p>This code was just sent to your email address <strong><g:fieldValue bean="${managedSubjectInstance}" field="email"/>.</strong></p>
-                <p>It is case sensitive.</p>
-              </span>
-            </div>
-          </div>
-        </div>
         <g:if test="${grailsApplication.config.aaf.vhr.passwordreset.second_factor_required}">
-          <hr>
           <g:if test="${managedSubjectInstance.mobileNumber}">
             <div class="control-group">
               <label class="control-label" for="resetCodeExternal">SMS Code</label>
@@ -76,6 +61,23 @@
             </div>
           </g:else>
         </g:if>
+        <g:else>
+          <hr>
+          <div class="control-group">
+            <label class="control-label" for="resetCode">Email Code</label>
+            <div class="controls">
+              <div class="span5">
+                <input class="required" name="resetCode" id="resetCode" type="text" autofocus="autofocus" autocomplete="off">
+              </div>
+              <div class="span4">
+                <span class="help-block">
+                  <p>This code was just sent to your email address <strong><g:fieldValue bean="${managedSubjectInstance}" field="email"/>.</strong></p>
+                  <p>It is case sensitive.</p>
+                </span>
+              </div>
+            </div>
+          </div>
+        </g:else>
       <hr>
 
       <g:render template="/templates/passwordinput" model="[newPasswordRequired: true]"/>

@@ -1,13 +1,13 @@
 package aaf.vhr.idp;
 
-public class Tester {
+public class SessionTester {
 
 	public static void main(String[] args) {
-		String apiServer = "http://brainslave.dev.bradleybeddoes.com:8181";
-		String apiEndpoint = "/virtualhome/api/v1/login/confirmsession/%s";
+		String apiServer = "http://vho.dev:8080";
+		String apiEndpoint = "/api/v1/login/confirmsession/%s";
 		String apiToken = "bRomCePVaZMSfrCF";
 		String apiSecret = "sCzxOzYznkb2YaSW";
-		String requestingHost = "192.168.56.1";
+		String requestingHost = "127.0.0.1";
 		
 		VhrSessionValidator vhrSessionValidator = new VhrSessionValidator(apiServer, apiEndpoint, apiToken, apiSecret, requestingHost);
 

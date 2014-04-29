@@ -8,6 +8,10 @@
     <li>
       <g:link action="admincode" id="${managedSubjectInstance.id}"><g:message encodeAs='HTML' code="label.generatepasswordresetcode"/></g:link>
     </li>
+
+    <li class="divider"></li>
+    <g:render template="show_actions_2step"/>
+
     <li class="divider"></li>
     <g:render template="show_actions_toggle"/>
     <li class="divider"></li>
@@ -45,6 +49,10 @@
           <g:link action="admincode" id="${managedSubjectInstance.id}"><g:message encodeAs='HTML' code="label.generatepasswordresetcode"/></g:link>
         </li>
       </g:if>
+
+      <li class="divider"></li>
+      <g:render template="show_actions_2step"/>
+
       <li class="divider"></li>
       <g:render template="show_actions_toggle"/>
     </g:if>

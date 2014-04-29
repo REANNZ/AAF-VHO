@@ -515,43 +515,12 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
     response.status == 403
   }
 
-  def 'ensure correct output from edit when invalid permission for a non-finalized account'() {
-    setup:
-    def group = Group.build()
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization, login:null)
-    shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id + 1}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
-
-    when:
-    params.id = managedSubjectTestInstance.id
-    def model = controller.edit()
-
-    then:
-    model == null
-    flash.type == 'error'
-    flash.message == 'controllers.aaf.vhr.managedsubject.edit.notfinalized'
-  }
-
   def 'ensure correct output from edit when valid permission'() {
     setup:
     def group = Group.build()
     group.organization.active = true
     def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization, hash:'0'*60)
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
-
-    when:
-    params.id = managedSubjectTestInstance.id
-    def model = controller.edit()
-
-    then:
-    model.managedSubjectInstance == managedSubjectTestInstance
-  }
-
-  def 'ensure correct output from edit when valid permission for a non-finalized account'() {
-    setup:
-    def group = Group.build()
-    group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization, login:null)
-    shiroSubject.isPermitted("app:administrator") >> true
 
     when:
     params.id = managedSubjectTestInstance.id
@@ -577,21 +546,46 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
     response.status == 403
   }
 
-  def 'ensure correct output from update when invalid permission for a non-finalized account'() {
+  def 'ensure correct output from update when account has no login assigned and non super administrator tries to set one'() {
     setup:
-    def group = Group.build()
+    def group = Group.build(active:true)
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization, login:null)
+    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization, login:null, archived: false)
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
 
     when:
-    params.sharedToken = 'efgh5678'
     params.id = managedSubjectTestInstance.id
     params.version = 0
-    controller.update()
+    params.login = 'test'
+    def model = controller.update()
 
     then:
-    response.status == 403
+    model == null
+    flash.type == 'error'
+    flash.message == 'controllers.aaf.vhr.managedsubject.update.noset.login'
+  }
+
+  def 'ensure correct output from update when account has no login assigned and super administrator tries to set one'() {
+    setup:
+    def group = Group.build(active:true)
+    group.organization.active = true
+    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization, login:null, archived: false)
+    shiroSubject.isPermitted("app:administrator") >> true
+
+    expect:
+    managedSubjectTestInstance.login == null
+
+    when:
+    params.id = managedSubjectTestInstance.id
+    params.version = 0
+    params.login = 'test'
+    def model = controller.update()
+
+    then:
+    model == null
+    flash.type == 'success'
+    flash.message == 'controllers.aaf.vhr.managedsubject.update.success'
+    managedSubjectTestInstance.login == 'test'
   }
 
   def 'ensure correct output from update with null version but valid permission'() {
@@ -1199,4 +1193,57 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
     flash.message == 'controllers.aaf.vhr.managedsubject.togglearchive.success'
   }
 
+  def 'ensure correct output from resettwosteplogin'() {
+    setup:
+    def group = Group.build()
+    group.organization.active = true
+    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization, totpKey:'1234')
+    shiroSubject.isPermitted("app:manage:organization:${managedSubjectTestInstance.organization.id}:group:${managedSubjectTestInstance.group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
+
+    expect:
+    ManagedSubject.count() == 1
+    managedSubjectTestInstance.totpKey == '1234'
+
+    when:
+    params.id = managedSubjectTestInstance.id
+    controller.resettwosteplogin(managedSubjectTestInstance.id)
+
+    then:
+    managedSubjectTestInstance.totpKey == null
+    flash.type == 'success'
+    flash.message == 'controllers.aaf.vhr.managedsubject.resettwosteplogin.success'
+  }
+
+  def 'ensure correct output from enforcetwosteplogin'()  {
+    setup:
+    def group = Group.build()
+    group.organization.active = true
+    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization, totpKey:'1234', totpForce: !enforce)
+    shiroSubject.isPermitted("app:manage:organization:${managedSubjectTestInstance.organization.id}:group:${managedSubjectTestInstance.group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
+
+    expect:
+    ManagedSubject.count() == 1
+    managedSubjectTestInstance.totpKey == '1234'
+    managedSubjectTestInstance.totpForce == !enforce
+
+    when:
+    params.id = managedSubjectTestInstance.id
+    controller.enforcetwosteplogin(managedSubjectTestInstance.id, enforce)
+
+    then:
+    managedSubjectTestInstance.totpKey == '1234'
+    managedSubjectTestInstance.totpForce == enforce
+    flash.type == 'success'
+    flash.message == message
+
+    where:
+    enforce << [true, false]
+    message << ['controllers.aaf.vhr.managedsubject.enforcetwosteplogin.enable.success', 'controllers.aaf.vhr.managedsubject.enforcetwosteplogin.disable.success']
+  }
 }
+
+
+
+
+
+
