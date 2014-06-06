@@ -5,6 +5,7 @@ import aaf.base.identity.SessionRecord
 
 import aaf.base.identity.Role
 import aaf.vhr.switchch.vho.DeprecatedSubject
+import aaf.vhr.MigrateController
 
 import aaf.vhr.crypto.GoogleAuthenticator
 
@@ -24,6 +25,13 @@ class AccountController {
   }
 
   def login(String username, String password) {
+    def deprecatedSubject = DeprecatedSubject.findWhere(login:username, migrated:false)
+    if(deprecatedSubject) {
+      session.setAttribute(MigrateController.MIGRATION_USER, username)
+      redirect (controller:'migrate', action:'introduction')
+      return
+    }
+
     def managedSubjectInstance = ManagedSubject.findWhere(login: username, [lock:true])
     if(!managedSubjectInstance) {
       log.error "No such ManagedSubject for ${params.login} when attempting myaccount login"
