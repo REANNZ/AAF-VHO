@@ -13,7 +13,7 @@ There is some terribly awful shit in here but I hope to only ever need to use it
 */
 
 // VHO specific config
-database = 'old_vho_prd'
+database = 'VHOtools'
 dbusername = 'root'
 dbpassword = ''
 
@@ -123,7 +123,10 @@ def select = "select g.idParent, g.name, g.description, g.idGroup from vho_Group
 
 def groups = sql.rows(select, activeUsernames)
 
-def orgs = groups.findAll{ group -> group.idParent == 1}
+// Unholy hacks!
+// def orgs = groups.findAll{ group -> group.idParent == 1}
+// accept 0 as parent ID to also import the root group
+def orgs = groups.findAll{ group -> group.idParent <= 1}
 
 println "There are a total of $groupCount groups known to the old VHO of which only ${groups.size()} have active users. From these ${orgs.size()} are supposedly organizations."
 
@@ -158,7 +161,8 @@ orgs.sort{it.name}.each { o ->
   }
 
   org.groups = []
-  def children = groups.findAll{ group -> group.idParent == o.idGroup}
+  // unholy hack countermeasure: for root group, do not recurse into groups
+  def children = ( o.idGroup > 1 ? groups.findAll{ group -> group.idParent == o.idGroup} : [] )
   if(children) {
     children.each { child ->
       def group = [:]
