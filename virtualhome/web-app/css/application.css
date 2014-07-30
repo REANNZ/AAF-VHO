@@ -31,7 +31,7 @@ form.finalize input[type="text"], input[type="password"]
 {
     font-size: 36px;
     height: 46px;
-    line-height: 46px;
+    line-height: 20px;
 }
 
 form.myaccount label
@@ -44,13 +44,13 @@ form.myaccount input[type="text"], input[type="password"]
 {
     font-size: 36px;
     height: 46px;
-    line-height: 46px;
+    line-height: 20px;
 }
 
 form.form-login input[type="text"], input[type="password"] {
   font-size: 36px;
   height: 46px;
-  line-height: 46px;
+  /* line-height: 46px; */
   width: 96%;
 }
 
@@ -68,4 +68,8 @@ form.form-login input[type="text"], input[type="password"] {
     color: #289ABF;
     text-decoration: underline;
   }
+}
+
+#recaptcha_area input {
+    height:auto;
 }

@@ -6,7 +6,7 @@
   <body>
 
       <div class="hero-unit">
-        <h2>Welcome to the new AAF Virtual Home</h2>
+        <h2>Welcome to the new Tuakiri Virtual Home</h2>
         <br>
         <div class="row">
           <div class="span3">
@@ -14,10 +14,10 @@
           </div>
           <div class="span7">
             <p>
-              Over the past few months we've been hard at work on this new version of the AAF Virtual Home.
+              Over the past few months, the AAF have been hard at work on this new version of the Virtual Home.
             </p>
             <p>
-              You might notice that it looks a bit different but we think you'll find it easier to use. Infact it now works not only on your computer but from all your mobile devices as well.
+              You might notice that it looks a bit different but we think you'll find it easier to use. In fact, it now works not only on your computer but from all your mobile devices as well.
             </p>
             <p>
               We've moved all your existing data across but to ensure your security we need you to set a new password. You'll only need to <strong><em>do this once</em></strong>.
