@@ -480,10 +480,10 @@ class ManagedSubject {
 
     def checkedNumber = value
 
-    // Translate Australian numbers to international format
-    if(checkedNumber.startsWith('04')) {
+    // Translate NZ numbers to international format (02x denotes a mobile number in NZ)
+    if(checkedNumber.startsWith('02')) {
       checkedNumber = checkedNumber[1..-1]
-      checkedNumber = "+61$checkedNumber"
+      checkedNumber = "+64$checkedNumber"
     }
 
     checkedNumber = checkedNumber.replace(' ','')

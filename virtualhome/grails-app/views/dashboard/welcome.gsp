@@ -14,7 +14,7 @@
         <div class="span5">
           <center><g:img dir="images" file="research.png" alt="End User or Researcher. View your VHR Account." class="img-rounded"/></center>
           <div class="descriptive-text">
-            <p>I have an Tuakiri Virtual Home account that lets me access services connected to the Tuakiri.</p>
+            <p>I have a Tuakiri Virtual Home account that lets me access services connected to Tuakiri.</p>
             <p>I'd like to view my account details or change my password.</p>
           </div>
           <p>
