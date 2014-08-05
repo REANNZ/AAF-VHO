@@ -135,7 +135,8 @@ class LoginService implements InitializingBean{
     // Prevent replay - we don't really need the value for anything we're really just using the timeout
     totpCache.put(totpCacheKey, managedSubjectInstance.login)
 
-    // We should stick this in its own reactive thread but this is Grails so LOLZ.
+    // Finally we cleanup old sessions
+    log.info "Removing old 2-Step verification codes for $managedSubjectInstance."
     managedSubjectInstance.cleanupEstablishedTwoStepLogin()
 
     true
