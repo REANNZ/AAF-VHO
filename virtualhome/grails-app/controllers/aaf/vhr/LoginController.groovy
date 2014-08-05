@@ -77,7 +77,6 @@ class LoginController {
       // This account needs to be updated before they can login
       log.info("Due to local or group policy the account $managedSubjectInstance must enroll into 2-Step verification with their phone before continuing login.")
 
-
       redirect action:'setuptwostep'
       return
     }

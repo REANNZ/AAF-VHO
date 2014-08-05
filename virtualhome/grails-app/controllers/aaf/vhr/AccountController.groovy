@@ -68,6 +68,8 @@ class AccountController {
       return
     }
 
+    log.info("Verified that 2Step code for ${managedSubjectInstance} is valid, establishing new session.")
+
     session.setAttribute(CURRENT_USER, managedSubjectInstance.id)
     redirect action:'show'
   }
