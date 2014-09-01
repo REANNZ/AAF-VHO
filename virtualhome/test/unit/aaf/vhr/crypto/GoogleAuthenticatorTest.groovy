@@ -18,7 +18,7 @@ public class GoogleAuthenticatorTest extends grails.test.GrailsUnitTestCase {
 
   public void testGenerateSecretWithIssuer() {
     String secret = GoogleAuthenticator.generateSecretKey();
-    String qrURL = GoogleAuthenticator.getQRBarcodeURL('testuser', 'vhr.test.edu.au', secret, "Issuer Org")
+    String qrURL = GoogleAuthenticator.getQRBarcodeURL('testuser', 'vhr.test.edu.au', secret, "Issuer%2520Org")
 
     println secret
     println qrURL

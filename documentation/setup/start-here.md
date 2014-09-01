@@ -27,3 +27,4 @@ You'll want to read the guides in the following order. After each one is complet
 5. Application
 6. Shibboleth IdP
 7. Data Migration
+8. Supporting ECP

@@ -140,8 +140,9 @@ class LoginController {
     def totpKey = GoogleAuthenticator.generateSecretKey()
     session.setAttribute(NEW_TOTP_KEY, totpKey)
 
-    def issuer = ( !grailsApplication.config.aaf.vhr.twosteplogin.issuer.isEmpty() ? grailsApplication.config.aaf.vhr.twosteplogin.issuer.toString() : null )
-    def totpURL = GoogleAuthenticator.getQRBarcodeURL(managedSubjectInstance.login, request.serverName, totpKey, issuer)
+    def totpURL = GoogleAuthenticator.getQRBarcodeURL(managedSubjectInstance.login,
+                                                      request.serverName, totpKey,
+                                                      managedSubjectInstance.encodedTwoStepIssuer)
     [managedSubjectInstance:managedSubjectInstance, totpURL:totpURL]
   }
 
@@ -177,8 +178,9 @@ class LoginController {
     } else {
       log.info "GoogleAuthenticator indicates twoStepLogin failure for attempted login by $managedSubjectInstance when verifying 2Step setup"
 
-      def issuer = ( !grailsApplication.config.aaf.vhr.twosteplogin.issuer.isEmpty() ? grailsApplication.config.aaf.vhr.twosteplogin.issuer.toString() : null )
-      def totpURL = GoogleAuthenticator.getQRBarcodeURL(managedSubjectInstance.login, request.serverName, managedSubjectInstance.totpKey, issuer)
+      def totpURL = GoogleAuthenticator.getQRBarcodeURL(managedSubjectInstance.login,
+                                                        request.serverName, totpKey,
+                                                        managedSubjectInstance.encodedTwoStepIssuer)
       render(view: "completesetuptwostep", model: [managedSubjectInstance:managedSubjectInstance, totpURL:totpURL, loginError:true])
       return
     }
