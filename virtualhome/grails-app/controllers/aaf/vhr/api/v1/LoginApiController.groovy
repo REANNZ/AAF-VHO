@@ -33,9 +33,9 @@ class LoginApiController extends aaf.base.api.ApiBaseController {
   }
 
   def basicauth(String login, String password) {
-    def managedSubjectInstance = ManagedSubject.findWhere(login: login)
-    if(managedSubjectInstance) {
-
+    log.info "API basic auth verification for ${login} is being attempted"
+    def managedSubjectInstance = ManagedSubject.findByLogin(login)
+    if(managedSubjectInstance != null) {
       if(managedSubjectInstance.canLogin()) {
         // Unfortunately there is no way to validate accounts with 2-Step active
         // so we ignore the extra security (derrrrp - hate the basic auth)
@@ -43,19 +43,19 @@ class LoginApiController extends aaf.base.api.ApiBaseController {
           log.info "API basicauth session establishment for $login succeeded. Provided response with remote_user of $login"
           render(contentType: 'application/json') { ['remote_user':login] }
         } else {
-          log.error "API session verification for ${login} failed, could not validate supplied credential, providing error response"
+          log.error "API basic auth verification for ${login} failed, could not validate supplied credential, providing error response"
           response.status = 403
-          render(contentType: 'text/json') { ['error':'session could not be established', 'internalerror':'supplied credential could not be validated'] }
+          render(contentType: 'text/json') { ['error':'basic auth session could not be established', 'internalerror':'supplied credential could not be validated'] }
         }
       } else {
-        log.error "API session verification for ${login} failed, account is unable to authenticate at this time, providing error response"
+        log.error "API basic auth session verification for ${login} failed, account is unable to authenticate at this time, providing error response"
         response.status = 403
-        render(contentType: 'text/json') { ['error':'session could not be established', 'internalerror':'account is unable to authenticate at this time - check VH interface for details'] }
+        render(contentType: 'text/json') { ['error':'basic auth session could not be established', 'internalerror':'account is unable to authenticate at this time - check VH interface for details'] }
       }
     } else {
-      log.error "API session verification for ${login} failed, could not locate matching ManagedSubject, providing error response"
+      log.error "API basic auth session verification for ${login} failed, could not locate matching ManagedSubject, providing error response"
       response.status = 410
-      render(contentType: 'text/json') { ['error':'session could not be established', 'internalerror':'no associated account for the supplied login'] }
+      render(contentType: 'text/json') { ['error':'basic auth session could not be established', 'internalerror':'no associated account for the supplied login'] }
     }
   }
 

@@ -21,7 +21,7 @@ class Group {
   boolean active = true
   boolean blocked = false
   boolean archived = false
-  
+
   Date dateCreated
   Date lastUpdated
 
@@ -45,14 +45,14 @@ class Group {
   }
 
   public boolean canCreate(Organization owner) {
-    SecurityUtils.subject.isPermitted("app:administrator") || 
-    ( SecurityUtils.subject.isPermitted("app:manage:organization:${owner.id}:group:create") 
+    SecurityUtils.subject.isPermitted("app:administrator") ||
+    ( SecurityUtils.subject.isPermitted("app:manage:organization:${owner.id}:group:create")
       && owner.functioning() )
   }
 
   public boolean canMutate() {
-    SecurityUtils.subject.isPermitted("app:administrator") || 
-    ( SecurityUtils.subject.isPermitted("app:manage:organization:${organization.id}:group:${id}:edit") 
+    SecurityUtils.subject.isPermitted("app:administrator") ||
+    ( SecurityUtils.subject.isPermitted("app:manage:organization:${organization.id}:group:${id}:edit")
       && !blocked && !archived && organization.functioning() )
   }
 
@@ -66,5 +66,9 @@ class Group {
 
   public boolean enforceTwoStepLogin() {
     this.totpForce
+  }
+
+  public List nonFinalizedAccounts() {
+    subjects.findAll { !it.isFinalized() } as List
   }
 }

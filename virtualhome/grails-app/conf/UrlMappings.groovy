@@ -89,6 +89,10 @@ class UrlMappings {
     "/organisations/groups/accounts/$action/$id?" {
       controller="managedSubject"
     }
+    "/organisations/groups/accountstatus/$id" {
+      controller="group"
+      action="nonfinalized"
+    }
     "/organisations/groups/$action/$id?" {
       controller="group"
     }

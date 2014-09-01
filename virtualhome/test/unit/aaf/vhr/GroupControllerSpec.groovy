@@ -13,14 +13,14 @@ import aaf.base.identity.*
 @TestFor(aaf.vhr.GroupController)
 @Build([ManagedSubject, Organization, Group, aaf.base.identity.Subject, aaf.base.identity.Role, aaf.base.identity.Permission])
 class GroupControllerSpec  extends spock.lang.Specification {
-  
+
   @Shared def shiroEnvironment = new ShiroEnvironment()
 
   aaf.base.identity.Subject subject
   org.apache.shiro.subject.Subject shiroSubject
-  
-  def cleanupSpec() { 
-    shiroEnvironment.tearDownShiro() 
+
+  def cleanupSpec() {
+    shiroEnvironment.tearDownShiro()
   }
 
   def setup() {
@@ -31,7 +31,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
     shiroSubject.principal >> subject.principal
     shiroSubject.isAuthenticated() >> true
     shiroEnvironment.setSubject(shiroSubject)
-    
+
     controller.metaClass.getSubject = { subject }
     shiroEnvironment.setSubject(shiroSubject)
   }
@@ -218,7 +218,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
     groupTestInstance.delete()
 
     Group.metaClass.save { null }
-    
+
     when:
     controller.save()
 
@@ -360,7 +360,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
     def groupTestInstance = Group.build()
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:edit") >> true
-    
+
     expect:
     Group.count() == 1
 
@@ -381,7 +381,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:edit") >> true
     groupTestInstance.getVersion() >> 20
-    
+
     groupTestInstance.properties.each {
       if(it.value) {
         if(it.value.hasProperty('id'))
@@ -391,7 +391,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
       }
     }
     Group.metaClass.save { null }
-    
+
     expect:
     Group.count() == 1
 
@@ -415,7 +415,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
     def groupTestInstance = Group.build(groupScope:'groupname')
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:edit") >> true
-    
+
     groupTestInstance.properties.each {
       if(it.value) {
         if(it.value.hasProperty('id'))
@@ -535,7 +535,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
     def groupTestInstance = Group.build()
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:edit") >> true
-    
+
     expect:
     Group.count() == 1
 
@@ -555,7 +555,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
     def groupTestInstance = Group.build(active:false)
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:edit") >> true
-    
+
     expect:
     Group.count() == 1
     !groupTestInstance.active
@@ -592,7 +592,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
     def groupTestInstance = Group.build()
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:administrator") >> true
-    
+
     expect:
     Group.count() == 1
 
@@ -612,7 +612,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
     def groupTestInstance = Group.build(blocked:false)
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:administrator") >> true
-    
+
     expect:
     Group.count() == 1
     !groupTestInstance.blocked
@@ -649,7 +649,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
     def groupTestInstance = Group.build()
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:administrator") >> true
-    
+
     expect:
     Group.count() == 1
 
@@ -669,7 +669,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
     def groupTestInstance = Group.build(archived:false)
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:administrator") >> true
-    
+
     expect:
     Group.count() == 1
     !groupTestInstance.archived
@@ -709,5 +709,33 @@ class GroupControllerSpec  extends spock.lang.Specification {
     where:
     enforce << [true, false]
     message << ['controllers.aaf.vhr.group.enforcetwosteplogin.enable.success', 'controllers.aaf.vhr.group.enforcetwosteplogin.disable.success']
+  }
+
+  def 'ensure correct output from nonfinalized when invalid permission'() {
+    setup:
+    def groupTestInstance = Group.build()
+    shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:edit") >> false
+
+    when:
+    params.id = groupTestInstance.id
+    def model = controller.nonfinalized()
+
+    then:
+    model == null
+    response.status == 403
+  }
+
+  def 'ensure correct output from nonfinalized when valid permission'() {
+    setup:
+    def groupTestInstance = Group.build()
+    groupTestInstance.organization.active = true
+    shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:edit") >> true
+
+    when:
+    params.id = groupTestInstance.id
+    def model = controller.nonfinalized()
+
+    then:
+    model.groupInstance == groupTestInstance
   }
 }

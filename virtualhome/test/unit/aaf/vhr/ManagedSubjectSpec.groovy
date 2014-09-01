@@ -19,6 +19,7 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
   @Shared def shiroEnvironment = new ShiroEnvironment()
 
   org.apache.shiro.subject.Subject shiroSubject
+  def managedSubjectService
   
   def cleanupSpec() { 
     shiroEnvironment.tearDownShiro() 
@@ -27,6 +28,8 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
   def setup() {
     shiroSubject = Mock(org.apache.shiro.subject.Subject)
     shiroEnvironment.setSubject(shiroSubject)
+
+    managedSubjectService = Mock(aaf.vhr.ManagedSubjectService)
   }
 
   def 'ensure login can be null'() {
@@ -856,6 +859,7 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
   def 'ensure failLogin deactivates after 5 failures'() {
     setup:
     def s = ManagedSubject.build(failedLogins:4, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+    s.managedSubjectService = managedSubjectService
     s.organization.active = true
 
     expect:
@@ -867,8 +871,31 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
     s.failLogin("reason", "category", "environment", null)
 
     then:
+    1 * managedSubjectService.sendAccountDeactivated(s)
     !s.active
     s.failedLogins == 5
+    s.requiresLoginCaptcha()
+    s.stateChanges.toArray()[0].event == StateChangeType.FAILMULTIPLELOGIN
+  }
+
+  def 'ensure failLogin does not send duplication deactivation emails'() {
+    setup:
+    def s = ManagedSubject.build(failedLogins:6, active:false, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+    s.managedSubjectService = managedSubjectService
+    s.organization.active = true
+
+    expect:
+    !s.active
+    !s.canLogin()
+    s.requiresLoginCaptcha()
+
+    when:
+    s.failLogin("reason", "category", "environment", null)
+
+    then:
+    0 * managedSubjectService.sendAccountDeactivated(s)
+    !s.active
+    s.failedLogins == 7
     s.requiresLoginCaptcha()
     s.stateChanges.toArray()[0].event == StateChangeType.FAILMULTIPLELOGIN
   }
@@ -963,7 +990,7 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
 
       where:
       //yesterday, 91 days ago, no sessions
-      sessions << [new TwoStepSession(value:'1234abcd', expiry: use(TimeCategory) {1.days.ago}), new TwoStepSession(value:'1234abcd', expiry: use(TimeCategory) {91.days.ago}), null]
+      sessions << [new TwoStepSession(value:'1234abcd', expiry: use(TimeCategory) {1.days.from.now}), new TwoStepSession(value:'1234abcd', expiry: use(TimeCategory) {1.days.ago}), null]
       expected << [1, 0, 0]
   }
 

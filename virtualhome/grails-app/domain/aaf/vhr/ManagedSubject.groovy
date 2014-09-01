@@ -14,6 +14,7 @@ import groovy.time.TimeCategory
 @EqualsAndHashCode
 class ManagedSubject {
   static auditable = true
+  def managedSubjectService
 
   static final affiliations = [ 'affiliate',
                                 'alum',
@@ -213,8 +214,9 @@ class ManagedSubject {
   public void cleanupEstablishedTwoStepLogin() {
     use (TimeCategory) {
       def oldSessions = [] as List
+      def today = new Date()
       twoStepSessions?.each { twoStepSession ->
-        if(twoStepSession && twoStepSession?.expiry < 90.days.ago) {
+        if(twoStepSession && twoStepSession?.expiry < today) {
           oldSessions.add(twoStepSession)
         }
       }
@@ -318,6 +320,14 @@ class ManagedSubject {
     }
   }
 
+  public finalize(ManagedSubjectInvitation invitation) {
+    this.active = true
+    this.failedLogins = 0
+
+    def finalize = new StateChange(event:StateChangeType.FINALIZED, reason:"User finalized account via supplied invitation code ${invitation.inviteCode}")
+    this.addToStateChanges(finalize)
+  }
+
   public activate(String reason, String category, String environment, Subject actionedBy) {
     this.active = true
     this.failedLogins = 0
@@ -398,6 +408,9 @@ class ManagedSubject {
     if(failedLogins >= 5) {
       def change = new StateChange(event:StateChangeType.FAILMULTIPLELOGIN, reason:"$reason Reached login attempts limit, account deactivated", category:category, environment:environment, actionedBy:actionedBy)
       this.addToStateChanges(change)
+
+      if(active)
+        managedSubjectService.sendAccountDeactivated(this)  // send an email when we initially deactive the account
 
       this.active = false     // prevent future auth attempts until unlocked by admin
     } else {
