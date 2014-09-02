@@ -23,7 +23,7 @@
         </div>
       </div>
       
-      <g:if test="${grailsApplication.config.aaf.vhr.login.uApprove_consent_revocation && (params.controller == "login")}">
+      <g:if test="${grailsApplication.config.aaf.vhr.login.uApprove_consent_revocation && (controllerName == "login")}">
         <div class="control-group">
           <div class="controls">
             <input id="uApproveConsentRevocation" name="uApproveConsentRevocation" type="checkbox" value="true" />
