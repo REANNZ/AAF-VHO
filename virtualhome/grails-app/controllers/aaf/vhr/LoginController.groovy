@@ -218,17 +218,17 @@ class LoginController {
   }
 
   private String establishSession(ManagedSubject managedSubjectInstance) {
-    def redirectURL = session.getAttribute(SSO_URL)
-    if(!redirectURL) {
+    def redirectURLbase = session.getAttribute(SSO_URL)
+    if(!redirectURLbase) {
       log.error "No redirectURL set for login, redirecting to oops"
       return createLink(action: 'oops')
     }
+    def redirectURLBuilder = new URIBuilder(redirectURLbase)
     // check for uApprove attribute release consent revocation checkbox
     if(session.getAttribute(UAPPROVE_CONSENT_REVOKE)) {
-      redirectURL = redirectURL + (redirectURL.indexOf('?')>=0 ? "&" : "?" ) +
-          "uApprove.consent-revocation=" + 
-          URLEncoder.encode(session.getAttribute(UAPPROVE_CONSENT_REVOKE))
+      redirectURLBuilder.addQueryParam("uApprove.consent-revocation", session.getAttribute(UAPPROVE_CONSENT_REVOKE));
     }
+    def redirectURL = redirectURLBuilder.toString();
 
     session.removeAttribute(CURRENT_USER)
 
