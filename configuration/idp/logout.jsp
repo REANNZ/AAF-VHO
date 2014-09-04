@@ -9,28 +9,46 @@
 <%@page import="edu.internet2.middleware.shibboleth.common.relyingparty.RelyingPartyConfigurationManager" %>
 <%@page import="org.opensaml.saml2.metadata.EntityDescriptor" %>
 <%@page import="org.opensaml.saml2.metadata.SPSSODescriptor" %>
+<%@page import="java.util.regex.Pattern" %>
+<%@page import="java.util.regex.Matcher" %>
 
 <!-- Tuakiri extension: display the name of the service -->
 <%!
-String GetHostnameByURI(String uri)
-{
-  /* reusing uApprove's Controller.getResourceHost code where I've contributed */
-    int i1 = uri.indexOf("//");
-    int i2 = uri.indexOf("/", i1+2);
 
-    // return just the sp.example.org component out of https://sp.example.org/shibboleth
-    if ( i2 >= 0 )
-       uri = uri.substring(i1 + 2, i2);
-    else if ( i1 >= 0 )
-       uri = uri.substring(i1 + 2);
+    /** Regular Expression pattens used to extract the hostname out of an (entityID) URI in getHostnameByURI() */
 
-    // return just the sp.example.org component out of urn:mace:federation.org:sp.example.org
-    if (uri.indexOf(':')>=0) {
-        uri = uri.substring(uri.lastIndexOf(':')+1);
+    private static Pattern hostnamePatterns[] = { 
+
+    /* entityId in the form https://sp.example.org/shibboleth
+     * - https or http
+     * - optional username and optional password (as non-capturing group)
+     * - capture hostname
+     * - optional port (non-capturing group)
+     * - optionally followed by a slash, don't care about path component
+     *
+     */
+          Pattern.compile("https?://(?:[^:@/]+(?::[^:@/]+)?@)?([^:/]+)(?::\\d+)?(?:/.*)?"),
+
+    /* entityId in the form urn:mace:federation.org:sp.example.org
+     * - urn:mace:
+     * - sequnce of one or more : seperated name spaces
+     * - capture hostname
+     *
+     */
+          Pattern.compile("urn:mace:(?:[^:]+:)+([^:]+)")
+    };
+
+    private static String getHostnameByURI(String uri) {
+      for (Pattern pattern : hostnamePatterns) {
+         Matcher matcher = pattern.matcher(uri);
+         if (matcher.matches() && matcher.groupCount()==1 ) {
+              String hostname = matcher.group(1);
+              return hostname;
+         };
+      };
+
+      return uri;
     }
-
-  return uri;
-}
 %>
 
 
@@ -68,7 +86,7 @@ String GetHostnameByURI(String uri)
      RelyingPartyConfigurationManager rpConfigMngr = HttpServletHelper.getRelyingPartyConfigurationManager(request.getSession().getServletContext());
      EntityDescriptor metadata = HttpServletHelper.getRelyingPartyMetadata(entityId, rpConfigMngr);
 
-     hostname = GetHostnameByURI(entityId);
+     hostname = getHostnameByURI(entityId);
      serviceName = ( (SPSSODescriptor)metadata.getRoleDescriptors(SPSSODescriptor.DEFAULT_ELEMENT_NAME).get(0) ).getAttributeConsumingServices().get(0).getNames().get(0).getName().getLocalString();
 
    } catch (Exception e) {
