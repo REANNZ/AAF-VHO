@@ -59,7 +59,6 @@
   </head>
 
   <body>
-	<img src="<%= request.getContextPath()%>/images/dummylogo.png" alt="Replace or remove this logo"/>
     <h1>AAF Virtual Home Logout Page</h1>
     <p>You have successfully logged out of the AAF Virtual Home Identity Provider.</p>
     
