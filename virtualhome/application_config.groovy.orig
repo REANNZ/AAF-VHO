@@ -88,7 +88,7 @@ aaf {
       reset_attempt_limit = 5
     }
     login {
-      ssl_only_cookie = false
+      ssl_only_cookie = true
       path = '/'
       validity_period_minutes = 2
       require_captcha_after_tries = 2
