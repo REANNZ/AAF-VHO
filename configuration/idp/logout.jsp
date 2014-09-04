@@ -51,6 +51,25 @@
     }
 %>
 
+<!-- Terminate session cookie created by LoginController for VhrFilter -->
+<%!
+    /* originally defined in aaf.vhr.LoginService */
+    static final String SSO_COOKIE_NAME = "_vh_l1";
+
+    /* defined in application_config as aaf.vhr.login.path, defaults to "/" */
+    static final String SSO_COOKIE_PATH = "/";
+%>
+<%
+
+    Cookie c = new Cookie(SSO_COOKIE_NAME, null);
+    c.setPath(SSO_COOKIE_PATH);
+    c.setMaxAge(0);
+    c.setSecure(true);  //But beware of older versions of
+	    // application_config.groovy.orig setting
+	    // aaf.vhr.login.ssl_only_cookie to false
+    response.addCookie(c);
+
+%>
 
 
 <html>
