@@ -33,13 +33,19 @@
       <p><g:message encodeAs='HTML' code="views.aaf.vhr.managedsubject.createcsv.errors.account.nocreation"/></p>
 
       <div class='alert alert-error'>
-        <ol>
-          <g:each in="${managedSubjectInstances}" var="managedSubjectInstance">
-            <g:eachError bean="${managedSubjectInstance}" var="error">
-              <li><g:message encodeAs='HTML' error="${error}"/></li>
-            </g:eachError>
+        <ul class="clean">
+          <g:each in="${managedSubjectInstances.findAll{it.hasErrors()}}" var="managedSubjectInstance">
+            <li>
+              <strong>Errors for entry: <g:fieldValue bean="${managedSubjectInstance}" field="cn" /> (<g:fieldValue bean="${managedSubjectInstance}" field="email" />)</strong>
+              <ol>
+                <li>It is possible that an account already exists with these details. Please ensure you aren't trying to create a duplicate account;</li>
+                <g:eachError bean="${managedSubjectInstance}" var="error">
+                  <li><g:message encodeAs='HTML' error="${error}"/>;</li>
+                </g:eachError>
+              </ol>
+            </li>
           </g:each>
-        </ol>
+        </ul>
       </div>
     </g:if>
 

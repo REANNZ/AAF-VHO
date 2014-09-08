@@ -11,6 +11,7 @@ import aaf.base.identity.Permission
 import javax.mail.Message
 
 import groovy.time.TimeCategory
+import aaf.base.identity.*
 
 class ManagedSubjectServiceSpec extends IntegrationSpec {
   
@@ -76,6 +77,10 @@ class ManagedSubjectServiceSpec extends IntegrationSpec {
     managedSubject.hasErrors() == false
     managedSubject.login == 'usert'
     managedSubject.mobileNumber == '+61413123456'
+    managedSubject.stateChanges.size() == 1
+    def change = managedSubject.stateChanges.iterator().next()
+    change.event == StateChangeType.FINALIZED
+    change.reason == "User finalized account via supplied invitation code ${invitation.inviteCode}"
     cryptoService.verifyPasswordHash('thisisalongpasswordtotest', managedSubject)
     ms.finalized
     ms.functioning()
@@ -107,6 +112,10 @@ class ManagedSubjectServiceSpec extends IntegrationSpec {
     managedSubject != null
     managedSubject.hasErrors() == false
     managedSubject.login == 'usert'
+    managedSubject.stateChanges.size() == 1
+    def change = managedSubject.stateChanges.iterator().next()
+    change.event == StateChangeType.FINALIZED
+    change.reason == "User finalized account via supplied invitation code ${invitation.inviteCode}"
     managedSubject.mobileNumber == null
     cryptoService.verifyPasswordHash('thisisalongpasswordtotest', managedSubject)
     ms.functioning()
@@ -549,6 +558,28 @@ class ManagedSubjectServiceSpec extends IntegrationSpec {
     where:
     expectedErrorCount | expectedLinesProcessed | csv
     0 | 2 | "Test User,testuser@testdomain.com,student,0,username\nTest User2,testuser2@testdomain.com,staff,12,username2"
+  }
+
+  def 'ensure sendAccountDeactivated emails identified subject'() {
+    setup:
+    def o = Organization.build(active:true)
+    def orgRole = Role.build(name:"organization:${o.id}:administrators")
+
+    def g = Group.build(organization: o, active:true)
+    def groupRole = Role.build(name:"group:${o.id}:administrators")
+
+    def et = new EmailTemplate(name:'deactivated_managed_subject', content: 'This is an email for ${managedSubject.cn} telling them that their account was locked. Organisation: ${organizationRole.id}, Role: ${groupRole.id}').save()
+    def s = ManagedSubject.build(organization:o, group:g, cn:'Test User', email:'testuser@example.com')
+
+    when:
+    managedSubjectService.sendAccountDeactivated(s)
+
+    then:
+    greenMail.getReceivedMessages().length == 1
+    def message = greenMail.getReceivedMessages()[0]
+    message.subject == 'Action Required: Your AAF Virtual Home account was deactivated'
+    GreenMailUtil.getBody(message).contains("This is an email for Test User telling them that their account was locked. Organisation: ${orgRole.id}, Role: ${groupRole.id}")
+    GreenMailUtil.getAddressList(message.getRecipients(Message.RecipientType.TO)) == 'testuser@example.com'
   }
 
 }

@@ -35,6 +35,7 @@ class StateChange {
 }
 
 public enum StateChangeType {
+  FINALIZED,
   BLOCKED,
   UNBLOCKED, 
   LOCKED,

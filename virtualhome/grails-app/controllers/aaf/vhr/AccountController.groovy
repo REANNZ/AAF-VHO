@@ -185,8 +185,9 @@ class AccountController {
     def totpKey = GoogleAuthenticator.generateSecretKey()
     session.setAttribute(NEW_TOTP_KEY, totpKey)
 
-    def issuer = ( !grailsApplication.config.aaf.vhr.twosteplogin.issuer.isEmpty() ? grailsApplication.config.aaf.vhr.twosteplogin.issuer.toString() : null )
-    def totpURL = GoogleAuthenticator.getQRBarcodeURL(managedSubjectInstance.login, request.serverName, totpKey, issuer)
+    def totpURL = GoogleAuthenticator.getQRBarcodeURL(managedSubjectInstance.login,
+                                                      request.serverName, totpKey,
+                                                      managedSubjectInstance.encodedTwoStepIssuer)
     [managedSubjectInstance:managedSubjectInstance, totpURL: totpURL]
   }
 
@@ -219,8 +220,9 @@ class AccountController {
       flash.type = 'error'
       flash.message = 'controllers.aaf.vhr.account.finish.twostep.error'
 
-      def issuer = ( !grailsApplication.config.aaf.vhr.twosteplogin.issuer.isEmpty() ? grailsApplication.config.aaf.vhr.twosteplogin.issuer.toString() : null )
-      def totpURL = GoogleAuthenticator.getQRBarcodeURL(managedSubjectInstance.login, request.serverName, totpKey, issuer)
+      def totpURL = GoogleAuthenticator.getQRBarcodeURL(managedSubjectInstance.login,
+                                                        request.serverName, totpKey,
+                                                        managedSubjectInstance.encodedTwoStepIssuer)
 
       render view: 'enabletwostep', model: [managedSubjectInstance:managedSubjectInstance, totpURL: totpURL]
     }

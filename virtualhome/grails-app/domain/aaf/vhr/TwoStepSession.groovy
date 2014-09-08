@@ -3,6 +3,8 @@ package aaf.vhr
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
+import groovy.time.TimeCategory
+
 @ToString
 @EqualsAndHashCode
 class TwoStepSession {
@@ -17,7 +19,9 @@ class TwoStepSession {
   }
 
   def populate() {
-    value = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(64)
-    expiry = new Date()
+    use (TimeCategory) {
+      value = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(64)
+      expiry = new Date() + 90.days
+    }
   }
 }
