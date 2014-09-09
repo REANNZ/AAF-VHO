@@ -74,12 +74,12 @@
 
 <html>
   <head>
-    <title>AAF Virtual Home Logout Page</title>
+    <title>Tuakiri Virtual Home Logout Page</title>
   </head>
 
   <body>
-    <h1>AAF Virtual Home Logout Page</h1>
-    <p>You have successfully logged out of the AAF Virtual Home Identity Provider.</p>
+    <h1>Tuakiri Virtual Home Logout Page</h1>
+    <p>You have successfully logged out of the Tuakiri Virtual Home Identity Provider.</p>
     
     <p><strong>You have however NOT been logged out of any of the applications you
     have accessed during your session, with the possible exception of the Service Provider that may have

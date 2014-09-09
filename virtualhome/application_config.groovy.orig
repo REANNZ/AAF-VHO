@@ -74,7 +74,7 @@ aaf {
       sha_rounds = 1024
     }
     twosteplogin {
-      issuer = "Federation VHO"
+      issuer = "Tuakiri Virtual Home"
     }
     sharedtoken {
       sha_rounds = 1024
