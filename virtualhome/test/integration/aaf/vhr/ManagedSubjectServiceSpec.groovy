@@ -67,7 +67,7 @@ class ManagedSubjectServiceSpec extends IntegrationSpec {
     g.subjects.size() == 1
 
     when:
-    def (result, managedSubject) = managedSubjectService.finalize(inv, 'usert', 'thisisalongpasswordtotest', 'thisisalongpasswordtotest', '0413123456')
+    def (result, managedSubject) = managedSubjectService.finalize(inv, 'usert', 'thisisalongpasswordtotest', 'thisisalongpasswordtotest', '0213123456')
     def invitation = ManagedSubjectInvitation.get(inv.id)
 
     then:
@@ -76,7 +76,7 @@ class ManagedSubjectServiceSpec extends IntegrationSpec {
     managedSubject != null
     managedSubject.hasErrors() == false
     managedSubject.login == 'usert'
-    managedSubject.mobileNumber == '+61413123456'
+    managedSubject.mobileNumber == '+64213123456'
     managedSubject.stateChanges.size() == 1
     def change = managedSubject.stateChanges.iterator().next()
     change.event == StateChangeType.FINALIZED

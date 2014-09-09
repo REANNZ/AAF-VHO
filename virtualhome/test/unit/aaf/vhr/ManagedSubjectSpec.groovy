@@ -285,7 +285,7 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
      reason == s.errors['mobileNumber']
 
     where:
-    val << [null, '', '0411222333']
+    val << [null, '', '0211222333']
     reason << ['', 'blank', '']
     expected << [true, false, true]
   }

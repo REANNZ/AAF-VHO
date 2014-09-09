@@ -128,7 +128,7 @@ class FinalizationControllerSpec  extends spock.lang.Specification {
   def 'ensure fault in ManagedSubjectService renders index again for user to fix errors'() {
     setup:
     def managedSubjectService = Mock(aaf.vhr.ManagedSubjectService)
-    def managedSubjectTestInstance = ManagedSubject.build(login:'testuser', mobileNumber:'0413123456')
+    def managedSubjectTestInstance = ManagedSubject.build(login:'testuser', mobileNumber:'0213123456')
     def inv = ManagedSubjectInvitation.build(utilized:false, managedSubject:managedSubjectTestInstance)
 
     controller.managedSubjectService = managedSubjectService
@@ -152,7 +152,7 @@ class FinalizationControllerSpec  extends spock.lang.Specification {
 def 'ensure successful complete provides complete view'() {
     setup:
     def managedSubjectService = Mock(aaf.vhr.ManagedSubjectService)
-    def managedSubjectTestInstance = ManagedSubject.build(login:'testuser', mobileNumber:'0413123456')
+    def managedSubjectTestInstance = ManagedSubject.build(login:'testuser', mobileNumber:'0213123456')
     def inv = ManagedSubjectInvitation.build(utilized:false, managedSubject:managedSubjectTestInstance)
 
     controller.managedSubjectService = managedSubjectService
