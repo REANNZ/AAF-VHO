@@ -577,7 +577,7 @@ class ManagedSubjectServiceSpec extends IntegrationSpec {
     then:
     greenMail.getReceivedMessages().length == 1
     def message = greenMail.getReceivedMessages()[0]
-    message.subject == 'Action Required: Your AAF Virtual Home account was deactivated'
+    message.subject == 'Action Required: Your Tuakiri Virtual Home account was deactivated'
     GreenMailUtil.getBody(message).contains("This is an email for Test User telling them that their account was locked. Organisation: ${orgRole.id}, Role: ${groupRole.id}")
     GreenMailUtil.getAddressList(message.getRecipients(Message.RecipientType.TO)) == 'testuser@example.com'
   }
