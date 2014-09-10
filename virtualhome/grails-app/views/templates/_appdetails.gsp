@@ -1,4 +1,4 @@
-<p>Once enabled, signing into your account will work a little differently. In addition to being prompted for your username and password, once every 90 days you will also be asked for a secure number that will be generated on your smart phone or tablet device (it works similar to one-time-use tokens or SMS alerts that you may have with your bank account).</p>
+<p>Once enabled, signing into your account or using your account for web single-sign-on will work a little differently. In addition to being prompted for your username and password, once every 90 days you will also be asked for a secure number that will be generated on your smart phone or tablet device (it works similar to one-time-use tokens or SMS alerts that you may have with your bank account).  Note that enabling 2-step verification will not change the way non-browser sign in (ECP) works, this will still rely on username and password alone for authentication.</p>
 
 <hr>
 
