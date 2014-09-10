@@ -52,7 +52,8 @@
       <div class="alert alert-block alert-info">
         <h4><g:message encodeAs='HTML' code="views.aaf.vhr.managedsubject.show.finalized.heading"/></h4>
         <p><g:message encodeAs='HTML' code="views.aaf.vhr.managedsubject.show.finalized.reason"/></p>
-        <p><g:message encodeAs='HTML' code="views.aaf.vhr.managedsubject.show.finalized.correct"/></p>
+        <g:message code="views.aaf.vhr.managedsubject.show.finalized.help"/>
+        <p><strong><em><g:message code="label.finalizationurl"/></em></strong>: <g:link controller="finalization" action="index" absolute="true" params="[inviteCode: managedSubjectInstance.invitations.first().inviteCode]"><g:createLink controller="finalization" action="index" absolute="true" params="[inviteCode: managedSubjectInstance.invitations.first().inviteCode]" /></g:link></p>
       </div>
     </g:if>
     <g:if test="${managedSubjectInstance.finalized && !(managedSubjectInstance.functioning()) && managedSubjectInstance.login != null && !managedSubjectInstance.blocked && !managedSubjectInstance.locked && !managedSubjectInstance.archived && !managedSubjectInstance.isExpired()}">
@@ -110,12 +111,12 @@
                   <th class="span4"><span id="displayname-label"><strong><g:message encodeAs='HTML' code="label.displayname" /></strong></span></th>
                   <td><span aria-labelledby="displayname-label"><g:fieldValue bean="${managedSubjectInstance}" field="displayName"/></span></td>
                 </tr>
-              
+
                 <tr>
                   <th class="span4"><span id="edupersonassurance-label"><strong><g:message encodeAs='HTML' code="label.edupersonassurance" /></strong></span></th>
                   <td><span aria-labelledby="edupersonassurance-label"><g:fieldValue bean="${managedSubjectInstance}" field="eduPersonAssurance"/></span></td>
                 </tr>
-              
+
                 <tr>
                   <th class="span4"><span id="edupersonaffiliation-label"><strong><g:message encodeAs='HTML' code="label.edupersonaffiliation" /></strong></span></th>
                   <td>
@@ -154,12 +155,12 @@
                   <th class="span4"><span id="givenname-label"><strong><g:message encodeAs='HTML' code="label.givenname" /></strong></span></th>
                   <td><span aria-labelledby="givenname-label"><g:fieldValue bean="${managedSubjectInstance}" field="givenName"/></span></td>
                 </tr>
-              
+
                 <tr>
                   <th class="span4"><span id="surname-label"><strong><g:message encodeAs='HTML' code="label.surname" /></strong></span></th>
                   <td><span aria-labelledby="surname-label"><g:fieldValue bean="${managedSubjectInstance}" field="surname"/></span></td>
                 </tr>
-              
+
                 <tr>
                   <th class="span4"><span id="telephonenumber-label"><strong><g:message encodeAs='HTML' code="label.telephonenumber" /></strong></span></th>
                   <td><span aria-labelledby="telephonenumber-label"><g:fieldValue bean="${managedSubjectInstance}" field="telephoneNumber"/></span></td>
@@ -169,12 +170,12 @@
                   <th class="span4"><span id="mobilenumber-label"><strong><g:message encodeAs='HTML' code="label.mobilenumber" /></strong></span></th>
                   <td><span aria-labelledby="mobilenumber-label"><g:fieldValue bean="${managedSubjectInstance}" field="mobileNumber"/></span></td>
                 </tr>
-              
+
                 <tr>
                   <th class="span4"><span id="postaladdress-label"><strong><g:message encodeAs='HTML' code="label.postaladdress" /></strong></span></th>
                   <td><span aria-labelledby="postaladdress-label"><g:fieldValue bean="${managedSubjectInstance}" field="postalAddress"/></span></td>
                 </tr>
-              
+
                 <tr>
                   <th class="span4"><span id="organizationalunit-label"><strong><g:message encodeAs='HTML' code="label.organizationalunit" /></strong></span></th>
                   <td><span aria-labelledby="organizationalunit-label"><g:fieldValue bean="${managedSubjectInstance}" field="organizationalUnit"/></span></td>
@@ -231,6 +232,10 @@
                   <th><span id="internalid-label"><strong><g:message encodeAs='HTML' code="label.internalid" /></strong></span></th>
                   <td><span aria-labelledby="internalid-label"><g:fieldValue bean="${managedSubjectInstance}" field="id" /></span></td>
                 </tr>
+                <tr>
+                  <th><span id="dateCreated-label"><strong><g:message encodeAs='HTML' code="label.created" /></strong></span></th>
+                  <td><span aria-labelledby="createdat-label"><g:formatDate date="${managedSubjectInstance.dateCreated}" type="datetime" style="LONG" timeStyle="SHORT"/></span></td>
+                </tr>
 
                 <tr>
                   <th><span id="login-label"><strong><g:message encodeAs='HTML' code="label.login" /></strong></span></th>
@@ -273,7 +278,7 @@
                   <th><span id="organization-label"><strong><g:message encodeAs='HTML' code="label.organization" /></strong></span></th>
                   <td><span aria-labelledby="organization-label"><g:link controller="organization" action="show" id="${managedSubjectInstance?.organization?.id}"><g:fieldValue bean="${managedSubjectInstance.organization}" field="displayName"/></g:link></span></td>
                 </tr>
-              
+
                 <tr>
                   <th><span id="group-label"><strong><g:message encodeAs='HTML' code="label.group" /></strong></span></th>
                   <td><span aria-labelledby="group-label"><g:link controller="group" action="show" id="${managedSubjectInstance?.group?.id}"><g:fieldValue bean="${managedSubjectInstance.group}" field="name"/></g:link></span></td>

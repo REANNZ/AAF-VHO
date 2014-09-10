@@ -68,22 +68,7 @@ public class GoogleAuthenticator {
     String formatWithIssuer = "https://chart.googleapis.com/chart?chs=200x200&chld=M%%7C0&cht=qr&chl=otpauth://totp/%s:%s@%s%%3Fsecret%%3D%s%%26issuer%%3D%s";
     String formatWithoutIssuer = "https://chart.googleapis.com/chart?chs=200x200&chld=M%%7C0&cht=qr&chl=otpauth://totp/%s@%s%%3Fsecret%%3D%s";
     if (issuer != null) {
-      URLCodec urlCodec = new URLCodec();
-      try {
-        // Double URL-encode the issuer string - for passing in otpauth URL and
-        // for embedding the otpauth URL in the charts URL.
-        // NOTE: avoid using "+" for encoding a space (" ") - while this in
-        // query-string parameters, it would not get correctly decoded in the
-        // path component (t he issuer prefix on username).
-        // Therefore, replace all "+" occurrences with "%20"
-        issuer = urlCodec.encode(issuer);
-        issuer = issuer.replace("+","%20");
-        issuer = urlCodec.encode(issuer);
-        return String.format(formatWithIssuer, issuer, user, host, secret, issuer);
-      } catch (EncoderException e) {
-        e.printStackTrace();
-        throw new RuntimeException(e.getMessage(), e);
-      }
+      return String.format(formatWithIssuer, issuer, user, host, secret, issuer);
     } else {
       return String.format(formatWithoutIssuer, user, host, secret);
     }

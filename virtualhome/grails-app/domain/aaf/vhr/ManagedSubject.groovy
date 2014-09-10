@@ -4,16 +4,18 @@ import com.bloomhealthco.jasypt.GormEncryptedStringType
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import groovy.time.TimeCategory
+
+import grails.util.Holders
 
 import aaf.base.identity.Subject
 import org.apache.shiro.SecurityUtils
-
-import groovy.time.TimeCategory
 
 @ToString(includeNames=true, includes="id, login, cn, email")
 @EqualsAndHashCode
 class ManagedSubject {
   static auditable = true
+  def managedSubjectService
 
   static final affiliations = [ 'affiliate',
                                 'alum',
@@ -97,7 +99,7 @@ class ManagedSubject {
     apiKey nullable:true, unique:true
     eptidKey nullable:true, unique:true
 
-    accountExpires nullable:true 
+    accountExpires nullable:true
 
     email blank:false, unique:true, email:true
     cn validator: {val, obj ->
@@ -142,14 +144,14 @@ class ManagedSubject {
   static transients = ['plainPassword', 'plainPasswordConfirmation']
 
   public boolean canCreate(Group owner) {
-    SecurityUtils.subject.isPermitted("app:administrator") || 
-    ( SecurityUtils.subject.isPermitted("app:manage:organization:${owner.organization.id}:group:${owner.id}:managedsubject:create") 
+    SecurityUtils.subject.isPermitted("app:administrator") ||
+    ( SecurityUtils.subject.isPermitted("app:manage:organization:${owner.organization.id}:group:${owner.id}:managedsubject:create")
       && owner.functioning() )
   }
 
   public boolean canMutate() {
-    SecurityUtils.subject.isPermitted("app:administrator") || 
-    ( SecurityUtils.subject.isPermitted("app:manage:organization:${organization.id}:group:${group.id}:managedsubject:${id}:edit") 
+    SecurityUtils.subject.isPermitted("app:administrator") ||
+    ( SecurityUtils.subject.isPermitted("app:manage:organization:${organization.id}:group:${group.id}:managedsubject:${id}:edit")
       && !archived && !blocked && group.functioning() )
   }
 
@@ -164,7 +166,7 @@ class ManagedSubject {
 
   public boolean canShow() {
     SecurityUtils.subject.isPermitted("app:manage:organization:${organization.id}:group:${group.id}:managedsubject:show")
-  } 
+  }
 
   public boolean canChangePassword() {
     !this.isExpired() && !locked && !blocked && !archived && organization?.functioning() && group?.functioning()
@@ -213,8 +215,9 @@ class ManagedSubject {
   public void cleanupEstablishedTwoStepLogin() {
     use (TimeCategory) {
       def oldSessions = [] as List
+      def today = new Date()
       twoStepSessions?.each { twoStepSession ->
-        if(twoStepSession && twoStepSession?.expiry < 90.days.ago) {
+        if(twoStepSession && twoStepSession?.expiry < today) {
           oldSessions.add(twoStepSession)
         }
       }
@@ -224,6 +227,15 @@ class ManagedSubject {
         twoStepSession.delete()
       }
     }
+  }
+
+  public String getEncodedTwoStepIssuer() {
+    def issuer = Holders.config.aaf.vhr.twosteplogin.issuer
+    if ( issuer && !issuer.isEmpty() )
+      // Double encode as used as parameter within parameter
+      URLEncoder.encode(URLEncoder.encode(issuer).replace('+', '%20'), 'UTF-8')
+    else
+      null
   }
 
   public boolean functioning() {
@@ -318,6 +330,14 @@ class ManagedSubject {
     }
   }
 
+  public finalize(ManagedSubjectInvitation invitation) {
+    this.active = true
+    this.failedLogins = 0
+
+    def finalize = new StateChange(event:StateChangeType.FINALIZED, reason:"User finalized account via supplied invitation code ${invitation.inviteCode}")
+    this.addToStateChanges(finalize)
+  }
+
   public activate(String reason, String category, String environment, Subject actionedBy) {
     this.active = true
     this.failedLogins = 0
@@ -398,6 +418,9 @@ class ManagedSubject {
     if(failedLogins >= 5) {
       def change = new StateChange(event:StateChangeType.FAILMULTIPLELOGIN, reason:"$reason Reached login attempts limit, account deactivated", category:category, environment:environment, actionedBy:actionedBy)
       this.addToStateChanges(change)
+
+      if(active)
+        managedSubjectService.sendAccountDeactivated(this)  // send an email when we initially deactive the account
 
       this.active = false     // prevent future auth attempts until unlocked by admin
     } else {

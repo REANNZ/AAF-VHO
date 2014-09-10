@@ -3,6 +3,7 @@ package aaf.vhr
 import groovyx.net.http.*
 import static groovyx.net.http.ContentType.JSON
 import javax.servlet.http.Cookie
+import java.net.URLEncoder
 
 import aaf.base.identity.Role
 import aaf.vhr.switchch.vho.DeprecatedSubject
@@ -19,6 +20,7 @@ class LoginController {
   final String CURRENT_USER = "aaf.vhr.LoginController.CURRENT_USER"
   final String SSO_URL = "aaf.vhr.LoginController.SSO_URL"
   final String NEW_TOTP_KEY = "aaf.vhr.LoginController.NEW_TOTP_KEY"
+  final String UAPPROVE_CONSENT_REVOKE = "aaf.vhr.LoginController.UAPPROVE_CONSENT_REVOKE"
 
   def loginService
 
@@ -78,6 +80,11 @@ class LoginController {
       session.setAttribute(FAILED_USER, managedSubjectInstance.id)
       redirect action:"index"
       return
+    }
+
+    // if the login form had the uApprove checkbox checked, save it for later
+    if (params.uApproveConsentRevocation) {
+        session.setAttribute(UAPPROVE_CONSENT_REVOKE, params.uApproveConsentRevocation)
     }
 
     session.setAttribute(CURRENT_USER, managedSubjectInstance.id)
@@ -148,8 +155,9 @@ class LoginController {
     def totpKey = GoogleAuthenticator.generateSecretKey()
     session.setAttribute(NEW_TOTP_KEY, totpKey)
 
-    def issuer = ( !grailsApplication.config.aaf.vhr.twosteplogin.issuer.isEmpty() ? grailsApplication.config.aaf.vhr.twosteplogin.issuer.toString() : null )
-    def totpURL = GoogleAuthenticator.getQRBarcodeURL(managedSubjectInstance.login, request.serverName, totpKey, issuer)
+    def totpURL = GoogleAuthenticator.getQRBarcodeURL(managedSubjectInstance.login,
+                                                      request.serverName, totpKey,
+                                                      managedSubjectInstance.encodedTwoStepIssuer)
     [managedSubjectInstance:managedSubjectInstance, totpURL:totpURL]
   }
 
@@ -185,8 +193,9 @@ class LoginController {
     } else {
       log.info "GoogleAuthenticator indicates twoStepLogin failure for attempted login by $managedSubjectInstance when verifying 2Step setup"
 
-      def issuer = ( !grailsApplication.config.aaf.vhr.twosteplogin.issuer.isEmpty() ? grailsApplication.config.aaf.vhr.twosteplogin.issuer.toString() : null )
-      def totpURL = GoogleAuthenticator.getQRBarcodeURL(managedSubjectInstance.login, request.serverName, managedSubjectInstance.totpKey, issuer)
+      def totpURL = GoogleAuthenticator.getQRBarcodeURL(managedSubjectInstance.login,
+                                                        request.serverName, totpKey,
+                                                        managedSubjectInstance.encodedTwoStepIssuer)
       render(view: "completesetuptwostep", model: [managedSubjectInstance:managedSubjectInstance, totpURL:totpURL, loginError:true])
       return
     }
@@ -217,11 +226,17 @@ class LoginController {
   }
 
   private String establishSession(ManagedSubject managedSubjectInstance) {
-    def redirectURL = session.getAttribute(SSO_URL)
-    if(!redirectURL) {
+    def redirectURLbase = session.getAttribute(SSO_URL)
+    if(!redirectURLbase) {
       log.error "No redirectURL set for login, redirecting to oops"
       return createLink(action: 'oops')
     }
+    def redirectURLBuilder = new URIBuilder(redirectURLbase)
+    // check for uApprove attribute release consent revocation checkbox
+    if(session.getAttribute(UAPPROVE_CONSENT_REVOKE)) {
+      redirectURLBuilder.addQueryParam("uApprove.consent-revocation", session.getAttribute(UAPPROVE_CONSENT_REVOKE));
+    }
+    def redirectURL = redirectURLBuilder.toString();
 
     session.removeAttribute(CURRENT_USER)
 

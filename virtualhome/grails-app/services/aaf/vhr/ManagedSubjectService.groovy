@@ -4,6 +4,7 @@ import org.springframework.context.i18n.LocaleContextHolder
 import org.apache.commons.validator.EmailValidator
 
 import org.apache.shiro.SecurityUtils
+import aaf.base.identity.Role
 
 import groovy.time.TimeCategory
 
@@ -29,7 +30,8 @@ class ManagedSubjectService {
   private final String TOKEN_LOGIN = 'aaf.vhr.managedsubjectservice.registerfromcsv.invalidlogin'
   private final String TOKEN_PASSWORD = 'aaf.vhr.managedsubjectservice.registerfromcsv.invalidpassword'
 
-  private final String TOKEN_EMAIL_SUBJECT ='aaf.vhr.managedsubjectservice.registered.email.subject'
+  private final String CONFIRMATION_EMAIL_SUBJECT ='aaf.vhr.managedsubjectservice.registered.email.subject'
+  private final String DEACTIVATED_EMAIL_SUBJECT ='aaf.vhr.managedsubjectservice.deactivated.email.subject'
 
   private final String INVITATION_INVALID ='aaf.vhr.managedsubjectservice.finalize.invitation.invalid'
 
@@ -41,7 +43,7 @@ class ManagedSubjectService {
   def finalize(ManagedSubjectInvitation invitation, String login, String plainPassword, String plainPasswordConfirmation, String mobileNumber) {
     def managedSubject = invitation.managedSubject
 
-    if(invitation.utilized || managedSubject.finalized)
+    if(invitation.utilized || managedSubject.isFinalized())
       return [false, messageSource.getMessage(INVITATION_INVALID, [] as Object[], INVITATION_INVALID, LocaleContextHolder.locale)]
 
     managedSubject.login = login
@@ -67,7 +69,7 @@ class ManagedSubjectService {
       return [false, managedSubject]
     }
 
-    managedSubject.active = true
+    managedSubject.finalize(invitation)
     
     if(!managedSubject.save()) {
       log.error "Failed trying to save $managedSubject when finalizing"
@@ -271,7 +273,7 @@ class ManagedSubjectService {
   }
 
   public void sendConfirmation(ManagedSubject managedSubject) {
-    def emailSubject = messageSource.getMessage(TOKEN_EMAIL_SUBJECT, [] as Object[], TOKEN_EMAIL_SUBJECT, LocaleContextHolder.locale)
+    def emailSubject = messageSource.getMessage(CONFIRMATION_EMAIL_SUBJECT, [] as Object[], CONFIRMATION_EMAIL_SUBJECT, LocaleContextHolder.locale)
     def emailTemplate = EmailTemplate.findWhere(name:"registered_managed_subject")
 
     if(!emailTemplate) {
@@ -287,6 +289,19 @@ class ManagedSubjectService {
       throw new RuntimeException("Failed to create invitation code for $managedSubject aborting")  // Rollback transaction
     }
     emailManagerService.send(managedSubject.email, emailSubject, emailTemplate, [managedSubject:managedSubject, invitation:invitation]) 
+  }
+
+  public void sendAccountDeactivated(ManagedSubject managedSubject) {
+    def emailSubject = messageSource.getMessage(DEACTIVATED_EMAIL_SUBJECT, [] as Object[], DEACTIVATED_EMAIL_SUBJECT, LocaleContextHolder.locale)
+    def emailTemplate = EmailTemplate.findWhere(name:"deactivated_managed_subject")
+
+    if(!emailTemplate) {
+      throw new RuntimeException("Email template for advising about deactivated accounts 'deactivated_managed_subject' does not exist")  // Rollback transaction
+    }
+
+    def groupRole = Role.findWhere(name:"group:${managedSubject.group.id}:administrators")
+    def organizationRole = Role.findWhere(name:"organization:${managedSubject.organization.id}:administrators")
+    emailManagerService.send(managedSubject.email, emailSubject, emailTemplate, [managedSubject:managedSubject, groupRole:groupRole, organizationRole:organizationRole])
   }
 
 }

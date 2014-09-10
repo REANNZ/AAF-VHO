@@ -7,9 +7,12 @@
     <li>
       <g:link action="createcsv" controller="managedSubject" params='['group.id':"${groupInstance.id}"]'><g:message encodeAs='HTML' code="label.createmultiplemanagedsubject"/></g:link>
     </li>
+    <li>
+      <g:link action="nonfinalized" controller="group" id="${groupInstance.id}"><g:message encodeAs='HTML' code="label.currentfinalisationstatus"/></g:link>
+    </li>
 
     <li class="divider"></li>
-    
+
     <li>
       <g:render template="show_actions_admin"/>
     </li>

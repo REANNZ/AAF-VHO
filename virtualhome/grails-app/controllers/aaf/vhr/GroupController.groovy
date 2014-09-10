@@ -58,7 +58,7 @@ class GroupController {
         }
 
         groupInstance.welcomeMessage = params.welcomeMessage?.encodeAsSanitizedMarkup()
-        
+
         if(!organization.canRegisterGroups()) {
           flash.type = 'error'
           flash.message = 'controllers.aaf.vhr.group.licensing.failed'
@@ -308,6 +308,18 @@ class GroupController {
     }
     else {
       log.warn "Attempt to do administrative Group enforcetwosteplogin by $subject was denied - not permitted by assigned permissions"
+      response.sendError 403
+    }
+  }
+
+  def nonfinalized(Long id) {
+    def groupInstance = Group.get(id)
+    if(groupInstance.canMutate()) {
+      log.info "Action: nonfinalized, Subject: $subject, Object: groupInstance"
+      [groupInstance: groupInstance]
+    }
+    else {
+      log.warn "Attempt to access administrative Group nonfinalize by $subject was denied - not permitted by assigned permissions"
       response.sendError 403
     }
   }

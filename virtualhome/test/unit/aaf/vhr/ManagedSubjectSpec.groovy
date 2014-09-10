@@ -19,14 +19,18 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
   @Shared def shiroEnvironment = new ShiroEnvironment()
 
   org.apache.shiro.subject.Subject shiroSubject
-  
-  def cleanupSpec() { 
-    shiroEnvironment.tearDownShiro() 
+
+  def managedSubjectService
+
+  def cleanupSpec() {
+    shiroEnvironment.tearDownShiro()
   }
 
   def setup() {
     shiroSubject = Mock(org.apache.shiro.subject.Subject)
     shiroEnvironment.setSubject(shiroSubject)
+
+    managedSubjectService = Mock(aaf.vhr.ManagedSubjectService)
   }
 
   def 'ensure login can be null'() {
@@ -281,7 +285,7 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
      reason == s.errors['mobileNumber']
 
     where:
-    val << [null, '', '0411222333']
+    val << [null, '', '0211222333']
     reason << ['', 'blank', '']
     expected << [true, false, true]
   }
@@ -856,6 +860,7 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
   def 'ensure failLogin deactivates after 5 failures'() {
     setup:
     def s = ManagedSubject.build(failedLogins:4, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+    s.managedSubjectService = managedSubjectService
     s.organization.active = true
 
     expect:
@@ -867,8 +872,31 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
     s.failLogin("reason", "category", "environment", null)
 
     then:
+    1 * managedSubjectService.sendAccountDeactivated(s)
     !s.active
     s.failedLogins == 5
+    s.requiresLoginCaptcha()
+    s.stateChanges.toArray()[0].event == StateChangeType.FAILMULTIPLELOGIN
+  }
+
+  def 'ensure failLogin does not send duplication deactivation emails'() {
+    setup:
+    def s = ManagedSubject.build(failedLogins:6, active:false, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+    s.managedSubjectService = managedSubjectService
+    s.organization.active = true
+
+    expect:
+    !s.active
+    !s.canLogin()
+    s.requiresLoginCaptcha()
+
+    when:
+    s.failLogin("reason", "category", "environment", null)
+
+    then:
+    0 * managedSubjectService.sendAccountDeactivated(s)
+    !s.active
+    s.failedLogins == 7
     s.requiresLoginCaptcha()
     s.stateChanges.toArray()[0].event == StateChangeType.FAILMULTIPLELOGIN
   }
@@ -963,7 +991,7 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
 
       where:
       //yesterday, 91 days ago, no sessions
-      sessions << [new TwoStepSession(value:'1234abcd', expiry: use(TimeCategory) {1.days.ago}), new TwoStepSession(value:'1234abcd', expiry: use(TimeCategory) {91.days.ago}), null]
+      sessions << [new TwoStepSession(value:'1234abcd', expiry: use(TimeCategory) {1.days.from.now}), new TwoStepSession(value:'1234abcd', expiry: use(TimeCategory) {1.days.ago}), null]
       expected << [1, 0, 0]
   }
 
@@ -997,5 +1025,50 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
     result << [true, true, true, false]
 
   }
+
+  def 'non specified issuer returned as null'() {
+    setup:
+    def s = ManagedSubject.build(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+
+    expect:
+    s.encodedTwoStepIssuer == null
+  }
+
+  def 'empty issuer returned as null'() {
+    setup:
+    config.aaf.vhr.twosteplogin.issuer = ''
+    def s = ManagedSubject.build(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+
+    expect:
+    s.encodedTwoStepIssuer == null
+  }
+
+  def 'specified issuer returned as uri encoded'() {
+    setup:
+    config.aaf.vhr.twosteplogin.issuer = 'Example'
+    def s = ManagedSubject.build(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+
+    expect:
+    s.encodedTwoStepIssuer == 'Example'
+  }
+
+  def 'specified issuer returned as uri encoded when space present'() {
+    setup:
+    config.aaf.vhr.twosteplogin.issuer = 'Example Org'
+    def s = ManagedSubject.build(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+
+    expect:
+    s.encodedTwoStepIssuer == 'Example%2520Org'
+  }
+
+  def 'specified issuer returned as uri encoded when special char present'() {
+    setup:
+    config.aaf.vhr.twosteplogin.issuer = 'Example & Example Org'
+    def s = ManagedSubject.build(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+
+    expect:
+    s.encodedTwoStepIssuer == 'Example%2520%2526%2520Example%2520Org'
+  }
+
 
 }

@@ -7,9 +7,8 @@
 
       <div class="row">
         <div id="description" class="span6">
-          <h2>Welcome to the new Tuakiri Virtual Home</h2>
-          <p>Over the past few months, AAF have been hard at work on this new version of the Virtual Home.</p>
-          <p> The new version will enable small organisations, including collaborative research facilities, to manage user identities for international, government and industry based researchers, as well as collaborators who are sponsored by a Tuakiri subscribed organisation.</p>
+          <h2>Welcome to the Tuakiri Virtual Home</h2>
+          <p>The Tuakiri Virtual Home enables small organisations, including collaborative research facilities, to manage user identities for international, government and industry based researchers, as well as collaborators who are sponsored by a Tuakiri subscribed organisation.</p>
 
           <p>Users are provided with:</p>
           <ul>
