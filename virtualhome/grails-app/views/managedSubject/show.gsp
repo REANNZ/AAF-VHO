@@ -48,7 +48,7 @@
         <p><g:message encodeAs='HTML' code="views.aaf.vhr.managedsubject.show.unable.to.login"/></p>
       </div>
     </g:if>
-    <g:if test="${!managedSubjectInstance.finalized}">
+    <g:if test="${!managedSubjectInstance.finalized && !managedSubjectInstance.invitations.isEmpty()}">
       <div class="alert alert-block alert-info">
         <h4><g:message encodeAs='HTML' code="views.aaf.vhr.managedsubject.show.finalized.heading"/></h4>
         <p><g:message encodeAs='HTML' code="views.aaf.vhr.managedsubject.show.finalized.reason"/></p>
