@@ -16,7 +16,7 @@
           Something hasn't gone right with your account migration, our apologies. Please feel free to <g:link controller="login" action="index">try again by clicking here</g:link>.
         </p>
         <p>
-          Alertnatively please get in touch with <a href="mailto:support@aaf.edu.au">AAF support at support@aaf.edu.au</a> providing your username and the date and time of this error as part of the email so we can assist you further.</p>
+          Alternatively please get in touch with <a href="mailto:support@tuakiri.ac.nz">Tuakiri support at support@tuakiri.ac.nz</a> providing your username and the date and time of this error as part of the email so we can assist you further.</p>
         <p>
       </div>
     </div>
