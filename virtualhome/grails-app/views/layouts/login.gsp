@@ -38,7 +38,7 @@
               <li>
                 <g:link controller="dashboard" action="welcome"><g:message encodeAs='HTML' code="branding.nav.welcome" /></g:link>
               </li>
-              <li><a href="https://tuakiri.ac.nz/confluence/display/Tuakiri/Support+Desk" target="_blank"><g:message encodeAs='HTML' code="branding.nav.support" /></a></li>
+              <li><a href="mailto:tuakiri@reannz.co.nz" target="_blank"><g:message encodeAs='HTML' code="branding.nav.support" /></a></li>
             </ul>
 
           </div>
