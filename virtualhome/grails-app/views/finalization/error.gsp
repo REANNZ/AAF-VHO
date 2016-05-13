@@ -13,6 +13,6 @@
       This is usually because you've already activated your account. You only need to do this once then you're ready to login to Tuakiri connected services.
     </p>
 
-    <p>If you're still having trouble please email <a href="mailto:support@tuakiri.ac.nz">support@tuakiri.ac.nz</a></p>
+    <p>If you're still having trouble please email <a href="mailto:tuakiri@reannz.co.nz">tuakiri@reannz.co.nz</a></p>
   </body>
 </html>

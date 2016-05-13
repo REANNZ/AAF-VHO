@@ -234,7 +234,7 @@
                                       </td>
                                       <td valign="top" width="190">
                                         <div >
-                                            Do you need help?<br /><a href="mailto:support@tuakiri.ac.nz">Get in touch with Tuakiri support at support@tuakiri.ac.nz</a>
+                                            Do you need help?<br /><a href="mailto:tuakiri@reannz.co.nz">Get in touch with Tuakiri support at tuakiri@reannz.co.nz</a>
                                           </div>
                                       </td>
                                   </tr>

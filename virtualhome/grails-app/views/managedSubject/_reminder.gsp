@@ -5,5 +5,5 @@
         <li>You must observe good practice for account management and accuracy; and</li>
         <li>Tuakiri Virtual Home accounts <strong>should not be created</strong> if users have an existing account with an IdP.</li>
       </ul>
-      <p>Please contact support@tuakiri.ac.nz should you need access to the Tuakiri Virtual Home for training or other purposes.</p>
+      <p>Please contact tuakiri@reannz.co.nz should you need access to the Tuakiri Virtual Home for training or other purposes.</p>
     </div>
