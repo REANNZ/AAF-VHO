@@ -192,7 +192,7 @@
 
       #social a {
         font-weight: bold;
-        color:#628615;
+        color:#00B9E4;
       }
       
       #social div{
@@ -209,7 +209,7 @@
       }
       
       #admincode {
-        color:#628615;
+        color:#00B9E4;
         font-size: 22px;
         padding: 6px;
         border: 1px solid #CCCCCC;
@@ -234,7 +234,7 @@
                                       </td>
                                       <td valign="top" width="190">
                                         <div >
-                                            Do you need help?<br /><a href="mailto:support@tuakiri.ac.nz">Get in touch with Tuakiri support at support@tuakiri.ac.nz</a>
+                                            Do you need help?<br /><a href="mailto:tuakiri@reannz.co.nz">Get in touch with Tuakiri support at tuakiri@reannz.co.nz</a>
                                           </div>
                                       </td>
                                   </tr>
@@ -285,7 +285,7 @@
                                                 <tr>
                                                     <td colspan="2" valign="middle" id="social" style="background-color:#FAFAFA; border:0;">
                                                         <div style="text-align:center;">
-                                                            &nbsp;<a href="mailto:support@tuakiri.ac.nz" style="font-weight: bold; color:#628615;">Get Tuakiri Support</a>&nbsp;
+                                                            &nbsp;<a href="mailto:tuakiri@reannz.co.nz" style="font-weight: bold; color:#00B9E4;">Get Tuakiri Support</a>&nbsp;
                                                         </div>
                                                     </td>
                                                 </tr>

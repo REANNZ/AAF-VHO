@@ -7,7 +7,7 @@
 
 We have received a request to provide the username you use for logging in to the Tuakiri Virtual Home.<br><br>
 
-If you did not request your username please contact support@tuakiri.ac.nz immediately, providing your account details and a copy of this notification.<br><br>
+If you did not request your username please contact tuakiri@reannz.co.nz immediately, providing your account details and a copy of this notification.<br><br>
 
 <g:if test="${managedSubject}">
   <h5>Your username is:</h5>
@@ -21,5 +21,5 @@ If you did not request your username please contact support@tuakiri.ac.nz immedi
 
   If you believe this message to be in error, please contact your organisation's IT Support.<br><br>
 
-  For further assistance, please contact support@tuakiri.ac.nz.
+  For further assistance, please contact tuakiri@reannz.co.nz.
 </g:else>

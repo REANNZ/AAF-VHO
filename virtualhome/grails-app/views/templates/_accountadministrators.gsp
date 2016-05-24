@@ -36,5 +36,5 @@
 
 <div class="alert alert-info">
   <h5>Can't contact an administrator?</h5>
-  <p>If you're unable to contact an account administator as shown above (or if there are no administrators shown) please get in touch with <a href="mailto:support@tuakiri.ac.nz">Tuakiri support at support@tuakiri.ac.nz</a>. Please provide your username and details of who you've attempted to contact above as part of the email so we can assist you further.</p>
+  <p>If you're unable to contact an account administator as shown above (or if there are no administrators shown) please get in touch with <a href="mailto:tuakiri@reannz.co.nz">Tuakiri support at tuakiri@reannz.co.nz</a>. Please provide your username and details of who you've attempted to contact above as part of the email so we can assist you further.</p>
 </div>
