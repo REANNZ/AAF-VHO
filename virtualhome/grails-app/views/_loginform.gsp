@@ -1,6 +1,15 @@
 <div class="well well-small">            
   <g:form action="login" method="post" class="form form-login form-validating">
-    <h2><g:message code="templates.aaf.vhr.loginform.title"/></h2>
+
+    <g:if test="${session.getAttribute("aaf.vhr.LoginController.SERVICE_NAME") && (controllerName == "login")}">
+      <div class="servicename">
+	<h2><small>${session.getAttribute("aaf.vhr.LoginController.SERVICE_NAME")}</small></h2>
+	<h2><g:message code="templates.aaf.vhr.loginform.title"/></h2>
+      </div>
+    </g:if>
+    <g:else>
+      <h2><g:message code="templates.aaf.vhr.loginform.title"/></h2>
+    </g:else>
 
     <g:if test="${loginError}">
       <div class="alert alert-block alert-error login-error">

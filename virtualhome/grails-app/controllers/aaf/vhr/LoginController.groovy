@@ -18,6 +18,8 @@ class LoginController {
   final String FAILED_USER = "aaf.vhr.LoginController.FAILED_USER"
   final String CURRENT_USER = "aaf.vhr.LoginController.CURRENT_USER"
   final String SSO_URL = "aaf.vhr.LoginController.SSO_URL"
+  final String RELYING_PARTY = "aaf.vhr.LoginController.RELYING_PARTY"
+  final String SERVICE_NAME = "aaf.vhr.LoginController.SERVICE_NAME"
   final String NEW_TOTP_KEY = "aaf.vhr.LoginController.NEW_TOTP_KEY"
   final String UAPPROVE_CONSENT_REVOKE = "aaf.vhr.LoginController.UAPPROVE_CONSENT_REVOKE"
 
@@ -26,12 +28,23 @@ class LoginController {
   def index() {
     if(params.ssourl) {
       session.setAttribute(SSO_URL, params.ssourl)
+      // this is a new login request - remove old params from session
+      session.removeAttribute(RELYING_PARTY);
+      session.removeAttribute(SERVICE_NAME);
     } else {
       if(!session.getAttribute(SSO_URL)) {
         log.error "SSO URL not stored for user session and not provided by name/value pair for ssourl, redirecting to oops"
         redirect action:"oops"
       }
     }
+
+    if(params.relyingparty) {
+      session.setAttribute(RELYING_PARTY, params.relyingparty)
+    };
+
+    if(params.servicename) {
+      session.setAttribute(SERVICE_NAME, params.servicename)
+    };
 
     if(session.getAttribute(INVALID_USER)) {
       log.debug "INVALID_USER is true indicating invalid username being supplied. Rendering default login screen."
@@ -245,6 +258,8 @@ class LoginController {
 
     session.removeAttribute(INVALID_USER)
     session.removeAttribute(CURRENT_USER)
+    session.removeAttribute(RELYING_PARTY);
+    session.removeAttribute(SERVICE_NAME);
     session.removeAttribute(SSO_URL)
 
     redirectURL
