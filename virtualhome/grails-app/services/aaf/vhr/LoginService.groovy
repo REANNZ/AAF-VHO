@@ -40,7 +40,7 @@ class LoginService implements InitializingBean{
     build()
   }
 
-  public String sessionRemoteUser(String sessionID) {
+  public AuthnTuple sessionRemoteUser(String sessionID) {
     loginCache.getIfPresent(sessionID)
   }
 
@@ -144,7 +144,8 @@ class LoginService implements InitializingBean{
 
   public String establishSession(ManagedSubject managedSubjectInstance) {
     def sessionID = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(64)
-    loginCache.put(sessionID, managedSubjectInstance.login)
+    def authnTuple = new AuthnTuple(managedSubjectInstance.login, new Date())
+    loginCache.put(sessionID, authnTuple)
 
     sessionID
   }

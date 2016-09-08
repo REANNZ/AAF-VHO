@@ -7,8 +7,12 @@ import aaf.base.identity.Role
 import aaf.base.identity.Permission
 
 import aaf.vhr.ManagedSubject
+import aaf.vhr.AuthnTuple
 
 import groovy.json.*
+
+import java.text.SimpleDateFormat
+import java.util.TimeZone
 
 class LoginApiController extends aaf.base.api.ApiBaseController {
 
@@ -19,12 +23,22 @@ class LoginApiController extends aaf.base.api.ApiBaseController {
   def loginService
   def cryptoService
 
-  def confirmsession(String sessionID) {
-    def remoteUser = loginService.sessionRemoteUser(params.sessionID)
+  // Ancillary object for Date formatting
+  def sdf = getUTCSimpleDateFormatter()
+  def SimpleDateFormat getUTCSimpleDateFormatter() {
+      // SimpleDateFormatter for ISO 8601 timestamps with milliseconds
+      def _sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+      // Set the timezone to UTC - putting initialization into ()
+      _sdf.setTimeZone(TimeZone.getTimeZone("UTC"))
+      _sdf
+  }
 
-    if(remoteUser) {
-      log.info "API session verification for ${params.sessionID} provided response with remote_user of $remoteUser"
-      render(contentType: 'application/json') { ['remote_user':remoteUser] }
+  def confirmsession(String sessionID) {
+    def remoteUserTuple = loginService.sessionRemoteUser(params.sessionID)
+
+    if(remoteUserTuple) {
+      log.info "API session verification for ${params.sessionID} provided response with remote_user of $remoteUserTuple.username"
+      render(contentType: 'application/json') { ['remote_user':remoteUserTuple.username, 'authnInstant':sdf.format(remoteUserTuple.authnInstant)] }
     } else {
       log.error "API session verification for ${params.sessionID} failed, providing error response"
       response.status = 410
