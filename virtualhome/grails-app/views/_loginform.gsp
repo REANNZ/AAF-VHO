@@ -32,11 +32,11 @@
         </div>
       </div>
       
-      <g:if test="${grailsApplication.config.aaf.vhr.login.uApprove_consent_revocation && (controllerName == "login")}">
+      <g:if test="${grailsApplication.config.aaf.vhr.login.consent_revocation_enabled && (controllerName == "login")}">
         <div class="control-group">
           <div class="controls">
-            <input id="uApproveConsentRevocation" name="uApproveConsentRevocation" type="checkbox" value="true" />
-            <small><strong><g:message code="branding.uApproveConsentRevocation"/></strong><br><g:message code="branding.uApproveConsentRevocation.info"/></small>
+            <input id="_shib_idp_revokeConsent" name="_shib_idp_revokeConsent" type="checkbox" value="true" />
+            <small><strong><g:message code="branding.consentRevocation"/></strong><br><g:message code="branding.consentRevocation.info"/></small>
           </div>
         </div>
       </g:if>
