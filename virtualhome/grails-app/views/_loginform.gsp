@@ -1,6 +1,15 @@
 <div class="well well-small">            
   <g:form action="login" method="post" class="form form-login form-validating">
-    <h2><g:message code="templates.aaf.vhr.loginform.title"/></h2>
+
+    <g:if test="${session.getAttribute("aaf.vhr.LoginController.SERVICE_NAME") && (controllerName == "login")}">
+      <div class="servicename">
+	<h2><small>${session.getAttribute("aaf.vhr.LoginController.SERVICE_NAME")}</small></h2>
+	<h2><g:message code="templates.aaf.vhr.loginform.title"/></h2>
+      </div>
+    </g:if>
+    <g:else>
+      <h2><g:message code="templates.aaf.vhr.loginform.title"/></h2>
+    </g:else>
 
     <g:if test="${loginError}">
       <div class="alert alert-block alert-error login-error">
@@ -23,11 +32,11 @@
         </div>
       </div>
       
-      <g:if test="${grailsApplication.config.aaf.vhr.login.uApprove_consent_revocation && (controllerName == "login")}">
+      <g:if test="${grailsApplication.config.aaf.vhr.login.consent_revocation_enabled && (controllerName == "login")}">
         <div class="control-group">
           <div class="controls">
-            <input id="uApproveConsentRevocation" name="uApproveConsentRevocation" type="checkbox" value="true" />
-            <small><strong><g:message code="branding.uApproveConsentRevocation"/></strong><br><g:message code="branding.uApproveConsentRevocation.info"/></small>
+            <input id="_shib_idp_revokeConsent" name="_shib_idp_revokeConsent" type="checkbox" value="true" />
+            <small><strong><g:message code="branding.consentRevocation"/></strong><br><g:message code="branding.consentRevocation.info"/></small>
           </div>
         </div>
       </g:if>

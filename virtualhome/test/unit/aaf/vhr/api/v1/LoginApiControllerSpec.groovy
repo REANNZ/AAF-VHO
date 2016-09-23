@@ -7,6 +7,10 @@ import grails.buildtestdata.mixin.Build
 import spock.lang.*
 
 import aaf.base.identity.*
+import aaf.vhr.AuthnTuple
+
+import java.text.SimpleDateFormat
+import java.util.TimeZone
 
 @TestFor(aaf.vhr.api.v1.LoginApiController)
 @Build([aaf.vhr.Organization, aaf.vhr.Group, aaf.vhr.ManagedSubject])
@@ -28,21 +32,27 @@ class LoginApiControllerSpec extends spock.lang.Specification {
     response.status == 410
   }
 
-  def "confirmsession: recieve valid json when session is present"() {
+  def "confirmsession: receive valid json when session is present"() {
     setup:
     def loginService = Mock(aaf.vhr.LoginService)
     controller.loginService = loginService
 
     params.sessionID = "1234abcd"
+    def authnInstant = new Date()
+    // SimpleDateFormatter for ISO 8601 timestamps with milliseconds
+    def sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    // Set the timezone to UTC - putting initialization into ()
+    sdf.setTimeZone(TimeZone.getTimeZone("UTC"))
+
 
     when:
     controller.confirmsession()
 
     then:
-    1 * loginService.sessionRemoteUser(params.sessionID) >> 'testuser'
+    1 * loginService.sessionRemoteUser(params.sessionID) >> new AuthnTuple('testuser', authnInstant)
     response.status == 200
     response.contentType == 'application/json;charset=UTF-8'
-    response.text == '{"remote_user":"testuser"}'
+    response.text == '{"remote_user":"testuser","authnInstant":"'+sdf.format(authnInstant)+'"}'
   }
 
   def "basicauth: recieve 410 is there is no such object"() {

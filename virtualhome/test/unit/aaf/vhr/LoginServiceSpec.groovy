@@ -39,18 +39,18 @@ class LoginServiceSpec extends spock.lang.Specification {
 
   def 'ensure content is stored in loginCache'() {
     when:
-    service.loginCache.put('abcd1234', 'testuser')
+    service.loginCache.put('abcd1234', new AuthnTuple('testuser', new Date()))
 
     then:
-    service.loginCache.getIfPresent('abcd1234') == 'testuser'
+    service.loginCache.getIfPresent('abcd1234')?.username == 'testuser'
   }
 
   def 'get stored remote_user value'() {
     when:
-    service.loginCache.put('abcd1234', remote_user)
+    service.loginCache.put('abcd1234', new AuthnTuple(remote_user, new Date()))
 
     then:
-    service.sessionRemoteUser(session) == expected_remote_user
+    service.sessionRemoteUser(session)?.username == expected_remote_user
 
     where:
     session << ['abcd1234', 'abcd123']

@@ -92,7 +92,8 @@ aaf {
       path = '/'
       validity_period_minutes = 2
       require_captcha_after_tries = 2
-      uApprove_consent_revocation = true
+      consent_revocation_enabled = true
+      consent_revocation_param_name = "_shib_idp_revokeConsent"
     }
   }
   base {

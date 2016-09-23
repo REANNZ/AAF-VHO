@@ -5,13 +5,15 @@ import static groovyx.net.http.ContentType.JSON
 import javax.servlet.http.Cookie
 import java.net.URLEncoder
 
+import org.springframework.beans.factory.InitializingBean
+
 import aaf.base.identity.Role
 import aaf.vhr.switchch.vho.DeprecatedSubject
 import aaf.vhr.MigrateController
 
 import aaf.vhr.crypto.GoogleAuthenticator
 
-class LoginController {
+class LoginController implements InitializingBean {
 
   static allowedMethods = [login: 'POST', verifytwostepcode:'POST']
 
@@ -19,20 +21,42 @@ class LoginController {
   final String FAILED_USER = "aaf.vhr.LoginController.FAILED_USER"
   final String CURRENT_USER = "aaf.vhr.LoginController.CURRENT_USER"
   final String SSO_URL = "aaf.vhr.LoginController.SSO_URL"
+  final String RELYING_PARTY = "aaf.vhr.LoginController.RELYING_PARTY"
+  final String SERVICE_NAME = "aaf.vhr.LoginController.SERVICE_NAME"
   final String NEW_TOTP_KEY = "aaf.vhr.LoginController.NEW_TOTP_KEY"
-  final String UAPPROVE_CONSENT_REVOKE = "aaf.vhr.LoginController.UAPPROVE_CONSENT_REVOKE"
+  final String CONSENT_REVOKE = "aaf.vhr.LoginController.CONSENT_REVOKE"
 
   def loginService
+  def grailsApplication
+  def consentRevocationEnabled
+  def consentRevocationParamName
+
+  def void afterPropertiesSet() {
+      // initialize consent revocation settings from grailsApplication.config
+      consentRevocationEnabled = grailsApplication.config.aaf.vhr.login.consent_revocation_enabled
+      consentRevocationParamName = grailsApplication.config.aaf.vhr.login.consent_revocation_param_name
+  }
 
   def index() {
     if(params.ssourl) {
       session.setAttribute(SSO_URL, params.ssourl)
+      // this is a new login request - remove old params from session
+      session.removeAttribute(RELYING_PARTY);
+      session.removeAttribute(SERVICE_NAME);
     } else {
       if(!session.getAttribute(SSO_URL)) {
         log.error "SSO URL not stored for user session and not provided by name/value pair for ssourl, redirecting to oops"
         redirect action:"oops"
       }
     }
+
+    if(params.relyingparty) {
+      session.setAttribute(RELYING_PARTY, params.relyingparty)
+    };
+
+    if(params.servicename) {
+      session.setAttribute(SERVICE_NAME, params.servicename)
+    };
 
     if(session.getAttribute(INVALID_USER)) {
       log.debug "INVALID_USER is true indicating invalid username being supplied. Rendering default login screen."
@@ -82,9 +106,9 @@ class LoginController {
       return
     }
 
-    // if the login form had the uApprove checkbox checked, save it for later
-    if (params.uApproveConsentRevocation) {
-        session.setAttribute(UAPPROVE_CONSENT_REVOKE, params.uApproveConsentRevocation)
+    // if the login form had the consent revocation checkbox checked, save it for later
+    if (params._shib_idp_revokeConsent) {
+        session.setAttribute(CONSENT_REVOKE, params._shib_idp_revokeConsent)
     }
 
     session.setAttribute(CURRENT_USER, managedSubjectInstance.id)
@@ -232,9 +256,9 @@ class LoginController {
       return createLink(action: 'oops')
     }
     def redirectURLBuilder = new URIBuilder(redirectURLbase)
-    // check for uApprove attribute release consent revocation checkbox
-    if(session.getAttribute(UAPPROVE_CONSENT_REVOKE)) {
-      redirectURLBuilder.addQueryParam("uApprove.consent-revocation", session.getAttribute(UAPPROVE_CONSENT_REVOKE));
+    // check for attribute release consent revocation checkbox
+    if(consentRevocationEnabled && session.getAttribute(CONSENT_REVOKE) && consentRevocationParamName) {
+      redirectURLBuilder.addQueryParam(consentRevocationParamName, session.getAttribute(CONSENT_REVOKE));
     }
     def redirectURL = redirectURLBuilder.toString();
 
@@ -253,6 +277,8 @@ class LoginController {
 
     session.removeAttribute(INVALID_USER)
     session.removeAttribute(CURRENT_USER)
+    session.removeAttribute(RELYING_PARTY);
+    session.removeAttribute(SERVICE_NAME);
     session.removeAttribute(SSO_URL)
 
     redirectURL
