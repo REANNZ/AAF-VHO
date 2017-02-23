@@ -177,6 +177,28 @@ class LoginControllerSpec extends spock.lang.Specification {
     !response.cookies[0].secure
   }
 
+  def "successful login sets secure cookie and redirects to IdP login ssourl"() {
+    setup:
+    session.setAttribute(controller.SSO_URL, "https://idp.test.com/shibboleth-idp/authn")
+    def loginService = Mock(aaf.vhr.LoginService)
+    grailsApplication.config.aaf.vhr.login.validity_period_minutes = 1
+    grailsApplication.config.aaf.vhr.login.ssl_only_cookie = true
+
+    def ms = ManagedSubject.build(active:true, failedLogins: 0)
+    ms.organization.active = true
+
+    controller.loginService = loginService
+
+    when:
+    controller.login(ms.login, 'password')
+
+    then:
+    1 * loginService.passwordLogin(ms, _, _, _, _) >> true
+    response.redirectedUrl == "https://idp.test.com/shibboleth-idp/authn"
+    response.cookies[0].maxAge == 1 * 60
+    response.cookies[0].secure
+  }
+
   def "successful login with consent revocation param sets consent revocation session variable and redirects to IdP with consent revocation param"() {
     setup:
     session.setAttribute(controller.SSO_URL, "https://idp.test.com/shibboleth-idp/authn")
