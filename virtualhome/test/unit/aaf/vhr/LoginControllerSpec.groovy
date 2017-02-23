@@ -543,6 +543,111 @@ class LoginControllerSpec extends spock.lang.Specification {
     response.cookies[0].maxAge == 60
     !response.cookies[0].secure
   }
+
+  def "successful logout with no cookies redirects to slourl"() {
+    setup:
+    params.slourl = "https://idp.test.com/shibboleth-idp/logout"
+    def loginService = Mock(aaf.vhr.LoginService)
+    grailsApplication.config.aaf.vhr.login.validity_period_minutes = 1
+    grailsApplication.config.aaf.vhr.login.ssl_only_cookie = true
+
+    def ms = ManagedSubject.build(active:true, failedLogins: 0)
+    ms.organization.active = true
+
+    controller.loginService = loginService
+
+    when:
+    controller.logout()
+
+    then:
+    response.redirectedUrl == "https://idp.test.com/shibboleth-idp/logout"
+    response.cookies.size() == 0
+  }
+
+  def "successful logout with session cookie clears cookie, invalidates session and redirects to slourl"() {
+    setup:
+    params.slourl = "https://idp.test.com/shibboleth-idp/logout"
+    def loginService = Mock(aaf.vhr.LoginService)
+    grailsApplication.config.aaf.vhr.login.validity_period_minutes = 1
+    grailsApplication.config.aaf.vhr.login.ssl_only_cookie = true
+
+    def ms = ManagedSubject.build(active:true, failedLogins: 0)
+    ms.organization.active = true
+
+    def sessionId = 'abcd1234'
+    loginService.establishSession(ms)
+
+    Cookie cookie = new Cookie("_vh_l1", sessionId)
+    request.cookies = [cookie]
+
+    controller.loginService = loginService
+
+    when:
+    controller.logout()
+
+    then:
+    1 * loginService.invalidateSession(sessionId) >> true
+    //loginService.sessionRemoteUser(sessionId) == false
+    //loginService.loginCache.getIfPresent(sessionId) == null
+    response.redirectedUrl == "https://idp.test.com/shibboleth-idp/logout"
+    response.cookies.size() == 1
+    response.cookies[0].maxAge == 0
+    response.cookies[0].secure
+    response.cookies[0].name == "_vh_l1"
+  }
+
+  def "successful logout with TwoStepCookie clears cookie and session and redirects to slourl"() {
+    setup:
+    params.slourl = "https://idp.test.com/shibboleth-idp/logout"
+    def loginService = Mock(aaf.vhr.LoginService)
+    grailsApplication.config.aaf.vhr.login.validity_period_minutes = 1
+    grailsApplication.config.aaf.vhr.login.ssl_only_cookie = true
+
+    def ms = ManagedSubject.build(active:true, failedLogins: 0, totpKey:'DPS6XA5YWTZFQ4FI')
+    ms.organization.active = true
+
+    def twoStepSession = new TwoStepSession()
+    twoStepSession.populate()
+    twoStepSession.managedSubject = ms
+    ms.twoStepSessions = [twoStepSession]
+    twoStepSession.save()
+    ms.save()
+
+    Cookie cookie = new Cookie("_vh_l2", twoStepSession.value)
+    request.cookies = [cookie]
+
+    controller.loginService = loginService
+
+    when:
+    controller.logout()
+
+    then:
+    ms.twoStepSessions.size() == 0
+    response.redirectedUrl == "https://idp.test.com/shibboleth-idp/logout"
+    response.cookies.size() == 1
+    response.cookies[0].maxAge == 0
+    response.cookies[0].secure
+    response.cookies[0].name == "_vh_l2"
+  }
+
+  def "successful logout without redirectURL redirects to oops"() {
+    setup:
+    def loginService = Mock(aaf.vhr.LoginService)
+    grailsApplication.config.aaf.vhr.login.validity_period_minutes = 1
+    grailsApplication.config.aaf.vhr.login.ssl_only_cookie = false
+
+    def ms = ManagedSubject.build(active:true, failedLogins: 0)
+    ms.organization.active = true
+
+    controller.loginService = loginService
+
+    when:
+    controller.logout()
+
+    then:
+    response.redirectedUrl == "/login/oops"
+    response.cookies.size() == 0
+  }
 }
 
 
