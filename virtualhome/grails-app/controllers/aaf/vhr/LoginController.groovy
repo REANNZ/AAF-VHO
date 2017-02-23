@@ -235,9 +235,11 @@ class LoginController implements InitializingBean {
     if (twoStepCookie) {
         //OK to delete without knowing user?
         //That should be OK, but we need to
-        def twoStepSession = TwoStepSessions?.find{ it?.value == twoStepCookie.value }
+        def twoStepSession = TwoStepSession.findByValue(twoStepCookie.value)
         if (twoStepSession) {
-            log.info("Logout: removing twoStepSession ${twoStepCookie.value}.")
+            log.info("Logout: removing twoStepSession ${twoStepSession.value}.")
+            def ms = twoStepSession.managedSubject
+            ms.twoStepSessions.remove(twoStepSession)
             twoStepSession.delete()
         }
         // Zap the cookie - regardless of whether session did exist.  (Also hide this from the user)
