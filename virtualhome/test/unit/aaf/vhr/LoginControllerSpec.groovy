@@ -186,6 +186,7 @@ class LoginControllerSpec extends spock.lang.Specification {
     grailsApplication.config.aaf.vhr.login.ssl_only_cookie = false
     grailsApplication.config.aaf.vhr.login.consent_revocation_enabled = true
     grailsApplication.config.aaf.vhr.login.consent_revocation_param_name = "_shib_idp_revokeConsent"
+    controller.afterPropertiesSet()
 
     def ms = ManagedSubject.build(active:true, failedLogins: 0)
     ms.organization.active = true
@@ -201,6 +202,11 @@ class LoginControllerSpec extends spock.lang.Specification {
     response.cookies[0].maxAge == 1 * 60
     !response.cookies[0].secure
     session.getAttribute(controller.CONSENT_REVOKE) == "true"
+
+    cleanup:
+    grailsApplication.config.aaf.vhr.login.consent_revocation_enabled = false
+    grailsApplication.config.aaf.vhr.login.consent_revocation_param_name = null
+    controller.afterPropertiesSet()
   }
 
   def "successful login of account requiring totp with existing, valid, session cookie redirects to IdP loginssourl"() {
