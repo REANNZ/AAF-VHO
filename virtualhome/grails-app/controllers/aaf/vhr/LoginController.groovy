@@ -250,12 +250,12 @@ class LoginController implements InitializingBean {
     }
 
     // terminate L1 cookie if present
-    // and also remove the cookie from loginService.loginCache
+    // and also invalidate the session the cookie points to
     def loginCookie = request.cookies.find { it.name == LoginService.SSO_COOKIE_NAME }
     if (loginCookie) {
         // delete from the cache (OK if does not exist)
-        log.info("Logout: removing loginCache entry ${loginCookie.value}.")
-        loginService.loginCache.invalidate(loginCookie.value)
+        log.info("Logout: removing login session ${loginCookie.value}.")
+        loginService.invalidateSession(loginCookie.value)
         // Zap the cookie - regardless of whether session did exist.  (Also hide this from the user)
         def Cookie cookie = new Cookie(LoginService.SSO_COOKIE_NAME, null)
         cookie.maxAge = 0
