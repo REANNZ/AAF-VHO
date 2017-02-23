@@ -150,6 +150,12 @@ class LoginService implements InitializingBean{
     sessionID
   }
 
+  public boolean invalidateSession(String sessionID) {
+    loginCache.invalidate(sessionID)
+
+    true
+  }
+
   private String createRequestDetails(def request) {
 """User Agent: ${request.getHeader('User-Agent')}
 Remote Host: ${request.getRemoteHost()}

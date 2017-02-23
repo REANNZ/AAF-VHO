@@ -175,6 +175,28 @@ class LoginServiceSpec extends spock.lang.Specification {
     service.loginCache.size() == 1
   }
 
+  def 'session identifier is cleared'() {
+    setup:
+    def request = Mock(javax.servlet.http.HttpServletRequest)
+    def session = Mock(javax.servlet.http.HttpSession)
+    def params = [:]
+
+    ms.failedLogins = 0
+    ms.active = true
+    ms.organization.active = true
+
+    def sessionID = service.establishSession(ms)
+
+    expect:
+    service.loginCache.size() == 1
+
+    when:
+    service.invalidateSession(sessionID)
+
+    then:
+    service.loginCache.size() == 0
+  }
+
   def 'ManagedSubject that cant login returns false for twoStepLogin'() {
     setup:
     def request = Mock(javax.servlet.http.HttpServletRequest)
