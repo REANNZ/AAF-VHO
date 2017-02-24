@@ -20,7 +20,7 @@ If you did not request your username please contact tuakiri@reannz.co.nz immedia
   <g:else>
   <h5>Your account does not have a username yet.</h5>
 
-  This may be because you have not finalized your account invite.  If you cannot find the original email with the account invite, please contact support@aaf.edu.au to request having the account invite sent again.
+  This may be because you have not finalized your account invite.  If you cannot find the original email with the account invite, please contact tuakiri@reannz.co.nz to request having the account invite sent again.
   </g:else>
 </g:if>
 <g:else>
