@@ -25,6 +25,7 @@ class LoginController implements InitializingBean {
   final String SERVICE_NAME = "aaf.vhr.LoginController.SERVICE_NAME"
   final String NEW_TOTP_KEY = "aaf.vhr.LoginController.NEW_TOTP_KEY"
   final String CONSENT_REVOKE = "aaf.vhr.LoginController.CONSENT_REVOKE"
+  final String SLO_URL = "aaf.vhr.LoginController.SLO_URL"
 
   def loginService
   def grailsApplication
@@ -224,6 +225,65 @@ class LoginController implements InitializingBean {
       return
     }
 
+  }
+
+  def logout() {
+    if(params.slourl) {
+        log.info "Logout: SLO URL ${params.slourl} received, storing in session."
+        session.setAttribute(SLO_URL, params.slourl)
+        // this is a new login request - remove old params from session
+    } else {
+        log.error "Logout: SLO URL not provided by name/value pair for slourl, redirecting to oops"
+        redirect action:"oops"
+        return
+    }
+
+    // terminate two-step session if present
+    def twoStepCookie = request.cookies.find { it.name == LoginService.TWOSTEP_COOKIE_NAME }
+    if (twoStepCookie) {
+        //OK to delete without knowing user?
+        //That should be OK, but we need to
+        def twoStepSession = TwoStepSession.findByValue(twoStepCookie.value)
+        if (twoStepSession) {
+            log.info("Logout: removing twoStepSession ${twoStepSession.value}.")
+            def ms = twoStepSession.managedSubject
+            ms.twoStepSessions.remove(twoStepSession)
+            twoStepSession.delete()
+        }
+        // Zap the cookie - regardless of whether session did exist.  (Also hide this from the user)
+        def Cookie cookie = new Cookie(LoginService.TWOSTEP_COOKIE_NAME, null)
+        cookie.maxAge = 0
+        cookie.secure = grailsApplication.config.aaf.vhr.login.ssl_only_cookie
+        cookie.path = grailsApplication.config.aaf.vhr.login.path
+        response.addCookie(cookie)
+        log.info("Logout: removing twoStepCookie ${twoStepCookie.value}.")
+    }
+
+    // terminate L1 cookie if present
+    // and also invalidate the session the cookie points to
+    def loginCookie = request.cookies.find { it.name == LoginService.SSO_COOKIE_NAME }
+    if (loginCookie) {
+        // delete from the cache (OK if does not exist)
+        log.info("Logout: removing login session ${loginCookie.value}.")
+        loginService.invalidateSession(loginCookie.value)
+        // Zap the cookie - regardless of whether session did exist.  (Also hide this from the user)
+        def Cookie cookie = new Cookie(LoginService.SSO_COOKIE_NAME, null)
+        cookie.maxAge = 0
+        cookie.secure = grailsApplication.config.aaf.vhr.login.ssl_only_cookie
+        cookie.path = grailsApplication.config.aaf.vhr.login.path
+        response.addCookie(cookie)
+        log.info("Logout: removing loginCookie ${loginCookie.value}.")
+    }
+
+    // Redirect back to SLO_URL
+    def redirectURL = session.getAttribute(SLO_URL)
+    if(!redirectURL) {
+      log.error "No redirectURL set for logout, redirecting to oops"
+      return createLink(action: 'oops')
+    }
+    session.removeAttribute(SLO_URL)
+    log.info "Logout: redirecting to ${redirectURL}."
+    redirect url: redirectURL
   }
 
   def oops() {

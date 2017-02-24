@@ -1,0 +1,22 @@
+--- /opt/shibboleth-idp/system/flows/logout/logout-flow.xml.dist	2016-08-26 13:59:21.000000000 +1200
++++ /opt/shibboleth-idp/system/flows/logout/logout-flow.xml	2017-02-15 16:40:46.474852150 +1300
+@@ -58,7 +58,7 @@
+     
+     <decision-state id="NextRelyingPartyContext">
+         <if test="opensamlProfileRequestContext.getSubcontext(T(net.shibboleth.idp.profile.context.MultiRelyingPartyContext), true).getRelyingPartyContextIterator().hasNext()"
+-            then="SetRPUIInformation" else="LogoutView" />
++            then="SetRPUIInformation" else="AppLogoutView" />
+     </decision-state>
+     
+     <action-state id="SetRPUIInformation">
+@@ -71,6 +71,10 @@
+         <transition on="proceed" to="NextRelyingPartyContext" />
+     </action-state>
+ 
++    <view-state id="AppLogoutView" view="externalRedirect:serverRelative:#{ '/login/logout?slourl='+new org.apache.commons.codec.net.URLCodec().encode(flowExecutionUrl+ '&amp;_eventId_proceed=1') }" >
++        <transition on="proceed" to="LogoutView" />
++    </view-state>
++
+     <view-state id="LogoutView" view="logout">
+         <on-render>
+             <evaluate expression="WriteAuditLog" />
