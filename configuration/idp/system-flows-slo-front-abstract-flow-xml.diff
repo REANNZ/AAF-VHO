@@ -1,0 +1,22 @@
+--- /opt/shibboleth-idp/system/flows/saml/saml2/slo-front-abstract-flow.xml.dist	2016-09-22 14:41:32.000000000 +1200
++++ /opt/shibboleth-idp/system/flows/saml/saml2/slo-front-abstract-flow.xml	2017-03-10 14:22:30.430838321 +1300
+@@ -82,7 +82,7 @@
+ 
+     <decision-state id="NextRelyingPartyContext">
+         <if test="opensamlProfileRequestContext.getSubcontext(T(net.shibboleth.idp.profile.context.MultiRelyingPartyContext), true).getRelyingPartyContextIterator().hasNext()"
+-            then="SetRPUIInformation" else="LogoutView" />
++            then="SetRPUIInformation" else="AppLogoutView" />
+     </decision-state>
+     
+     <action-state id="SetRPUIInformation">
+@@ -95,6 +95,10 @@
+         <transition on="proceed" to="NextRelyingPartyContext" />
+     </action-state>
+ 
++    <view-state id="AppLogoutView" view="externalRedirect:serverRelative:#{ '/login/logout?slourl='+new org.apache.commons.codec.net.URLCodec().encode(flowExecutionUrl+ '&amp;_eventId_proceed=1') }" >
++        <transition on="proceed" to="LogoutView" />
++    </view-state>
++
+     <view-state id="LogoutView" view="logout">
+         <on-render>
+             <evaluate expression="environment" result="viewScope.environment" />
