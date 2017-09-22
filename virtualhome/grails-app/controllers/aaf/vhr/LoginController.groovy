@@ -324,6 +324,7 @@ class LoginController implements InitializingBean {
     Cookie cookie = new Cookie(LoginService.SSO_COOKIE_NAME, sessionID)
     cookie.maxAge = maxAge
     cookie.secure = grailsApplication.config.aaf.vhr.login.ssl_only_cookie
+    cookie.httpOnly = true
     cookie.path = grailsApplication.config.aaf.vhr.login.path
     response.addCookie(cookie)
 
