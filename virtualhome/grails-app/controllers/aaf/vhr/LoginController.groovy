@@ -246,6 +246,7 @@ class LoginController implements InitializingBean {
         def Cookie cookie = new Cookie(LoginService.TWOSTEP_COOKIE_NAME, null)
         cookie.maxAge = 0
         cookie.secure = grailsApplication.config.aaf.vhr.login.ssl_only_cookie
+        cookie.httpOnly = true
         cookie.path = grailsApplication.config.aaf.vhr.login.path
         response.addCookie(cookie)
         log.info("Logout: removing twoStepCookie ${twoStepCookie.value}.")
@@ -262,6 +263,7 @@ class LoginController implements InitializingBean {
         def Cookie cookie = new Cookie(LoginService.SSO_COOKIE_NAME, null)
         cookie.maxAge = 0
         cookie.secure = grailsApplication.config.aaf.vhr.login.ssl_only_cookie
+        cookie.httpOnly = true
         cookie.path = grailsApplication.config.aaf.vhr.login.path
         response.addCookie(cookie)
         log.info("Logout: removing loginCookie ${loginCookie.value}.")
