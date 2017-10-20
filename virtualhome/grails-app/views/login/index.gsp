@@ -26,9 +26,6 @@
             <li>Better security for your users. Password resets use one time codes instead of having you set something on their behalf; and</li>
             <li>The ability to manage many more groups and users than was previously possible.</li>
           </ul>
-
-          <br><br>
-          <center><r:img file="MBIE-logo-pos-FULL.png" width="380" height="117"/></center>
         </div>
 
         <div id="loginform" class="span5 offset1">
