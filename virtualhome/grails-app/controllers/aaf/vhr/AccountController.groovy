@@ -161,7 +161,7 @@ class AccountController {
         log.error "New password is invalid for $managedSubjectInstance"
 
         flash.type = 'error'
-        flash.message = 'controllers.aaf.vhr.account.completedetailschange.password.invalid'
+        flash.message = 'controllers.aaf.vhr.account.completedetailschange.new.password.invalid'
         render view: 'changedetails', model: [managedSubjectInstance:managedSubjectInstance]
 
         return
