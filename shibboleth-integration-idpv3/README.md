@@ -23,7 +23,6 @@ This module MAY work with the AAF version of virtualhome (without the two featur
   * add the contents of `addto-web.xml` to `edit-webapp/WEB-INF/web.xml`
   * add `VHRUsername` (or a different value as configured in `web.xml` above) to the `shibboleth.authn.RemoteUser.checkAttributes` bean in `conf/authn/remoteuser-authn-config.xml` as per `change-in-authn-remoteuser-internal-authn-config.xml`
   * optionally, to support `forceAuthn`, change the `authn/RemoteUser` bean in `conf/authn/general-authn.xml` to declare support for forceAuthn as per the sample in `change-in-authn-general-authn.xml`
-  * optionally, to get the service name to pass to the login page, change `shibboleth.authn.RemoteUser.populateUIInfo` in `conf/authn/remoteuser-authn-config.xml` to `TRUE` as per `change-in-authn-remoteuser-authn-config.xml`
 
 ## Authors ##
 
