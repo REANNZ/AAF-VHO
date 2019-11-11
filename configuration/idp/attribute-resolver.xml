@@ -1,90 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- BE SURE TO RE-GENERATE ALL SALT VALUES WHEN DEPLOYING THIS CONFIGURATION -->
 <!-- BE SURE TO REPLACE ALL INSTANCES OF example.com WITH YOUR BASE SCOPE WHEN DEPLOYING THIS CONFIGURATION -->
 
-<resolver:AttributeResolver xmlns:resolver="urn:mace:shibboleth:2.0:resolver" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-                            xmlns:pc="urn:mace:shibboleth:2.0:resolver:pc"    xmlns:ad="urn:mace:shibboleth:2.0:resolver:ad" 
-                            xmlns:dc="urn:mace:shibboleth:2.0:resolver:dc"    xmlns:enc="urn:mace:shibboleth:2.0:attribute:encoder" 
-                            xmlns:sec="urn:mace:shibboleth:2.0:security" 
-                            xsi:schemaLocation="urn:mace:shibboleth:2.0:resolver classpath:/schema/shibboleth-2.0-attribute-resolver.xsd
-                                                urn:mace:shibboleth:2.0:resolver:pc classpath:/schema/shibboleth-2.0-attribute-resolver-pc.xsd
-                                                urn:mace:shibboleth:2.0:resolver:ad classpath:/schema/shibboleth-2.0-attribute-resolver-ad.xsd
-                                                urn:mace:shibboleth:2.0:resolver:dc classpath:/schema/shibboleth-2.0-attribute-resolver-dc.xsd
-                                                urn:mace:shibboleth:2.0:attribute:encoder classpath:/schema/shibboleth-2.0-attribute-encoder.xsd
-                                                urn:mace:shibboleth:2.0:security classpath:/schema/shibboleth-2.0-security.xsd">
+<AttributeResolver xmlns="urn:mace:shibboleth:2.0:resolver" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                            xmlns:pc="urn:mace:shibboleth:2.0:resolver:pc"
+                            xsi:schemaLocation="urn:mace:shibboleth:2.0:resolver classpath:/schema/shibboleth-2.0-attribute-resolver.xsd">
 
-  <!-- Personal Details -->
-  <resolver:AttributeDefinition id="transientId" xsi:type="ad:TransientId">
-    <resolver:AttributeEncoder xsi:type="enc:SAML1StringNameIdentifier" nameFormat="urn:mace:shibboleth:1.0:nameIdentifier"/>
-    <resolver:AttributeEncoder xsi:type="enc:SAML2StringNameID" nameFormat="urn:oasis:names:tc:SAML:2.0:nameid-format:transient"/>
-  </resolver:AttributeDefinition>
+  <AttributeDefinition id="auEduPersonSharedToken" xsi:type="Simple" >
+    <InputDataConnector ref="VHR" attributeNames="shared_token" />
+    <DisplayName xml:lang="en">Shared token</DisplayName>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:federation.org.au:attribute:auEduPersonSharedToken" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.3.6.1.4.1.27856.1.2.5" friendlyName="auEduPersonSharedToken" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:SAML2NameID" id="eduPersonTargetedID" nameIdFormat="urn:oasis:names:tc:SAML:2.0:nameid-format:persistent" sourceAttributeID="storedID">
-    <resolver:Dependency ref="VHRID" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML1XMLObject" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.10" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2XMLObject" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.10" friendlyName="eduPersonTargetedID" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="commonName" >
+    <InputDataConnector ref="VHR" attributeNames="cn" />
+    <DisplayName xml:lang="en">Common name</DisplayName>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:cn" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.5.4.3" friendlyName="cn" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition id="auEduPersonSharedToken" xsi:type="ad:Simple" sourceAttributeID="shared_token">
-    <resolver:Dependency ref="VHR" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:federation.org.au:attribute:auEduPersonSharedToken" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.27856.1.2.5" friendlyName="auEduPersonSharedToken" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="displayName" >
+    <InputDataConnector ref="VHR" attributeNames="display_name" />
+    <DisplayName xml:lang="en">Display name</DisplayName>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:displayName" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.16.840.1.113730.3.1.241" friendlyName="displayName" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="commonName" sourceAttributeID="cn">
-    <resolver:Dependency ref="VHR" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:cn" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.3" friendlyName="cn" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="email" >
+    <InputDataConnector ref="VHR" attributeNames="email" />
+    <DisplayName xml:lang="en">Email address</DisplayName>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:mail" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:0.9.2342.19200300.100.1.3" friendlyName="mail" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="displayName" sourceAttributeID="display_name">
-    <resolver:Dependency ref="VHR" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:displayName" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.16.840.1.113730.3.1.241" friendlyName="displayName" />
-  </resolver:AttributeDefinition> 
+  <AttributeDefinition xsi:type="Simple" id="givenName" >
+    <InputDataConnector ref="VHR" attributeNames="given_name" />
+    <DisplayName xml:lang="en">Given name</DisplayName>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:givenName" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.5.4.42" friendlyName="givenName" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="email" sourceAttributeID="email">
-    <resolver:Dependency ref="VHR" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:mail" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:0.9.2342.19200300.100.1.3" friendlyName="mail" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="surname" >
+    <InputDataConnector ref="VHR" attributeNames="surname" />
+    <DisplayName xml:lang="en">Surname</DisplayName>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:sn" />
+     <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.5.4.4" friendlyName="sn" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="givenName" sourceAttributeID="given_name">
-    <resolver:Dependency ref="VHR" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:givenName" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.42" friendlyName="givenName" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition id="baseScope" xsi:type="Simple" >
+    <InputDataConnector ref="STATIC" attributeNames="baseScope" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="surname" sourceAttributeID="surname">
-    <resolver:Dependency ref="VHR" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:sn" />
-     <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.4" friendlyName="sn" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition id="organizationScope" xsi:type="Simple" >
+    <InputDataConnector ref="VHR" attributeNames="org_scope" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition id="baseScope" xsi:type="ad:Simple" sourceAttributeID="baseScope"> 
-    <resolver:Dependency ref="STATIC" /> 
-  </resolver:AttributeDefinition> 
+  <AttributeDefinition id="groupScope" xsi:type="Simple" >
+    <InputDataConnector ref="VHR" attributeNames="group_scope" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition id="organizationScope" xsi:type="ad:Simple" sourceAttributeID="org_scope"> 
-    <resolver:Dependency ref="VHR" /> 
-  </resolver:AttributeDefinition> 
+  <AttributeDefinition xsi:type="ScriptedAttribute" id="eduPersonAffiliation">
+    <InputDataConnector ref="VHR" attributeNames="edu_person_affiliation" />
+    <DisplayName xml:lang="en">Affiliation type</DisplayName>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:eduPersonAffiliation" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.1" friendlyName="eduPersonAffiliation" />
 
-  <resolver:AttributeDefinition id="groupScope" xsi:type="ad:Simple" sourceAttributeID="group_scope"> 
-    <resolver:Dependency ref="VHR" /> 
-  </resolver:AttributeDefinition> 
-
-  <resolver:AttributeDefinition xsi:type="ad:Script" id="eduPersonAffiliation">
-    <resolver:Dependency ref="VHR" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:eduPersonAffiliation" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.1" friendlyName="eduPersonAffiliation" />
-
-    <ad:Script>
+    <Script>
       <![CDATA[
-        importPackage(Packages.edu.internet2.middleware.shibboleth.common.attribute.provider);
-                
-        eduPersonAffiliation = new BasicAttribute("eduPersonAffiliation")
-
         if(edu_person_affiliation && edu_person_affiliation.getValues()) {
           affiliations = edu_person_affiliation.getValues().get(0).split(';');
           for ( i = 0; i < affiliations.length; i++ ){
@@ -92,60 +75,57 @@
           }
         }
      ]]>
-    </ad:Script>
+    </Script>
 
-  </resolver:AttributeDefinition>
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Script" id="eduPersonScopedAffiliation">
-    <resolver:Dependency ref="baseScope" />
-    <resolver:Dependency ref="organizationScope" />
-    <resolver:Dependency ref="groupScope" />
-    <resolver:Dependency ref="VHR" />
+  <AttributeDefinition xsi:type="ScriptedAttribute" id="eduPersonScopedAffiliation">
+    <InputAttributeDefinition ref="baseScope" />
+    <InputAttributeDefinition ref="organizationScope" />
+    <InputAttributeDefinition ref="groupScope" />
+    <InputDataConnector ref="VHR" attributeNames="edu_person_affiliation" />
+    <DisplayName xml:lang="en">Affiliation type (with institution)</DisplayName>
+    <AttributeEncoder xsi:type="SAML1ScopedString" name="urn:mace:dir:attribute-def:eduPersonScopedAffiliation" />
+    <AttributeEncoder xsi:type="SAML2ScopedString" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.9" friendlyName="eduPersonScopedAffiliation" />
 
-    <resolver:AttributeEncoder xsi:type="enc:SAML1ScopedString" name="urn:mace:dir:attribute-def:eduPersonScopedAffiliation" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2ScopedString" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.9" friendlyName="eduPersonScopedAffiliation" />
+     <Script>
+       <![CDATA[
+        importPackage(Packages.net.shibboleth.idp.attribute);
 
-     <ad:Script>
-      <![CDATA[
-        importPackage(Packages.edu.internet2.middleware.shibboleth.common.attribute.provider);
-        
         scope = baseScope.getValues().get(0)
         if (organizationScope != null && organizationScope.getValues() != null && organizationScope.getValues().get(0) != null) {
           scope = organizationScope.getValues().get(0) + "." + scope
           if(groupScope != null && groupScope.getValues() != null && groupScope.getValues().get(0) != null)
             scope = groupScope.getValues().get(0) + "." + scope
         }
-        
-        eduPersonScopedAffiliation = new BasicAttribute("eduPersonScopedAffiliation")
 
         if(edu_person_affiliation && edu_person_affiliation.getValues()) {
           affiliations = edu_person_affiliation.getValues().get(0).split(';');
           for ( i = 0; i < affiliations.length; i++ ){
-              eduPersonScopedAffiliation.getValues().add(new ScopedAttributeValue(affiliations[i], scope));
+              eduPersonScopedAffiliation.getValues().add(new ScopedStringAttributeValue(affiliations[i], scope));
           }
         }
      ]]>
-    </ad:Script>
-  </resolver:AttributeDefinition>
+    </Script>
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="eduPersonAssurance" sourceAttributeID="edu_person_assurance">
-    <resolver:Dependency ref="VHR" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:eduPersonAssurance" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.11" friendlyName="eduPersonAssurance" />
-  </resolver:AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Script" id="eduPersonEntitlement">
-    <resolver:Dependency ref="VHR" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String"  name="urn:mace:dir:attribute-def:eduPersonEntitlement" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.7" friendlyName="eduPersonEntitlement" />
+  <AttributeDefinition xsi:type="Simple" id="eduPersonAssurance" >
+    <InputDataConnector ref="VHR" attributeNames="edu_person_assurance" />
+    <DisplayName xml:lang="en">Identity assurance level</DisplayName>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:eduPersonAssurance" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.11" friendlyName="eduPersonAssurance" />
+  </AttributeDefinition>
 
-    <ad:Script>
+  <AttributeDefinition xsi:type="ScriptedAttribute" id="eduPersonEntitlement">
+    <InputDataConnector ref="VHR" attributeNames="edu_person_entitlement" />
+    <DisplayName xml:lang="en">Entitlements</DisplayName>
+    <AttributeEncoder xsi:type="SAML1String"  name="urn:mace:dir:attribute-def:eduPersonEntitlement" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.7" friendlyName="eduPersonEntitlement" />
+
+    <Script>
       <![CDATA[
-        importPackage(Packages.edu.internet2.middleware.shibboleth.common.attribute.provider);
-
-        eduPersonEntitlement = new BasicAttribute("eduPersonEntitlement")
-
-        if(edu_person_entitlement && edu_person_entitlement.getValues() && 
+        if(edu_person_entitlement && edu_person_entitlement.getValues() &&
             ( edu_person_entitlement.getValues().size() > 0 ) &&
             edu_person_entitlement.getValues().get(0) ) {
           entitlements = edu_person_entitlement.getValues().get(0).split(';');
@@ -154,130 +134,159 @@
           }
         }
      ]]>
-    </ad:Script>
+    </Script>
 
-  </resolver:AttributeDefinition>
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="telephoneNumber" sourceAttributeID="telephone_number">
-    <resolver:Dependency ref="VHR" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String"  name="urn:mace:dir:attribute-def:telephoneNumber" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.20" friendlyName="telephoneNumber" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="telephoneNumber" >
+    <InputDataConnector ref="VHR" attributeNames="telephone_number" />
+    <DisplayName xml:lang="en">Business phone number</DisplayName>
+    <AttributeEncoder xsi:type="SAML1String"  name="urn:mace:dir:attribute-def:telephoneNumber" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.5.4.20" friendlyName="telephoneNumber" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="mobileNumber" sourceAttributeID="mobile_number">
-    <resolver:Dependency ref="VHR" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:mobile" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:0.9.2342.19200300.100.1.41" friendlyName="mobile" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="mobileNumber" >
+    <InputDataConnector ref="VHR" attributeNames="mobile_number" />
+    <DisplayName xml:lang="en">Mobile phone number</DisplayName>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:mobile" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:0.9.2342.19200300.100.1.41" friendlyName="mobile" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="postalAddress" sourceAttributeID="postal_address">
-    <resolver:Dependency ref="VHR" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String"  name="urn:mace:dir:attribute-def:postalAddress" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.16" friendlyName="postalAddress" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="postalAddress" >
+    <InputDataConnector ref="VHR" attributeNames="postal_address" />
+    <DisplayName xml:lang="en">Business postal address</DisplayName>
+    <AttributeEncoder xsi:type="SAML1String"  name="urn:mace:dir:attribute-def:postalAddress" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.5.4.16" friendlyName="postalAddress" />
+  </AttributeDefinition>
 
   <!-- Organization Details -->
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="organizationName" sourceAttributeID="display_name">
-    <resolver:Dependency ref="VHRORG" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:o" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.10" friendlyName="o" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="organizationName" >
+    <InputDataConnector ref="VHRORG" attributeNames="display_name" />
+    <DisplayName xml:lang="en">Institution name</DisplayName>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:o" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.5.4.10" friendlyName="o" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition xsi:type="ad:Simple" id="organizationalUnit" sourceAttributeID="organizational_unit">
-    <resolver:Dependency ref="VHR" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String"  name="urn:mace:dir:attribute-def:ou" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.11" friendlyName="ou" />
-  </resolver:AttributeDefinition>
+  <AttributeDefinition xsi:type="Simple" id="organizationalUnit" >
+    <InputDataConnector ref="VHR" attributeNames="organizational_unit" />
+    <DisplayName xml:lang="en">Organisational Unit</DisplayName>
+    <AttributeEncoder xsi:type="SAML1String"  name="urn:mace:dir:attribute-def:ou" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:2.5.4.11" friendlyName="ou" />
+  </AttributeDefinition>
 
-  <resolver:AttributeDefinition id="homeOrganization" xsi:type="ad:Script">
-    <resolver:Dependency ref="baseScope" />
-    <resolver:Dependency ref="organizationScope" />
-    <resolver:Dependency ref="groupScope" />
-    <resolver:Dependency ref="VHR" />
+  <AttributeDefinition id="homeOrganization" xsi:type="ScriptedAttribute">
+    <InputAttributeDefinition ref="baseScope" />
+    <InputAttributeDefinition ref="organizationScope" />
+    <InputAttributeDefinition ref="groupScope" />
+    <DisplayName xml:lang="en">Institution domain</DisplayName>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:oid:1.3.6.1.4.1.25178.1.2.9" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.3.6.1.4.1.25178.1.2.9" friendlyName="homeOrganization" />
 
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:oid:1.3.6.1.4.1.25178.1.2.9" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.25178.1.2.9" friendlyName="homeOrganization" />
-
-    <ad:Script>
+    <Script>
     <![CDATA[
-        importPackage(Packages.edu.internet2.middleware.shibboleth.common.attribute.provider);
-        
         scope = baseScope.getValues().get(0)
         if (organizationScope != null && organizationScope.getValues() != null && organizationScope.getValues().get(0) != null) {
           scope = organizationScope.getValues().get(0) + "." + scope
           if(groupScope != null && groupScope.getValues() != null && groupScope.getValues().get(0) != null)
             scope = groupScope.getValues().get(0) + "." + scope
         }
-        
-        homeOrganization = new BasicAttribute("homeOrganization")
-        homeOrganization.getValues().add(scope)
-    ]]>
-    </ad:Script>
-  </resolver:AttributeDefinition> 
 
-  <resolver:AttributeDefinition id="homeOrganizationType" xsi:type="ad:Simple" sourceAttributeID="homeOrganizationType">
-    <resolver:Dependency ref="STATIC" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:oid:1.3.6.1.4.1.25178.1.2.10" />
-    <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.25178.1.2.10" friendlyName="homeOrganizationType" />
-  </resolver:AttributeDefinition>
+        homeOrganization.getValues().add(scope.toString())
+    ]]>
+    </Script>
+  </AttributeDefinition>
+
+  <AttributeDefinition id="homeOrganizationType" xsi:type="Simple" >
+    <InputDataConnector ref="STATIC" attributeNames="homeOrganizationType" />
+    <DisplayName xml:lang="en">Institution type</DisplayName>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:oid:1.3.6.1.4.1.25178.1.2.10" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.3.6.1.4.1.25178.1.2.10" friendlyName="homeOrganizationType" />
+  </AttributeDefinition>
+
+
+  <!-- uid -->
+  <AttributeDefinition xsi:type="Simple" id="uid" >
+    <InputDataConnector ref="VHR" attributeNames="login" />
+    <DisplayName xml:lang="en">Local user ID</DisplayName>
+    <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:uid" />
+    <AttributeEncoder xsi:type="SAML2String" name="urn:oid:0.9.2342.19200300.100.1.1" friendlyName="uid" />
+  </AttributeDefinition>
+
+  <!-- eptid_key -->
+  <AttributeDefinition xsi:type="Simple" id="eptid_key" >
+    <InputDataConnector ref="VHR" attributeNames="eptid_key" />
+    <!-- no encoders needed -->
+  </AttributeDefinition>
+
+  <!-- eduPersonPrincipalName -->
+  <AttributeDefinition xsi:type="ScriptedAttribute" id="eduPersonPrincipalName">
+    <InputAttributeDefinition ref="baseScope" />
+    <InputAttributeDefinition ref="organizationScope" />
+    <InputAttributeDefinition ref="groupScope" />
+    <InputDataConnector ref="VHR" attributeNames="login" />
+    <DisplayName xml:lang="en">Global username (EPPN)</DisplayName>
+
+    <AttributeEncoder xsi:type="SAML1ScopedString" name="urn:mace:dir:attribute-def:eduPersonPrincipalName" />
+    <AttributeEncoder xsi:type="SAML2ScopedString" name="urn:oid:1.3.6.1.4.1.5923.1.1.1.6" friendlyName="eduPersonPrincipalName" />
+
+     <Script>
+       <![CDATA[
+        importPackage(Packages.net.shibboleth.idp.attribute);
+
+        scope = baseScope.getValues().get(0)
+        if (organizationScope != null && organizationScope.getValues() != null && organizationScope.getValues().get(0) != null) {
+          scope = organizationScope.getValues().get(0) + "." + scope
+          if(groupScope != null && groupScope.getValues() != null && groupScope.getValues().get(0) != null)
+            scope = groupScope.getValues().get(0) + "." + scope
+        }
+
+        if(login && login.getValues()) {
+          loginName = login.getValues().get(0);
+          eduPersonPrincipalName.getValues().add(new ScopedStringAttributeValue(loginName, scope));
+        }
+     ]]>
+    </Script>
+  </AttributeDefinition>
+
 
   <!-- Data Sources -->
-  <resolver:DataConnector xsi:type="RelationalDatabase" xmlns="urn:mace:shibboleth:2.0:resolver:dc" id="VHR">
-    <ContainerManagedConnection resourceName="java:comp/env/jdbc/VHR_IDP" />
+  <DataConnector xsi:type="RelationalDatabase" id="VHR">
+    <BeanManagedConnection>vho.DataSource</BeanManagedConnection>
 
     <QueryTemplate>
       <![CDATA[
-        select  ms.login, ms.eptid_key, ms.cn, ms.display_name, ms.email, ms.edu_person_affiliation, 
+        select  ms.login, ms.eptid_key, ms.cn, ms.display_name, ms.email, ms.edu_person_affiliation,
                 ms.edu_person_entitlement, ms.organizational_unit, ms.postal_address, ms.telephone_number,
                 ms.shared_token, ms.edu_person_assurance, ms.given_name, ms.surname, ms.mobile_number, o.org_scope, g.group_scope
-        from managed_subject as ms, organization as o, vhr_group as g 
-        where ms.login='$requestContext.principalName' and ms.organization_id = o.id and ms.group_id = g.id;
+        from managed_subject as ms, organization as o, vhr_group as g
+        where ms.login='$resolutionContext.principal' and ms.organization_id = o.id and ms.group_id = g.id;
       ]]>
     </QueryTemplate>
 
-    <ResultCache elementTimeToLive="PT30M" />
-  </resolver:DataConnector>
+    <ResultCache expireAfterWrite="PT30M" />
+  </DataConnector>
 
-  <resolver:DataConnector xsi:type="RelationalDatabase" xmlns="urn:mace:shibboleth:2.0:resolver:dc" id="VHRORG">
-    <ContainerManagedConnection resourceName="java:comp/env/jdbc/VHR_IDP" />
+  <DataConnector xsi:type="RelationalDatabase" id="VHRORG">
+    <BeanManagedConnection>vho.DataSource</BeanManagedConnection>
 
     <QueryTemplate>
       <![CDATA[
-        select o.display_name, g.name 
-        from managed_subject as ms, organization as o, vhr_group as g 
-        where ms.login='$requestContext.principalName' and ms.organization_id = o.id and ms.group_id = g.id;
+        select o.display_name, g.name
+        from managed_subject as ms, organization as o, vhr_group as g
+        where ms.login='$resolutionContext.principal' and ms.organization_id = o.id and ms.group_id = g.id;
       ]]>
     </QueryTemplate>
 
-    <ResultCache elementTimeToLive="PT30M" />
-  </resolver:DataConnector>
+    <ResultCache expireAfterWrite="PT30M" />
+  </DataConnector>
 
-  <resolver:DataConnector xsi:type="dc:StoredId" 
-                          xmlns="urn:mace:shibboleth:2.0:resolver:dc"
-                          id="VHRID"
-                          sourceAttributeID="eptid_key"
-                          generatedAttributeID="storedID"
-                          salt="1234567890">
- 
-    <resolver:Dependency ref="VHR" />
-    <!-- Error using ContainerManagedConnection is this mode so we use local connection -->
-    <ApplicationManagedConnection jdbcDriver="com.mysql.jdbc.Driver"
-                                   jdbcURL="jdbc:mysql://localhost:3306/virtualhome?useUnicode=yes&amp;characterEncoding=UTF-8"
-                                   jdbcUserName="username"
-                                   jdbcPassword="password" />
-  </resolver:DataConnector>
+  <DataConnector id="STATIC" xsi:type="Static">
+    <Attribute id="homeOrganizationType">
+      <Value>urn:mace:terena.org:schac:homeOrganizationType:au:vho</Value>
+    </Attribute>
+    <Attribute id="baseScope">
+      <Value>example.com</Value>
+    </Attribute>
+  </DataConnector>
 
-  <resolver:DataConnector id="STATIC" xsi:type="dc:Static">
-    <dc:Attribute id="homeOrganizationType">
-      <dc:Value>urn:mace:terena.org:schac:homeOrganizationType:au:vho</dc:Value>
-    </dc:Attribute>
-    <dc:Attribute id="baseScope">
-      <dc:Value>example.com</dc:Value>
-    </dc:Attribute>
-  </resolver:DataConnector>
-
-  <resolver:PrincipalConnector xsi:type="pc:Transient" id="shibTransient" nameIDFormat="urn:mace:shibboleth:1.0:nameIdentifier"/>
-  <resolver:PrincipalConnector xsi:type="pc:Transient" id="saml1Unspec" nameIDFormat="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified"/>
-  <resolver:PrincipalConnector xsi:type="pc:Transient" id="saml2Transient" nameIDFormat="urn:oasis:names:tc:SAML:2.0:nameid-format:transient"/>
-
-</resolver:AttributeResolver>
+</AttributeResolver>
