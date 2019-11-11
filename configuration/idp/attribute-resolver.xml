@@ -263,7 +263,7 @@
       ]]>
     </QueryTemplate>
 
-    <ResultCache expireAfterAccess="PT30M" />
+    <ResultCache expireAfterWrite="PT30M" />
   </DataConnector>
 
   <DataConnector xsi:type="RelationalDatabase" id="VHRORG">
@@ -277,7 +277,7 @@
       ]]>
     </QueryTemplate>
 
-    <ResultCache expireAfterAccess="PT30M" />
+    <ResultCache expireAfterWrite="PT30M" />
   </DataConnector>
 
   <DataConnector id="STATIC" xsi:type="Static">
