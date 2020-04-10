@@ -1,7 +1,7 @@
 package aaf.vhr
 
 import grails.test.mixin.*
-import grails.plugin.spock.*
+import grails.test.spock.*
 import grails.buildtestdata.mixin.Build
 
 import aaf.vhr.crypto.GoogleAuthenticator

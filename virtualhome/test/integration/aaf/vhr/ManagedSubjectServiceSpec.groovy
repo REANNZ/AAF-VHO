@@ -3,7 +3,7 @@ package aaf.vhr
 import grails.test.mixin.*
 import grails.buildtestdata.mixin.Build
 import spock.lang.*
-import grails.plugin.spock.*
+import grails.test.spock.*
 import com.icegreen.greenmail.util.*
 
 import aaf.base.admin.EmailTemplate

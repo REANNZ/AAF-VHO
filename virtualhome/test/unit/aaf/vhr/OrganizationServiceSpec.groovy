@@ -4,7 +4,7 @@ import grails.converters.*
 import grails.test.mixin.*
 import grails.buildtestdata.mixin.Build
 import spock.lang.*
-import grails.plugin.spock.*
+import grails.test.spock.*
 
 import aaf.base.workflow.*
 import aaf.base.identity.*

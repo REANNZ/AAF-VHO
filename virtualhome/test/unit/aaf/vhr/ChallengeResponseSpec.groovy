@@ -3,14 +3,14 @@ package aaf.vhr
 import grails.test.mixin.*
 import grails.buildtestdata.mixin.Build
 import spock.lang.*
-import grails.plugin.spock.*
+import grails.test.spock.*
 
 import aaf.vhr.ManagedSubject
 
 @TestFor(aaf.vhr.ChallengeResponse)
 @Build([ManagedSubject, ChallengeResponse])
 @Mock([Organization, Group, ManagedSubject, ChallengeResponse])
-class ChallengeResponseSpec extends UnitSpec {
+class ChallengeResponseSpec extends Specification {
 
   def 'ensure challenge must not be null or blank and be at least 6 characters long'() {
     setup:
