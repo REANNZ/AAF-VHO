@@ -13,7 +13,6 @@ import javax.mail.Message
 import groovy.time.TimeCategory
 import aaf.base.identity.*
 
-@TestMixin(IntegrationTestMixin)
 class ManagedSubjectServiceSpec extends IntegrationSpec {
   
   def managedSubjectService
