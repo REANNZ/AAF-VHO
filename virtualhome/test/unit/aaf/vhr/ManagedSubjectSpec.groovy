@@ -81,6 +81,7 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
 
     when:
     s.login = s2.login
+    simpleDatastore.currentSession.flush()
 
     then:
     !s.save()
@@ -233,6 +234,7 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
     def s = ManagedSubject.build()
     def s2 = ManagedSubject.build()
     mockForConstraintsTests(ManagedSubject, [s])
+    simpleDatastore.currentSession.flush()
 
     expect:
     s.validate()
