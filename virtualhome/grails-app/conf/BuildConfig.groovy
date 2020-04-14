@@ -28,7 +28,6 @@ grails.project.dependency.resolution = {
     mavenRepo "https://repo1.maven.org/maven2"
 
     mavenRepo "http://repo.grails.org/grails/plugins-releases/"
-    mavenRepo "http://repo.grails.org/grails/repo/"
     mavenRepo "https://download.java.net/maven/2/"
     mavenRepo "https://repository.jboss.org/maven2/"
   }
