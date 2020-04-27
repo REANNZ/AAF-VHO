@@ -17,7 +17,7 @@ import java.util.TimeZone
 @Mock([aaf.vhr.Organization, aaf.vhr.Group, aaf.vhr.ManagedSubject])
 class LoginApiControllerSpec extends spock.lang.Specification {
 
-  def "confirmsession: recieve 410 is there is no such session"() {
+  def "confirmsession: receive 410 is there is no such session"() {
     setup:
     def loginService = Mock(aaf.vhr.LoginService)
     controller.loginService = loginService
@@ -55,7 +55,7 @@ class LoginApiControllerSpec extends spock.lang.Specification {
     response.text == '{"remote_user":"testuser","authnInstant":"'+sdf.format(authnInstant)+'"}'
   }
 
-  def "basicauth: recieve 410 is there is no such object"() {
+  def "basicauth: receive 410 is there is no such object"() {
     setup:
     def cryptoService = Mock(aaf.vhr.CryptoService)
     controller.cryptoService = cryptoService
@@ -67,7 +67,7 @@ class LoginApiControllerSpec extends spock.lang.Specification {
     response.status == 410
   }
 
-  def "basicauth: recieve 403 if account not functioning"() {
+  def "basicauth: receive 403 if account not functioning"() {
     setup:
     def ms = aaf.vhr.ManagedSubject.build(active:false)
     ms.organization.active = true
@@ -83,7 +83,7 @@ class LoginApiControllerSpec extends spock.lang.Specification {
     response.status == 403
   }
 
-  def "basicauth: recieve 403 if invalid credential supplied"() {
+  def "basicauth: receive 403 if invalid credential supplied"() {
     setup:
     def ms = aaf.vhr.ManagedSubject.build(active:true)
     ms.organization.active = true
@@ -99,7 +99,7 @@ class LoginApiControllerSpec extends spock.lang.Specification {
     response.status == 403
   }
 
-  def "basicauth: recieve 200 if valid credential supplied"() {
+  def "basicauth: receive 200 if valid credential supplied"() {
     setup:
     def ms = aaf.vhr.ManagedSubject.build(active:true)
     ms.organization.active = true
