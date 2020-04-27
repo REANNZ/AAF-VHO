@@ -127,6 +127,7 @@ class AccountControllerSpec extends spock.lang.Specification {
 
   def 'completedetailschange with no existing login requires login'() {
     when:
+    request.method = 'POST'
     controller.completedetailschange()
 
     then:
@@ -144,6 +145,7 @@ class AccountControllerSpec extends spock.lang.Specification {
     controller.cryptoService = cryptoService
 
     when:
+    request.method = 'POST'
     controller.completedetailschange()
 
     then:
@@ -171,6 +173,7 @@ class AccountControllerSpec extends spock.lang.Specification {
     controller.cryptoService = cryptoService
 
     when:
+    request.method = 'POST'
     controller.completedetailschange()
 
     then:
@@ -199,6 +202,7 @@ class AccountControllerSpec extends spock.lang.Specification {
     controller.passwordValidationService = passwordValidationService
 
     when:
+    request.method = 'POST'
     controller.completedetailschange()
 
     then:
@@ -222,6 +226,7 @@ class AccountControllerSpec extends spock.lang.Specification {
     when:
     params.currentPassword = 'password'
     params.mobileNumber = '+61412345678'
+    request.method = 'POST'
     controller.completedetailschange()
 
     then:

@@ -61,6 +61,7 @@ class LoginApiControllerSpec extends spock.lang.Specification {
     controller.cryptoService = cryptoService
 
     when:
+    request.method = 'POST'
     controller.basicauth("testuser", "password")
 
     then:
@@ -76,6 +77,7 @@ class LoginApiControllerSpec extends spock.lang.Specification {
     controller.cryptoService = cryptoService
 
     when:
+    request.method = 'POST'
     controller.basicauth(ms.login, "password")
 
     then:
@@ -92,6 +94,7 @@ class LoginApiControllerSpec extends spock.lang.Specification {
     controller.cryptoService = cryptoService
 
     when:
+    request.method = 'POST'
     controller.basicauth(ms.login, "password")
 
     then:
@@ -108,6 +111,7 @@ class LoginApiControllerSpec extends spock.lang.Specification {
     controller.cryptoService = cryptoService
 
     when:
+    request.method = 'POST'
     controller.basicauth(ms.login, "password")
 
     then:

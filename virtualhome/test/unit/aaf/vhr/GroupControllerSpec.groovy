@@ -193,6 +193,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
 
     when:
     params.organization = [id:o.id]
+    request.method = 'POST'
     def model = controller.save()
 
     then:
@@ -220,6 +221,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
     Group.metaClass.save { null }
 
     when:
+    request.method = 'POST'
     controller.save()
 
     then:
@@ -257,6 +259,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
     Permission.count() == 0
 
     when:
+    request.method = 'POST'
     controller.save()
 
     then:
@@ -291,6 +294,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
     Permission.count() == 0
 
     when:
+    request.method = 'POST'
     controller.save()
 
     then:
@@ -348,6 +352,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
 
     when:
     params.id = groupTestInstance.id
+    request.method = 'POST'
     def model = controller.update()
 
     then:
@@ -367,6 +372,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
     when:
     params.id = groupTestInstance.id
     params.version = null
+    request.method = 'POST'
     controller.update()
 
     then:
@@ -398,6 +404,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
     when:
     params.id = groupTestInstance.id
     params.version = 1
+    request.method = 'POST'
     controller.update()
 
     then:
@@ -431,6 +438,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
     when:
     params.id = groupTestInstance.id
     params.version = 0
+    request.method = 'POST'
     controller.update()
 
     then:
@@ -455,6 +463,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
 
     when:
     params.id = groupTestInstance.id
+    request.method = 'DELETE'
     def model = controller.delete()
 
     then:
@@ -478,6 +487,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
 
     when:
     params.id = groupTestInstance.id
+    request.method = 'DELETE'
     def model = controller.delete()
 
     then:
@@ -504,6 +514,7 @@ class GroupControllerSpec  extends spock.lang.Specification {
 
     when:
     params.id = groupTestInstance.id
+    request.method = 'DELETE'
     def model = controller.delete()
 
     then:
