@@ -25,6 +25,12 @@ class ManagedSubjectServiceSpec extends IntegrationSpec {
 
   def setup() {
     role = new aaf.base.identity.Role(name:'allsubjects')
+
+    // Initialize shiroEnv with a stub SecurityManager with a null Subject.
+    // We will later initialize it with a more complete SecurityManager with
+    // a proper Subject AFTER the Subject instance is created - but for the
+    // Subject instantiation to work, we need to have a SecurityManager in place.
+    SpecHelpers.setupShiroEnv(null)
     subject = aaf.base.identity.Subject.build(principal:'http://idp.test.com/entity!http://sp.test.com/entity!1234', cn:'test subject', email:'testsubject@test.com', sharedToken:'1234sharedtoken')
     subject.save()
     subject.errors.each { println it }
