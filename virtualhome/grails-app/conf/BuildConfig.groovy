@@ -58,6 +58,8 @@ grails.project.dependency.resolution = {
   }
 }
 
+grails.project.dependency.resolver = "maven"
+
 codenarc {
   properties = {}
 }
