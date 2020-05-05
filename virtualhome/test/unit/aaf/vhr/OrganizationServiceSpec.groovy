@@ -30,7 +30,7 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
 
   def 'expect no Organization details being retireved is handled gracefully'() {
     setup:
-    os.metaClass.queryOrganizations = { server, api ->
+    os.metaClass.queryOrganizations = { String server, String api ->
       null
     }
 
@@ -49,14 +49,14 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
     def workflows = 0
     def json = JSON.parse(new FileInputStream("test/data/organisations.json"), "UTF-8")
 
-    os.metaClass.queryOrganizations = { server, api ->
+    os.metaClass.queryOrganizations = { String server, String api ->
       assert server == grailsApplication.config.aaf.vhr.federationregistry.server
       assert api == grailsApplication.config.aaf.vhr.federationregistry.api.organisations
 
       json.organizations
     }
 
-    os.metaClass.queryOrganization = { server, api ->
+    os.metaClass.queryOrganization = { String server, String api ->
       assert server == grailsApplication.config.aaf.vhr.federationregistry.server
       assert api.startsWith('/federationregistry/api/v1/organizations/')
 
@@ -134,14 +134,14 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
     def workflows = 0
     def json = JSON.parse(new FileInputStream("test/data/organisations.json"), "UTF-8")
 
-    os.metaClass.queryOrganizations = { server, api ->
+    os.metaClass.queryOrganizations = { String server, String api ->
       assert server == grailsApplication.config.aaf.vhr.federationregistry.server
       assert api == grailsApplication.config.aaf.vhr.federationregistry.api.organisations
 
       json.organizations
     }
 
-    os.metaClass.queryOrganization = { server, api ->
+    os.metaClass.queryOrganization = { String server, String api ->
       assert server == grailsApplication.config.aaf.vhr.federationregistry.server
       assert api.startsWith('/federationregistry/api/v1/organizations/')
 
@@ -187,14 +187,14 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
     def workflows = 0
     def json = JSON.parse(new FileInputStream("test/data/organisations.json"), "UTF-8")
 
-    os.metaClass.queryOrganizations = { server, api ->
+    os.metaClass.queryOrganizations = { String server, String api ->
       assert server == grailsApplication.config.aaf.vhr.federationregistry.server
       assert api == grailsApplication.config.aaf.vhr.federationregistry.api.organisations
 
       json.organizations
     }
 
-    os.metaClass.queryOrganization = { server, api ->
+    os.metaClass.queryOrganization = { String server, String api ->
       assert server == grailsApplication.config.aaf.vhr.federationregistry.server
       assert api.startsWith('/federationregistry/api/v1/organizations/')
 
@@ -236,14 +236,14 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
 
     def json = JSON.parse(new FileInputStream("test/data/organisations.json"), "UTF-8")
 
-    os.metaClass.queryOrganizations = { server, api ->
+    os.metaClass.queryOrganizations = { String server, String api ->
       assert server == grailsApplication.config.aaf.vhr.federationregistry.server
       assert api == grailsApplication.config.aaf.vhr.federationregistry.api.organisations
 
       json.organizations
     }
 
-    os.metaClass.queryOrganization = { server, api ->
+    os.metaClass.queryOrganization = { String server, String api ->
       assert server == grailsApplication.config.aaf.vhr.federationregistry.server
       assert api.startsWith('/federationregistry/api/v1/organizations/')
 
@@ -296,14 +296,14 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
 
     def json = JSON.parse(new FileInputStream("test/data/organisations.json"), "UTF-8")
 
-    os.metaClass.queryOrganizations = { server, api ->
+    os.metaClass.queryOrganizations = { String server, String api ->
       assert server == grailsApplication.config.aaf.vhr.federationregistry.server
       assert api == grailsApplication.config.aaf.vhr.federationregistry.api.organisations
 
       json.organizations
     }
 
-    os.metaClass.queryOrganization = { server, api ->
+    os.metaClass.queryOrganization = { String server, String api ->
       assert server == grailsApplication.config.aaf.vhr.federationregistry.server
       assert api.startsWith('/federationregistry/api/v1/organizations/')
 
@@ -362,14 +362,14 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
 
     def json = JSON.parse(new FileInputStream("test/data/organisations.json"), "UTF-8")
 
-    os.metaClass.queryOrganizations = { server, api ->
+    os.metaClass.queryOrganizations = { String server, String api ->
       assert server == grailsApplication.config.aaf.vhr.federationregistry.server
       assert api == grailsApplication.config.aaf.vhr.federationregistry.api.organisations
 
       json.organizations
     }
 
-    os.metaClass.queryOrganization = { server, api ->
+    os.metaClass.queryOrganization = { String server, String api ->
       assert server == grailsApplication.config.aaf.vhr.federationregistry.server
       assert api.startsWith('/federationregistry/api/v1/organizations/')
 
@@ -426,14 +426,14 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
 
     def json = JSON.parse(new FileInputStream("test/data/organisations.json"), "UTF-8")
 
-    os.metaClass.queryOrganizations = { server, api ->
+    os.metaClass.queryOrganizations = { String server, String api ->
       assert server == grailsApplication.config.aaf.vhr.federationregistry.server
       assert api == grailsApplication.config.aaf.vhr.federationregistry.api.organisations
 
       json.organizations
     }
 
-    os.metaClass.queryOrganization = { server, api ->
+    os.metaClass.queryOrganization = { String server, String api ->
       assert server == grailsApplication.config.aaf.vhr.federationregistry.server
       assert api.startsWith('/federationregistry/api/v1/organizations/')
 
@@ -490,14 +490,14 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
 
     def json = JSON.parse(new FileInputStream("test/data/organisations.json"), "UTF-8")
 
-    os.metaClass.queryOrganizations = { server, api ->
+    os.metaClass.queryOrganizations = { String server, String api ->
       assert server == grailsApplication.config.aaf.vhr.federationregistry.server
       assert api == grailsApplication.config.aaf.vhr.federationregistry.api.organisations
 
       json.organizations
     }
 
-    os.metaClass.queryOrganization = { server, api ->
+    os.metaClass.queryOrganization = { String server, String api ->
       assert server == grailsApplication.config.aaf.vhr.federationregistry.server
       assert api.startsWith('/federationregistry/api/v1/organizations/')
 
