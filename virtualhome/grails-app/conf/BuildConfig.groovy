@@ -38,7 +38,7 @@ grails.project.dependency.resolution = {
     compile "edu.vt.middleware:vt-dictionary:3.0"
     compile "edu.vt.middleware:vt-password:3.1.1"
 
-    test 'mysql:mysql-connector-java:5.1.18'
+    test 'mysql:mysql-connector-java:5.1.49'
   }
 
   /*
