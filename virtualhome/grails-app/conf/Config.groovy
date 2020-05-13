@@ -25,6 +25,9 @@ auditLog {
 security.shiro.authc.required = false
 security.shiro.authc.strategy = aaf.base.shiro.FirstExceptionStrategy
 
+// Enable console plugin
+grails.plugin.console.enabled = true
+
 grails.project.groupId = appName
 grails.converters.xml.pretty.print = true
 grails.mime.file.extensions = true
