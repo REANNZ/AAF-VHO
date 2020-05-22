@@ -3,7 +3,7 @@ package aaf.vhr
 import grails.test.mixin.*
 import grails.buildtestdata.mixin.Build
 import spock.lang.*
-import grails.plugin.spock.*
+import grails.test.spock.*
 
 import aaf.vhr.ManagedSubject
 
@@ -81,6 +81,7 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
 
     when:
     s.login = s2.login
+    simpleDatastore.currentSession.flush()
 
     then:
     !s.save()
@@ -233,6 +234,7 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
     def s = ManagedSubject.build()
     def s2 = ManagedSubject.build()
     mockForConstraintsTests(ManagedSubject, [s])
+    simpleDatastore.currentSession.flush()
 
     expect:
     s.validate()

@@ -3,12 +3,12 @@ package aaf.vhr
 import grails.test.mixin.*
 import grails.buildtestdata.mixin.Build
 import spock.lang.*
-import grails.plugin.spock.*
+import grails.test.spock.*
 
 @TestFor(aaf.vhr.ManagedSubjectInvitation)
 @Build([ManagedSubject, ManagedSubjectInvitation])
 @Mock([Organization, Group])
-class ManagedSubjectInvitationSpec extends UnitSpec {
+class ManagedSubjectInvitationSpec extends Specification {
 
   def "ensure new invitation is populated with code and has not been used"() {
     when:

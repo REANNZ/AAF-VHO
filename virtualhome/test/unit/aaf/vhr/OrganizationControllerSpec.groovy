@@ -1,7 +1,7 @@
 package aaf.vhr
 
 import grails.test.mixin.*
-import grails.plugin.spock.*
+import grails.test.spock.*
 import grails.buildtestdata.mixin.Build
 
 import spock.lang.*
@@ -129,6 +129,7 @@ class OrganizationControllerSpec  extends spock.lang.Specification {
     shiroSubject.isPermitted("app:manage:organization:create") >> false
 
     when:
+    request.method = 'POST'
     def model = controller.save()
 
     then:
@@ -163,6 +164,7 @@ class OrganizationControllerSpec  extends spock.lang.Specification {
     controller.organizationService = organizationService
     
     when:
+    request.method = 'POST'
     controller.save()
 
     then:
@@ -202,6 +204,7 @@ class OrganizationControllerSpec  extends spock.lang.Specification {
     
     when:
     println params
+    request.method = 'POST'
     controller.save()
 
     then:
@@ -231,6 +234,7 @@ class OrganizationControllerSpec  extends spock.lang.Specification {
     controller.organizationService = organizationService
 
     when:
+    request.method = 'POST'
     controller.save()
 
     then:
@@ -277,6 +281,7 @@ class OrganizationControllerSpec  extends spock.lang.Specification {
 
     when:
     params.id = organizationTestInstance.id
+    request.method = 'POST'
     def model = controller.update()
 
     then:
@@ -295,6 +300,7 @@ class OrganizationControllerSpec  extends spock.lang.Specification {
     when:
     params.id = organizationTestInstance.id
     params.version = null
+    request.method = 'POST'
     controller.update()
 
     then:
@@ -325,6 +331,7 @@ class OrganizationControllerSpec  extends spock.lang.Specification {
     when:
     params.id = organizationTestInstance.id
     params.version = 1
+    request.method = 'POST'
     controller.update()
 
     then:
@@ -357,6 +364,7 @@ class OrganizationControllerSpec  extends spock.lang.Specification {
     when:
     params.id = organizationTestInstance.id
     params.version = 0
+    request.method = 'POST'
     controller.update()
 
     then:
@@ -379,6 +387,7 @@ class OrganizationControllerSpec  extends spock.lang.Specification {
 
     when:
     params.id = organizationTestInstance.id
+    request.method = 'DELETE'
     def model = controller.delete()
 
     then:
@@ -395,6 +404,7 @@ class OrganizationControllerSpec  extends spock.lang.Specification {
 
     when:
     params.id = organizationTestInstance.id
+    request.method = 'DELETE'
     def model = controller.delete()
 
     then:
@@ -418,6 +428,7 @@ class OrganizationControllerSpec  extends spock.lang.Specification {
 
     when:
     params.id = organizationTestInstance.id
+    request.method = 'DELETE'
     def model = controller.delete()
 
     then:

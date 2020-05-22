@@ -1,7 +1,7 @@
 package aaf.vhr
 
 import grails.test.mixin.*
-import grails.plugin.spock.*
+import grails.test.spock.*
 import grails.buildtestdata.mixin.Build
 
 import spock.lang.*
@@ -88,6 +88,7 @@ class LoginControllerSpec extends spock.lang.Specification {
     session.getAttribute(controller.INVALID_USER) == null
 
     when:
+    request.method = 'POST'
     controller.login('username', 'password')
 
     then:
@@ -106,6 +107,7 @@ class LoginControllerSpec extends spock.lang.Specification {
     controller.loginService = loginService
 
     when:
+    request.method = 'POST'
     controller.login(ms.login, 'password')
 
     then:
@@ -127,6 +129,7 @@ class LoginControllerSpec extends spock.lang.Specification {
     controller.loginService = loginService
 
     when:
+    request.method = 'POST'
     controller.login(ms.login, 'password')
 
     then:
@@ -148,6 +151,7 @@ class LoginControllerSpec extends spock.lang.Specification {
     controller.loginService = loginService
 
     when:
+    request.method = 'POST'
     controller.login(ms.login, 'password')
 
     then:
@@ -168,6 +172,7 @@ class LoginControllerSpec extends spock.lang.Specification {
     controller.loginService = loginService
 
     when:
+    request.method = 'POST'
     controller.login(ms.login, 'password')
 
     then:
@@ -190,6 +195,7 @@ class LoginControllerSpec extends spock.lang.Specification {
     controller.loginService = loginService
 
     when:
+    request.method = 'POST'
     controller.login(ms.login, 'password')
 
     then:
@@ -216,6 +222,7 @@ class LoginControllerSpec extends spock.lang.Specification {
     controller.loginService = loginService
 
     when:
+    request.method = 'POST'
     controller.login(ms.login, 'password')
 
     then:
@@ -251,6 +258,7 @@ class LoginControllerSpec extends spock.lang.Specification {
     controller.loginService = loginService
 
     when:
+    request.method = 'POST'
     controller.login(ms.login, 'password')
 
     then:
@@ -282,6 +290,7 @@ class LoginControllerSpec extends spock.lang.Specification {
     controller.loginService = loginService
 
     when:
+    request.method = 'POST'
     controller.login(ms.login, 'password')
 
     then:
@@ -303,6 +312,7 @@ class LoginControllerSpec extends spock.lang.Specification {
     controller.loginService = loginService
 
     when:
+    request.method = 'POST'
     controller.login(ms.login, 'password')
 
     then:
@@ -324,6 +334,7 @@ class LoginControllerSpec extends spock.lang.Specification {
     controller.loginService = loginService
 
     when:
+    request.method = 'POST'
     controller.login(ms.login, 'password')
 
     then:
@@ -482,6 +493,7 @@ class LoginControllerSpec extends spock.lang.Specification {
     controller.loginService = loginService
 
     when:
+    request.method = 'POST'
     controller.verifytwostepcode(123456)
 
     then:
@@ -507,6 +519,7 @@ class LoginControllerSpec extends spock.lang.Specification {
     GoogleAuthenticator.metaClass.static.checkCode = { String key, long code, long time -> false }
 
     when:
+    request.method = 'POST'
     controller.verifytwostepcode(123456)
 
     then:
@@ -533,6 +546,7 @@ class LoginControllerSpec extends spock.lang.Specification {
     GoogleAuthenticator.metaClass.static.checkCode = { String key, long code, long time -> true }
 
     when:
+    request.method = 'POST'
     controller.verifytwostepcode(123456)
 
     then:

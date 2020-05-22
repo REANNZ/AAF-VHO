@@ -1,7 +1,7 @@
 package aaf.vhr
 
 import grails.test.mixin.*
-import grails.plugin.spock.*
+import grails.test.spock.*
 import grails.buildtestdata.mixin.Build
 
 import spock.lang.*
@@ -225,6 +225,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
 
     when:
     params.group = [id:group.id]
+    request.method = 'POST'
     def model = controller.save()
 
     then:
@@ -255,6 +256,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
     controller.sharedTokenService = sharedTokenService
 
     when:
+    request.method = 'POST'
     controller.save()
 
     then:
@@ -297,6 +299,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
     ManagedSubject.count() == 5
 
     when:
+    request.method = 'POST'
     controller.save()
 
     then:
@@ -333,6 +336,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
     ManagedSubject.count() == 0
 
     when:
+    request.method = 'POST'
     controller.save()
 
     then:
@@ -376,6 +380,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
     ManagedSubject.count() == 0
 
     when:
+    request.method = 'POST'
     controller.save()
 
     then:
@@ -421,6 +426,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
     when:
     params.eduPersonAffiliation = ['member', 'library-walk-in']
     params.sharedToken = 'abcdefg'
+    request.method = 'POST'
     controller.save()
 
     then:
@@ -466,6 +472,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
     when:
     params.eduPersonAffiliation = ['member', 'library-walk-in']
     params.sharedToken = 'abcdefg'
+    request.method = 'POST'
     controller.save()
 
     then:
@@ -538,6 +545,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
 
     when:
     params.id = managedSubjectTestInstance.id
+    request.method = 'POST'
     def model = controller.update()
 
     then:
@@ -556,6 +564,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
     params.id = managedSubjectTestInstance.id
     params.version = 0
     params.login = 'test'
+    request.method = 'POST'
     def model = controller.update()
 
     then:
@@ -578,6 +587,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
     params.id = managedSubjectTestInstance.id
     params.version = 0
     params.login = 'test'
+    request.method = 'POST'
     def model = controller.update()
 
     then:
@@ -600,6 +610,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
     when:
     params.id = managedSubjectTestInstance.id
     params.version = null
+    request.method = 'POST'
     controller.update()
 
     then:
@@ -632,6 +643,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
     when:
     params.id = managedSubjectTestInstance.id
     params.version = 1
+    request.method = 'POST'
     controller.update()
 
     then:
@@ -667,6 +679,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
     params.sharedToken = 'efgh5678'
     params.id = managedSubjectTestInstance.id
     params.version = 0
+    request.method = 'POST'
     controller.update()
 
     then:
@@ -707,6 +720,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
     params.sharedToken = 'efgh5678'
     params.id = managedSubjectTestInstance.id
     params.version = 0
+    request.method = 'POST'
     controller.update()
 
     then:
@@ -747,6 +761,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
     params.sharedToken = 'efgh5678'
     params.id = managedSubjectTestInstance.id
     params.version = 0
+    request.method = 'POST'
     controller.update()
 
     then:
@@ -790,6 +805,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
     params.id = managedSubjectTestInstance.id
     params.version = 0
     params.eduPersonAffiliation = ['member', 'library-walk-in']
+    request.method = 'POST'
     controller.update()
 
     then:
@@ -832,6 +848,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
     params.sharedToken = 'efgh5678'
     params.id = managedSubjectTestInstance.id
     params.version = 0
+    request.method = 'POST'
     controller.update()
 
     then:
@@ -858,6 +875,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
 
     when:
     params.id = managedSubjectTestInstance.id
+    request.method = 'DELETE'
     def model = controller.delete()
 
     then:
@@ -876,6 +894,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
 
     when:
     params.id = managedSubjectTestInstance.id
+    request.method = 'DELETE'
     def model = controller.delete()
 
     then:
@@ -901,6 +920,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
 
     when:
     params.id = managedSubjectTestInstance.id
+    request.method = 'DELETE'
     def model = controller.delete()
 
     then:
@@ -920,6 +940,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
 
     when:
     params.id = managedSubjectTestInstance.id
+    request.method = 'POST'
     def model = controller.resend()
 
     then:
@@ -942,6 +963,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
 
     when:
     params.id = managedSubjectTestInstance.id
+    request.method = 'POST'
     controller.resend()
 
     then:
@@ -1205,6 +1227,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
 
     when:
     params.id = managedSubjectTestInstance.id
+    request.method = 'POST'
     controller.resettwosteplogin(managedSubjectTestInstance.id)
 
     then:
@@ -1227,6 +1250,7 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
 
     when:
     params.id = managedSubjectTestInstance.id
+    request.method = 'POST'
     controller.enforcetwosteplogin(managedSubjectTestInstance.id, enforce)
 
     then:
