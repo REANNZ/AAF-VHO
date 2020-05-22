@@ -198,9 +198,18 @@ class ManagedSubjectController {
         }
       }
 
-      bindData(managedSubjectInstance, params, [include: ['cn', 'email', 'eduPersonAssurance', 'displayName', 'accountExpires',
+      bindData(managedSubjectInstance, params, [include: ['cn', 'email', 'eduPersonAssurance', 'displayName',
                                                           'givenName', 'surname', 'mobileNumber', 'telephoneNumber', 'postalAddress',
                                                           'organizationalUnit']])
+
+      // custom handling for expiryDate
+      if('wantexpirydate' in params) {
+        // set expiry date
+        bindData(managedSubjectInstance, params, [include: 'accountExpires'])
+      } else {
+        // clear expiry date
+        managedSubjectInstance.accountExpires = null
+      }
 
       if(SecurityUtils.subject.isPermitted("app:administrator")) {
         bindData(managedSubjectInstance, params, [include: 'sharedToken'])

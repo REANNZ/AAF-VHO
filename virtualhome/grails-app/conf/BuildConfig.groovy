@@ -19,27 +19,26 @@ grails.project.dependency.resolution = {
   repositories {
     inherits true
 
-    flatDir name:"aaf-patched-groovy", dirs:"../aaf-patched-groovy/target/libs"
-
     grailsPlugins()
     grailsHome()
     grailsCentral()
 
     mavenLocal()
-    mavenCentral()
+    // mavenCentral()
+    mavenRepo "https://repo1.maven.org/maven2"
 
-    mavenRepo "http://repo.grails.org/grails/plugins-releases/"
-    mavenRepo "http://repo.grails.org/grails/repo/"
-    mavenRepo "http://download.java.net/maven/2/"
-    mavenRepo "http://repository.jboss.com/maven2/"
+    mavenRepo "https://repo.grails.org/grails/plugins-releases/"
+    mavenRepo "https://download.java.net/maven/2/"
+    mavenRepo "https://repository.jboss.org/maven2/"
   }
 
   dependencies {
-    compile "org.codehaus:groovy-all:2.0.8+aaf.groovy7664"
     compile "commons-collections:commons-collections:3.2.2"
     compile "com.google.guava:guava:14.0"
+    compile "edu.vt.middleware:vt-dictionary:3.0"
+    compile "edu.vt.middleware:vt-password:3.1.1"
 
-    test 'mysql:mysql-connector-java:5.1.18'
+    test 'mysql:mysql-connector-java:5.1.49'
   }
 
   /*
@@ -55,9 +54,11 @@ grails.project.dependency.resolution = {
   plugins {
     compile ":csv:0.3.1"
     compile ":recaptcha:1.2.0"
-    compile ":jasypt-encryption:1.1.0"
+    compile ":jasypt-encryption:1.3.1"
   }
 }
+
+grails.project.dependency.resolver = "maven"
 
 codenarc {
   properties = {}

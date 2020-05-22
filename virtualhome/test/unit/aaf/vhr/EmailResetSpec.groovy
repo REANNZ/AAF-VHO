@@ -3,14 +3,14 @@ package aaf.vhr
 import grails.test.mixin.*
 import grails.buildtestdata.mixin.Build
 import spock.lang.*
-import grails.plugin.spock.*
+import grails.test.spock.*
 
 import aaf.vhr.ManagedSubject
 
 @TestFor(aaf.vhr.EmailReset)
 @Build([ManagedSubject, EmailReset])
 @Mock([Organization, Group, ManagedSubject, ChallengeResponse, EmailReset])
-class EmailResetSpec extends UnitSpec {
+class EmailResetSpec extends Specification {
 
   def 'ensure code must not be null or blank and 24 characters long'() {
     setup:
