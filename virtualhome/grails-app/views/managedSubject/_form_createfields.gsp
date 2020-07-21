@@ -27,7 +27,6 @@
 </div>
 
 <aaf:hasPermission target="app:administrator">
-  <g:if test="${actionName != 'create'}">
     <div class="control-group ${hasErrors(bean: managedSubjectInstance, field: 'sharedToken', 'error')}">
       <label class="control-label" for="sharedToken"><g:message encodeAs='HTML' code="label.sharedtoken"/></label>
       <div class="controls">
@@ -36,7 +35,6 @@
         <a href="#" rel="tooltip" title="${g.message(encodeAs:'HTML', code:'help.inline.aaf.vhr.managedsubject.sharedtoken')}"><i class="icon icon-question-sign"></i></a>
       </div>
     </div>
-  </g:if>
 </aaf:hasPermission>
 
 <div class="control-group ${hasErrors(bean: managedSubjectInstance, field: 'eduPersonAffiliation', 'error')}">
