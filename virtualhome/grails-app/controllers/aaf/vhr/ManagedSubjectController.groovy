@@ -60,7 +60,17 @@ class ManagedSubjectController {
       def managedSubjectInstance = new ManagedSubject(group:group, organization:group.organization)
 
       if(managedSubjectInstance.canCreate(group)) {
-        bindData(managedSubjectInstance, params, [include: ['cn', 'email', 'eduPersonAssurance', 'eduPersonEntitlement', 'accountExpires']])
+        bindData(managedSubjectInstance, params, [include: ['cn', 'email', 'eduPersonAssurance', 'eduPersonEntitlement']])
+
+        // custom handling for expiryDate
+        if('wantexpirydate' in params) {
+          // set expiry date
+          bindData(managedSubjectInstance, params, [include: 'accountExpires'])
+        } else {
+          // clear expiry date
+          managedSubjectInstance.accountExpires = null
+        }
+
         managedSubjectInstance.displayName = managedSubjectInstance.cn
         sharedTokenService.generate(managedSubjectInstance)
 
