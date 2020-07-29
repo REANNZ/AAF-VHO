@@ -7,6 +7,8 @@ import java.security.MessageDigest
 
 class MigrateController {
 
+  static allowedMethods = [validate: 'POST']
+
   public static final MIGRATION_USER = "aaf.vhr.MigrateController.USER"
 
   def beforeInterceptor = [action: this.&validMigrationUser, except: ['oops']]
