@@ -84,7 +84,10 @@ class AccountController {
   }
 
   def logout() {
-    session.invalidate()
+    session.removeAttribute(CURRENT_USER)
+    session.removeAttribute(INVALID_USER)
+    session.removeAttribute(NEW_TOTP_KEY)
+    session.removeAttribute(MigrateController.MIGRATION_USER)
     redirect controller:'dashboard', action:'welcome'
   }
 

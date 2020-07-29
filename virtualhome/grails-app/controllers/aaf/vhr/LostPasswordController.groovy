@@ -149,7 +149,7 @@ class LostPasswordController {
 
     log.error "Successful LostPassword reset for $managedSubjectInstance"
 
-    session.invalidate()
+    session.removeAttribute(CURRENT_USER)
 
     flash.type = 'success'
     flash.message = 'controllers.aaf.vhr.lostpassword.validatereset.new.password.success'
@@ -176,7 +176,7 @@ class LostPasswordController {
   }
 
   def logout() {
-    session.invalidate()
+    session.removeAttribute(CURRENT_USER)
     redirect controller:'dashboard', action:'welcome'
   }
 
