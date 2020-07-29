@@ -14,6 +14,7 @@ class AccountController {
   static allowedMethods = [completedetailschange: 'POST']
 
   static final CURRENT_USER = "aaf.vhr.AccountController.CURRENT_USER"
+  static final INVALID_USER = "aaf.vhr.AccountController.INVALID_USER"
   static final NEW_TOTP_KEY = "aaf.vhr.AccountController.NEW_TOTP_KEY"
 
   def loginService
