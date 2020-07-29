@@ -282,6 +282,7 @@ class ManageAdministratorsControllerSpec extends spock.lang.Specification {
     when:
     params.type = 'organization'
     params.id = organizationTestInstance.id
+    request.method = 'POST'
     controller.search()
 
     then:
@@ -309,6 +310,7 @@ class ManageAdministratorsControllerSpec extends spock.lang.Specification {
     when:
     params.type = 'organization'
     params.id = organizationTestInstance.id
+    request.method = 'POST'
     controller.search()
 
     then:
@@ -336,6 +338,7 @@ class ManageAdministratorsControllerSpec extends spock.lang.Specification {
     when:
     params.type = 'organization'
     params.id = organizationTestInstance.id
+    request.method = 'POST'
     controller.search()
 
     then:
@@ -354,6 +357,7 @@ class ManageAdministratorsControllerSpec extends spock.lang.Specification {
     params.type = 'organization'
     params.id = organizationTestInstance.id
     params.subjectID = subject.id
+    request.method = 'POST'
     controller.add()
 
     then:
@@ -372,6 +376,7 @@ class ManageAdministratorsControllerSpec extends spock.lang.Specification {
     params.type = 'organization'
     params.id = organizationTestInstance.id
     params.subjectID = -1
+    request.method = 'POST'
     controller.add()
 
     then:
@@ -399,6 +404,7 @@ class ManageAdministratorsControllerSpec extends spock.lang.Specification {
     params.type = 'organization'
     params.id = organizationTestInstance.id
     params.subjectID = targetSubject.id
+    request.method = 'POST'
     controller.add()
 
     then:
@@ -419,6 +425,7 @@ class ManageAdministratorsControllerSpec extends spock.lang.Specification {
     params.type = 'organization'
     params.id = organizationTestInstance.id
     params.subjectID = subject.id
+    request.method = 'POST'
     controller.remove()
 
     then:
@@ -437,6 +444,7 @@ class ManageAdministratorsControllerSpec extends spock.lang.Specification {
     params.type = 'organization'
     params.id = organizationTestInstance.id
     params.subjectID = -1
+    request.method = 'POST'
     controller.remove()
 
     then:
@@ -466,6 +474,7 @@ class ManageAdministratorsControllerSpec extends spock.lang.Specification {
     params.type = 'organization'
     params.id = organizationTestInstance.id
     params.subjectID = targetSubject.id
+    request.method = 'POST'
     controller.remove()
 
     then:

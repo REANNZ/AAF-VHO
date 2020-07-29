@@ -98,6 +98,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     params.login = 'testuser'
 
     when:
+    request.method = 'POST'
     controller.obtainsubject()
 
     then:
@@ -112,6 +113,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     params.login = 'testuser'
 
     when:
+    request.method = 'POST'
     controller.obtainsubject()
 
     then:
@@ -125,6 +127,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     params.login = 'testuser2'
 
     when:
+    request.method = 'POST'
     controller.obtainsubject()
 
     then:
@@ -139,6 +142,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     params.login = 'testuser'
 
     when:
+    request.method = 'POST'
     controller.obtainsubject()
 
     then:
@@ -338,6 +342,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     ms.failedResets == 0
 
     when:
+    request.method = 'POST'
     controller.validatereset()
 
     then:
@@ -361,6 +366,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     ms.failedResets == 0
 
     when:
+    request.method = 'POST'
     controller.validatereset()
 
     then:
@@ -387,6 +393,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     ms.failedResets == 0
 
     when:
+    request.method = 'POST'
     controller.validatereset()
 
     then:
@@ -417,6 +424,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     ms.failedResets == 0
 
     when:
+    request.method = 'POST'
     controller.validatereset()
 
     then:
@@ -448,6 +456,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     !ms.active
 
     when:
+    request.method = 'POST'
     controller.validatereset()
 
     then:

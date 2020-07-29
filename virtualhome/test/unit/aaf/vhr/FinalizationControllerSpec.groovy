@@ -119,6 +119,7 @@ class FinalizationControllerSpec  extends spock.lang.Specification {
   def 'ensure invalid invitation returns error view when completing finalization'() {
     when:
     params.inviteCode = "invalidcode"
+    request.method = 'POST'
     controller.complete()
 
     then:
@@ -140,6 +141,7 @@ class FinalizationControllerSpec  extends spock.lang.Specification {
     params.plainPasswordConfirmation = 'password'
     params.mobileNumber = managedSubjectTestInstance.mobileNumber
 
+    request.method = 'POST'
     controller.complete()
 
     then:
@@ -164,6 +166,7 @@ def 'ensure successful complete provides complete view'() {
     params.plainPasswordConfirmation = 'password'
     params.mobileNumber = managedSubjectTestInstance.mobileNumber
 
+    request.method = 'POST'
     controller.complete()
 
     then:
