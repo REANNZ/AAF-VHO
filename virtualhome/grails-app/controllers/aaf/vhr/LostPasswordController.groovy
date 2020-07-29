@@ -26,7 +26,11 @@ class LostPasswordController {
   }
 
   def obtainsubject() {
-    def managedSubjectInstance = ManagedSubject.findWhere(login: params.login)
+    def managedSubjectInstance
+    if (params.login) {
+        managedSubjectInstance = ManagedSubject.findWhere(login: params.login)
+    }
+
     if(!managedSubjectInstance) {
       log.error "No ManagedSubject representing ${params.login} found, requesting login before accessing password change"
 
