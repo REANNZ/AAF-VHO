@@ -20,7 +20,7 @@ class LostPasswordController {
   def emailManagerService
   def smsDeliveryService
 
-  def beforeInterceptor = [action: this.&validManagedSubjectInstance, except: ['start', 'obtainsubject', 'complete', 'unavailable', 'support']]
+  def beforeInterceptor = [action: this.&validManagedSubjectInstance, except: ['start', 'obtainsubject', 'complete', 'unavailable', 'support', 'logout']]
 
   def start() {
   }
