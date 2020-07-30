@@ -65,8 +65,13 @@ class LostPasswordController {
   def reset() {
     def managedSubjectInstance = ManagedSubject.get(session.getAttribute(CURRENT_USER))
 
-    if(managedSubjectInstance.resetCode == null || (grailsApplication.config.aaf.vhr.passwordreset.second_factor_required && managedSubjectInstance.mobileNumber && managedSubjectInstance.resetCodeExternal == null)) {
-      if(grailsApplication.config.aaf.vhr.passwordreset.second_factor_required && managedSubjectInstance.mobileNumber) {
+    // we use external reset codes when configured to do so AND the user has a mobileNumber
+    def useExternalCode = grailsApplication.config.aaf.vhr.passwordreset.second_factor_required && managedSubjectInstance.mobileNumber
+
+    // if the code in use is unset, generate a new value and send it
+    if( (!useExternalCode && managedSubjectInstance.resetCode == null) ||
+         (useExternalCode && managedSubjectInstance.resetCodeExternal == null)) {
+      if(useExternalCode) {
         managedSubjectInstance.resetCodeExternal = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
       } else {
         // When second factor is disabled (i.e no SMS such as in the test federation) do it over email.
@@ -106,7 +111,9 @@ class LostPasswordController {
   def validatereset() {
     def managedSubjectInstance = ManagedSubject.get(session.getAttribute(CURRENT_USER))
 
-    if(grailsApplication.config.aaf.vhr.passwordreset.second_factor_required) {
+    // we use external reset codes when configured to do so AND the user has a mobileNumber
+    def useExternalCode = grailsApplication.config.aaf.vhr.passwordreset.second_factor_required && managedSubjectInstance.mobileNumber
+    if(useExternalCode) {
       if(managedSubjectInstance.resetCodeExternal != params.resetCodeExternal) {
         managedSubjectInstance.increaseFailedResets()
 
