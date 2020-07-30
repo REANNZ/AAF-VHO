@@ -114,7 +114,7 @@ class LostPasswordController {
     // we use external reset codes when configured to do so AND the user has a mobileNumber
     def useExternalCode = grailsApplication.config.aaf.vhr.passwordreset.second_factor_required && managedSubjectInstance.mobileNumber
     if(useExternalCode) {
-      if(managedSubjectInstance.resetCodeExternal != params.resetCodeExternal) {
+      if(managedSubjectInstance.resetCodeExternal != params.resetCodeExternal || managedSubjectInstance.resetCodeExternal == null) {
         managedSubjectInstance.increaseFailedResets()
 
         flash.type = 'error'
@@ -124,7 +124,7 @@ class LostPasswordController {
       }
     } else {
       // When second factor is disabled (i.e no SMS such as in the test federation) validate email code.
-      if(managedSubjectInstance.resetCode != params.resetCode) {
+      if(managedSubjectInstance.resetCode != params.resetCode || managedSubjectInstance.resetCode == null) {
         managedSubjectInstance.increaseFailedResets()
 
         flash.type = 'error'
