@@ -78,9 +78,15 @@ class LostPasswordController {
          (useExternalCode && managedSubjectInstance.resetCodeExternal == null)) {
       if(useExternalCode) {
         managedSubjectInstance.resetCodeExternal = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
+
+        flash.type = 'info'
+        flash.message = 'controllers.aaf.vhr.lostpassword.reset.sent.externalcode'
       } else {
         // When second factor is disabled (i.e no SMS such as in the test federation) do it over email.
         managedSubjectInstance.resetCode = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
+
+        flash.type = 'info'
+        flash.message = 'controllers.aaf.vhr.lostpassword.reset.sent.email'
       }
       sendResetCodes(managedSubjectInstance)
     }
