@@ -87,8 +87,9 @@ class LostPasswordController {
 
     def groupRole = Role.findWhere(name:"group:${managedSubjectInstance.group.id}:administrators")
     def organizationRole = Role.findWhere(name:"organization:${managedSubjectInstance.organization.id}:administrators")
+    def allowResend = !grailsApplication.config.aaf.vhr.passwordreset.second_factor_required || managedSubjectInstance.mobileNumber
 
-    [managedSubjectInstance:managedSubjectInstance, groupRole:groupRole, organizationRole:organizationRole, allowResend:true]
+    [managedSubjectInstance:managedSubjectInstance, groupRole:groupRole, organizationRole:organizationRole, allowResend:allowResend]
   }
 
   def resend() {
