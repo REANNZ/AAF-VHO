@@ -156,7 +156,10 @@ class LostPasswordController {
     }
 
     cryptoService.generatePasswordHash(managedSubjectInstance)
-    managedSubjectInstance.successfulLostPassword()
+    String reason = "User provided correct " + (grailsApplication.config.aaf.vhr.passwordreset.second_factor_required ? " external" : "") + " reset code."
+    String requestDetails = createRequestDetails(request)
+
+    managedSubjectInstance.successfulLostPassword(reason, 'password_reset', requestDetails, null)
 
     def deprecatedSubject = DeprecatedSubject.findWhere(login:managedSubjectInstance.login, migrated:false)
     if(deprecatedSubject) {
@@ -250,6 +253,12 @@ Remote IP: ${request.getRemoteAddr()}"""
     String mobileNumber = managedSubjectInstance.mobileNumber
     String text = config.reset_sms_text.replace('{0}', managedSubjectInstance.resetCodeExternal)
     smsDeliveryService.send(mobileNumber, text)
+  }
+
+  private String createRequestDetails(def request) {
+"""User Agent: ${request.getHeader('User-Agent')}
+Remote Host: ${request.getRemoteHost()}
+Remote IP: ${request.getRemoteAddr()}"""
   }
 
 }
