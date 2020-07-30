@@ -134,7 +134,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     response.redirectedUrl == "/lostPassword/support"
   }
 
-  def 'obtainsubject resets reset codes'() {
+  def 'obtainsubject does not reset codes if not requested'() {
     setup:
     def o = Organization.build()
     def ms = ManagedSubject.build(login:'testuser', resetCode:'1234', resetCodeExternal:'5678')
@@ -147,8 +147,8 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
 
     then:
     response.redirectedUrl == "/lostPassword/reset"
-    ms.resetCode == null
-    ms.resetCodeExternal == null
+    ms.resetCode == '1234'
+    ms.resetCodeExternal == '5678'
   }
 
   def 'reset generates email code if not present'() {

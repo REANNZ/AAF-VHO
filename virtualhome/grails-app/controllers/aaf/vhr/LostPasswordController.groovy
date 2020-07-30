@@ -58,11 +58,6 @@ class LostPasswordController {
         return
       }
 
-      // clean possibly long stale reset codes so that fresh ones are sent.
-      managedSubjectInstance.resetCode = null
-      managedSubjectInstance.resetCodeExternal = null
-      managedSubjectInstance.lastCodeResend  = null
-
       redirect action: 'reset'
     }
   }
