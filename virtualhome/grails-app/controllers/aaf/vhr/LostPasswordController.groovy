@@ -70,13 +70,12 @@ class LostPasswordController {
   def reset() {
     def managedSubjectInstance = ManagedSubject.get(session.getAttribute(CURRENT_USER))
 
-    // we use external reset codes when configured to do so AND the user has a mobileNumber
-    def useExternalCode = grailsApplication.config.aaf.vhr.passwordreset.second_factor_required && managedSubjectInstance.mobileNumber
-
-    // if the code in use is unset, generate a new value and send it
-    if( (!useExternalCode && managedSubjectInstance.resetCode == null) ||
-         (useExternalCode && managedSubjectInstance.resetCodeExternal == null)) {
-      if(useExternalCode) {
+    // When not using 2FA, generate and send a resetCode if we don't have one yet.
+    // When using 2FA and the user has a mobileNumber, generate and send a resetCodeExternal if we don't have one yet.
+    // When using 2FA and the user does not have a mobileNumber, do nothing (skip this block) - the user needs to get the resetCodeExternal code out-of-band
+    if( (!grailsApplication.config.aaf.vhr.passwordreset.second_factor_required && managedSubjectInstance.resetCode == null) ||
+         (grailsApplication.config.aaf.vhr.passwordreset.second_factor_required && managedSubjectInstance.mobileNumber && managedSubjectInstance.resetCodeExternal == null)) {
+      if(grailsApplication.config.aaf.vhr.passwordreset.second_factor_required) {
         managedSubjectInstance.resetCodeExternal = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
 
         flash.type = 'info'
@@ -122,9 +121,7 @@ class LostPasswordController {
   def validatereset() {
     def managedSubjectInstance = ManagedSubject.get(session.getAttribute(CURRENT_USER))
 
-    // we use external reset codes when configured to do so AND the user has a mobileNumber
-    def useExternalCode = grailsApplication.config.aaf.vhr.passwordreset.second_factor_required && managedSubjectInstance.mobileNumber
-    if(useExternalCode) {
+    if(grailsApplication.config.aaf.vhr.passwordreset.second_factor_required) {
       if(managedSubjectInstance.resetCodeExternal != params.resetCodeExternal || managedSubjectInstance.resetCodeExternal == null) {
         managedSubjectInstance.increaseFailedResets()
 
