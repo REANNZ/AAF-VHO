@@ -198,7 +198,6 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     then:
     0 * emailManagerService.send(ms.email, _, _, [managedSubject:ms])
     0 * smsDeliveryService.send(_,_)
-    ms.resetCode.length() == 6
 
     model.managedSubjectInstance == ms
     model.groupRole
