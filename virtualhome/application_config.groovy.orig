@@ -95,6 +95,10 @@ aaf {
       consent_revocation_enabled = true
       consent_revocation_param_name = "_shib_idp_revokeConsent"
     }
+    scopes {
+      // used only for ScopesAPI, attribute resolver has separate configuration
+      base_scope = "vho.example.org"
+    }
   }
   base {
     // Bootstrap - Allows unauthenticated access to administrative console
