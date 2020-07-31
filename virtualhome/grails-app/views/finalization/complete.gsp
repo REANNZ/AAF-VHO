@@ -8,7 +8,7 @@
     <div class="hero-unit">
       <h1>You're ready to go!</h1>
       <p>To login to services simply select <strong>Tuakiri Virtual Home</strong> from the list of available organisations when asked to nominate your organisation.</p>
-      <a href="https://reannz.co.nz/services/network-cloud-services/tuakiri/tuakiri-service-catalogue/" class="btn btn-info btn-large pull-right"><i class="icon-globe icon-white"></i> Show me the services!</a>
+      <a href="https://www.reannz.co.nz/products-and-services/tuakiri/tuakiri-service-catalogue/" class="btn btn-info btn-large pull-right"><i class="icon-globe icon-white"></i> Show me the services!</a>
     </div>
 
     <h4>Your account details</h4>

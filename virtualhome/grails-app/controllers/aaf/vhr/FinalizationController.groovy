@@ -4,6 +4,9 @@ import groovy.time.TimeCategory
 import aaf.base.identity.SessionRecord
 
 class FinalizationController {
+
+  static allowedMethods = [complete: 'POST']
+
   static final MANAGED_SUBJECT_ID = 'aaf.vhr.FinalizationController.MANAGED_SUBJECT_ID'
 
   def managedSubjectService

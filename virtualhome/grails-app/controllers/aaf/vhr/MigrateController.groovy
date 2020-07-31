@@ -7,6 +7,8 @@ import java.security.MessageDigest
 
 class MigrateController {
 
+  static allowedMethods = [validate: 'POST']
+
   public static final MIGRATION_USER = "aaf.vhr.MigrateController.USER"
 
   def beforeInterceptor = [action: this.&validMigrationUser, except: ['oops']]
@@ -148,7 +150,7 @@ class MigrateController {
   }
 
   def logout() {
-    session.invalidate()
+    session.removeAttribute(MIGRATION_USER)
     redirect controller:'dashboard', action:'welcome'
   }
 

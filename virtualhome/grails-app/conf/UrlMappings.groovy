@@ -110,6 +110,7 @@ class UrlMappings {
     "/api/v1/login/confirmsession/$sessionID" (controller: "loginApi", action: "confirmsession")
     "/api/v1/login/basicauth" (controller: "loginApi", action:"basicauth")
     "/api/v1/organizations/$action/$id?" (controller: "organizationApi")
+    "/api/v1/scopes/$action?" (controller: "scopesApi")
   }
 
 }

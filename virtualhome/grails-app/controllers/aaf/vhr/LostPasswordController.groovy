@@ -9,6 +9,8 @@ import aaf.vhr.switchch.vho.DeprecatedSubject
 
 class LostPasswordController {
 
+  static allowedMethods = [obtainsubject: 'POST', validatereset: 'POST']
+
   final String CURRENT_USER = "aaf.vhr.LostPasswordController.CURRENT_USER"
   final String EMAIL_CODE_SUBJECT ='controllers.aaf.vhr.lostpassword.email.code.subject'
 
@@ -20,13 +22,17 @@ class LostPasswordController {
   def emailManagerService
   def smsDeliveryService
 
-  def beforeInterceptor = [action: this.&validManagedSubjectInstance, except: ['start', 'obtainsubject', 'complete', 'unavailable', 'support']]
+  def beforeInterceptor = [action: this.&validManagedSubjectInstance, except: ['start', 'obtainsubject', 'complete', 'unavailable', 'support', 'logout']]
 
   def start() {
   }
 
   def obtainsubject() {
-    def managedSubjectInstance = ManagedSubject.findWhere(login: params.login)
+    def managedSubjectInstance
+    if (params.login) {
+        managedSubjectInstance = ManagedSubject.findWhere(login: params.login)
+    }
+
     if(!managedSubjectInstance) {
       log.error "No ManagedSubject representing ${params.login} found, requesting login before accessing password change"
 
@@ -59,20 +65,31 @@ class LostPasswordController {
   def reset() {
     def managedSubjectInstance = ManagedSubject.get(session.getAttribute(CURRENT_USER))
 
-    if(managedSubjectInstance.resetCode == null || (grailsApplication.config.aaf.vhr.passwordreset.second_factor_required && managedSubjectInstance.mobileNumber && managedSubjectInstance.resetCodeExternal == null)) {
-      if(grailsApplication.config.aaf.vhr.passwordreset.second_factor_required && managedSubjectInstance.mobileNumber) {
+    // When not using 2FA, generate and send a resetCode if we don't have one yet.
+    // When using 2FA and the user has a mobileNumber, generate and send a resetCodeExternal if we don't have one yet.
+    // When using 2FA and the user does not have a mobileNumber, do nothing (skip this block) - the user needs to get the resetCodeExternal code out-of-band
+    if( (!grailsApplication.config.aaf.vhr.passwordreset.second_factor_required && managedSubjectInstance.resetCode == null) ||
+         (grailsApplication.config.aaf.vhr.passwordreset.second_factor_required && managedSubjectInstance.mobileNumber && managedSubjectInstance.resetCodeExternal == null)) {
+      if(grailsApplication.config.aaf.vhr.passwordreset.second_factor_required) {
         managedSubjectInstance.resetCodeExternal = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
+
+        flash.type = 'info'
+        flash.message = 'controllers.aaf.vhr.lostpassword.reset.sent.externalcode'
       } else {
         // When second factor is disabled (i.e no SMS such as in the test federation) do it over email.
         managedSubjectInstance.resetCode = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
+
+        flash.type = 'info'
+        flash.message = 'controllers.aaf.vhr.lostpassword.reset.sent.email'
       }
       sendResetCodes(managedSubjectInstance)
     }
 
     def groupRole = Role.findWhere(name:"group:${managedSubjectInstance.group.id}:administrators")
     def organizationRole = Role.findWhere(name:"organization:${managedSubjectInstance.organization.id}:administrators")
+    def allowResend = !grailsApplication.config.aaf.vhr.passwordreset.second_factor_required || managedSubjectInstance.mobileNumber
 
-    [managedSubjectInstance:managedSubjectInstance, groupRole:groupRole, organizationRole:organizationRole, allowResend:true]
+    [managedSubjectInstance:managedSubjectInstance, groupRole:groupRole, organizationRole:organizationRole, allowResend:allowResend]
   }
 
   def resend() {
@@ -101,7 +118,7 @@ class LostPasswordController {
     def managedSubjectInstance = ManagedSubject.get(session.getAttribute(CURRENT_USER))
 
     if(grailsApplication.config.aaf.vhr.passwordreset.second_factor_required) {
-      if(managedSubjectInstance.resetCodeExternal != params.resetCodeExternal) {
+      if(managedSubjectInstance.resetCodeExternal != params.resetCodeExternal || managedSubjectInstance.resetCodeExternal == null) {
         managedSubjectInstance.increaseFailedResets()
 
         flash.type = 'error'
@@ -111,7 +128,7 @@ class LostPasswordController {
       }
     } else {
       // When second factor is disabled (i.e no SMS such as in the test federation) validate email code.
-      if(managedSubjectInstance.resetCode != params.resetCode) {
+      if(managedSubjectInstance.resetCode != params.resetCode || managedSubjectInstance.resetCode == null) {
         managedSubjectInstance.increaseFailedResets()
 
         flash.type = 'error'
@@ -139,7 +156,10 @@ class LostPasswordController {
     }
 
     cryptoService.generatePasswordHash(managedSubjectInstance)
-    managedSubjectInstance.successfulLostPassword()
+    String reason = "User provided correct " + (grailsApplication.config.aaf.vhr.passwordreset.second_factor_required ? " external" : "") + " reset code."
+    String requestDetails = createRequestDetails(request)
+
+    managedSubjectInstance.successfulLostPassword(reason, 'password_reset', requestDetails, null)
 
     def deprecatedSubject = DeprecatedSubject.findWhere(login:managedSubjectInstance.login, migrated:false)
     if(deprecatedSubject) {
@@ -149,7 +169,7 @@ class LostPasswordController {
 
     log.error "Successful LostPassword reset for $managedSubjectInstance"
 
-    session.invalidate()
+    session.removeAttribute(CURRENT_USER)
 
     flash.type = 'success'
     flash.message = 'controllers.aaf.vhr.lostpassword.validatereset.new.password.success'
@@ -176,7 +196,7 @@ class LostPasswordController {
   }
 
   def logout() {
-    session.invalidate()
+    session.removeAttribute(CURRENT_USER)
     redirect controller:'dashboard', action:'welcome'
   }
 
@@ -233,6 +253,12 @@ Remote IP: ${request.getRemoteAddr()}"""
     String mobileNumber = managedSubjectInstance.mobileNumber
     String text = config.reset_sms_text.replace('{0}', managedSubjectInstance.resetCodeExternal)
     smsDeliveryService.send(mobileNumber, text)
+  }
+
+  private String createRequestDetails(def request) {
+"""User Agent: ${request.getHeader('User-Agent')}
+Remote Host: ${request.getRemoteHost()}
+Remote IP: ${request.getRemoteAddr()}"""
   }
 
 }

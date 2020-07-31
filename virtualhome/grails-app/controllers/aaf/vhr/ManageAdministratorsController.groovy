@@ -6,6 +6,8 @@ import aaf.base.identity.Subject
 
 class ManageAdministratorsController {
 
+  static allowedMethods = [search: 'POST', add: 'POST', remove: 'POST', invite: 'POST']
+
   def roleService
   
   def search() {

@@ -98,6 +98,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     params.login = 'testuser'
 
     when:
+    request.method = 'POST'
     controller.obtainsubject()
 
     then:
@@ -112,6 +113,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     params.login = 'testuser'
 
     when:
+    request.method = 'POST'
     controller.obtainsubject()
 
     then:
@@ -125,6 +127,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     params.login = 'testuser2'
 
     when:
+    request.method = 'POST'
     controller.obtainsubject()
 
     then:
@@ -139,6 +142,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     params.login = 'testuser'
 
     when:
+    request.method = 'POST'
     controller.obtainsubject()
 
     then:
@@ -194,7 +198,6 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     then:
     0 * emailManagerService.send(ms.email, _, _, [managedSubject:ms])
     0 * smsDeliveryService.send(_,_)
-    ms.resetCode.length() == 6
 
     model.managedSubjectInstance == ms
     model.groupRole
@@ -327,17 +330,20 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     response.status == 302
   }
 
-  def 'validatereset increases failure count it resetCodes do not match'() {
+  def 'validatereset increases failure count if resetCodes do not match'() {
     setup:
-    def ms = ManagedSubject.build(resetCodeExternal:'1234')
+    def ms = ManagedSubject.build(resetCodeExternal:'1234', mobileNumber:'+61413234567')
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
     params.resetCodeExternal = '5678'
+
+    grailsApplication.config.aaf.vhr.passwordreset.second_factor_required = true
 
     expect:
     ms.failedResets == 0
 
     when:
+    request.method = 'POST'
     controller.validatereset()
 
     then:
@@ -347,9 +353,9 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     response.redirectedUrl == "/lostPassword/reset"
   }
 
-  def 'validatereset increases failure count it resetCodeExternal does not match and second_factor_required'() {
+  def 'validatereset increases failure count if resetCodeExternal does not match and second_factor_required'() {
     setup:
-    def ms = ManagedSubject.build(resetCode:'1234', resetCodeExternal:'5678')
+    def ms = ManagedSubject.build(resetCode:'1234', resetCodeExternal:'5678', mobileNumber:'+61413234567')
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
     params.resetCode = '1234'
@@ -361,6 +367,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     ms.failedResets == 0
 
     when:
+    request.method = 'POST'
     controller.validatereset()
 
     then:
@@ -387,6 +394,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     ms.failedResets == 0
 
     when:
+    request.method = 'POST'
     controller.validatereset()
 
     then:
@@ -417,6 +425,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     ms.failedResets == 0
 
     when:
+    request.method = 'POST'
     controller.validatereset()
 
     then:
@@ -448,6 +457,7 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     !ms.active
 
     when:
+    request.method = 'POST'
     controller.validatereset()
 
     then:

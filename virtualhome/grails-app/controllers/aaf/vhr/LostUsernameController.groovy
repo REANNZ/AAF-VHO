@@ -4,6 +4,9 @@ import org.springframework.context.i18n.LocaleContextHolder
 import aaf.base.admin.EmailTemplate
 
 class LostUsernameController {
+
+  static allowedMethods = [send: 'POST']
+
   final String EMAIL_CODE_SUBJECT ='controllers.aaf.vhr.lostusername.email.subject'
 
   def recaptchaService

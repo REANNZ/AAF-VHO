@@ -33,6 +33,7 @@ class LostUsernameControllerSpec extends Specification {
     params.email = 'test@example.com'
 
     when:
+    request.method = 'POST'
     controller.send()
 
     then:
@@ -49,6 +50,7 @@ class LostUsernameControllerSpec extends Specification {
     params.email = ms.email
 
     when:
+    request.method = 'POST'
     controller.send()
 
     then:
@@ -63,6 +65,7 @@ class LostUsernameControllerSpec extends Specification {
     params.email = 'wrong-email@example.com'
 
     when:
+    request.method = 'POST'
     controller.send()
 
     then:

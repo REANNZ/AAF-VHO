@@ -933,7 +933,7 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
     !s.canLogin()
 
     when:
-    s.successfulLostPassword()
+    s.successfulLostPassword("reason", "category", "environment", null)
 
     then:
     s.active
@@ -942,6 +942,8 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
     s.failedLogins == 0
     !s.resetCode
     !s.resetCodeExternal
+    s.stateChanges.size() == 1
+    s.stateChanges.toArray()[0].event == StateChangeType.RECOVEREDLOSTPASSWORD
   }
 
   def 'ensure isUsingTwoStepLogin works correctly'() {

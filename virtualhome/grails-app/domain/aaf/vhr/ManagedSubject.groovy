@@ -452,8 +452,11 @@ class ManagedSubject {
     }
   }
 
-  public successfulLostPassword() {
+  public successfulLostPassword(String reason, String category, String environment, Subject actionedBy) {
     active = true
+
+    def change = new StateChange(event:StateChangeType.RECOVEREDLOSTPASSWORD, reason:reason, category:category, environment:environment, actionedBy:actionedBy)
+    this.addToStateChanges(change)
 
     resetCode = null
     resetCodeExternal = null
