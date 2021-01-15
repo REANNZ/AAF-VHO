@@ -18,6 +18,7 @@
 package aaf.vhr.idp.http;
 
 import java.io.IOException;
+import java.time.Instant;
 
 import javax.annotation.Nonnull;
 import javax.servlet.ServletConfig;
@@ -37,8 +38,6 @@ import net.shibboleth.idp.ui.context.RelyingPartyUIContext;
 import org.opensaml.profile.context.ProfileRequestContext;
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.net.URLCodec;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -101,9 +100,9 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
             String key = null;
             boolean isVhrReturn = false;
             boolean isForceAuthn = false;
-            DateTime authnStart = null; // when this authentication started at the IdP
+            Instant authnStart = null; // when this authentication started at the IdP
             // array to use as return parameter when calling VhrSessionValidator
-            DateTime authnInstantArr[] = new DateTime[1];
+            Instant authnInstantArr[] = new Instant[1];
 
             if (httpRequest.getParameter(REDIRECT_REQ_PARAM_NAME) != null) {
                 // we have come back from the VHR
@@ -112,7 +111,7 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
                 HttpSession hs = httpRequest.getSession();
 
                 if (hs != null && hs.getAttribute(AUTHN_INIT_INSTANT_ATTR_NAME + key) != null ) {
-                   authnStart = (DateTime)hs.getAttribute(AUTHN_INIT_INSTANT_ATTR_NAME + key);
+                   authnStart = (Instant)hs.getAttribute(AUTHN_INIT_INSTANT_ATTR_NAME + key);
                    // remove the attribute from the session so that we do not attempt to reuse it...
                    hs.removeAttribute(AUTHN_INIT_INSTANT_ATTR_NAME);
                 };
@@ -140,7 +139,7 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
                             getSubcontext(AuthenticationContext.class,false);
                 if (authCtx != null) {
                     log.debug("Authentication initiation is {}", authCtx.getInitiationInstant());
-                    authnStart = new DateTime(authCtx.getInitiationInstant(), DateTimeZone.UTC);
+                    authnStart = authCtx.getInitiationInstant();
                     log.debug("AuthnStart is {}", authnStart);
                 };
 
