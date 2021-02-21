@@ -63,16 +63,16 @@ class AccountControllerSpec extends spock.lang.Specification {
 
   def 'ensure logout invalidate session'() {
     setup:
-    session.setAttribute('test', 'value')
+    session.setAttribute('aaf.vhr.AccountController.CURRENT_USER', 'value')
 
     expect:
-    session.getAttribute('test') == 'value'
+    session.getAttribute('aaf.vhr.AccountController.CURRENT_USER') == 'value'
 
     when:
     controller.logout()
 
     then:
-    session.getAttribute('test') == null
+    session.getAttribute('aaf.vhr.AccountController.CURRENT_USER') == null
     response.redirectedUrl == "/dashboard/welcome"
   }
 
