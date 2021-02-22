@@ -354,6 +354,7 @@ class LoginControllerSpec extends spock.lang.Specification {
     controller.loginService = loginService
 
     when:
+    request.method = 'POST'
     controller.twosteplogin(123456)
 
     then:
@@ -376,6 +377,7 @@ class LoginControllerSpec extends spock.lang.Specification {
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
     when:
+    request.method = 'POST'
     controller.twosteplogin(123456)
 
     then:
@@ -406,6 +408,7 @@ class LoginControllerSpec extends spock.lang.Specification {
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
     when:
+    request.method = 'POST'
     controller.twosteplogin(123456)
 
     then:
