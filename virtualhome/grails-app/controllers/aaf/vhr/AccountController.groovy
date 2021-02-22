@@ -11,7 +11,7 @@ import aaf.vhr.crypto.GoogleAuthenticator
 
 class AccountController {
 
-  static allowedMethods = [completedetailschange: 'POST']
+  static allowedMethods = [login: 'POST', twosteplogin:'POST', finishenablingtwostep: 'POST', completedetailschange: 'POST']
 
   static final CURRENT_USER = "aaf.vhr.AccountController.CURRENT_USER"
   static final INVALID_USER = "aaf.vhr.AccountController.INVALID_USER"
@@ -26,14 +26,14 @@ class AccountController {
   }
 
   def login(String username, String password) {
-    def deprecatedSubject = DeprecatedSubject.findWhere(login:username, migrated:false)
+    def deprecatedSubject = username != null ? DeprecatedSubject.findWhere(login:username, migrated:false) : null
     if(deprecatedSubject) {
       session.setAttribute(MigrateController.MIGRATION_USER, username)
       redirect (controller:'migrate', action:'introduction')
       return
     }
 
-    def managedSubjectInstance = ManagedSubject.findWhere(login: username, [lock:true])
+    def managedSubjectInstance = username != null ? ManagedSubject.findWhere(login: username, [lock:true]) : null
     if(!managedSubjectInstance) {
       log.error "No such ManagedSubject for ${params.login} when attempting myaccount login"
 

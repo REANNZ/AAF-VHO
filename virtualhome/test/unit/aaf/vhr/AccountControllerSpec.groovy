@@ -37,6 +37,7 @@ class AccountControllerSpec extends spock.lang.Specification {
     controller.loginService = loginService
 
     when:
+    request.method = 'POST'
     controller.login(ms.login, 'password')
 
     then:
@@ -54,6 +55,7 @@ class AccountControllerSpec extends spock.lang.Specification {
     controller.loginService = loginService
 
     when:
+    request.method = 'POST'
     controller.login(ms.login, 'password')
 
     then:
@@ -264,6 +266,7 @@ class AccountControllerSpec extends spock.lang.Specification {
 
     when:
     params.totp = 1
+    request.method = 'POST'
     controller.finishenablingtwostep()
 
     then:
@@ -285,6 +288,7 @@ class AccountControllerSpec extends spock.lang.Specification {
 
     when:
     params.totp = 1
+    request.method = 'POST'
     controller.finishenablingtwostep()
 
     then:

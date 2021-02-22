@@ -15,7 +15,7 @@ import aaf.vhr.crypto.GoogleAuthenticator
 
 class LoginController implements InitializingBean {
 
-  static allowedMethods = [login: 'POST', verifytwostepcode:'POST']
+  static allowedMethods = [login: 'POST', twosteplogin: 'POST', verifytwostepcode: 'POST']
 
   final String INVALID_USER = "aaf.vhr.LoginController.INVALID_USER"
   final String FAILED_USER = "aaf.vhr.LoginController.FAILED_USER"
@@ -77,7 +77,7 @@ class LoginController implements InitializingBean {
   }
 
   def login(String username, String password) {
-    def deprecatedSubject = DeprecatedSubject.findWhere(login:username, migrated:false)
+    def deprecatedSubject = username != null ? DeprecatedSubject.findWhere(login:username, migrated:false) : null
     if(deprecatedSubject) {
       session.setAttribute(MigrateController.MIGRATION_USER, username)
       redirect (controller:'migrate', action:'introduction')
@@ -91,7 +91,7 @@ class LoginController implements InitializingBean {
       return
     }
 
-    def managedSubjectInstance = ManagedSubject.findWhere(login: username, [lock:true])
+    def managedSubjectInstance = username != null ? ManagedSubject.findWhere(login: username, [lock:true]) : null
     if(!managedSubjectInstance) {
       log.error "No ManagedSubject represented by $username"
       session.setAttribute(INVALID_USER, true)
