@@ -11,7 +11,7 @@ import aaf.vhr.crypto.GoogleAuthenticator
 
 class AccountController {
 
-  static allowedMethods = [completedetailschange: 'POST']
+  static allowedMethods = [login: 'POST', twosteplogin:'POST', finishenablingtwostep: 'POST', completedetailschange: 'POST']
 
   static final CURRENT_USER = "aaf.vhr.AccountController.CURRENT_USER"
   static final INVALID_USER = "aaf.vhr.AccountController.INVALID_USER"

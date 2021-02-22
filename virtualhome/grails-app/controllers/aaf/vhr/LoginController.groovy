@@ -15,7 +15,7 @@ import aaf.vhr.crypto.GoogleAuthenticator
 
 class LoginController implements InitializingBean {
 
-  static allowedMethods = [login: 'POST', verifytwostepcode:'POST']
+  static allowedMethods = [login: 'POST', twosteplogin: 'POST', verifytwostepcode: 'POST']
 
   final String INVALID_USER = "aaf.vhr.LoginController.INVALID_USER"
   final String FAILED_USER = "aaf.vhr.LoginController.FAILED_USER"
