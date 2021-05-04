@@ -31,7 +31,7 @@
 </li>
 
 <li>
-  <a href="#" class="archive-ensure" data-confirm="${message(code:'views.aaf.vhr.managedsubject.confirm.archive')}">
+  <a href="#" class="${ managedSubjectInstance.archived ? 'unarchive-ensure' : 'archive-ensure' }" data-confirm="${message(code: managedSubjectInstance.archived ? 'views.aaf.vhr.managedsubject.confirm.unarchive' : 'views.aaf.vhr.managedsubject.confirm.archive')}">
     <g:if test="${managedSubjectInstance.archived}">
       <g:message encodeAs='HTML' code="views.aaf.vhr.managedsubject.show.unarchive"/>
     </g:if>
