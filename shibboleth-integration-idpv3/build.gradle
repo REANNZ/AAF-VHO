@@ -31,12 +31,12 @@ dependencies {
   compile 'org.apache.tomcat:tomcat-servlet-api:8.5.39'
 
   [
-    'net.shibboleth.idp:idp-authn-api:4.0.1',
-    'net.shibboleth.idp:idp-ui:4.0.1',
-    'net.shibboleth.idp:idp-consent-api:4.0.1',
-    'net.shibboleth.utilities:java-support:8.0.0',
-    'org.opensaml:opensaml-profile-api:4.0.1',
-    'org.opensaml:opensaml-messaging-api:4.0.1',
+    'net.shibboleth.idp:idp-authn-api:4.1.0',
+    'net.shibboleth.idp:idp-ui:4.1.0',
+    'net.shibboleth.idp:idp-consent-api:4.1.0',
+    'net.shibboleth.utilities:java-support:8.2.0',
+    'org.opensaml:opensaml-profile-api:4.1.0',
+    'org.opensaml:opensaml-messaging-api:4.1.0',
   ].each {
     compile(it) {
       transitive = false
