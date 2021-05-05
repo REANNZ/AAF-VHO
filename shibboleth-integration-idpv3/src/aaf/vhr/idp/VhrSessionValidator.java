@@ -5,6 +5,7 @@ import java.net.URI;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -21,8 +22,6 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
-import org.joda.time.DateTime;
-import org.joda.time.chrono.ISOChronology;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -54,7 +53,7 @@ public class VhrSessionValidator {
 		return validateSession(vhrSessionID, null, null);
 	}
 
-	public String validateSession(String vhrSessionID, DateTime notBefore, DateTime authnInstantArr[]) {
+	public String validateSession(String vhrSessionID, Instant notBefore, Instant authnInstantArr[]) {
 		HttpClient httpClient = null;
 		HttpGet request = null;
 		HttpResponse response = null;
@@ -93,24 +92,24 @@ public class VhrSessionValidator {
 				JSONObject responseJSON = parseJSON(response.getEntity());
 				if(responseJSON != null) {
 					String remoteUser = (String) responseJSON.get("remote_user");
-					String authnInstant = (String) responseJSON.get("authnInstant");
-					DateTime jtAuthnInstant = null;
-					if (authnInstant != null) {
-					    log.debug("VHR response includes an AuthnInstant: {}", authnInstant);
-					    jtAuthnInstant = new DateTime(authnInstant, ISOChronology.getInstanceUTC());
-					    log.debug("VHR response authnInstant as org.joda.time.DateTime is: {}", jtAuthnInstant);
+					String authnInstant_str = (String) responseJSON.get("authnInstant");
+					Instant authnInstant = null;
+					if (authnInstant_str != null) {
+					    log.debug("VHR response includes an AuthnInstant: {}", authnInstant_str);
+					    authnInstant = Instant.parse(authnInstant_str);
+					    log.debug("VHR response authnInstant as java.time.instant is: {}", authnInstant);
 					}
-					// if notBefore was requested and we are either missing jtAuthnInstant or jtAuthnInstant was *before* notBefore, reject the session
-					if (notBefore != null && (jtAuthnInstant == null || jtAuthnInstant.compareTo(notBefore) < 0)) {
-					    log.info("Rejecting username {} as authnInstant {} is earlier than the notBefore threshold {}", remoteUser, jtAuthnInstant, notBefore);
+					// if notBefore was requested and we are either missing authnInstant or authnInstant was *before* notBefore, reject the session
+					if (notBefore != null && (authnInstant == null || authnInstant.compareTo(notBefore) < 0)) {
+					    log.info("Rejecting username {} as authnInstant {} is earlier than the notBefore threshold {}", remoteUser, authnInstant, notBefore);
 					    remoteUser = null;
 					};
 					
 					if(remoteUser != null) {
 						log.info("VHR API advises sessionID {} belongs to user {}, setting for REMOTE_USER.", vhrSessionID, remoteUser);
-						if (jtAuthnInstant != null && authnInstantArr != null && authnInstantArr.length>=1) {
-							log.info("VHR API sets authnInstant to {}.", jtAuthnInstant);
-							authnInstantArr[0]=jtAuthnInstant;
+						if (authnInstant != null && authnInstantArr != null && authnInstantArr.length>=1) {
+							log.info("VHR API sets authnInstant to {}.", authnInstant);
+							authnInstantArr[0]=authnInstant;
 						};
 						return remoteUser;
 					}

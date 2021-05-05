@@ -1,11 +1,13 @@
 
-# Shibboleth IdP 3.x integration code #
+# Shibboleth IdP 3.x and 4.x integration code #
 
 This code was developed by REANNZ (Research and Education Advanced Network New Zealand) for Tuakiri, the New Zealand Access Federation, and contributed back to the AAF virtualhome project.
 
-This code allows running the virtualhome application with a Shibboleth 3.x IdP.
+This code allows running the virtualhome application with a Shibboleth 3.x or 4.x IdP.
 
-Tuakiri is running this code in production with IdP 3.2.1, with a customized version of the virtualhome application.
+This module initially supported IdP 3.x (up to VirtualHome version 1.6.5, [1.6.5-tuakiri5](https://github.com/REANNZ/AAF-VHO/releases/tag/1.6.5-tuakiri5).  Subsequent versions have been adjusted for IdP 4.x - the archive of the repo can be used to retrieve a 3.x compatible version.
+
+Tuakiri is running this code in production, with a customized version of the virtualhome application.
 
 To use the full functionality of this code, one would need to use the version of the virtualhome application extended by REANNZ for Tuakiri.  Specifically:
 * support for `forceAuthn="true"` requires the virtualhome application to return the timestamp of the authentication on the API exposed to this module.  This was introduced as an extension in the Tuakiri version.
