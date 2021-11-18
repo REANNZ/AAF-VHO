@@ -172,6 +172,9 @@ class AccountController {
       }
 
       cryptoService.generatePasswordHash(managedSubjectInstance)
+      log.info("The account $managedSubjectInstance has successfully changed the account password")
+      def change = new StateChange(event:StateChangeType.CHANGEPASSWORD, reason: "User requested password change", category: 'password_change', environment: createRequestDetails(request), actionedBy: null)
+      managedSubjectInstance.addToStateChanges(change)
     }
 
     flash.type = 'success'
