@@ -153,6 +153,8 @@ class AccountController {
     } else {
       managedSubjectInstance.mobileNumber = null
     }
+    flash.type = 'success'
+    flash.message = 'controllers.aaf.vhr.account.completedetailschange.success'
 
     if (params.plainPassword || params.plainPasswordConfirmation) {
       managedSubjectInstance.plainPassword = params.plainPassword
@@ -173,10 +175,10 @@ class AccountController {
       log.info("The account $managedSubjectInstance has successfully changed the account password")
       def change = new StateChange(event:StateChangeType.CHANGEPASSWORD, reason: "User requested password change", category: 'password_change', environment: createRequestDetails(request), actionedBy: null)
       managedSubjectInstance.addToStateChanges(change)
+      flash.type = 'success'
+      flash.message = 'controllers.aaf.vhr.account.completedetailschange.new.password.success'
     }
 
-    flash.type = 'success'
-    flash.message = 'controllers.aaf.vhr.account.completedetailschange.success'
     redirect action: 'show'
   }
 
