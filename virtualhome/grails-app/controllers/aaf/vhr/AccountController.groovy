@@ -100,8 +100,6 @@ class AccountController {
       return
     }
 
-    flash.clear()
-
     def groupRole = Role.findWhere(name:"group:${managedSubjectInstance.group.id}:administrators")
     def organizationRole = Role.findWhere(name:"organization:${managedSubjectInstance.organization.id}:administrators")
 
