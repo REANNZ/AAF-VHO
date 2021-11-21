@@ -213,7 +213,7 @@ class AccountControllerSpec extends spock.lang.Specification {
     1 * passwordValidationService.validate(_ as ManagedSubject) >>> [[true, []]]
 
     flash.type == 'success'
-    flash.message == 'controllers.aaf.vhr.account.completedetailschange.success'
+    flash.message == 'controllers.aaf.vhr.account.completedetailschange.new.password.success'
     response.redirectedUrl == '/account/show'
   }
 
