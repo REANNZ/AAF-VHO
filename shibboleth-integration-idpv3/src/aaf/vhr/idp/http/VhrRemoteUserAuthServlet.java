@@ -119,7 +119,7 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
                 if (hs != null && hs.getAttribute(IS_FORCE_AUTHN_ATTR_NAME + key) != null ) {
                    isForceAuthn = ((Boolean)hs.getAttribute(IS_FORCE_AUTHN_ATTR_NAME + key)).booleanValue();
                    // remove the attribute from the session so that we do not attempt to reuse it...
-                   hs.removeAttribute(AUTHN_INIT_INSTANT_ATTR_NAME);
+                   hs.removeAttribute(IS_FORCE_AUTHN_ATTR_NAME);
                 };
 
             } else {
