@@ -152,7 +152,7 @@ class LoginService implements InitializingBean{
 
   public String establishSession(ManagedSubject managedSubjectInstance) {
     def sessionID = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(64)
-    def authnTuple = new AuthnTuple(managedSubjectInstance.login, new Date())
+    def authnTuple = new AuthnTuple(managedSubjectInstance.login, new Date(), managedSubjectInstance.isUsingTwoStepLogin())
     loginCache.put(sessionID, authnTuple)
 
     sessionID
