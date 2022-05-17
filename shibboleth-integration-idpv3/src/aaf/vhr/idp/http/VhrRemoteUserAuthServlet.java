@@ -198,7 +198,7 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
 
                 // save session *key*
                 HttpSession hs = httpRequest.getSession(true);
-                hs.setAttribute(IS_FORCE_AUTHN_ATTR_NAME + key, new Boolean(isForceAuthn));
+                hs.setAttribute(IS_FORCE_AUTHN_ATTR_NAME + key, Boolean.valueOf(isForceAuthn));
                 hs.setAttribute(AUTHN_INIT_INSTANT_ATTR_NAME + key, authnStart);
 
                 try {
