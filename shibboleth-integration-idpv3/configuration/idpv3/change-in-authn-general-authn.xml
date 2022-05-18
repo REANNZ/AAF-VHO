@@ -1,5 +1,13 @@
 
 <!-- declare support for forcedAuthentication -->
+<!-- set supportedPrincipals property (add nested bean) -->
         <bean id="authn/RemoteUser" parent="shibboleth.AuthenticationFlow"
             p:forcedAuthenticationSupported="true"
-            p:nonBrowserSupported="false" />
+            p:nonBrowserSupported="false" >
+
+            <property name="supportedPrincipalsByString">
+                <bean parent="shibboleth.CommaDelimStringArray"
+                    c:_0="#{'%{idp.authn.RemoteUser.supportedPrincipals:}'.trim()}" />
+            </property>
+
+        </bean>

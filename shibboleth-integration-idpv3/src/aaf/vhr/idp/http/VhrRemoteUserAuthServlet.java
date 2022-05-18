@@ -18,6 +18,7 @@
 package aaf.vhr.idp.http;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.time.Instant;
 
 import javax.annotation.Nonnull;
@@ -251,7 +252,32 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
             final Subject subject = new Subject();
             subject.getPrincipals().add(new UsernamePrincipal(username));
 
-            // return subject with at UsernamePrincipal
+            // If mfaPrincipalName is configured, add the correct set of principals to Subject.
+            // The principal name matching MFA will only be added if MFA was used.
+            // Other principal names supported by this flow are ssumed to be SFA and will be added regardless of MFA.
+            if (mfaPrincipalName != null) {
+                final AuthenticationFlowDescriptor authnFlow = getAuthenticationFlowDescriptor(key, httpRequest);
+                boolean mfaPrincipalFound = false;
+                for (final Principal p :authnFlow.getSupportedPrincipals()) {
+                    if (p.getName().equals(mfaPrincipalName)) {
+                        mfaPrincipalFound = true;
+                        if (mfaArr[0]) {
+                            log.debug("MFA was used, passing MFA principal {} back to IdP", p.getName());
+                            subject.getPrincipals().add(p);
+                        } else {
+                            log.debug("MFA was not used, skipping MFA principal {}", p.getName());
+                        }
+                    } else {
+                        log.debug("Passing non-MFA principal {} back to IdP", p.getName());
+                        subject.getPrincipals().add(p);
+                    };
+                };
+                if (mfaArr[0] && !mfaPrincipalFound) {
+                    log.warn("Response from VHR indicates MFA status was used, but principal {} is not configured as supported by this profile", mfaPrincipalName);
+                }
+            };
+
+            // return subject with at least UsernamePrincipal and optional set of authentication context principals
             httpRequest.setAttribute(ExternalAuthentication.SUBJECT_KEY, subject);
 
             ExternalAuthentication.finishExternalAuthentication(key, httpRequest, httpResponse);
