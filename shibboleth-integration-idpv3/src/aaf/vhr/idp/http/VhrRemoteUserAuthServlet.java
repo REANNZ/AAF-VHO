@@ -101,8 +101,9 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
             boolean isVhrReturn = false;
             boolean isForceAuthn = false;
             Instant authnStart = null; // when this authentication started at the IdP
-            // array to use as return parameter when calling VhrSessionValidator
+            // arrays to use as return parameter when calling VhrSessionValidator
             Instant authnInstantArr[] = new Instant[1];
+            boolean mfaArr[] = new boolean[1];
 
             if (httpRequest.getParameter(REDIRECT_REQ_PARAM_NAME) != null) {
                 // we have come back from the VHR
@@ -169,7 +170,7 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
 
             if (vhrSessionID != null) {
                 log.info("Found vhrSessionID from {}. Establishing validity.", httpRequest.getRemoteHost());
-                username = vhrSessionValidator.validateSession(vhrSessionID, ( isForceAuthn ? authnStart : null), authnInstantArr);
+                username = vhrSessionValidator.validateSession(vhrSessionID, ( isForceAuthn ? authnStart : null), authnInstantArr, mfaArr);
             };
 
             // If we do not have a username yet (no Vhr session cookie or did not validate),
