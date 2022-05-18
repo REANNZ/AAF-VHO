@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.time.Instant;
 
 import javax.annotation.Nonnull;
+import javax.security.auth.Subject;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.shibboleth.idp.authn.context.AuthenticationContext;
+import net.shibboleth.idp.authn.principal.UsernamePrincipal;
 import net.shibboleth.idp.authn.ExternalAuthentication;
 import net.shibboleth.idp.authn.ExternalAuthenticationException;
 import net.shibboleth.idp.consent.context.ConsentManagementContext;
@@ -238,7 +240,11 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
                 httpRequest.setAttribute(ExternalAuthentication.AUTHENTICATION_INSTANT_KEY, authnInstantArr[0]);
             };
 
-            httpRequest.setAttribute(ExternalAuthentication.PRINCIPAL_NAME_KEY, username);
+            final Subject subject = new Subject();
+            subject.getPrincipals().add(new UsernamePrincipal(username));
+
+            // return subject with at UsernamePrincipal
+            httpRequest.setAttribute(ExternalAuthentication.SUBJECT_KEY, subject);
 
             ExternalAuthentication.finishExternalAuthentication(key, httpRequest, httpResponse);
 
