@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.shibboleth.idp.authn.context.AuthenticationContext;
+import net.shibboleth.idp.authn.context.RequestedPrincipalContext;
 import net.shibboleth.idp.authn.principal.UsernamePrincipal;
 import net.shibboleth.idp.authn.AuthenticationFlowDescriptor;
 import net.shibboleth.idp.authn.ExternalAuthentication;
@@ -208,6 +209,18 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
                     log.debug("RelyingPartyUIContext received, ServiceName is {}", serviceName);
                 };
 
+                // get RequestedPrincipalContext to get list of requested principals
+                final RequestedPrincipalContext rqPCtx = prc.getSubcontext(AuthenticationContext.class,true).
+                        getSubcontext(RequestedPrincipalContext.class, false);
+                boolean mfaRequested = false;
+
+                if (rqPCtx != null && mfaPrincipalName != null) for (final Principal p: rqPCtx.getRequestedPrincipals()) {
+                    if (p.getName().equals(mfaPrincipalName)) {
+                        mfaRequested = true;
+                        log.debug("MFA Principal {} requested, signalling to application.", p.getName());
+                    }
+                };
+
                 // save session *key*
                 HttpSession hs = httpRequest.getSession(true);
                 hs.setAttribute(IS_FORCE_AUTHN_ATTR_NAME + key, Boolean.valueOf(isForceAuthn));
@@ -217,7 +230,8 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
                     httpResponse.sendRedirect(String.format(vhrLoginEndpoint,
                             codec.encode(httpRequest.getRequestURL().toString()+"?"+REDIRECT_REQ_PARAM_NAME+"="+codec.encode(key)),
                             codec.encode(relyingParty),
-                            codec.encode(serviceName)));
+                            codec.encode(serviceName),
+                            codec.encode(Boolean.toString(mfaRequested))));
                 } catch (EncoderException e) {
                     log.error ("Could not encode VHR redirect params");
                     throw new IOException(e);
