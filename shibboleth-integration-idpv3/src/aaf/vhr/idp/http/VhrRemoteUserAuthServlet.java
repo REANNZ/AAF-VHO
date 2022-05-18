@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.time.Instant;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.security.auth.Subject;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -32,10 +33,12 @@ import javax.servlet.http.HttpSession;
 
 import net.shibboleth.idp.authn.context.AuthenticationContext;
 import net.shibboleth.idp.authn.principal.UsernamePrincipal;
+import net.shibboleth.idp.authn.AuthenticationFlowDescriptor;
 import net.shibboleth.idp.authn.ExternalAuthentication;
 import net.shibboleth.idp.authn.ExternalAuthenticationException;
 import net.shibboleth.idp.consent.context.ConsentManagementContext;
 import net.shibboleth.idp.ui.context.RelyingPartyUIContext;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
 
 import org.opensaml.profile.context.ProfileRequestContext;
 import org.apache.commons.codec.EncoderException;
@@ -258,5 +261,25 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
         }
     }
 // Checkstyle: CyclomaticComplexity|MethodLength ON
+
+    /**
+     * Get the executing {@link AuthenticationFlowDescriptor}.
+     *
+     * Reused from RemoteUserAuthServlet.
+     *
+     * @param key external authentication key
+     * @param httpRequest servlet request
+     *
+     * @return active descriptor, or null
+     * @throws ExternalAuthenticationException  if unable to access the profile context
+     */
+    @Nullable public AuthenticationFlowDescriptor getAuthenticationFlowDescriptor(@Nonnull @NotEmpty final String key,
+            @Nonnull final HttpServletRequest httpRequest) throws ExternalAuthenticationException {
+
+        final ProfileRequestContext prc =
+                ExternalAuthentication.getProfileRequestContext(key, httpRequest);
+        final AuthenticationContext authnCtx = prc.getSubcontext(AuthenticationContext.class);
+        return (authnCtx != null) ? authnCtx.getAttemptedFlow() : null;
+    }
 
 }
