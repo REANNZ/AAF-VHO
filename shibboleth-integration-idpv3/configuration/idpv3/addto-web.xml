@@ -67,6 +67,10 @@
         <param-name>consentRevocationParamName</param-name>
         <param-value>_shib_idp_revokeConsent</param-value>
       </init-param>
+      <init-param>
+        <param-name>mfaPrincipalName</param-name>
+        <param-value>https://refeds.org/profile/mfa</param-value>
+      </init-param>
       <load-on-startup>4</load-on-startup>
     </servlet>
     <servlet-mapping>

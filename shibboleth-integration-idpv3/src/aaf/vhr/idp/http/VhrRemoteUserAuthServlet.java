@@ -69,6 +69,9 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
     /** Name of the request parameter that would indicate the user wants to revoke consent */
     private String consentRevocationParamName = "_shib_idp_revokeConsent";
 
+    /** Principal name to add to Subject only when MFA is used. */
+    private String mfaPrincipalName;
+
 // Checkstyle: CyclomaticComplexity OFF
     /** {@inheritDoc} */
     @Override
@@ -86,6 +89,8 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
         // Consent revocation parameter name: override default if set
         String crpn = config.getInitParameter("consentRevocationParamName");
         if (crpn != null) { consentRevocationParamName = crpn; };
+
+        mfaPrincipalName = config.getInitParameter("mfaPrincipalName");
 
         vhrSessionValidator = new VhrSessionValidator(apiServer, apiEndpoint, apiToken, apiSecret, requestingHost);
 
