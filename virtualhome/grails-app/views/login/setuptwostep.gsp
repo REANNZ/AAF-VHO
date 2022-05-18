@@ -14,7 +14,13 @@
 
     <div class="row">
       <div class="span12">
-        <p>The Virtual Home now supports 2-Step verification, which is a secondary security measure used when logging into your account. The <strong>administrators of your account</strong> have enabled this for you, so simply follow the 3 steps below to set up and enable 2-Step verification to continue accessing Tuakiri services.</p>
+        <p>The Virtual Home now supports 2-Step verification, which is a secondary security measure used when logging into your account.
+        <g:if test="${managedSubjectInstance.enforceTwoStepLogin()}">
+        The <strong>administrators of your account</strong> have enabled this for you, so simply follow the 3 steps below to set up and enable 2-Step verification to continue accessing Tuakiri services.</p>
+        </g:if>
+        <g:else>
+        The service you are logging into requests stronger login security, so simply follow the 3 steps below to set up and enable 2-Step verification to continue accessing Tuakiri services.</p>
+        </g:else>
 
         <g:render template="/templates/appdetails" />
 

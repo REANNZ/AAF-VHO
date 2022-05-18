@@ -23,6 +23,7 @@ class LoginController implements InitializingBean {
   final String SSO_URL = "aaf.vhr.LoginController.SSO_URL"
   final String RELYING_PARTY = "aaf.vhr.LoginController.RELYING_PARTY"
   final String SERVICE_NAME = "aaf.vhr.LoginController.SERVICE_NAME"
+  final String MFA_REQUESTED = "aaf.vhr.LoginController.MFA_REQUESTED"
   final String NEW_TOTP_KEY = "aaf.vhr.LoginController.NEW_TOTP_KEY"
   final String CONSENT_REVOKE = "aaf.vhr.LoginController.CONSENT_REVOKE"
   final String SLO_URL = "aaf.vhr.LoginController.SLO_URL"
@@ -44,6 +45,7 @@ class LoginController implements InitializingBean {
       // this is a new login request - remove old params from session
       session.removeAttribute(RELYING_PARTY);
       session.removeAttribute(SERVICE_NAME);
+      session.removeAttribute(MFA_REQUESTED);
     } else {
       if(!session.getAttribute(SSO_URL)) {
         log.error "SSO URL not stored for user session and not provided by name/value pair for ssourl, redirecting to oops"
@@ -57,6 +59,10 @@ class LoginController implements InitializingBean {
 
     if(params.servicename) {
       session.setAttribute(SERVICE_NAME, params.servicename)
+    };
+
+    if(params.mfa) {
+      session.setAttribute(MFA_REQUESTED, Boolean.valueOf(params.mfa))
     };
 
     if(session.getAttribute(INVALID_USER)) {
@@ -117,6 +123,15 @@ class LoginController implements InitializingBean {
     if(managedSubjectInstance.enforceTwoStepLogin() && !managedSubjectInstance.isUsingTwoStepLogin()){
       // This account needs to be updated before they can login
       log.info("Due to local or group policy the account $managedSubjectInstance must enroll into 2-Step verification with their phone before continuing login.")
+
+      redirect action:'setuptwostep'
+      return
+    }
+
+    // if the account dnoes not have MFA yet but application requests it, redirect to MFA setup
+    if(session.getAttribute(MFA_REQUESTED)?.equals(Boolean.TRUE) && !managedSubjectInstance.isUsingTwoStepLogin()){
+      // This account needs to be updated before they can login
+      log.info("Due to request from target service, the account $managedSubjectInstance must enroll into 2-Step verification before continuing login.")
 
       redirect action:'setuptwostep'
       return
@@ -343,6 +358,7 @@ class LoginController implements InitializingBean {
     session.removeAttribute(CURRENT_USER)
     session.removeAttribute(RELYING_PARTY);
     session.removeAttribute(SERVICE_NAME);
+    session.removeAttribute(MFA_REQUESTED);
     session.removeAttribute(SSO_URL)
 
     redirectURL
