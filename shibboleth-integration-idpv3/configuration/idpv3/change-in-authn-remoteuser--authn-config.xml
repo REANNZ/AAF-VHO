@@ -1,0 +1,3 @@
+<!-- do not automatically add all principals supported by the flow -->
+
+     <util:constant id="shibboleth.authn.RemoteUser.addDefaultPrincipals" static-field="java.lang.Boolean.FALSE" />

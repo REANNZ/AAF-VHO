@@ -49,10 +49,10 @@ class LoginApiControllerSpec extends spock.lang.Specification {
     controller.confirmsession()
 
     then:
-    1 * loginService.sessionRemoteUser(params.sessionID) >> new AuthnTuple('testuser', authnInstant)
+    1 * loginService.sessionRemoteUser(params.sessionID) >> new AuthnTuple('testuser', authnInstant, false)
     response.status == 200
     response.contentType == 'application/json;charset=UTF-8'
-    response.text == '{"remote_user":"testuser","authnInstant":"'+sdf.format(authnInstant)+'"}'
+    response.text == '{"remote_user":"testuser","authnInstant":"'+sdf.format(authnInstant)+'","mfa":false}'
   }
 
   def "basicauth: receive 410 is there is no such object"() {

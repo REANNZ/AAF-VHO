@@ -38,7 +38,7 @@ class LoginApiController extends aaf.base.api.ApiBaseController {
 
     if(remoteUserTuple) {
       log.info "API session verification for ${params.sessionID} provided response with remote_user of $remoteUserTuple.username"
-      render(contentType: 'application/json') { ['remote_user':remoteUserTuple.username, 'authnInstant':sdf.format(remoteUserTuple.authnInstant)] }
+      render(contentType: 'application/json') { ['remote_user':remoteUserTuple.username, 'authnInstant':sdf.format(remoteUserTuple.authnInstant), 'mfa':remoteUserTuple.mfa] }
     } else {
       log.error "API session verification for ${params.sessionID} failed, providing error response"
       response.status = 410

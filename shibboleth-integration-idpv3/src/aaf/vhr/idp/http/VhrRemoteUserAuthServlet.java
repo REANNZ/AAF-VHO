@@ -18,9 +18,12 @@
 package aaf.vhr.idp.http;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.time.Instant;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.security.auth.Subject;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -30,10 +33,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.shibboleth.idp.authn.context.AuthenticationContext;
+import net.shibboleth.idp.authn.context.RequestedPrincipalContext;
+import net.shibboleth.idp.authn.principal.UsernamePrincipal;
+import net.shibboleth.idp.authn.AuthenticationFlowDescriptor;
 import net.shibboleth.idp.authn.ExternalAuthentication;
 import net.shibboleth.idp.authn.ExternalAuthenticationException;
 import net.shibboleth.idp.consent.context.ConsentManagementContext;
 import net.shibboleth.idp.ui.context.RelyingPartyUIContext;
+import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
 
 import org.opensaml.profile.context.ProfileRequestContext;
 import org.apache.commons.codec.EncoderException;
@@ -67,6 +74,9 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
     /** Name of the request parameter that would indicate the user wants to revoke consent */
     private String consentRevocationParamName = "_shib_idp_revokeConsent";
 
+    /** Principal name to add to Subject only when MFA is used. */
+    private String mfaPrincipalName;
+
 // Checkstyle: CyclomaticComplexity OFF
     /** {@inheritDoc} */
     @Override
@@ -85,6 +95,8 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
         String crpn = config.getInitParameter("consentRevocationParamName");
         if (crpn != null) { consentRevocationParamName = crpn; };
 
+        mfaPrincipalName = config.getInitParameter("mfaPrincipalName");
+
         vhrSessionValidator = new VhrSessionValidator(apiServer, apiEndpoint, apiToken, apiSecret, requestingHost);
 
     }
@@ -101,8 +113,9 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
             boolean isVhrReturn = false;
             boolean isForceAuthn = false;
             Instant authnStart = null; // when this authentication started at the IdP
-            // array to use as return parameter when calling VhrSessionValidator
+            // arrays to use as return parameter when calling VhrSessionValidator
             Instant authnInstantArr[] = new Instant[1];
+            boolean mfaArr[] = new boolean[1];
 
             if (httpRequest.getParameter(REDIRECT_REQ_PARAM_NAME) != null) {
                 // we have come back from the VHR
@@ -119,7 +132,7 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
                 if (hs != null && hs.getAttribute(IS_FORCE_AUTHN_ATTR_NAME + key) != null ) {
                    isForceAuthn = ((Boolean)hs.getAttribute(IS_FORCE_AUTHN_ATTR_NAME + key)).booleanValue();
                    // remove the attribute from the session so that we do not attempt to reuse it...
-                   hs.removeAttribute(AUTHN_INIT_INSTANT_ATTR_NAME);
+                   hs.removeAttribute(IS_FORCE_AUTHN_ATTR_NAME);
                 };
 
             } else {
@@ -154,6 +167,22 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
             // * we started new authentication
             // * or we have returned from VHR and loaded the key from the HttpSession
 
+            // Determine whether MFA is requested
+            final ProfileRequestContext prc = ExternalAuthentication.getProfileRequestContext(key, httpRequest);
+            // get RequestedPrincipalContext to get list of requested principals
+            final RequestedPrincipalContext rqPCtx = prc.getSubcontext(AuthenticationContext.class,true).
+                    getSubcontext(RequestedPrincipalContext.class, false);
+            boolean mfaRequested = false;
+
+            if (rqPCtx != null && mfaPrincipalName != null) {
+                for (final Principal p: rqPCtx.getRequestedPrincipals()) {
+                    if (p.getName().equals(mfaPrincipalName)) {
+                        mfaRequested = true;
+                        log.debug("MFA Principal {} requested, signalling to application.", p.getName());
+                    }
+                };
+            };
+
             String username = null;
 
             // We may have a cookie - either as part of return or from previous session
@@ -169,7 +198,10 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
 
             if (vhrSessionID != null) {
                 log.info("Found vhrSessionID from {}. Establishing validity.", httpRequest.getRemoteHost());
-                username = vhrSessionValidator.validateSession(vhrSessionID, ( isForceAuthn ? authnStart : null), authnInstantArr);
+                // Force a new login attempt if caching a non-MFA login but MFA is requested
+                // Accept whatever is returned on returning from VHO (and let downstream deal with lack of MFA)
+                final boolean mfaInsist = mfaRequested && !isVhrReturn;
+                username = vhrSessionValidator.validateSession(vhrSessionID, ( isForceAuthn ? authnStart : null), mfaInsist, authnInstantArr, mfaArr);
             };
 
             // If we do not have a username yet (no Vhr session cookie or did not validate),
@@ -187,8 +219,6 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
 
                 // try getting a RelyingPartyUIContext
                 // we should pass on the request for consent revocation
-                final ProfileRequestContext prc =
-                        ExternalAuthentication.getProfileRequestContext(key, httpRequest);
                 final RelyingPartyUIContext rpuiCtx = prc.getSubcontext(AuthenticationContext.class,true).
                         getSubcontext(RelyingPartyUIContext.class, false);
                 if (rpuiCtx != null) {
@@ -198,14 +228,15 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
 
                 // save session *key*
                 HttpSession hs = httpRequest.getSession(true);
-                hs.setAttribute(IS_FORCE_AUTHN_ATTR_NAME + key, new Boolean(isForceAuthn));
+                hs.setAttribute(IS_FORCE_AUTHN_ATTR_NAME + key, Boolean.valueOf(isForceAuthn));
                 hs.setAttribute(AUTHN_INIT_INSTANT_ATTR_NAME + key, authnStart);
 
                 try {
                     httpResponse.sendRedirect(String.format(vhrLoginEndpoint,
                             codec.encode(httpRequest.getRequestURL().toString()+"?"+REDIRECT_REQ_PARAM_NAME+"="+codec.encode(key)),
                             codec.encode(relyingParty),
-                            codec.encode(serviceName)));
+                            codec.encode(serviceName),
+                            codec.encode(Boolean.toString(mfaRequested))));
                 } catch (EncoderException e) {
                     log.error ("Could not encode VHR redirect params");
                     throw new IOException(e);
@@ -224,8 +255,6 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
             String consentRevocationParam = httpRequest.getParameter(consentRevocationParamName);
             if (consentRevocationParam != null) {
                 // we should pass on the request for consent revocation
-                final ProfileRequestContext prc =
-                        ExternalAuthentication.getProfileRequestContext(key, httpRequest);
                 final ConsentManagementContext consentCtx = prc.getSubcontext(ConsentManagementContext.class, true);
                 log.debug("Consent revocation request received, setting revokeConsent in consentCtx");
                 consentCtx.setRevokeConsent(consentRevocationParam.equalsIgnoreCase("true"));
@@ -237,7 +266,36 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
                 httpRequest.setAttribute(ExternalAuthentication.AUTHENTICATION_INSTANT_KEY, authnInstantArr[0]);
             };
 
-            httpRequest.setAttribute(ExternalAuthentication.PRINCIPAL_NAME_KEY, username);
+            final Subject subject = new Subject();
+            subject.getPrincipals().add(new UsernamePrincipal(username));
+
+            // If mfaPrincipalName is configured, add the correct set of principals to Subject.
+            // The principal name matching MFA will only be added if MFA was used.
+            // Other principal names supported by this flow are assumed to be SFA and will be added regardless of MFA.
+            if (mfaPrincipalName != null) {
+                final AuthenticationFlowDescriptor authnFlow = getAuthenticationFlowDescriptor(key, httpRequest);
+                boolean mfaPrincipalFound = false;
+                for (final Principal p :authnFlow.getSupportedPrincipals()) {
+                    if (p.getName().equals(mfaPrincipalName)) {
+                        mfaPrincipalFound = true;
+                        if (mfaArr[0]) {
+                            log.debug("MFA was used, passing MFA principal {} back to IdP", p.getName());
+                            subject.getPrincipals().add(p);
+                        } else {
+                            log.debug("MFA was not used, skipping MFA principal {}", p.getName());
+                        }
+                    } else {
+                        log.debug("Passing non-MFA principal {} back to IdP", p.getName());
+                        subject.getPrincipals().add(p);
+                    };
+                };
+                if (mfaArr[0] && !mfaPrincipalFound) {
+                    log.warn("Response from VHR indicates MFA status was used, but principal {} is not configured as supported by this profile", mfaPrincipalName);
+                }
+            };
+
+            // return subject with at least UsernamePrincipal and optional set of authentication context principals
+            httpRequest.setAttribute(ExternalAuthentication.SUBJECT_KEY, subject);
 
             ExternalAuthentication.finishExternalAuthentication(key, httpRequest, httpResponse);
 
@@ -246,5 +304,25 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
         }
     }
 // Checkstyle: CyclomaticComplexity|MethodLength ON
+
+    /**
+     * Get the executing {@link AuthenticationFlowDescriptor}.
+     *
+     * Reused from RemoteUserAuthServlet.
+     *
+     * @param key external authentication key
+     * @param httpRequest servlet request
+     *
+     * @return active descriptor, or null
+     * @throws ExternalAuthenticationException  if unable to access the profile context
+     */
+    @Nullable public AuthenticationFlowDescriptor getAuthenticationFlowDescriptor(@Nonnull @NotEmpty final String key,
+            @Nonnull final HttpServletRequest httpRequest) throws ExternalAuthenticationException {
+
+        final ProfileRequestContext prc =
+                ExternalAuthentication.getProfileRequestContext(key, httpRequest);
+        final AuthenticationContext authnCtx = prc.getSubcontext(AuthenticationContext.class);
+        return (authnCtx != null) ? authnCtx.getAttemptedFlow() : null;
+    }
 
 }

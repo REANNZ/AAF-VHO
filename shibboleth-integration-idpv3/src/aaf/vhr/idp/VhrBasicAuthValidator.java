@@ -25,7 +25,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.entity.ContentType;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -86,7 +86,7 @@ public class VhrBasicAuthValidator {
       log.info("Authorization: " + requestAuthorizeHeader);
       log.info("Request: " + request);
 
-      httpClient = new DefaultHttpClient();
+      httpClient = HttpClients.createDefault();
       response = httpClient.execute(request);
 
       log.info("Response status: {}", response.getStatusLine().getStatusCode());

@@ -41,7 +41,7 @@
       <servlet-class>aaf.vhr.idp.http.VhrRemoteUserAuthServlet</servlet-class>
       <init-param>
         <param-name>loginEndpoint</param-name>
-        <param-value><!-- https://VHR server address -->/login?ssourl=%s&amp;relyingparty=%s&amp;servicename=%s</param-value>
+        <param-value><!-- https://VHR server address -->/login?ssourl=%s&amp;relyingparty=%s&amp;servicename=%s&amp;mfa=%s</param-value>
       </init-param>
       <init-param>
         <param-name>apiServer</param-name>
@@ -66,6 +66,10 @@
       <init-param>
         <param-name>consentRevocationParamName</param-name>
         <param-value>_shib_idp_revokeConsent</param-value>
+      </init-param>
+      <init-param>
+        <param-name>mfaPrincipalName</param-name>
+        <param-value>https://refeds.org/profile/mfa</param-value>
       </init-param>
       <load-on-startup>4</load-on-startup>
     </servlet>
