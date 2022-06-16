@@ -34,11 +34,13 @@ dependencies {
 
   [
     'net.shibboleth.idp:idp-authn-api:4.2.1',
-    'net.shibboleth.idp:idp-ui:4.2.1',
     'net.shibboleth.idp:idp-consent-api:4.2.1',
+    'net.shibboleth.idp:idp-profile-api:4.2.1',
+    'net.shibboleth.idp:idp-ui:4.2.1',
     'net.shibboleth.utilities:java-support:8.3.1',
-    'org.opensaml:opensaml-profile-api:4.2.0',
     'org.opensaml:opensaml-messaging-api:4.2.0',
+    'org.opensaml:opensaml-profile-api:4.2.0',
+    'org.opensaml:opensaml-storage-api:4.2.0',
   ].each {
     compile(it) {
       transitive = false
@@ -50,6 +52,7 @@ dependencies {
   compile 'commons-lang:commons-lang:2.6'
   compile 'org.apache.httpcomponents:httpcore:4.4.15'
   compile 'org.apache.httpcomponents:httpclient:4.5.13'
+  compile 'org.springframework:spring-core:5.3.19'
   compile 'com.googlecode.json-simple:json-simple:1.1.1'
   compile 'org.slf4j:slf4j-api:1.7.36'
 }

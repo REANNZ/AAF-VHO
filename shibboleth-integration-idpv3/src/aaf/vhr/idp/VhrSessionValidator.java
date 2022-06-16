@@ -50,10 +50,10 @@ public class VhrSessionValidator {
 	}
 	
 	public String validateSession(String vhrSessionID) {
-		return validateSession(vhrSessionID, null, null);
+		return validateSession(vhrSessionID, null, false, null, null);
 	}
 
-	public String validateSession(String vhrSessionID, Instant notBefore, Instant authnInstantArr[]) {
+	public String validateSession(String vhrSessionID, Instant notBefore, boolean mfaRequested, Instant authnInstantArr[], boolean mfaArr[]) {
 		HttpClient httpClient = null;
 		HttpGet request = null;
 		HttpResponse response = null;
@@ -104,12 +104,24 @@ public class VhrSessionValidator {
 					    log.info("Rejecting username {} as authnInstant {} is earlier than the notBefore threshold {}", remoteUser, authnInstant, notBefore);
 					    remoteUser = null;
 					};
+
+					Boolean mfa_obj = (Boolean) responseJSON.get("mfa");
+
+					// if MFA was requested and we are either missing mfa status or it is False, reject the session
+					if (mfaRequested && (mfa_obj == null || !mfa_obj.booleanValue())) {
+					    log.info("Rejecting username {} as MFA is requested but {}", remoteUser, mfa_obj==null ? "status is unknown" : "was not used");
+					    remoteUser = null;
+					};
 					
 					if(remoteUser != null) {
 						log.info("VHR API advises sessionID {} belongs to user {}, setting for REMOTE_USER.", vhrSessionID, remoteUser);
 						if (authnInstant != null && authnInstantArr != null && authnInstantArr.length>=1) {
 							log.info("VHR API sets authnInstant to {}.", authnInstant);
 							authnInstantArr[0]=authnInstant;
+						};
+						if (mfa_obj != null && mfaArr != null && mfaArr.length>=1) {
+							log.info("VHR API sets MFA status to {}.", mfa_obj.booleanValue());
+							mfaArr[0]= mfa_obj.booleanValue();
 						};
 						return remoteUser;
 					}
