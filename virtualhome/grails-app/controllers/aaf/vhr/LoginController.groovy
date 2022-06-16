@@ -128,7 +128,7 @@ class LoginController implements InitializingBean {
       return
     }
 
-    // if the account dnoes not have MFA yet but application requests it, redirect to MFA setup
+    // if the account does not have MFA yet but application requests it, redirect to MFA setup
     if(session.getAttribute(MFA_REQUESTED)?.equals(Boolean.TRUE) && !managedSubjectInstance.isUsingTwoStepLogin()){
       // This account needs to be updated before they can login
       log.info("Due to request from target service, the account $managedSubjectInstance must enroll into 2-Step verification before continuing login.")

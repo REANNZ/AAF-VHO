@@ -214,11 +214,13 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
                         getSubcontext(RequestedPrincipalContext.class, false);
                 boolean mfaRequested = false;
 
-                if (rqPCtx != null && mfaPrincipalName != null) for (final Principal p: rqPCtx.getRequestedPrincipals()) {
-                    if (p.getName().equals(mfaPrincipalName)) {
-                        mfaRequested = true;
-                        log.debug("MFA Principal {} requested, signalling to application.", p.getName());
-                    }
+                if (rqPCtx != null && mfaPrincipalName != null) {
+                    for (final Principal p: rqPCtx.getRequestedPrincipals()) {
+                        if (p.getName().equals(mfaPrincipalName)) {
+                            mfaRequested = true;
+                            log.debug("MFA Principal {} requested, signalling to application.", p.getName());
+                        }
+                    };
                 };
 
                 // save session *key*
@@ -268,7 +270,7 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
 
             // If mfaPrincipalName is configured, add the correct set of principals to Subject.
             // The principal name matching MFA will only be added if MFA was used.
-            // Other principal names supported by this flow are ssumed to be SFA and will be added regardless of MFA.
+            // Other principal names supported by this flow are assumed to be SFA and will be added regardless of MFA.
             if (mfaPrincipalName != null) {
                 final AuthenticationFlowDescriptor authnFlow = getAuthenticationFlowDescriptor(key, httpRequest);
                 boolean mfaPrincipalFound = false;
