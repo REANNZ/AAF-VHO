@@ -167,6 +167,22 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
             // * we started new authentication
             // * or we have returned from VHR and loaded the key from the HttpSession
 
+            // Determine whether MFA is requested
+            final ProfileRequestContext prc = ExternalAuthentication.getProfileRequestContext(key, httpRequest);
+            // get RequestedPrincipalContext to get list of requested principals
+            final RequestedPrincipalContext rqPCtx = prc.getSubcontext(AuthenticationContext.class,true).
+                    getSubcontext(RequestedPrincipalContext.class, false);
+            boolean mfaRequested = false;
+
+            if (rqPCtx != null && mfaPrincipalName != null) {
+                for (final Principal p: rqPCtx.getRequestedPrincipals()) {
+                    if (p.getName().equals(mfaPrincipalName)) {
+                        mfaRequested = true;
+                        log.debug("MFA Principal {} requested, signalling to application.", p.getName());
+                    }
+                };
+            };
+
             String username = null;
 
             // We may have a cookie - either as part of return or from previous session
@@ -182,7 +198,10 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
 
             if (vhrSessionID != null) {
                 log.info("Found vhrSessionID from {}. Establishing validity.", httpRequest.getRemoteHost());
-                username = vhrSessionValidator.validateSession(vhrSessionID, ( isForceAuthn ? authnStart : null), authnInstantArr, mfaArr);
+                // Force a new login attempt if caching a non-MFA login but MFA is requested
+                // Accept whatever is returned on returning from VHO (and let downstream deal with lack of MFA)
+                final boolean mfaInsist = mfaRequested && !isVhrReturn;
+                username = vhrSessionValidator.validateSession(vhrSessionID, ( isForceAuthn ? authnStart : null), mfaInsist, authnInstantArr, mfaArr);
             };
 
             // If we do not have a username yet (no Vhr session cookie or did not validate),
@@ -200,27 +219,11 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
 
                 // try getting a RelyingPartyUIContext
                 // we should pass on the request for consent revocation
-                final ProfileRequestContext prc =
-                        ExternalAuthentication.getProfileRequestContext(key, httpRequest);
                 final RelyingPartyUIContext rpuiCtx = prc.getSubcontext(AuthenticationContext.class,true).
                         getSubcontext(RelyingPartyUIContext.class, false);
                 if (rpuiCtx != null) {
                     serviceName = rpuiCtx.getServiceName();
                     log.debug("RelyingPartyUIContext received, ServiceName is {}", serviceName);
-                };
-
-                // get RequestedPrincipalContext to get list of requested principals
-                final RequestedPrincipalContext rqPCtx = prc.getSubcontext(AuthenticationContext.class,true).
-                        getSubcontext(RequestedPrincipalContext.class, false);
-                boolean mfaRequested = false;
-
-                if (rqPCtx != null && mfaPrincipalName != null) {
-                    for (final Principal p: rqPCtx.getRequestedPrincipals()) {
-                        if (p.getName().equals(mfaPrincipalName)) {
-                            mfaRequested = true;
-                            log.debug("MFA Principal {} requested, signalling to application.", p.getName());
-                        }
-                    };
                 };
 
                 // save session *key*
@@ -252,8 +255,6 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
             String consentRevocationParam = httpRequest.getParameter(consentRevocationParamName);
             if (consentRevocationParam != null) {
                 // we should pass on the request for consent revocation
-                final ProfileRequestContext prc =
-                        ExternalAuthentication.getProfileRequestContext(key, httpRequest);
                 final ConsentManagementContext consentCtx = prc.getSubcontext(ConsentManagementContext.class, true);
                 log.debug("Consent revocation request received, setting revokeConsent in consentCtx");
                 consentCtx.setRevokeConsent(consentRevocationParam.equalsIgnoreCase("true"));
