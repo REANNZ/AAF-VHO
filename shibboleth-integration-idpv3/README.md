@@ -18,7 +18,7 @@ To use the full functionality of this code, one would need to use the version of
     * all other principals are assumed to represent Single Authentication Factor (SFA) flows and are added regardless whether MFA was used in the session.
   * Note that this mode requires version of the VHO app extended to include the MFA status in the authentication response.
   * Note also that it requires the IdP to have the RemoteUser authentication flow configured with correct set of supportedPrincipals, extended to include the principal referred to by `mfaPrincipalName` (recommended to use `https://refeds.org/profile/mfa`).
-  * It also requires the `RemoteUser` authentication flow configured not to automatically add all support principals (which would conflict with the approach of adding the MFA principal only when MFA is actually used).  This is achieved by setting the `addDefaultPrincipals` bean (or property) to False.
+  * It also requires the `RemoteUser` authentication flow configured not to automatically add all support principals (which would conflict with the approach of adding the MFA principal only when MFA is actually used).  This is achieved by setting `addDefaultPrincipals` to False.
 
 This module MAY work with the AAF version of virtualhome (without the two features above), but AAF provides absolutely no support for this module.
 
@@ -30,8 +30,10 @@ This module MAY work with the AAF version of virtualhome (without the two featur
 
 * use the configuration snippets in the idpv3 directory here:
   * add the contents of `addto-web.xml` to `edit-webapp/WEB-INF/web.xml`
-  * add `VHRUsername` (or a different value as configured in `web.xml` above) to the `shibboleth.authn.RemoteUser.checkAttributes` bean in `conf/authn/remoteuser-authn-config.xml` as per `change-in-authn-remoteuser-internal-authn-config.xml`
-  * optionally, to support `forceAuthn`, change the `authn/RemoteUser` bean in `conf/authn/general-authn.xml` to declare support for forceAuthn as per the sample in `change-in-authn-general-authn.xml`
+  * add the properties listed in `configuration/idpv4/add-to-authn.properties` to `conf/authn/authn.properties` to:
+    * use the `VHRUsername` request attribute (or a different value as configured in `web.xml` above) to pass the username (and block passing the username in `RemoteUser`).
+    * optionally, to declare support for `forceAuthn`.
+    * optionally, to add REFEDS MFA profile to supported principals (and then disable the `addDefaultPrincipals` functionality as per above)
 
 ## Authors ##
 
