@@ -298,6 +298,9 @@ class ManagedSubjectController {
     if(managedSubjectInstance.canMutate()) {
       managedSubjectInstance.totpKey = null
 
+      def change = new StateChange(event:StateChangeType.RESETTWOSTEP, reason: "Two-step authentication was reset for this user", category: 'two_step_login', environment: createRequestDetails(request), actionedBy: subject)
+      managedSubjectInstance.addToStateChanges(change)
+
       if(!managedSubjectInstance.save()) {
         log.warn "Failed to save totpkey reset for $managedSubjectInstance"
         response.sendError 500
@@ -530,5 +533,11 @@ class ManagedSubjectController {
       response.sendError 404
       return false
     }
+  }
+
+  private String createRequestDetails(def request) {
+"""User Agent: ${request.getHeader('User-Agent')}
+Remote Host: ${request.getRemoteHost()}
+Remote IP: ${request.getRemoteAddr()}"""
   }
 }

@@ -1232,6 +1232,8 @@ class ManagedSubjectControllerSpec  extends spock.lang.Specification {
 
     then:
     managedSubjectTestInstance.totpKey == null
+    managedSubjectTestInstance.stateChanges.size() == 1
+    managedSubjectTestInstance.stateChanges.toArray()[0].event == StateChangeType.RESETTWOSTEP
     flash.type == 'success'
     flash.message == 'controllers.aaf.vhr.managedsubject.resettwosteplogin.success'
   }
