@@ -211,6 +211,10 @@ class AccountController {
 
     if(GoogleAuthenticator.checkCode(totpKey, totp, System.currentTimeMillis())) {
       managedSubjectInstance.totpKey = totpKey
+
+      def change = new StateChange(event:StateChangeType.SETUPTWOSTEP, reason: "User configured two-step authentication", category: 'two_step_login', environment: createRequestDetails(request), actionedBy: null)
+      managedSubjectInstance.addToStateChanges(change)
+
       if(!managedSubjectInstance.save()) {
         log.error "Unable to persist totpKey for $managedSubjectInstance"
         response.sendError 500

@@ -293,6 +293,8 @@ class AccountControllerSpec extends spock.lang.Specification {
 
     then:
     response.status == 302
+    managedSubjectTestInstance.stateChanges.size() == 1
+    managedSubjectTestInstance.stateChanges.toArray()[0].event == StateChangeType.SETUPTWOSTEP
     flash.type == 'success'
     flash.message == 'controllers.aaf.vhr.account.finish.twostep.success'
   }

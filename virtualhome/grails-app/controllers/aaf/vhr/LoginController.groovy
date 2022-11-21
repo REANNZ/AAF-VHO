@@ -214,6 +214,10 @@ class LoginController implements InitializingBean {
 
     if(GoogleAuthenticator.checkCode(totpKey, totp, System.currentTimeMillis())) {
       managedSubjectInstance.totpKey = totpKey
+
+      def change = new StateChange(event:StateChangeType.SETUPTWOSTEP, reason: "User configured two-step authentication", category: 'two_step_login', environment: createRequestDetails(request), actionedBy: null)
+      managedSubjectInstance.addToStateChanges(change)
+
       if(!managedSubjectInstance.save()) {
         log.error "Unable to persist totpKey for $managedSubjectInstance"
         response.sendError 500
@@ -362,5 +366,11 @@ class LoginController implements InitializingBean {
     session.removeAttribute(SSO_URL)
 
     redirectURL
+  }
+
+  private String createRequestDetails(def request) {
+"""User Agent: ${request.getHeader('User-Agent')}
+Remote Host: ${request.getRemoteHost()}
+Remote IP: ${request.getRemoteAddr()}"""
   }
 }
