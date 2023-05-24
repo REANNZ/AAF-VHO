@@ -79,7 +79,7 @@
 
   jQuery.validator.addMethod("matchesPattern", function(value, element) {
     return value.match(/^[_a-zA-Z][-_.a-zA-Z0-9]*$/) && value != "";
-  }, "Not a permitted username.");
+  }, "Username is not valid.");
 
   $("#accountform").validate({
     rules: {
