@@ -85,7 +85,7 @@ class ManagedSubject {
                       group:Group]
 
   static constraints = {
-    login nullable:true, blank: false, unique: true, size: 5..100,  matches: '\\A[_a-zA-Z][-._a-zA-Z0-9]*\\z'
+    login nullable:true, blank: false, unique: true, size: 3..100,  matches: '\\A[_a-zA-Z][-._a-zA-Z0-9]*\\z'
     hash nullable:true, blank:false, minSize:60, maxSize:60
     totpKey nullable:true
 
