@@ -30,7 +30,7 @@ class FinalizationController {
   }
 
   def loginAvailable(String login) {
-    if(login.contains(' ')) {
+    if(!login.matches('\\A[_a-zA-Z][-._a-zA-Z0-9]*\\z')) {
       render "false"
       return
     }
