@@ -77,16 +77,17 @@
     }
   }, "");
 
-  jQuery.validator.addMethod("noSpace", function(value, element) { 
-    return value.indexOf(" ") < 0 && value != ""; 
-  }, "Spaces are not permitted.");
+  jQuery.validator.addMethod("matchesPattern", function(value, element) {
+    return value.match(/^[_a-zA-Z][-_.a-zA-Z0-9]*$/) && value != "";
+  }, "Username is not valid.");
 
   $("#accountform").validate({
     rules: {
       login: {
         required: true,
         minlength: 3,
-        noSpace:true,
+        maxlength: 100,
+        matchesPattern:true,
         remote: { url:"login-available", async:true }
       },
       plainPassword: {
