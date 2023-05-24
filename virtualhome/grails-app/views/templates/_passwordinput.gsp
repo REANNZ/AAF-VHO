@@ -86,6 +86,7 @@
       login: {
         required: true,
         minlength: 3,
+        maxlength: 100,
         matchesPattern:true,
         remote: { url:"login-available", async:true }
       },

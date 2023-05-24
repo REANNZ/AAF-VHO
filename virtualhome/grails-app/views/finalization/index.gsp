@@ -32,7 +32,7 @@
                 <p>You can choose your own username meeting the following criteria:
                   <ul>
                     <li>It is memorable for you.</li>
-                    <li>It is between 3 and 255 characters in length.</li>
+                    <li>It is between 3 and 100 characters in length.</li>
                     <li>It contains only letters (<code>A-Za-z</code>), numbers (<code>0-9</code>), or a hyphen (<code>-</code>), dot (<code>.</code>) or underscore (<code>_</code>).</li>
                     <li>It starts with a letter (<code>A-Za-z</code>) or underscore (<code>_</code>).</li>
                   </ul>
