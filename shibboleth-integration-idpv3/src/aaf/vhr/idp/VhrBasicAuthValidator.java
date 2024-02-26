@@ -116,7 +116,7 @@ public class VhrBasicAuthValidator {
         request.abort();
       }
     } catch (Exception e) {
-      log.error("Exception casued when ontacting VHR API for basic authentication with login {}.\nMessage: {}", login, e.getMessage());
+      log.error("Exception when contacting VHR API for basic authentication with login {}.\nMessage: {}", login, e.getMessage());
       e.printStackTrace();
     } finally {
       if(request != null)

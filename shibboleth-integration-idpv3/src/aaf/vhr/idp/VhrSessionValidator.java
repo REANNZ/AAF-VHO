@@ -141,7 +141,7 @@ public class VhrSessionValidator {
 				request.abort();
             }
 		} catch (Exception e) {
-			log.error("Exception casued when ontacting VHR API for sessionID {} details.\nMessage: {}", vhrSessionID, e.getMessage());
+			log.error("Exception when contacting VHR API for sessionID {} details.\nMessage: {}", vhrSessionID, e.getMessage());
 			e.printStackTrace();
 		} finally {
 			if(request != null)
