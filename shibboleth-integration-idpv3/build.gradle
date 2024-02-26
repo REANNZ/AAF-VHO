@@ -30,7 +30,7 @@ repositories {
 
 dependencies {
   // javax.servlet < 3.0 doesn't have ServletRequest.getServletContext()
-  compile 'org.apache.tomcat:tomcat-servlet-api:10.1.6'
+  compileOnly 'org.apache.tomcat:tomcat-servlet-api:10.1.6'
 
   [
     'net.shibboleth.idp:idp-authn-api:5.0.0',
@@ -42,17 +42,17 @@ dependencies {
     'org.opensaml:opensaml-profile-api:5.0.0',
     'org.opensaml:opensaml-storage-api:5.0.0',
   ].each {
-    compile(it) {
+    compileOnly(it) {
       transitive = false
     }
   }
-  compile 'com.google.guava:guava:32.1.2-jre'
+  compileOnly 'com.google.guava:guava:32.1.2-jre'
 
-  compile 'commons-codec:commons-codec:1.16.0'
-  compile 'org.apache.commons:commons-lang3:3.13.0'
-  compile 'org.apache.httpcomponents.core5:httpcore5:5.2.2'
-  compile 'org.apache.httpcomponents.client5:httpclient5:5.2.2'
-  compile 'org.springframework:spring-core:6.0.11'
-  compile 'com.googlecode.json-simple:json-simple:1.1.1'
-  compile 'org.slf4j:slf4j-api:2.0.7'
+  compileOnly 'commons-codec:commons-codec:1.16.0'
+  compileOnly 'org.apache.commons:commons-lang3:3.13.0'
+  compileOnly 'org.apache.httpcomponents.core5:httpcore5:5.2.2'
+  compileOnly 'org.apache.httpcomponents.client5:httpclient5:5.2.2'
+  compileOnly 'org.springframework:spring-core:6.0.11'
+  compileOnly 'com.googlecode.json-simple:json-simple:1.1.1'
+  compileOnly 'org.slf4j:slf4j-api:2.0.7'
 }
