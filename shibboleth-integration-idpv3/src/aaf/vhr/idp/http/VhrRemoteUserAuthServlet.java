@@ -40,7 +40,7 @@ import net.shibboleth.idp.authn.ExternalAuthentication;
 import net.shibboleth.idp.authn.ExternalAuthenticationException;
 import net.shibboleth.idp.consent.context.ConsentManagementContext;
 import net.shibboleth.idp.ui.context.RelyingPartyUIContext;
-import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
+import net.shibboleth.shared.annotation.constraint.NotEmpty;
 
 import org.opensaml.profile.context.ProfileRequestContext;
 import org.apache.commons.codec.EncoderException;
