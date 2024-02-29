@@ -52,6 +52,7 @@ public class VhrBasicAuthFilter implements Filter {
     	final String password = credentials[1];
         log.info ("Located basic authentication credentials for " + login + " validating password with VH.");
         final String remoteUser = vhrBasicAuthValidator.authenticate(login, password);
+        log.debug("Username received: {}", remoteUser);
 
         if(remoteUser != null) {
           log.info ("Confirmed supplied credentials for " + credentials[0] + ", VH confirmed remoteUser value of " + remoteUser);

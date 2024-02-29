@@ -202,6 +202,7 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
                 // Accept whatever is returned on returning from VHO (and let downstream deal with lack of MFA)
                 final boolean mfaInsist = mfaRequested && !isVhrReturn;
                 username = vhrSessionValidator.validateSession(vhrSessionID, ( isForceAuthn ? authnStart : null), mfaInsist, authnInstantArr, mfaArr);
+                log.debug("Username received: {}", username);
             };
 
             // If we do not have a username yet (no Vhr session cookie or did not validate),

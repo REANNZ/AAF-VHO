@@ -91,6 +91,7 @@ public class VhrSessionValidator {
 			log.info("Response status: {}", response.getCode());
 			if(response.getCode() == HttpStatus.SC_OK){
 				JSONObject responseJSON = parseJSON(response.getEntity());
+				log.debug("Response data: {}", responseJSON);
 				if(responseJSON != null) {
 					String remoteUser = (String) responseJSON.get("remote_user");
 					String authnInstant_str = (String) responseJSON.get("authnInstant");
