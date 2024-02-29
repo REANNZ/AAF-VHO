@@ -149,7 +149,7 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
                 // check if we can see when authentication was initiated
                 final AuthenticationContext authCtx =
                         ExternalAuthentication.getProfileRequestContext(key, httpRequest).
-                            getSubcontext(AuthenticationContext.class,false);
+                            getSubcontext(AuthenticationContext.class);
                 if (authCtx != null) {
                     log.debug("Authentication initiation is {}", authCtx.getInitiationInstant());
                     authnStart = authCtx.getInitiationInstant();
@@ -170,8 +170,8 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
             // Determine whether MFA is requested
             final ProfileRequestContext prc = ExternalAuthentication.getProfileRequestContext(key, httpRequest);
             // get RequestedPrincipalContext to get list of requested principals
-            final RequestedPrincipalContext rqPCtx = prc.getSubcontext(AuthenticationContext.class,true).
-                    getSubcontext(RequestedPrincipalContext.class, false);
+            final RequestedPrincipalContext rqPCtx = prc.ensureSubcontext(AuthenticationContext.class).
+                    getSubcontext(RequestedPrincipalContext.class);
             boolean mfaRequested = false;
 
             if (rqPCtx != null && mfaPrincipalName != null) {
@@ -219,9 +219,8 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
                 log.debug("Relying party which initiated the SSO request was: {}", relyingParty);
 
                 // try getting a RelyingPartyUIContext
-                // we should pass on the request for consent revocation
-                final RelyingPartyUIContext rpuiCtx = prc.getSubcontext(AuthenticationContext.class,true).
-                        getSubcontext(RelyingPartyUIContext.class, false);
+                final RelyingPartyUIContext rpuiCtx = prc.ensureSubcontext(AuthenticationContext.class).
+                        getSubcontext(RelyingPartyUIContext.class);
                 if (rpuiCtx != null) {
                     serviceName = rpuiCtx.getServiceName();
                     log.debug("RelyingPartyUIContext received, ServiceName is {}", serviceName);
@@ -256,7 +255,7 @@ public class VhrRemoteUserAuthServlet extends HttpServlet {
             String consentRevocationParam = httpRequest.getParameter(consentRevocationParamName);
             if (consentRevocationParam != null) {
                 // we should pass on the request for consent revocation
-                final ConsentManagementContext consentCtx = prc.getSubcontext(ConsentManagementContext.class, true);
+                final ConsentManagementContext consentCtx = prc.ensureSubcontext(ConsentManagementContext.class);
                 log.debug("Consent revocation request received, setting revokeConsent in consentCtx");
                 consentCtx.setRevokeConsent(consentRevocationParam.equalsIgnoreCase("true"));
             };
