@@ -48,8 +48,8 @@ public class VhrBasicAuthFilter implements Filter {
       final String[] credentials = StringUtils.split( new String( Base64.decodeBase64( authorization.substring( authorization.indexOf(" ") ) ), StandardCharsets.UTF_8 ), ':' );
 
       if ( credentials.length == 2 ) {
-    	final String login = credentials[0];
-    	final String password = credentials[1];
+        final String login = credentials[0];
+        final String password = credentials[1];
         log.info ("Located basic authentication credentials for " + login + " validating password with VH.");
         final String remoteUser = vhrBasicAuthValidator.authenticate(login, password);
         log.debug("Username received: {}", remoteUser);
@@ -72,7 +72,7 @@ public class VhrBasicAuthFilter implements Filter {
 
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
-	realm = filterConfig.getInitParameter("realm");
+    realm = filterConfig.getInitParameter("realm");
     String apiServer = filterConfig.getInitParameter("apiServer");
     String apiEndpoint = filterConfig.getInitParameter("apiEndpoint");
     String apiToken = filterConfig.getInitParameter("apiToken");

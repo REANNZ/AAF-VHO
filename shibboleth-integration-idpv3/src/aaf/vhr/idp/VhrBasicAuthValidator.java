@@ -159,8 +159,8 @@ public class VhrBasicAuthValidator {
   }
   
   private String encodeBody(HttpPost request) throws IllegalStateException, IOException { 
-	  String content = convertStreamToString(request.getEntity().getContent());
-	  return DigestUtils.sha256Hex(content);
+    String content = convertStreamToString(request.getEntity().getContent());
+    return DigestUtils.sha256Hex(content);
   }
   
   public static String convertStreamToString(java.io.InputStream is) {
