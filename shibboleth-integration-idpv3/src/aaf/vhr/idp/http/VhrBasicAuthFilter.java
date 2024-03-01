@@ -41,7 +41,7 @@ public class VhrBasicAuthFilter implements Filter {
     HttpServletResponse response = (HttpServletResponse) res;
 
     final String authorization = request.getHeader( "Authorization" );
-    if(authorization != null && authorization.contains(" ")) {
+    if(authorization != null && authorization.startsWith("Basic ")) {
       log.info("Attempting to establish session via Basic Auth");
 
       final String[] credentials = StringUtils.split( new String( Base64.decodeBase64( authorization.substring( authorization.indexOf(" ") ) ), StandardCharsets.UTF_8 ), ':' );
