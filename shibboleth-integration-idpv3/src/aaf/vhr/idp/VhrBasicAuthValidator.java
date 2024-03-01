@@ -2,6 +2,7 @@ package aaf.vhr.idp;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -15,18 +16,19 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.entity.ContentType;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpStatus;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
+import org.apache.hc.core5.net.URIBuilder;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -54,9 +56,9 @@ public class VhrBasicAuthValidator {
   }
 
   public String authenticate(String login, String password) {
-    HttpClient httpClient = null;
+    CloseableHttpClient httpClient = null;
     HttpPost request = null;
-    HttpResponse response = null;
+    ClassicHttpResponse response = null;
 
     try {
       log.info("Contacting VHR API to validate credential for: ", login); 
@@ -89,9 +91,10 @@ public class VhrBasicAuthValidator {
       httpClient = HttpClients.createDefault();
       response = httpClient.execute(request);
 
-      log.info("Response status: {}", response.getStatusLine().getStatusCode());
-      if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
+      log.info("Response status: {}", response.getCode());
+      if(response.getCode() == HttpStatus.SC_OK){
         JSONObject responseJSON = parseJSON(response.getEntity());
+        log.debug("Response data: {}", responseJSON);
         if(responseJSON != null) {
           String remoteUser = (String) responseJSON.get("remote_user");
 
@@ -114,7 +117,7 @@ public class VhrBasicAuthValidator {
         request.abort();
       }
     } catch (Exception e) {
-      log.error("Exception casued when ontacting VHR API for basic authentication with login {}.\nMessage: {}", login, e.getMessage());
+      log.error("Exception when contacting VHR API for basic authentication with login {}.\nMessage: {}", login, e.getMessage());
       e.printStackTrace();
     } finally {
       if(request != null)
@@ -124,8 +127,8 @@ public class VhrBasicAuthValidator {
     return null;
   }
 
-  private JSONObject parseJSON(HttpEntity entity) throws ParseException, org.apache.http.ParseException, IOException {
-    ContentType contentType = ContentType.getOrDefault(entity);
+  private JSONObject parseJSON(HttpEntity entity) throws ParseException, org.apache.hc.core5.http.ParseException, IOException {
+    ContentType contentType = ContentType.parse(entity.getContentType());
     if(contentType.getMimeType().equals(ContentType.APPLICATION_JSON.getMimeType())) {
       String responseJSON = EntityUtils.toString(entity);
 
@@ -136,13 +139,13 @@ public class VhrBasicAuthValidator {
     return null;
   }
 
-  private String calculateSecret(HttpPost request) throws NoSuchAlgorithmException, InvalidKeyException, IllegalStateException, IOException {
+  private String calculateSecret(HttpPost request) throws NoSuchAlgorithmException, InvalidKeyException, IllegalStateException, IOException, URISyntaxException {
     StringBuffer input = new StringBuffer();
       input.append(String.format("%s\n", request.getMethod().toLowerCase()));
       input.append(String.format("%s\n", this.requestingHost.toLowerCase()));
-      input.append(String.format("%s\n", request.getURI().getPath().toLowerCase()));
+      input.append(String.format("%s\n", request.getUri().getPath().toLowerCase()));
       input.append(String.format("%s\n", request.getFirstHeader("Date").getValue().toLowerCase()));
-      input.append(String.format("%s\n", request.getEntity().getContentType().getValue().toLowerCase()));
+      input.append(String.format("%s\n", request.getEntity().getContentType().toLowerCase()));
       input.append(String.format("%s\n", encodeBody(request)));
 
       log.error("Creating request signature from following input:\n{}", input.toString());
@@ -156,8 +159,8 @@ public class VhrBasicAuthValidator {
   }
   
   private String encodeBody(HttpPost request) throws IllegalStateException, IOException { 
-	  String content = convertStreamToString(request.getEntity().getContent());
-	  return DigestUtils.sha256Hex(content);
+    String content = convertStreamToString(request.getEntity().getContent());
+    return DigestUtils.sha256Hex(content);
   }
   
   public static String convertStreamToString(java.io.InputStream is) {

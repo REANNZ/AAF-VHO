@@ -13,15 +13,16 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.entity.ContentType;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpStatus;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.net.URIBuilder;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -54,9 +55,9 @@ public class VhrSessionValidator {
 	}
 
 	public String validateSession(String vhrSessionID, Instant notBefore, boolean mfaRequested, Instant authnInstantArr[], boolean mfaArr[]) {
-		HttpClient httpClient = null;
+		CloseableHttpClient httpClient = null;
 		HttpGet request = null;
-		HttpResponse response = null;
+		ClassicHttpResponse response = null;
 		
 		try {
 			log.info("Contacting VHR API for sessionID {} details", vhrSessionID); 
@@ -87,9 +88,10 @@ public class VhrSessionValidator {
 			httpClient = HttpClients.createDefault();
 			response = httpClient.execute(request);
 			
-			log.info("Response status: {}", response.getStatusLine().getStatusCode());
-			if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
+			log.info("Response status: {}", response.getCode());
+			if(response.getCode() == HttpStatus.SC_OK){
 				JSONObject responseJSON = parseJSON(response.getEntity());
+				log.debug("Response data: {}", responseJSON);
 				if(responseJSON != null) {
 					String remoteUser = (String) responseJSON.get("remote_user");
 					String authnInstant_str = (String) responseJSON.get("authnInstant");
@@ -140,7 +142,7 @@ public class VhrSessionValidator {
 				request.abort();
             }
 		} catch (Exception e) {
-			log.error("Exception casued when ontacting VHR API for sessionID {} details.\nMessage: {}", vhrSessionID, e.getMessage());
+			log.error("Exception when contacting VHR API for sessionID {} details.\nMessage: {}", vhrSessionID, e.getMessage());
 			e.printStackTrace();
 		} finally {
 			if(request != null)
@@ -150,8 +152,8 @@ public class VhrSessionValidator {
 		return null;
 	}
 	
-	private JSONObject parseJSON(HttpEntity entity) throws ParseException, org.apache.http.ParseException, IOException {
-		ContentType contentType = ContentType.getOrDefault(entity);
+	private JSONObject parseJSON(HttpEntity entity) throws ParseException, org.apache.hc.core5.http.ParseException, IOException {
+		ContentType contentType = ContentType.parse(entity.getContentType());
 		if(contentType.getMimeType().equals(ContentType.APPLICATION_JSON.getMimeType())) {
 			String responseJSON = EntityUtils.toString(entity); 
 	
