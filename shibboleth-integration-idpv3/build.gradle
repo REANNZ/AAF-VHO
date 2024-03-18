@@ -32,8 +32,7 @@ repositories {
 }
 
 dependencies {
-  // javax.servlet < 3.0 doesn't have ServletRequest.getServletContext()
-  compileOnly 'org.apache.tomcat:tomcat-servlet-api:10.1.6'
+  compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
 
   [
     'net.shibboleth.idp:idp-authn-api:5.0.0',
