@@ -4,7 +4,10 @@ def vhProperties = new Properties()
 vhProperties.load(file('../virtualhome/application.properties').newInputStream())
 
 version = vhProperties.get('app.version')
-archivesBaseName = 'vh-shib-integration'
+
+base {
+  archivesName = 'vh-shib-integration'
+}
 
 sourceSets {
   main {
