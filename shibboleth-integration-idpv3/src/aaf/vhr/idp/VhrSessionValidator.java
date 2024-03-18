@@ -1,6 +1,7 @@
 package aaf.vhr.idp;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.URI;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -11,6 +12,10 @@ import java.util.TimeZone;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.hc.client5.http.classic.HttpClient;
@@ -23,10 +28,6 @@ import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.HttpStatus;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.net.URIBuilder;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -90,11 +91,11 @@ public class VhrSessionValidator {
 			
 			log.info("Response status: {}", response.getCode());
 			if(response.getCode() == HttpStatus.SC_OK){
-				JSONObject responseJSON = parseJSON(response.getEntity());
+				JsonObject responseJSON = parseJSON(response.getEntity());
 				log.debug("Response data: {}", responseJSON);
 				if(responseJSON != null) {
-					String remoteUser = (String) responseJSON.get("remote_user");
-					String authnInstant_str = (String) responseJSON.get("authnInstant");
+					String remoteUser = responseJSON.getString("remote_user");
+					String authnInstant_str = responseJSON.getString("authnInstant");
 					Instant authnInstant = null;
 					if (authnInstant_str != null) {
 					    log.debug("VHR response includes an AuthnInstant: {}", authnInstant_str);
@@ -107,33 +108,40 @@ public class VhrSessionValidator {
 					    remoteUser = null;
 					};
 
-					Boolean mfa_obj = (Boolean) responseJSON.get("mfa");
+					// assume no MFA unless confirmed
+					boolean mfaUsed = false;
+					boolean mfaStatusPresent = false;
+					try {
+					    mfaUsed = responseJSON.getBoolean("mfa"); // wil raise NPE if absent
+					    mfaStatusPresent = true; // must be present if we got here
+					} catch (NullPointerException e) {}; // skip quietly
 
+					log.debug("MFA requsted: {}, used: {}, status present {}", mfaRequested, mfaUsed,  mfaStatusPresent);
 					// if MFA was requested and we are either missing mfa status or it is False, reject the session
-					if (mfaRequested && (mfa_obj == null || !mfa_obj.booleanValue())) {
-					    log.info("Rejecting username {} as MFA is requested but {}", remoteUser, mfa_obj==null ? "status is unknown" : "was not used");
+					if (mfaRequested && !mfaUsed) {
+					    log.info("Rejecting username {} as MFA is requested but {}", remoteUser, mfaStatusPresent ? "was not used" : "status is unknown");
 					    remoteUser = null;
 					};
 					
 					if(remoteUser != null) {
-						log.info("VHR API advises sessionID {} belongs to user {}, setting for REMOTE_USER.", vhrSessionID, remoteUser);
+						log.info("VHR API advises sessionID {} belongs to user {}, confirming it as validated.", vhrSessionID, remoteUser);
 						if (authnInstant != null && authnInstantArr != null && authnInstantArr.length>=1) {
 							log.info("VHR API sets authnInstant to {}.", authnInstant);
 							authnInstantArr[0]=authnInstant;
 						};
-						if (mfa_obj != null && mfaArr != null && mfaArr.length>=1) {
-							log.info("VHR API sets MFA status to {}.", mfa_obj.booleanValue());
-							mfaArr[0]= mfa_obj.booleanValue();
+						if (mfaStatusPresent && mfaArr != null && mfaArr.length>=1) {
+							log.info("VHR API sets MFA status to {}.", mfaUsed);
+							mfaArr[0]= mfaUsed;
 						};
 						return remoteUser;
 					}
 				}
             } else {
             	log.error("VHR API error for sessionID {}",vhrSessionID); 
-            	JSONObject responseJSON = parseJSON(response.getEntity());
+            	JsonObject responseJSON = parseJSON(response.getEntity());
 				if(responseJSON != null) {
-					String error = (String) responseJSON.get("error");
-					String internalerror = (String) responseJSON.get("internalerror");
+					String error = responseJSON.getString("error");
+					String internalerror = responseJSON.getString("internalerror");
 					log.error("VHR API Error: {}", error);
 					log.error("VHR API Internal Error: {}", internalerror);
 				} else {
@@ -152,14 +160,14 @@ public class VhrSessionValidator {
 		return null;
 	}
 	
-	private JSONObject parseJSON(HttpEntity entity) throws ParseException, org.apache.hc.core5.http.ParseException, IOException {
+	private JsonObject parseJSON(HttpEntity entity) throws org.apache.hc.core5.http.ParseException, IOException {
 		ContentType contentType = ContentType.parse(entity.getContentType());
 		if(contentType.getMimeType().equals(ContentType.APPLICATION_JSON.getMimeType())) {
 			String responseJSON = EntityUtils.toString(entity); 
 	
-			JSONParser parser = new JSONParser();
-			Object obj = parser.parse(responseJSON);
-			return (JSONObject) obj;
+			JsonReader reader = Json.createReader(new StringReader(responseJSON));
+			JsonObject obj = reader.readObject();
+			return obj;
 		}
 		return null;
 	}

@@ -1,6 +1,7 @@
 package aaf.vhr.idp;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
@@ -10,6 +11,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -29,9 +34,6 @@ import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
 import org.apache.hc.core5.net.URIBuilder;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,10 +95,10 @@ public class VhrBasicAuthValidator {
 
       log.info("Response status: {}", response.getCode());
       if(response.getCode() == HttpStatus.SC_OK){
-        JSONObject responseJSON = parseJSON(response.getEntity());
+        JsonObject responseJSON = parseJSON(response.getEntity());
         log.debug("Response data: {}", responseJSON);
         if(responseJSON != null) {
-          String remoteUser = (String) responseJSON.get("remote_user");
+          String remoteUser = responseJSON.getString("remote_user");
 
           if(remoteUser != null) {
             log.info("VHR API advises basic authentication for {} is valid, supplying {} as REMOTE_USER.", login, remoteUser);
@@ -105,10 +107,10 @@ public class VhrBasicAuthValidator {
         }
       } else {
         log.error("VHR API error for login {}", login);
-        JSONObject responseJSON = parseJSON(response.getEntity());
+        JsonObject responseJSON = parseJSON(response.getEntity());
         if(responseJSON != null) {
-          String error = (String) responseJSON.get("error");
-          String internalerror = (String) responseJSON.get("internalerror");
+          String error = responseJSON.getString("error");
+          String internalerror = responseJSON.getString("internalerror");
           log.error("VHR API Error: {}", error);
           log.error("VHR API Internal Error: {}", internalerror);
         } else {
@@ -127,14 +129,14 @@ public class VhrBasicAuthValidator {
     return null;
   }
 
-  private JSONObject parseJSON(HttpEntity entity) throws ParseException, org.apache.hc.core5.http.ParseException, IOException {
+  private JsonObject parseJSON(HttpEntity entity) throws org.apache.hc.core5.http.ParseException, IOException {
     ContentType contentType = ContentType.parse(entity.getContentType());
     if(contentType.getMimeType().equals(ContentType.APPLICATION_JSON.getMimeType())) {
       String responseJSON = EntityUtils.toString(entity);
 
-      JSONParser parser = new JSONParser();
-      Object obj = parser.parse(responseJSON);
-      return (JSONObject) obj;
+      JsonReader reader = Json.createReader(new StringReader(responseJSON));
+      JsonObject obj = reader.readObject();
+      return obj;
     }
     return null;
   }
