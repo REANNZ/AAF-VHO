@@ -2,18 +2,18 @@ package aaf.vhr.idp.http;
 
 import java.io.IOException;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.nio.charset.StandardCharsets;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,17 +41,17 @@ public class VhrBasicAuthFilter implements Filter {
     HttpServletResponse response = (HttpServletResponse) res;
 
     final String authorization = request.getHeader( "Authorization" );
-    if(authorization != null && authorization.contains(" ")) {
+    if(authorization != null && authorization.startsWith("Basic ")) {
       log.info("Attempting to establish session via Basic Auth");
-      log.debug("WWW-Authenticate: " + authorization);
 
       final String[] credentials = StringUtils.split( new String( Base64.decodeBase64( authorization.substring( authorization.indexOf(" ") ) ), StandardCharsets.UTF_8 ), ':' );
 
       if ( credentials.length == 2 ) {
-    	final String login = credentials[0];
-    	final String password = credentials[1];
+        final String login = credentials[0];
+        final String password = credentials[1];
         log.info ("Located basic authentication credentials for " + login + " validating password with VH.");
         final String remoteUser = vhrBasicAuthValidator.authenticate(login, password);
+        log.debug("Username received: {}", remoteUser);
 
         if(remoteUser != null) {
           log.info ("Confirmed supplied credentials for " + credentials[0] + ", VH confirmed remoteUser value of " + remoteUser);
@@ -71,7 +71,7 @@ public class VhrBasicAuthFilter implements Filter {
 
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
-	realm = filterConfig.getInitParameter("realm");
+    realm = filterConfig.getInitParameter("realm");
     String apiServer = filterConfig.getInitParameter("apiServer");
     String apiEndpoint = filterConfig.getInitParameter("apiEndpoint");
     String apiToken = filterConfig.getInitParameter("apiToken");
