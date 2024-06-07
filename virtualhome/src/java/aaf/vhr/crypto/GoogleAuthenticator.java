@@ -75,14 +75,7 @@ public class GoogleAuthenticator {
    * @return the URL for the QR code to scan
    */
   public static String getQRBarcodeURL(String user, String host, String secret, String issuer) throws WriterException, IOException {
-    String formatWithIssuer = "otpauth://totp/%s:%s@%s?secret=%s&issuer=%s";
-    String formatWithoutIssuer = "otpauth://totp/%s@%s?secret=%s";
-    String totpURL;
-    if (issuer != null) {
-      totpURL = String.format(formatWithIssuer, issuer, user, host, secret, issuer);
-    } else {
-      totpURL = String.format(formatWithoutIssuer, user, host, secret);
-    }
+    String totpURL = getTotpURL(user, host, secret, issuer);
 
     // generate data: image URL with ZXing
     // select Medium error correction
@@ -96,6 +89,14 @@ public class GoogleAuthenticator {
     MatrixToImageWriter.writeToStream(bitMatrix, "png", buffer);
     // return a data URL with Base64-encoded PNG image
     return "data:image/png;base64," + Base64.getEncoder().encodeToString(buffer.toByteArray());
+  }
+
+  private static String getTotpURL(String user, String host, String secret, String issuer) {
+    if (issuer != null) {
+      return String.format("otpauth://totp/%s:%s@%s?secret=%s&issuer=%s", issuer, user, host, secret, issuer);
+    } else {
+      return String.format("otpauth://totp/%s@%s?secret=%s", user, host, secret);
+    }
   }
 
   /**
