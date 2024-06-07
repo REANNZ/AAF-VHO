@@ -1062,7 +1062,7 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
     def s = ManagedSubject.build(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
 
     expect:
-    s.encodedTwoStepIssuer == 'Example%2520Org'
+    s.encodedTwoStepIssuer == 'Example%20Org'
   }
 
   def 'specified issuer returned as uri encoded when special char present'() {
@@ -1071,7 +1071,7 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
     def s = ManagedSubject.build(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
 
     expect:
-    s.encodedTwoStepIssuer == 'Example%2520%2526%2520Example%2520Org'
+    s.encodedTwoStepIssuer == 'Example%20%26%20Example%20Org'
   }
 
 
