@@ -1,11 +1,22 @@
 package aaf.vhr.crypto;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Base64;
+import java.util.Hashtable;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 
 import org.apache.commons.codec.binary.Base32;
 import org.apache.commons.codec.net.URLCodec;
@@ -63,14 +74,28 @@ public class GoogleAuthenticator {
    * @param secret the secret that was previously generated for this user
    * @return the URL for the QR code to scan
    */
-  public static String getQRBarcodeURL(String user, String host, String secret, String issuer) {
-    String formatWithIssuer = "https://chart.googleapis.com/chart?chs=200x200&chld=M%%7C0&cht=qr&chl=otpauth://totp/%s:%s@%s%%3Fsecret%%3D%s%%26issuer%%3D%s";
-    String formatWithoutIssuer = "https://chart.googleapis.com/chart?chs=200x200&chld=M%%7C0&cht=qr&chl=otpauth://totp/%s@%s%%3Fsecret%%3D%s";
+  public static String getQRBarcodeURL(String user, String host, String secret, String issuer) throws WriterException, IOException {
+    String formatWithIssuer = "otpauth://totp/%s:%s@%s?secret=%s&issuer=%s";
+    String formatWithoutIssuer = "otpauth://totp/%s@%s?secret=%s";
+    String totpURL;
     if (issuer != null) {
-      return String.format(formatWithIssuer, issuer, user, host, secret, issuer);
+      totpURL = String.format(formatWithIssuer, issuer, user, host, secret, issuer);
     } else {
-      return String.format(formatWithoutIssuer, user, host, secret);
+      totpURL = String.format(formatWithoutIssuer, user, host, secret);
     }
+
+    // generate data: image URL with ZXing
+    // select Medium error correction
+    Hashtable<EncodeHintType, String> hintMap = new Hashtable<>();
+    hintMap.put(EncodeHintType.ERROR_CORRECTION, "M");
+    hintMap.put(EncodeHintType.MARGIN, "0");
+    // get QR code bit matrix
+    BitMatrix bitMatrix = new QRCodeWriter().encode(totpURL, BarcodeFormat.QR_CODE, 200, 200, hintMap);
+    // write out as PNG image into a buffer
+    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+    MatrixToImageWriter.writeToStream(bitMatrix, "png", buffer);
+    // return a data URL with Base64-encoded PNG image
+    return "data:image/png;base64," + Base64.getEncoder().encodeToString(buffer.toByteArray());
   }
 
   /**
