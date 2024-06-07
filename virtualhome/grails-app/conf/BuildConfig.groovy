@@ -36,6 +36,8 @@ grails.project.dependency.resolution = {
     compile "commons-collections:commons-collections:3.2.2"
     compile "commons-validator:commons-validator:1.7"
     compile "com.google.guava:guava:14.0"
+    compile "com.google.zxing:core:3.5.3"
+    compile "com.google.zxing:javase:3.5.3"
     compile "edu.vt.middleware:vt-dictionary:3.0"
     compile "edu.vt.middleware:vt-password:3.1.1"
     compile "org.apache.shiro:shiro-quartz:1.2.5"
