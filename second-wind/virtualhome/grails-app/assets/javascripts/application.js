@@ -22,7 +22,6 @@
 //= require jquery/jquery.alphanumeric.min
 //= require jquery/jquery.formrestrict.min
 //= require highcharts-2.3.2.min
-//= require codemirror/codemirror.min
 //= require jquery/jquery.equalizecols.min
 
 if (typeof jQuery !== 'undefined') {
