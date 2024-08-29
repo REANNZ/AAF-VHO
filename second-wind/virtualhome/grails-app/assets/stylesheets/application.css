@@ -1,3 +1,7 @@
+@import "bootstrap/bootstrap-datepicker.css";
+@import "bootstrap/bootstrap-notify-1.0.css";
+@import "aaf_base_application.css";
+
 .statistic {
   text-align: center;
   .lead {
