@@ -1,7 +1,7 @@
 package grails.sanitizer
 
 import org.codehaus.groovy.grails.validation.ApplicationContextAwareConstraintFactory
-import org.codehaus.groovy.grails.validation.ConstrainedProperty
+import grails.validation.ConstrainedProperty
 import org.grails.plugins.sanitizer.MarkupConstraint
 
 class SanitizerGrailsPlugin {

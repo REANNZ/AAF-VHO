@@ -35,7 +35,7 @@ if (Environment.isDevelopmentMode() && targetDir != null) {
 }
 root(ERROR, ['STDOUT'])
 
-logger('org.codehaus.groovy.grails', ERROR)
+logger('org.grails', ERROR)
 logger('org.springframework', ERROR)
 logger('org.hibernate', ERROR)
 logger('net.sf.ehcache.hibernate', ERROR)

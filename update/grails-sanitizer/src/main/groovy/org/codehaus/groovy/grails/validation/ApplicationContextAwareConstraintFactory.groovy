@@ -1,6 +1,6 @@
 package org.codehaus.groovy.grails.validation
 
-import org.codehaus.groovy.grails.exceptions.GrailsDomainException
+import org.grails.core.exceptions.GrailsDomainException
 import org.springframework.context.ApplicationContext
 import org.springframework.util.Assert
 
