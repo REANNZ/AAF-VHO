@@ -26,6 +26,7 @@ repositories {
     mavenCentral()
     maven { url "https://repo.grails.org/grails/core" }
     maven { url "https://repository.sonatype.org/content/repositories/central" }
+    maven { url "https://repo.grails.org/grails/plugins/" }
 }
 
 dependencies {
@@ -57,13 +58,17 @@ dependencies {
 
     // Ported from old grails-sanitizer config
     compile 'org.owasp.antisamy:antisamy:1.5.1'
-    runtime 'net.sourceforge.nekohtml:nekohtml:1.9.16' {
-        exclude group: 'xml-apis'
-    }
+    runtime 'net.sourceforge.nekohtml:nekohtml:1.9.16'
     
     // Plugin dependencies
     compile "org.grails.plugins:release:2.2.0"
-    compile "org.grails.plugins:rest-client-builder:1.0.3"
+    compile "org.grails.plugins:rest-client-builder:2.0.3"
+}
+
+configurations {
+    runtime {
+        exclude group: 'xml-apis'
+    }
 }
 
 bootRun {
