@@ -2,7 +2,9 @@ package org.grails.plugins.sanitizer
 
 import grails.test.*
 
-class MarkupSanitizerResultTests extends GrailsUnitTestCase {
+import spock.lang.Specification
+
+class MarkupSanitizerResultTests extends Specification {
 
 	void testSpecialConstructor() {
 		def vResult = new MarkupValidatorResult()

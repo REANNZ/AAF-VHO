@@ -4,7 +4,9 @@ import grails.test.*
 
 import org.springframework.core.io.FileSystemResource
 
-class AntiSamyMarkupSanitizerTests extends GrailsUnitTestCase {
+import spock.lang.Specification
+
+class AntiSamyMarkupSanitizerTests extends Specification {
 
 	private AntiSamyMarkupSanitizer sanitizer
 

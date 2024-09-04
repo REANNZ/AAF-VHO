@@ -2,7 +2,9 @@ package org.grails.plugins.sanitizer
 
 import grails.test.*
 
-class SanitizedMarkupCodecTests extends GrailsUnitTestCase {
+import spock.lang.Specification
+
+class SanitizedMarkupCodecTests extends Specification {
 
 	def service
 	def codec
