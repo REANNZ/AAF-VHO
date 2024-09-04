@@ -34,3 +34,8 @@ if (Environment.isDevelopmentMode() && targetDir != null) {
     logger("StackTrace", ERROR, ['FULL_STACKTRACE'], false)
 }
 root(ERROR, ['STDOUT'])
+
+logger('org.codehaus.groovy.grails', ERROR)
+logger('org.springframework', ERROR)
+logger('org.hibernate', ERROR)
+logger('net.sf.ehcache.hibernate', ERROR)
