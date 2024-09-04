@@ -1,6 +1,6 @@
 package org.grails.plugins.sanitizer;
 
-import org.codehaus.groovy.grails.validation.AbstractConstraint;
+import grails.validation.AbstractConstraint;
 import org.springframework.validation.Errors;
 
 /**

@@ -3,6 +3,8 @@ package org.codehaus.groovy.grails.validation
 import org.grails.core.exceptions.GrailsDomainException
 import org.springframework.context.ApplicationContext
 import org.springframework.util.Assert
+import grails.validation.ConstraintFactory
+import grails.validation.Constraint
 
 /**
  * Constraint Factory that allows dependencies to be injected to Constraints at runtime.
