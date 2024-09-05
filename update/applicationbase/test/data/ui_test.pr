@@ -1,0 +1,18 @@
+process(name:'Minimal Test Process', description: 'Minimal test process for checking UI responsiveness with AAF base development users') {
+  
+  task(name:'task1', description: 'A generic task') {
+    approver(subject:'fredbloggs@one.edu.au') {
+      reject(name: 'rejection1', description:'rejection of process') {
+        start ('finish')
+      }
+    }
+    outcome(name: 'successoutcome', description:'successoutcome description') {
+      start ('finish')
+    }
+  }
+  
+  task(name: 'finish', description: 'Finishes the process') {
+    finish()
+  }
+  
+}
