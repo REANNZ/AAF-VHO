@@ -2,17 +2,21 @@ package org.grails.plugins.sanitizer
 
 import org.springframework.core.io.FileSystemResource
 
-class MarkupSanitizerServiceIntegrationTests extends GroovyTestCase {
+import grails.testing.mixin.integration.Integration
+import grails.gorm.transactions.*
+import spock.lang.*
+
+@Integration
+@Rollback
+class MarkupSanitizerServiceIntegrationTests extends Specification {
 
 	def markupSanitizerService
 
-	protected void setUp() {
-		super.setUp()
-
-		markupSanitizerService.markupSanitizer = new AntiSamyMarkupSanitizer(new FileSystemResource("scripts/antisamyConfigs/antisamy-myspace-1.4.4.xml"))
+	void setup() {
+		markupSanitizerService.markupSanitizer = new AntiSamyMarkupSanitizer(new FileSystemResource("src/main/scripts/antisamyConfigs/antisamy-myspace-1.4.4.xml"))
 	}
 
-	void testServiceIsAlive() {
+	def 'test service is alive'() {
 		assertNotNull(markupSanitizerService)
 	}
 
@@ -40,16 +44,16 @@ class MarkupSanitizerServiceIntegrationTests extends GroovyTestCase {
 		assertFalse(result.isInvalidMarkup())
 	}
 
-	void testSanitizeHtmlScriptTag(){
+	def 'test sanitize HTML script tag'(){
 		assertSanitized("<div>sanitize</div>", "<script></script><div>sanitize</div>")
 	}
 
-	void testSanitizeHtmlScriptTagWithErrors(){
+	void 'test sanitize HTML script tag with errors'(){
 		MarkupSanitizerResult result = markupSanitizerService.sanitize("<script><script><div>sanitize</div>")
 		assertTrue(result.isInvalidMarkup())
 	}
 
-	void testValidateHtmlScriptTagWithErrors(){
+	void 'test validate HTML script tag with errors'(){
 		MarkupValidatorResult result = markupSanitizerService.validateMarkup("<script><script><div>sanitize</div>")
 		assertTrue(result.isInvalidMarkup())
 	}

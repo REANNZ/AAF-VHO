@@ -10,9 +10,7 @@ class AntiSamyMarkupSanitizerTests extends Specification {
 
 	private AntiSamyMarkupSanitizer sanitizer
 
-	protected void setUp() {
-		super.setUp()
-
+	def setup() {
 		sanitizer = new AntiSamyMarkupSanitizer(
 			new FileSystemResource("scripts/antisamyConfigs/antisamy-myspace-1.4.4.xml"))
 	}
@@ -35,32 +33,32 @@ class AntiSamyMarkupSanitizerTests extends Specification {
 		assertFalse(sanitizer.validateMarkup(testString).isInvalidMarkup())
 	}
 
-	void testSanitizeSanity(){
+	def 'test sanitize sanity'(){
 		assertSanitized("sanitize", "sanitize")
 	}
 
-	void testValidateSanity(){
+	def 'validate sanity'(){
 		assertValidTrue("sanitize")
 	}
 
-	void testSanitizeHtml(){
+	def 'sanitize HTML'(){
 		assertSanitized("<div>sanitize</div>", "<div>sanitize</div>")
 	}
 
-	void testValidateHtml(){
+	def 'validate HTML'(){
 		assertValidTrue("<div>sanitize</div>")
 	}
 
-	void testSanitizeHtmlScriptTag(){
+	def 'sanitize HTML script tag'(){
 		assertSanitized("<div>sanitize</div>", "<script></script><div>sanitize</div>")
 	}
 
-	void testSanitizeHtmlScriptTagWithErrors(){
+	def 'sanitize HTML script tag with errors'(){
 		MarkupSanitizerResult result = sanitizer.sanitize("<script><script><div>sanitize</div>")
 		assertTrue(result.isInvalidMarkup())
 	}
 
-	void testValidateHtmlScriptTagWithErrors(){
+	def 'validate HTML script tag with errors'(){
 		MarkupValidatorResult result = sanitizer.validateMarkup("<script><script><div>sanitize</div>")
 		assertTrue(result.isInvalidMarkup())
 	}

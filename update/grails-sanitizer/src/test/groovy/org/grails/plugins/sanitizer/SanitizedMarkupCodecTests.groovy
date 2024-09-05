@@ -2,17 +2,15 @@ package org.grails.plugins.sanitizer
 
 import grails.test.*
 
-import spock.lang.Specification
+import spock.lang.*
 
 class SanitizedMarkupCodecTests extends Specification {
 
-	def service
-	def codec
-	def result
+	@Shared def service
+	@Shared def codec
+	@Shared def result
 
-	protected void setUp() {
-		super.setUp()
-
+	def setup() {
 		codec = new SanitizedMarkupCodec()
 		result = new MarkupSanitizerResult()
 
@@ -23,13 +21,16 @@ class SanitizedMarkupCodecTests extends Specification {
 		result.cleanString = "test"
 	}
 
-	void testValid() {
+	def 'test valid input'() {
+		expect:
 		assertEquals "test", codec.encode("test")
 	}
 
-	void testInValid() {
+	def 'test invalid input'() {
+		given:
 		result.errorMessages.add "error1"
 
+		expect:
 		assertEquals "", codec.encode("test")
 	}
 }

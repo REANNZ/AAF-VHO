@@ -6,7 +6,7 @@ import spock.lang.Specification
 
 class MarkupSanitizerResultTests extends Specification {
 
-	void testSpecialConstructor() {
+	def 'test special constructor'() {
 		def vResult = new MarkupValidatorResult()
 		vResult.dirtyString = "vTest"
 		vResult.errorMessages.add "vError1"
@@ -16,7 +16,7 @@ class MarkupSanitizerResultTests extends Specification {
 		assertEquals("vError1", sResult.errorMessages[0])
 	}
 
-	void testSimplePropertyTest() {
+	def 'simple property test'() {
 		def vResult = new MarkupSanitizerResult()
 		MarkupValidatorResultTests.simplePropertyTests vResult
 	}
