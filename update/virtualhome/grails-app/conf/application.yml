@@ -86,8 +86,10 @@ endpoints:
 hibernate:
     cache:
         queries: false
-        use_second_level_cache: false
+        use_second_level_cache: true
         use_query_cache: false
+        region:
+            factory_class: 'org.hibernate.cache.ehcache.EhCacheRegionFactory' # Hibernate 4
 dataSource:
     pooled: true
     jmxExport: true
