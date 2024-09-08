@@ -1,7 +1,17 @@
 buildscript {
+    ext {
+        grailsVersion = project.grailsVersion
+    }
     repositories {
-        mavenLocal()
         maven { url "https://repo.grails.org/grails/core" }
+        maven { url "http://snapshots.repository.codehaus.org" }
+        maven { url "http://repository.codehaus.org" }
+        maven { url "http://download.java.net/maven/2/" }
+        maven { url "http://repository.jboss.com/maven2/" }
+        maven { url "https://repo1.maven.org/maven2" }
+        maven { url "https://repo.grails.org/grails/plugins-releases/" }
+        maven { url "https://download.java.net/maven/2/" }
+        maven { url "https://repository.jboss.org/maven2/" }
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
@@ -21,11 +31,24 @@ apply plugin:"asset-pipeline"
 apply plugin:"org.grails.grails-gsp"
 
 repositories {
+    //grailsPlugins()
+    //grailsHome()
+    //grailsCentral()
     mavenLocal()
+    mavenCentral()
     maven { url "https://repo.grails.org/grails/core" }
+    maven { url "http://snapshots.repository.codehaus.org" }
+    maven { url "http://repository.codehaus.org" }
+    maven { url "http://download.java.net/maven/2/" }
+    maven { url "http://repository.jboss.com/maven2/" }
+    maven { url "https://repo1.maven.org/maven2" }
+    maven { url "https://repo.grails.org/grails/plugins-releases/" }
+    maven { url "https://download.java.net/maven/2/" }
+    maven { url "https://repository.jboss.org/maven2/" }
 }
 
 dependencies {
+    // Came as standard with the new project
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"
@@ -53,6 +76,71 @@ dependencies {
     runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.14.8"
     testCompile "org.grails:grails-gorm-testing-support"
     testCompile "org.grails:grails-web-testing-support"
+
+    // Old dependencies from applicationbase
+    compile "commons-collections:commons-collections:3.2.2"
+
+    testCompile 'org.hamcrest:hamcrest-all:1.3'
+    testCompile 'asm:asm:3.3.1'
+
+    runtime 'org.springframework:spring-test:4.1.9.RELEASE'
+    runtime 'org.springframework:spring-orm:4.1.9.RELEASE'
+    runtime 'org.springframework:spring-tx:4.1.9.RELEASE'
+    runtime 'org.springframework:spring-aop:4.1.9.RELEASE'
+    runtime 'org.springframework:spring-expression:4.1.9.RELEASE'
+    // because resources-1.2.14 does not declare dependency on commons-io
+    runtime "commons-io:commons-io:1.3.2"
+
+    // Old plugins from applicationbase
+    // TODO: Change this one since we provide tomcat
+    // build ":tomcat:7.0.55.2"
+
+    compile 'org.grails.plugins:shiro:1.2.1'
+    compile 'org.grails.plugins:cache:1.1.8'
+    compile 'org.grails.plugins:mail:1.0.7'
+    compile 'org.grails.plugins:greenmail:1.3.4'
+    compile 'org.grails.plugins:codenarc:0.24'
+    //compile 'org.grails.plugins:build-test-data:2.4.0'
+    compile 'org.grails.plugins:build-test-data:3.0.0'
+    compile 'org.grails.plugins:rest:0.8'
+    compile 'org.grails.plugins:scaffolding:2.1.2'
+
+    //runtime 'org.grails.plugins:hibernate4:4.3.10'
+    runtime 'org.grails.plugins:resources:1.2.14'
+    runtime 'org.grails.plugins:zipped-resources:1.0.1'
+    runtime 'org.grails.plugins:cached-resources:1.1'
+    runtime 'org.grails.plugins:yui-minify-resources:0.1.4'
+    runtime 'org.grails.plugins:database-migration:1.4.0'
+    //runtime ":jquery:1.11.1"
+    runtime 'org.grails.plugins:modernizr:2.6.2'
+    runtime 'org.grails.plugins:twitter-bootstrap:2.3.2.3'
+    runtime 'org.grails.plugins:constraintkeys:0.1'
+    runtime 'org.grails.plugins:console:1.5.9'
+    runtime 'org.grails.plugins:cache-headers:1.1.7'
+    runtime 'org.grails.plugins:audit-logging:1.0.7'
+
+    testCompile 'org.grails.plugins:code-coverage:1.2.5'
+
+    // Old dependencies from virtualhome
+    compile "commons-collections:commons-collections:3.2.2"
+    compile "commons-validator:commons-validator:1.7"
+    compile "com.google.guava:guava:14.0"
+    compile "com.google.zxing:core:3.5.3"
+    compile "com.google.zxing:javase:3.5.3"
+    compile "edu.vt.middleware:vt-dictionary:3.0"
+    compile "edu.vt.middleware:vt-password:3.1.1"
+    compile "org.apache.shiro:shiro-quartz:1.2.5"
+    compile "org.apache.shiro:shiro-web:1.2.5"
+    compile "org.apache.shiro:shiro-spring:1.2.5"
+    compile "org.apache.shiro:shiro-ehcache:1.2.5"
+    compile "org.apache.shiro:shiro-core:1.2.5"
+
+    testCompile 'mysql:mysql-connector-java:5.1.49'
+
+    // Old plugins from virtualhome
+    compile 'org.grails.plugins:csv:0.3.1'
+    compile 'org.grails.plugins:recaptcha:1.2.0'
+    compile 'org.grails.plugins:jasypt-encryption:1.3.1'
 }
 
 bootRun {
@@ -66,4 +154,30 @@ bootRun {
 assets {
     minifyJs = true
     minifyCss = true
+}
+
+sourceSets {
+    main {
+        java {
+            output.classesDir = file('target/classes')
+        }
+    }
+    test {
+        java {
+            output.classesDir = file('target/test-classes')
+        }
+    }
+}
+
+test {
+    reports {
+        junitXml.destination = file("$buildDir/test-reports")
+        html.destination = file("$buildDir/test-reports/html")
+    }
+}
+
+configurations {
+    all {
+        exclude group: "svn"
+    }
 }
