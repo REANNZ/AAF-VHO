@@ -89,7 +89,7 @@ hibernate:
         use_second_level_cache: true
         use_query_cache: false
         region:
-            factory_class: 'org.hibernate.cache.ehcache.EhCacheRegionFactory' # Hibernate 4
+            factory_class: 'org.hibernate.cache.ehcache.EhcacheRegionFactory' # Hibernate 5
 dataSource:
     pooled: true
     jmxExport: true
