@@ -26,6 +26,7 @@ repositories {
 }
 
 dependencies {
+    // Dependencies added into new project
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"
@@ -53,6 +54,10 @@ dependencies {
     runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.14.8"
     testCompile "org.grails:grails-gorm-testing-support"
     testCompile "org.grails:grails-web-testing-support"
+
+    // Dependencies copied from the old virtualhome project
+    compile "com.google.zxing:core:3.5.3"
+    compile "com.google.zxing:javase:3.5.3"
 }
 
 bootRun {
