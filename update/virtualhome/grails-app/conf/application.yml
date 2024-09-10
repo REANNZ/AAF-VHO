@@ -95,6 +95,12 @@ dataSource:
     username: sa
     password: ''
 
+jasypt:
+    alrogithm: "PBEWITHSHA256AND256BITAES-CBC-BC"
+    providerName: "BC"
+    password: "<your very secret passphrase>"
+    keyObtentionIterations: 1000
+
 environments:
     development:
         dataSource:

@@ -80,13 +80,6 @@ environments {
                                 'grails.app.realms',
                                 'aaf.vhr']
     }
-
-    jasypt {
-      algorithm = "PBEWITHSHA256AND256BITAES-CBC-BC"
-      providerName = "BC"
-      password = "mesecretivesecretmehearties"
-      keyObtentionIterations = 100
-    }
   }
 }
 
