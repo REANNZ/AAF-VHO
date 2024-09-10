@@ -58,6 +58,11 @@ dependencies {
     // Dependencies copied from the old virtualhome project
     compile "com.google.zxing:core:3.5.3"
     compile "com.google.zxing:javase:3.5.3"
+    compile "org.apache.shiro:shiro-quartz:1.2.5"
+    compile "org.apache.shiro:shiro-web:1.2.5"
+    compile "org.apache.shiro:shiro-spring:1.2.5"
+    compile "org.apache.shiro:shiro-ehcache:1.2.5"
+    compile "org.apache.shiro:shiro-core:1.2.5"
 
     // These used to plugins in the old app but now that distinction is not relevant.
     compile "org.grails.plugins:jasypt-encryption:2.0.2"

@@ -38,11 +38,6 @@ grails.project.dependency.resolution = {
     compile "com.google.guava:guava:14.0"
     compile "edu.vt.middleware:vt-dictionary:3.0"
     compile "edu.vt.middleware:vt-password:3.1.1"
-    compile "org.apache.shiro:shiro-quartz:1.2.5"
-    compile "org.apache.shiro:shiro-web:1.2.5"
-    compile "org.apache.shiro:shiro-spring:1.2.5"
-    compile "org.apache.shiro:shiro-ehcache:1.2.5"
-    compile "org.apache.shiro:shiro-core:1.2.5"
 
     test 'mysql:mysql-connector-java:5.1.49'
   }
