@@ -1,3 +1,3 @@
-// Place your Spring DSL code here
 beans = {
+  shiroAuthenticationStrategy(aaf.base.shiro.FirstExceptionStrategy)
 }
