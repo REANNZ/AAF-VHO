@@ -14,9 +14,9 @@ package aaf.vhr.crypto;
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-import grails.test.mixin.*;
-import grails.test.mixin.support.*;
-import org.junit.*;
+import org.junit.Assert;
+
+import spock.lang.Specification;
 
 /**
  * JUnit unit tests for BCrypt routines
@@ -24,7 +24,7 @@ import org.junit.*;
  * @version 0.2
  */
 
-public class BCryptTest extends grails.test.GrailsUnitTestCase {
+public class BCryptTest extends Specification {
 	String test_vectors[][] = {
 			{ "", 
 			"$2a$06$DCq7YPn5Rq63x1Lad4cll.",
@@ -106,7 +106,7 @@ public class BCryptTest extends grails.test.GrailsUnitTestCase {
 			String salt = test_vectors[i][1];
 			String expected = test_vectors[i][2];
 			String hashed = BCrypt.hashpw(plain, salt);
-			assertEquals(hashed, expected);
+			Assert.assertEquals(hashed, expected);
 			System.out.print(".");
 		}
 		System.out.println("");
@@ -124,7 +124,7 @@ public class BCryptTest extends grails.test.GrailsUnitTestCase {
 				String salt = BCrypt.gensalt(i);
 				String hashed1 = BCrypt.hashpw(plain, salt);
 				String hashed2 = BCrypt.hashpw(plain, hashed1);
-				assertEquals(hashed1, hashed2);
+				Assert.assertEquals(hashed1, hashed2);
 				System.out.print(".");
 			}
 		}
@@ -141,7 +141,7 @@ public class BCryptTest extends grails.test.GrailsUnitTestCase {
 			String salt = BCrypt.gensalt();
 			String hashed1 = BCrypt.hashpw(plain, salt);
 			String hashed2 = BCrypt.hashpw(plain, hashed1);
-			assertEquals(hashed1, hashed2);
+			Assert.assertEquals(hashed1, hashed2);
 			System.out.print(".");
 		}
 		System.out.println("");
@@ -156,7 +156,7 @@ public class BCryptTest extends grails.test.GrailsUnitTestCase {
 		for (int i = 0; i < test_vectors.length; i++) {
 			String plain = test_vectors[i][0];
 			String expected = test_vectors[i][2];
-			assertTrue(BCrypt.checkpw(plain, expected));
+			Assert.assertTrue(BCrypt.checkpw(plain, expected));
 			System.out.print(".");
 		}
 		System.out.println("");
@@ -172,7 +172,7 @@ public class BCryptTest extends grails.test.GrailsUnitTestCase {
 			int broken_index = (i + 4) % test_vectors.length;
 			String plain = test_vectors[i][0];
 			String expected = test_vectors[broken_index][2];
-			assertFalse(BCrypt.checkpw(plain, expected));
+			Assert.assertFalse(BCrypt.checkpw(plain, expected));
 			System.out.print(".");
 		}
 		System.out.println("");
@@ -187,11 +187,11 @@ public class BCryptTest extends grails.test.GrailsUnitTestCase {
 		String pw2 = "????????";
 
 		String h1 = BCrypt.hashpw(pw1, BCrypt.gensalt());
-		assertFalse(BCrypt.checkpw(pw2, h1));
+		Assert.assertFalse(BCrypt.checkpw(pw2, h1));
 		System.out.print(".");
 
 		String h2 = BCrypt.hashpw(pw2, BCrypt.gensalt());
-		assertFalse(BCrypt.checkpw(pw1, h2));
+		Assert.assertFalse(BCrypt.checkpw(pw1, h2));
 		System.out.print(".");
 		System.out.println("");
 	}
