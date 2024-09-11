@@ -13,7 +13,7 @@ class MigrateController {
 
   def beforeInterceptor = [action: this.&validMigrationUser, except: ['oops']]
 
-  def grailsApplication
+  //def grailsApplication
   def recaptchaService
   def passwordValidationService
   def cryptoService

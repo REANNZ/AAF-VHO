@@ -10,7 +10,7 @@ class ManagedSubjectController {
 
   def beforeInterceptor = [action: this.&validManagedSubject, except: ['list', 'create', 'save', 'createcsv', 'savecsv']]
 
-  def grailsApplication
+  //def grailsApplication
   def managedSubjectService
   def sharedTokenService
 

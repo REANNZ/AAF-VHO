@@ -20,7 +20,7 @@ class AccountController {
   def loginService
   def cryptoService
   def passwordValidationService
-  def grailsApplication
+  //def grailsApplication
 
   def index() {
   }

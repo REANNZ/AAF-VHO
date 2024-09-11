@@ -13,6 +13,8 @@ import aaf.vhr.MigrateController
 
 import aaf.vhr.crypto.GoogleAuthenticator
 
+import groovyx.net.http.HTTPBuilder
+
 class LoginController implements InitializingBean {
 
   static allowedMethods = [login: 'POST', twosteplogin: 'POST', verifytwostepcode: 'POST']
@@ -29,7 +31,7 @@ class LoginController implements InitializingBean {
   final String SLO_URL = "aaf.vhr.LoginController.SLO_URL"
 
   def loginService
-  def grailsApplication
+  //def grailsApplication
   def consentRevocationEnabled
   def consentRevocationParamName
 
