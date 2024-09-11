@@ -11,7 +11,7 @@ import aaf.base.identity.*
 import grails.testing.web.controllers.ControllerUnitTest
 
 class AccountControllerSpec extends Specification implements ControllerUnitTest<AccountController> {
-  def grailsApplication = new grails.core.DefaultGrailsApplication()
+  //def grailsApplication = new grails.core.DefaultGrailsApplication()
 
   def setup() {
   }
