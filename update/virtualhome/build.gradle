@@ -67,6 +67,9 @@ dependencies {
 
     // These used to plugins in the old app but now that distinction is not relevant.
     compile "org.grails.plugins:jasypt-encryption:2.0.2"
+
+    // Additional dependencies added by Jamie Getty
+    compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
 }
 
 bootRun {
