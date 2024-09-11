@@ -3,7 +3,7 @@ package aaf.base
 import aaf.base.admin.EmailTemplate
 
 import org.springframework.web.context.request.RequestContextHolder
-import org.codehaus.groovy.grails.web.context.ServletContextHolder
+import grails.web.context.ServletContextHolder
 import org.springframework.web.context.support.WebApplicationContextUtils
 
 class EmailManagerService {
