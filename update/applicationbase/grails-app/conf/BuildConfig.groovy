@@ -60,7 +60,6 @@ grails.project.dependency.resolution = {
   plugins {
     build ":tomcat:7.0.55.2"
 
-    compile ":shiro:1.2.1"
     compile ':cache:1.1.8'
     compile ":mail:1.0.7"
     compile ":greenmail:1.3.4"

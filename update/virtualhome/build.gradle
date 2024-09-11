@@ -55,6 +55,9 @@ dependencies {
     testCompile "org.grails:grails-gorm-testing-support"
     testCompile "org.grails:grails-web-testing-support"
 
+    // Dependencies copied from the old applicationbase plugin
+    compile "org.grails.plugins:shiro:1.2.1"
+
     // Dependencies copied from the old virtualhome project
     compile "com.google.zxing:core:3.5.3"
     compile "com.google.zxing:javase:3.5.3"
