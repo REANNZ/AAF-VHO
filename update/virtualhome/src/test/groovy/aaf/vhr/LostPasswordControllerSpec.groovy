@@ -2,17 +2,15 @@ package aaf.vhr
 
 import grails.test.mixin.*
 import grails.test.spock.*
-import grails.buildtestdata.mixin.Build
 
 import spock.lang.*
 
 import aaf.base.identity.*
 import aaf.base.SMSDeliveryService
 
-@TestFor(aaf.vhr.LostPasswordController)
-@Build([aaf.vhr.Organization, aaf.vhr.Group, aaf.vhr.ManagedSubject, aaf.base.admin.EmailTemplate, aaf.base.identity.Subject, aaf.base.identity.Role, aaf.vhr.switchch.vho.DeprecatedSubject])
-@Mock([Organization, Group, StateChange])
-class LostPasswordControllerSpec extends spock.lang.Specification {
+import grails.testing.web.controllers.ControllerUnitTest
+
+class LostPasswordControllerSpec extends Specification implements ControllerUnitTest<LostPasswordController> {
 
   def passwordValidationService
   def cryptoService

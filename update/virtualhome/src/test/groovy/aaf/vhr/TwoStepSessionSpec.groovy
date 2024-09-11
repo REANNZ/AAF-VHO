@@ -1,7 +1,6 @@
 package aaf.vhr
 
 import grails.test.mixin.*
-import grails.buildtestdata.mixin.Build
 import spock.lang.*
 import grails.test.spock.*
 
@@ -9,10 +8,10 @@ import aaf.vhr.ManagedSubject
 
 import test.shared.ShiroEnvironment
 
-@TestFor(aaf.vhr.ManagedSubject)
-@Build([ManagedSubject, Organization, Group])
-@Mock([ManagedSubject, Organization, Group])
-class TwoStepSessionSpec extends spock.lang.Specification  {
+import grails.testing.gorm.DomainUnitTest
+
+@Stepwise
+class TwoStepSessionSpec extends Specification implements DomainUnitTest<TwoStepSession> {
 
   def 'populate setups up initial session state'() {
     setup:

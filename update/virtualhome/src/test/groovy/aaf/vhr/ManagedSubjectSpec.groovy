@@ -1,7 +1,6 @@
 package aaf.vhr
 
 import grails.test.mixin.*
-import grails.buildtestdata.mixin.Build
 import spock.lang.*
 import grails.test.spock.*
 
@@ -11,10 +10,10 @@ import test.shared.ShiroEnvironment
 
 import groovy.time.TimeCategory
 
-@TestFor(aaf.vhr.ManagedSubject)
-@Build([ManagedSubject, Organization, Group, ChallengeResponse, TwoStepSession])
-@Mock([ManagedSubject, Organization, Group, ChallengeResponse, StateChange, TwoStepSession])
-class ManagedSubjectSpec extends spock.lang.Specification  {
+import grails.testing.gorm.DomainUnitTest
+import spock.lang.Stepwise
+
+class ManagedSubjectSpec extends Specification implements DomainUnitTest<ManagedSubject>  {
 
   @Shared def shiroEnvironment = new ShiroEnvironment()
 

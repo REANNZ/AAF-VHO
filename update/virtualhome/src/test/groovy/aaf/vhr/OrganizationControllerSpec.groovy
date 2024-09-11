@@ -2,15 +2,15 @@ package aaf.vhr
 
 import grails.test.mixin.*
 import grails.test.spock.*
-import grails.buildtestdata.mixin.Build
 
 import spock.lang.*
 
 import test.shared.ShiroEnvironment
 
-@TestFor(aaf.vhr.OrganizationController)
-@Build([Organization, Group, aaf.base.identity.Subject, aaf.base.identity.Role])
-class OrganizationControllerSpec  extends spock.lang.Specification {
+import spock.lang.Specification
+import grails.testing.web.controllers.ControllerUnitTest
+
+class OrganizationControllerSpec  extends Specification implements ControllerUnitTest<OrganizationController> {
   
   @Shared def shiroEnvironment = new ShiroEnvironment()
 

@@ -3,7 +3,9 @@ package aaf.vhr.crypto;
 import java.util.List;
 import java.util.ArrayList;
 
-public class GoogleAuthenticatorTest extends grails.test.GrailsUnitTestCase {
+import spock.lang.Specification;
+
+public class GoogleAuthenticatorTest extends Specification {
 
   public void testGenerateSecret() {
     String secret = GoogleAuthenticator.generateSecretKey();

@@ -1,14 +1,11 @@
 package aaf.vhr
 
-import grails.test.mixin.TestFor
 import spock.lang.*
-import grails.buildtestdata.mixin.Build
 import aaf.base.admin.EmailTemplate
 
-@TestFor(LostUsernameController)
-@Build([ManagedSubject, EmailTemplate])
-@Mock([ManagedSubject, Group])
-class LostUsernameControllerSpec extends Specification {
+import grails.testing.web.controllers.ControllerUnitTest
+
+class LostUsernameControllerSpec extends Specification implements ControllerUnitTest<LostUsernameController> {
   def recaptchaService
   def emailManagerService
 

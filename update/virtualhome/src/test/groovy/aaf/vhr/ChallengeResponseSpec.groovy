@@ -1,16 +1,15 @@
 package aaf.vhr
 
 import grails.test.mixin.*
-import grails.buildtestdata.mixin.Build
 import spock.lang.*
 import grails.test.spock.*
 
 import aaf.vhr.ManagedSubject
+import grails.testing.gorm.DomainUnitTest
+import spock.lang.Stepwise
 
-@TestFor(aaf.vhr.ChallengeResponse)
-@Build([ManagedSubject, ChallengeResponse])
-@Mock([Organization, Group, ManagedSubject, ChallengeResponse])
-class ChallengeResponseSpec extends Specification {
+@Stepwise
+class ChallengeResponseSpec extends Specification implements DomainUnitTest<ChallengeResponse> {
 
   def 'ensure challenge must not be null or blank and be at least 6 characters long'() {
     setup:

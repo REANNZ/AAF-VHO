@@ -1,17 +1,15 @@
 package aaf.vhr
 
 import grails.test.mixin.*
-import grails.buildtestdata.mixin.Build
 import spock.lang.*
 import grails.test.spock.*
 
 import aaf.vhr.ManagedSubject
 import aaf.vhr.crypto.BCrypt
 
-@TestFor(aaf.vhr.CryptoService)
-@Build([ManagedSubject, ChallengeResponse, EmailReset])
-@Mock([Organization, Group, ManagedSubject])
-class CryptoServiceSpec extends Specification {
+import grails.testing.services.ServiceUnitTest
+
+class CryptoServiceSpec extends Specification implements ServiceUnitTest<CryptoService>{
 
   def cs
 

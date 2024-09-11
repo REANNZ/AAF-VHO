@@ -1,16 +1,14 @@
 package aaf.vhr
 
 import grails.test.mixin.*
-import grails.buildtestdata.mixin.Build
 import spock.lang.*
 import grails.test.spock.*
 
 import aaf.vhr.ManagedSubject
 
-@TestFor(aaf.vhr.ManagedSubject)
-@Build([ManagedSubject])
-@Mock([Organization, Group, ManagedSubject])
-class PasswordValidationServiceSpec extends Specification {
+import grails.testing.services.ServiceUnitTest
+
+class PasswordValidationServiceSpec extends Specification implements ServiceUnitTest<PasswordValidationService> {
 
   def pv
   def cs

@@ -2,7 +2,6 @@ package aaf.vhr.api.v1
 
 import grails.test.mixin.*
 import grails.test.spock.*
-import grails.buildtestdata.mixin.Build
 
 import spock.lang.*
 
@@ -12,10 +11,10 @@ import aaf.vhr.AuthnTuple
 import java.text.SimpleDateFormat
 import java.util.TimeZone
 
-@TestFor(aaf.vhr.api.v1.LoginApiController)
-@Build([aaf.vhr.Organization, aaf.vhr.Group, aaf.vhr.ManagedSubject])
-@Mock([aaf.vhr.Organization, aaf.vhr.Group, aaf.vhr.ManagedSubject])
-class LoginApiControllerSpec extends spock.lang.Specification {
+import spock.lang.Specification
+import grails.testing.web.controllers.ControllerUnitTest
+
+class LoginApiControllerSpec extends Specification implements ControllerUnitTest<LoginApiController> {
 
   def "confirmsession: receive 410 is there is no such session"() {
     setup:

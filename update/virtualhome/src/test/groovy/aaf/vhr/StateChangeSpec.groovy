@@ -1,16 +1,15 @@
 package aaf.vhr
 
 import grails.test.mixin.*
-import grails.buildtestdata.mixin.Build
 import spock.lang.*
 import grails.test.spock.*
 
 import aaf.vhr.ManagedSubject
+import grails.testing.gorm.DomainUnitTest
+import spock.lang.Stepwise
 
-@TestFor(aaf.vhr.StateChange)
-@Build([ManagedSubject, aaf.base.identity.Subject])
-@Mock([StateChange, ManagedSubject, aaf.base.identity.Subject, Organization, Group])
-class StateChangeSpec extends spock.lang.Specification {
+@Stepwise
+class StateChangeSpec extends Specification implements DomainUnitTest<StateChange> {
 
   def 'ensure creation of basic state active change'() {
     setup:

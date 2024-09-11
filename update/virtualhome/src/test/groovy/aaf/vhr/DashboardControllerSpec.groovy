@@ -2,7 +2,6 @@ package aaf.vhr
 
 import grails.test.mixin.*
 import grails.test.spock.*
-import grails.buildtestdata.mixin.Build
 
 import spock.lang.*
 
@@ -10,10 +9,9 @@ import test.shared.ShiroEnvironment
 
 import aaf.base.identity.*
 
-@TestFor(aaf.vhr.DashboardController)
-@Build([aaf.vhr.Organization, aaf.vhr.Group, aaf.vhr.ManagedSubject, aaf.base.identity.Subject, aaf.base.identity.Role])
-@Mock([Organization, Group])
-class DashboardControllerSpec extends spock.lang.Specification {
+import grails.testing.web.controllers.ControllerUnitTest
+
+class DashboardControllerSpec extends Specification implements ControllerUnitTest<DashboardController> {
   
   @Shared def shiroEnvironment = new ShiroEnvironment()
 

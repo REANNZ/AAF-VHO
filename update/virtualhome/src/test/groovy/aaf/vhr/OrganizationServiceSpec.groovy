@@ -2,16 +2,15 @@ package aaf.vhr
 
 import grails.converters.*
 import grails.test.mixin.*
-import grails.buildtestdata.mixin.Build
 import spock.lang.*
 import grails.test.spock.*
 
 import aaf.base.workflow.*
 import aaf.base.identity.*
 
-@TestFor(aaf.vhr.OrganizationService)
-@Build([aaf.vhr.Organization, aaf.vhr.Group, ProcessInstance, Role, Permission])
-class OrganizationServiceSpec extends spock.lang.Specification  {
+import grails.testing.services.ServiceUnitTest
+
+class OrganizationServiceSpec extends Specification implements ServiceUnitTest<OrganizationService> {
 
   def os
   def rs

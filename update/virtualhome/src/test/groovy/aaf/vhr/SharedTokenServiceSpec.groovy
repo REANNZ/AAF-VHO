@@ -1,16 +1,14 @@
 package aaf.vhr
 
 import grails.test.mixin.*
-import grails.buildtestdata.mixin.Build
 import spock.lang.*
 import grails.test.spock.*
 
 import aaf.vhr.ManagedSubject
 
-@TestFor(aaf.vhr.SharedTokenService)
-@Build([ManagedSubject])
-@Mock([Organization, Group])
-class SharedTokenServiceSpec extends Specification {
+import grails.testing.services.ServiceUnitTest
+
+class SharedTokenServiceSpec extends Specification implements ServiceUnitTest<SharedTokenService> {
   
   def st
 

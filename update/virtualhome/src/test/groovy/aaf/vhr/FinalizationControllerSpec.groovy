@@ -2,18 +2,15 @@ package aaf.vhr
 
 import grails.test.mixin.*
 import grails.test.spock.*
-import grails.buildtestdata.mixin.Build
 
 import spock.lang.*
 
 import test.shared.ShiroEnvironment
 
 import aaf.base.identity.*
+import grails.testing.web.controllers.ControllerUnitTest
 
-@TestFor(aaf.vhr.FinalizationController)
-@Build([ManagedSubject, ManagedSubjectInvitation, aaf.base.identity.Subject, aaf.base.identity.Role, aaf.base.identity.Permission])
-@Mock([Organization, Group])
-class FinalizationControllerSpec  extends spock.lang.Specification {
+class FinalizationControllerSpec  extends Specification implements ControllerUnitTest<FinalizationController> {
   
   @Shared def shiroEnvironment = new ShiroEnvironment()
 

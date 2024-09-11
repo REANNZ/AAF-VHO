@@ -2,19 +2,16 @@ package aaf.vhr
 
 import grails.test.mixin.*
 import grails.test.spock.*
-import grails.buildtestdata.mixin.Build
 
 import aaf.vhr.crypto.GoogleAuthenticator
 
 import spock.lang.*
 
 import aaf.base.identity.*
+import grails.testing.web.controllers.ControllerUnitTest
 
-@TestFor(aaf.vhr.AccountController)
-@Build([aaf.vhr.Organization, aaf.vhr.Group, aaf.vhr.ManagedSubject, aaf.base.identity.Subject, aaf.base.identity.Role, aaf.vhr.switchch.vho.DeprecatedSubject])
-@Mock([Organization, Group])
-class AccountControllerSpec extends spock.lang.Specification {
-  def grailsApplication = new org.codehaus.groovy.grails.commons.DefaultGrailsApplication()
+class AccountControllerSpec extends Specification implements ControllerUnitTest<AccountController> {
+  def grailsApplication = new grails.core.DefaultGrailsApplication()
 
   def setup() {
   }

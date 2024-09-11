@@ -1,16 +1,16 @@
 package aaf.vhr
 
 import grails.test.mixin.*
-import grails.buildtestdata.mixin.Build
 import spock.lang.*
 import grails.test.spock.*
 
 import test.shared.ShiroEnvironment
 
-@TestFor(aaf.vhr.Organization)
-@Build([aaf.vhr.Organization, aaf.vhr.ManagedSubject, aaf.vhr.Group])
-@Mock([Organization, Group])
-class OrganizationSpec extends Specification {
+import grails.testing.gorm.DomainUnitTest
+import spock.lang.Stepwise
+
+@Stepwise
+class OrganizationSpec extends Specification implements DomainUnitTest<Organization> {
 
   @Shared def shiroEnvironment = new ShiroEnvironment()
 

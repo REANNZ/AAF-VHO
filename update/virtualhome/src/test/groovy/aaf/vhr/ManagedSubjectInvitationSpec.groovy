@@ -1,14 +1,13 @@
 package aaf.vhr
 
 import grails.test.mixin.*
-import grails.buildtestdata.mixin.Build
 import spock.lang.*
 import grails.test.spock.*
+import grails.testing.gorm.DomainUnitTest
+import spock.lang.Stepwise
 
-@TestFor(aaf.vhr.ManagedSubjectInvitation)
-@Build([ManagedSubject, ManagedSubjectInvitation])
-@Mock([Organization, Group])
-class ManagedSubjectInvitationSpec extends Specification {
+@Stepwise
+class ManagedSubjectInvitationSpec extends Specification implements DomainUnitTest<ManagedSubjectInvitation>{
 
   def "ensure new invitation is populated with code and has not been used"() {
     when:

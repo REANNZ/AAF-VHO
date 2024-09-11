@@ -1,7 +1,6 @@
 package aaf.vhr
 
 import grails.test.mixin.*
-import grails.buildtestdata.mixin.Build
 import spock.lang.*
 import grails.test.spock.*
 
@@ -11,10 +10,9 @@ import org.springframework.mock.web.*
 
 import groovy.time.TimeCategory
 
-@TestFor(aaf.vhr.LoginService)
-@Build([aaf.vhr.Organization, aaf.vhr.Group, aaf.vhr.ManagedSubject])
-@Mock([Organization, Group, StateChange, ManagedSubject, TwoStepSession])
-class LoginServiceSpec extends spock.lang.Specification {
+import grails.testing.services.ServiceUnitTest
+
+class LoginServiceSpec extends Specification implements ServiceUnitTest<LoginService> {
 
   @Shared 
   def ms

@@ -5,17 +5,13 @@ import aaf.vhr.Group
 
 import grails.test.mixin.*
 import grails.test.spock.*
-import grails.buildtestdata.mixin.Build
 
-import spock.lang.*
+import spock.lang.Specification
+import grails.testing.web.controllers.ControllerUnitTest
 
 //import java.text.SimpleDateFormat
 //import java.util.TimeZone
-
-@TestFor(aaf.vhr.api.v1.ScopesApiController)
-@Build([aaf.vhr.Organization, aaf.vhr.Group])
-@Mock([aaf.vhr.Organization, aaf.vhr.Group])
-class ScopesApiControllerSpec extends spock.lang.Specification {
+class ScopesApiControllerSpec extends Specification implements ControllerUnitTest<ScopesApiController>{
 
   def "scopes: 500 if base scope is not set"() {
     setup:

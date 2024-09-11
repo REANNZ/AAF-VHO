@@ -2,7 +2,6 @@ package aaf.vhr
 
 import grails.test.mixin.*
 import grails.test.spock.*
-import grails.buildtestdata.mixin.Build
 
 import spock.lang.*
 
@@ -15,10 +14,9 @@ import groovy.time.TimeCategory
 
 import aaf.vhr.crypto.GoogleAuthenticator
 
-@TestFor(aaf.vhr.LoginController)
-@Build([aaf.vhr.Organization, aaf.vhr.Group, aaf.vhr.ManagedSubject,aaf.vhr.switchch.vho.DeprecatedSubject])
-@Mock([Organization, Group, ManagedSubject, TwoStepSession])
-class LoginControllerSpec extends spock.lang.Specification {
+import grails.testing.web.controllers.ControllerUnitTest
+
+class LoginControllerSpec extends Specification implements ControllerUnitTest<LoginController> {
 
   def "index errors if no sso url provided in request or session"() {
     when:

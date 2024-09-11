@@ -2,16 +2,14 @@ package aaf.vhr
 
 import grails.test.mixin.*
 import grails.test.spock.*
-import grails.buildtestdata.mixin.Build
 
 import spock.lang.*
 
 import test.shared.ShiroEnvironment
 
-@TestFor(aaf.vhr.ManagedSubjectController)
-@Build([Organization, Group, ManagedSubject, aaf.base.identity.Subject])
-@Mock([Organization, Group, ManagedSubject, StateChange])
-class ManagedSubjectControllerSpec  extends spock.lang.Specification {
+import grails.testing.web.controllers.ControllerUnitTest
+
+class ManagedSubjectControllerSpec  extends Specification implements ControllerUnitTest<ManagedSubjectController> {
   @Shared def shiroEnvironment = new ShiroEnvironment()
 
   aaf.base.identity.Subject subject
