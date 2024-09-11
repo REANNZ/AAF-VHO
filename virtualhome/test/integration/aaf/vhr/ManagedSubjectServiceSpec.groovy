@@ -1,7 +1,6 @@
 package aaf.vhr
 
 import grails.test.mixin.*
-import grails.buildtestdata.mixin.Build
 import spock.lang.*
 import grails.test.spock.*
 import com.icegreen.greenmail.util.*
@@ -13,7 +12,9 @@ import javax.mail.Message
 import groovy.time.TimeCategory
 import aaf.base.identity.*
 
-class ManagedSubjectServiceSpec extends IntegrationSpec {
+import grails.testing.services.ServiceUnitTest
+
+class ManagedSubjectServiceSpec extends Service implements ServiceUnitTest<ManagedSubjectService> {
   
   def managedSubjectService
   def greenMail
