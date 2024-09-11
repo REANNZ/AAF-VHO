@@ -134,3 +134,73 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+
+aaf:
+    base:
+        # Bootstrap - Allows unauthenticated access to administrative console
+        bootstrap: false
+
+        # Session Expiry Warning - minutes
+        session_warning: 50
+        session_decision_time: 5
+
+        # Deployed AAF environment [development | test | production]
+        deployment_environment: "development"
+        realms:
+            api:
+                active: true
+            federated:
+                active: true
+                automate_login: true
+                auto_provision: true
+                development:
+                    active: false
+                sso_endpoint: "/Shibboleth.sso/Login"
+
+                # Supported as fallback for problematic webservers
+                # AAF webserver configuration shouldn't require this to be false.
+                # See https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPAttributeAccess for more
+                request:
+                    attributes: true
+                mapping:
+                    principal: "persistent-id"   # The unique and persistent ID used to identify this principal for current and subsequent sessions (eduPersonTargetedID)
+                    credential: "Shib-Session-ID"  # The internal session key assigned to the session associated with the request and hence the credential used
+                    entityID: "Shib-Identity-Provider" # The entityID of the IdP that authenticated the subject associated with the request.
+
+                    applicationID: "Shib-Application-ID" # The applicationId property derived for the request.
+                    idpAuthenticationInstant: "Shib-Authentication-Instant"#// The ISO timestamp provided by the IdP indicating the time of authentication.
+
+                    cn: "cn"
+                    email: "mail"
+                    sharedToken: "auEduPersonSharedToken"
+        sms:
+            api_endpoint: 'https://rest.nexmo.com'
+            api_key: ''
+            api_secret: ''
+            fake: false # Deliver via aaf.base.FakeSMSDeliveryController to GreenMail
+    vhr:
+        crypto:
+            log_rounds: 6
+            sha_rounds: 1024
+        federationregistry:
+            server: "https://manager.test.example.edu.au"
+            api:
+                organisations: "/federationregistry/api/v1/organizations/"
+        login:
+            ssl_only_cookie: true
+            path: '/'
+            validity_period_minutes: 2
+            required_captcha_after_tries: 2
+            consent_revocation_enabled: true
+            consent_recovation_param_name: "_shib_idp_revokeConsent"
+        passwordreset:
+            reset_code_length: 6
+            reset_sms_text: "Your VHR 'SMS Code' to reset your lost password is: {0}"
+            reset_attempt_limit: 5
+        scopes:
+            base_scope: "vho.example.org"
+        sharedtoken:
+            sha_rounds: 1024
+            idp_entityid: 'https://vhr.test.example.edu.au/idp/shibboleth' # VHR Entity ID
+        twosteplogin:
+            issuer: "Tuakiri Virtual Home"
