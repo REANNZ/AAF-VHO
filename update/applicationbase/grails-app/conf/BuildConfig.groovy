@@ -36,7 +36,6 @@ grails.project.dependency.resolution = {
   dependencies {
     compile "commons-collections:commons-collections:3.2.2"
 
-    test 'mysql:mysql-connector-java:5.1.18'
     test 'org.hamcrest:hamcrest-all:1.3'
     test 'asm:asm:3.3.1'
 

@@ -31,10 +31,6 @@ grails.project.dependency.resolution = {
     mavenRepo "http://repository.jboss.com/maven2/"
   }
 
-  dependencies {
-    test 'mysql:mysql-connector-java:5.1.18'
-  }
-
   /*
     Types of plugin:
     build: Dependencies for the build system only
