@@ -35,8 +35,6 @@ grails.project.dependency.resolution = {
   dependencies {
     compile "commons-collections:commons-collections:3.2.2"
     compile "commons-validator:commons-validator:1.7"
-    compile "edu.vt.middleware:vt-dictionary:3.0"
-    compile "edu.vt.middleware:vt-password:3.1.1"
 
     test 'mysql:mysql-connector-java:5.1.49'
   }
