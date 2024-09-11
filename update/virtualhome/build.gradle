@@ -63,6 +63,7 @@ dependencies {
     compile "org.apache.shiro:shiro-spring:1.2.5"
     compile "org.apache.shiro:shiro-ehcache:1.2.5"
     compile "org.apache.shiro:shiro-core:1.2.5"
+    compile "com.google.guava:guava:14.0"
 
     // These used to plugins in the old app but now that distinction is not relevant.
     compile "org.grails.plugins:jasypt-encryption:2.0.2"
