@@ -38,12 +38,6 @@ grails.project.dependency.resolution = {
 
     test 'org.hamcrest:hamcrest-all:1.3'
     test 'asm:asm:3.3.1'
-
-    runtime 'org.springframework:spring-test:4.1.9.RELEASE'
-    runtime 'org.springframework:spring-orm:4.1.9.RELEASE'
-    runtime 'org.springframework:spring-tx:4.1.9.RELEASE'
-    runtime 'org.springframework:spring-aop:4.1.9.RELEASE'
-    runtime 'org.springframework:spring-expression:4.1.9.RELEASE'
     // because resources-1.2.14 does not declare dependency on commons-io
     runtime "commons-io:commons-io:1.3.2"
   }

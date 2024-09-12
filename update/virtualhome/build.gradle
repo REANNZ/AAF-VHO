@@ -60,6 +60,12 @@ dependencies {
     compile 'org.grails.plugins:mail:1.0.7'
     compile 'com.icegreen:greenmail:1.4.0'
 
+    runtime 'org.springframework:spring-test:4.3.18.RELEASE'
+    runtime 'org.springframework:spring-orm:4.3.18.RELEASE'
+    runtime 'org.springframework:spring-tx:4.3.18.RELEASE'
+    runtime 'org.springframework:spring-aop:4.3.18.RELEASE'
+    runtime 'org.springframework:spring-expression:4.3.18.RELEASE'
+
     // Dependencies copied from the old virtualhome project
     compile "com.google.zxing:core:3.5.3"
     compile "com.google.zxing:javase:3.5.3"
