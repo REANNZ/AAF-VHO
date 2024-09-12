@@ -28,7 +28,7 @@ class GroupSpec extends Specification implements DomainUnitTest<Group>  {
   def 'name is required to be valid'() {
     setup:
     def g = new Group()
-    mockForConstraintsTests(Group, [g])
+    //mockForConstraintsTests(Group, [g])
 
     when:
     g.name = val
@@ -49,7 +49,7 @@ class GroupSpec extends Specification implements DomainUnitTest<Group>  {
   def 'description is required to be valid'() {
     setup:
     def g = new Group()
-    mockForConstraintsTests(Group, [g])
+    //mockForConstraintsTests(Group, [g])
 
     when:
     g.description = val

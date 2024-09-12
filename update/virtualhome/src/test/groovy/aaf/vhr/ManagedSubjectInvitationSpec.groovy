@@ -27,7 +27,7 @@ class ManagedSubjectInvitationSpec extends Specification implements DomainUnitTe
     when:
     (1..1000).each {
       def inv = new ManagedSubjectInvitation(managedSubject:subject)
-      mockForConstraintsTests(ManagedSubjectInvitation, [inv])
+      //mockForConstraintsTests(ManagedSubjectInvitation, [inv])
 
       def result = inv.validate()
       if(!result) {
@@ -44,7 +44,7 @@ class ManagedSubjectInvitationSpec extends Specification implements DomainUnitTe
     setup:
     def subject = new ManagedSubject()
     def inv = new ManagedSubjectInvitation(managedSubject:subject)
-    mockForConstraintsTests(ManagedSubjectInvitation, [inv])
+    //mockForConstraintsTests(ManagedSubjectInvitation, [inv])
 
     when:
     inv.inviteCode = code
@@ -64,7 +64,7 @@ class ManagedSubjectInvitationSpec extends Specification implements DomainUnitTe
   def "ensure managedSubject constraints"() {    
     setup:
     def inv = new ManagedSubjectInvitation()
-    mockForConstraintsTests(ManagedSubjectInvitation, [inv])
+    //mockForConstraintsTests(ManagedSubjectInvitation, [inv])
 
     when:
     inv.managedSubject = managedSubject

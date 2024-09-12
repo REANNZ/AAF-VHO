@@ -35,7 +35,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
   def 'ensure login can be null'() {
     setup:
     def s = new ManagedSubject()
-    mockForConstraintsTests(ManagedSubject, [s])
+    //mockForConstraintsTests(ManagedSubject, [s])
 
     expect:
     s.validate()
@@ -51,7 +51,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
   def 'ensure login must not be blank'() {
     setup:
     def s = new ManagedSubject()
-    mockForConstraintsTests(ManagedSubject, [s])
+    //mockForConstraintsTests(ManagedSubject, [s])
 
     expect:
     s.validate()
@@ -72,7 +72,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
     setup:
     def s = new ManagedSubject()
     def s2 = ManagedSubject()
-    mockForConstraintsTests(ManagedSubject, [s])
+    //mockForConstraintsTests(ManagedSubject, [s])
 
     expect:
     s.validate()
@@ -90,7 +90,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
   def 'ensure totpKey can be null'() {
     setup:
     def s = new ManagedSubject(totpKey:'1234')
-    mockForConstraintsTests(ManagedSubject, [s])
+    //mockForConstraintsTests(ManagedSubject, [s])
 
     expect:
     s.validate()
@@ -159,7 +159,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
   def 'ensure email must not be null or blank and be an email address'() {
     setup:
     def s = new ManagedSubject()
-    mockForConstraintsTests(ManagedSubject, [s])
+    //mockForConstraintsTests(ManagedSubject, [s])
 
     expect:
     s.validate()
@@ -183,7 +183,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
   def 'ensure cn must not be null or blank and either singular or first<space>last name formatted'() {
     setup:
     def s = new ManagedSubject()
-    mockForConstraintsTests(ManagedSubject, [s])
+    //mockForConstraintsTests(ManagedSubject, [s])
 
     expect:
     s.validate()
@@ -207,7 +207,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
   def 'ensure sharedtoken must not be null or blank'() {
     setup:
     def s = new ManagedSubject()
-    mockForConstraintsTests(ManagedSubject, [s])
+    //mockForConstraintsTests(ManagedSubject, [s])
 
     expect:
     s.validate()
@@ -232,7 +232,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
     setup:
     def s = new ManagedSubject()
     def s2 = new ManagedSubject()
-    mockForConstraintsTests(ManagedSubject, [s])
+    //mockForConstraintsTests(ManagedSubject, [s])
     simpleDatastore.currentSession.flush()
 
     expect:
@@ -250,7 +250,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
   def 'ensure eduPersonEntitlement can be null not be blank'() {
     setup:
     def s = new ManagedSubject()
-    mockForConstraintsTests(ManagedSubject, [s])
+    //mockForConstraintsTests(ManagedSubject, [s])
 
     expect:
     s.validate()
@@ -272,7 +272,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
   def 'ensure mobileNumber can be null not be blank'() {
     setup:
     def s = new ManagedSubject()
-    mockForConstraintsTests(ManagedSubject, [s])
+    //mockForConstraintsTests(ManagedSubject, [s])
 
     expect:
     s.validate()
