@@ -60,8 +60,6 @@ grails.project.dependency.resolution = {
     build ":tomcat:7.0.55.2"
 
     compile ':cache:1.1.8'
-    compile ":mail:1.0.7"
-    compile ":greenmail:1.3.4"
     compile ":codenarc:0.24"
     compile ":build-test-data:2.4.0"
     compile ":rest:0.8"
