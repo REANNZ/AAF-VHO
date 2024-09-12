@@ -65,7 +65,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
 
   def "failed user sets loginError"() {
     setup:
-    def ms = ManagedSubject.build()
+    def ms = ManagedSubject()
 
     session.setAttribute(controller.SSO_URL, "http://test.com")
     session.setAttribute(controller.FAILED_USER, ms.id)
@@ -99,7 +99,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
     session.setAttribute(controller.SSO_URL, "https://idp.test.com/shibboleth-idp/authn")
     def loginService = Mock(aaf.vhr.LoginService)
 
-    def ms = ManagedSubject.build(active:true, failedLogins: 0)
+    def ms = new ManagedSubject(active:true, failedLogins: 0)
     ms.organization.active = true
 
     controller.loginService = loginService
@@ -121,7 +121,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
     grailsApplication.config.aaf.vhr.login.validity_period_minutes = 1
     grailsApplication.config.aaf.vhr.login.ssl_only_cookie = true
     
-    def ms = ManagedSubject.build(active:true, failedLogins: 0)
+    def ms = new ManagedSubject(active:true, failedLogins: 0)
     ms.organization.active = true
 
     controller.loginService = loginService
@@ -143,7 +143,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
     grailsApplication.config.aaf.vhr.login.validity_period_minutes = 1
     grailsApplication.config.aaf.vhr.login.ssl_only_cookie = false
 
-    def ms = ManagedSubject.build(active:true, failedLogins: 0)
+    def ms = new ManagedSubject(active:true, failedLogins: 0)
     ms.organization.active = true
 
     controller.loginService = loginService
@@ -164,7 +164,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
     grailsApplication.config.aaf.vhr.login.validity_period_minutes = 1
     grailsApplication.config.aaf.vhr.login.ssl_only_cookie = false
 
-    def ms = ManagedSubject.build(active:true, failedLogins: 0)
+    def ms = new ManagedSubject(active:true, failedLogins: 0)
     ms.organization.active = true
 
     controller.loginService = loginService
@@ -187,7 +187,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
     grailsApplication.config.aaf.vhr.login.validity_period_minutes = 1
     grailsApplication.config.aaf.vhr.login.ssl_only_cookie = true
 
-    def ms = ManagedSubject.build(active:true, failedLogins: 0)
+    def ms = new ManagedSubject(active:true, failedLogins: 0)
     ms.organization.active = true
 
     controller.loginService = loginService
@@ -214,7 +214,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
     grailsApplication.config.aaf.vhr.login.consent_revocation_param_name = "_shib_idp_revokeConsent"
     controller.afterPropertiesSet()
 
-    def ms = ManagedSubject.build(active:true, failedLogins: 0)
+    def ms = new ManagedSubject(active:true, failedLogins: 0)
     ms.organization.active = true
 
     controller.loginService = loginService
@@ -243,7 +243,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
     grailsApplication.config.aaf.vhr.login.validity_period_minutes = 1
     grailsApplication.config.aaf.vhr.login.ssl_only_cookie = false
 
-    def ms = ManagedSubject.build(active:true, failedLogins: 0, totpKey:'DPS6XA5YWTZFQ4FI')
+    def ms = new ManagedSubject(active:true, failedLogins: 0, totpKey:'DPS6XA5YWTZFQ4FI')
     ms.organization.active = true
 
     def twoStepSession = new TwoStepSession()
@@ -272,7 +272,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
     grailsApplication.config.aaf.vhr.login.validity_period_minutes = 1
     grailsApplication.config.aaf.vhr.login.ssl_only_cookie = false
 
-    def ms = ManagedSubject.build(active:true, failedLogins: 0, totpKey:'DPS6XA5YWTZFQ4FI')
+    def ms = new ManagedSubject(active:true, failedLogins: 0, totpKey:'DPS6XA5YWTZFQ4FI')
     ms.organization.active = true
 
     def twoStepSession = new TwoStepSession()
@@ -304,7 +304,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
     grailsApplication.config.aaf.vhr.login.validity_period_minutes = 1
     grailsApplication.config.aaf.vhr.login.ssl_only_cookie = false
 
-    def ms = ManagedSubject.build(active:true, failedLogins: 0, totpKey:'DPS6XA5YWTZFQ4FI')
+    def ms = new ManagedSubject(active:true, failedLogins: 0, totpKey:'DPS6XA5YWTZFQ4FI')
     ms.organization.active = true
 
     controller.loginService = loginService
@@ -326,7 +326,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
     grailsApplication.config.aaf.vhr.login.validity_period_minutes = 1
     grailsApplication.config.aaf.vhr.login.ssl_only_cookie = false
 
-    def ms = ManagedSubject.build(active:true, failedLogins: 0, totpForce:true)
+    def ms = new ManagedSubject(active:true, failedLogins: 0, totpForce:true)
     ms.organization.active = true
 
     controller.loginService = loginService
@@ -367,7 +367,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
     grailsApplication.config.aaf.vhr.login.validity_period_minutes = 1
     grailsApplication.config.aaf.vhr.login.ssl_only_cookie = false
 
-    def ms = ManagedSubject.build(active:true, failedLogins: 0)
+    def ms = new ManagedSubject(active:true, failedLogins: 0)
     ms.organization.active = true
 
     controller.loginService = loginService
@@ -398,7 +398,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
     grailsApplication.config.aaf.vhr.login.consent_revocation_param_name = "_shib_idp_revokeConsent"
     controller.afterPropertiesSet()
 
-    def ms = ManagedSubject.build(active:true, failedLogins: 0)
+    def ms = new ManagedSubject(active:true, failedLogins: 0)
     ms.organization.active = true
 
     controller.loginService = loginService
@@ -469,7 +469,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
 
     controller.loginService = loginService
 
-    def ms = ManagedSubject.build(active:true, failedLogins: 0)
+    def ms = new ManagedSubject(active:true, failedLogins: 0)
     ms.organization.active = true
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
@@ -513,7 +513,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
 
     controller.loginService = loginService
 
-    def ms = ManagedSubject.build(active:true, failedLogins: 0)
+    def ms = new ManagedSubject(active:true, failedLogins: 0)
     ms.organization.active = true
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
@@ -540,7 +540,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
 
     controller.loginService = loginService
 
-    def ms = ManagedSubject.build(active:true, failedLogins: 0)
+    def ms = new ManagedSubject(active:true, failedLogins: 0)
     ms.organization.active = true
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
@@ -566,7 +566,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
     grailsApplication.config.aaf.vhr.login.validity_period_minutes = 1
     grailsApplication.config.aaf.vhr.login.ssl_only_cookie = true
 
-    def ms = ManagedSubject.build(active:true, failedLogins: 0)
+    def ms = new ManagedSubject(active:true, failedLogins: 0)
     ms.organization.active = true
 
     controller.loginService = loginService
@@ -586,7 +586,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
     grailsApplication.config.aaf.vhr.login.validity_period_minutes = 1
     grailsApplication.config.aaf.vhr.login.ssl_only_cookie = true
 
-    def ms = ManagedSubject.build(active:true, failedLogins: 0)
+    def ms = new ManagedSubject(active:true, failedLogins: 0)
     ms.organization.active = true
 
     def sessionId = 'abcd1234'
@@ -618,7 +618,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
     grailsApplication.config.aaf.vhr.login.validity_period_minutes = 1
     grailsApplication.config.aaf.vhr.login.ssl_only_cookie = true
 
-    def ms = ManagedSubject.build(active:true, failedLogins: 0, totpKey:'DPS6XA5YWTZFQ4FI')
+    def ms = new ManagedSubject(active:true, failedLogins: 0, totpKey:'DPS6XA5YWTZFQ4FI')
     ms.organization.active = true
 
     def twoStepSession = new TwoStepSession()
@@ -651,7 +651,7 @@ class LoginControllerSpec extends Specification implements ControllerUnitTest<Lo
     grailsApplication.config.aaf.vhr.login.validity_period_minutes = 1
     grailsApplication.config.aaf.vhr.login.ssl_only_cookie = false
 
-    def ms = ManagedSubject.build(active:true, failedLogins: 0)
+    def ms = new ManagedSubject(active:true, failedLogins: 0)
     ms.organization.active = true
 
     controller.loginService = loginService

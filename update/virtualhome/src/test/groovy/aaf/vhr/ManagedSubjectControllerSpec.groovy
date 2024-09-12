@@ -20,7 +20,7 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
   }
 
   def setup() {
-    subject = aaf.base.identity.Subject.build()
+    subject = new aaf.base.identity.Subject()
 
     shiroSubject = Mock(org.apache.shiro.subject.Subject)
     shiroSubject.id >> subject.id
@@ -82,8 +82,8 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure true if valid group found by validGroup'() {
     setup:
-    def organization = Organization.build(active:true)
-    def group = Group.build(organization:organization)
+    def organization = new Organization(active:true)
+    def group = new Group(organization:organization)
 
     when:
     params.group = [id:group.id]
@@ -95,7 +95,7 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from list'() {
     setup:
-    (1..10).each { ManagedSubject.build() }
+    (1..10).each { new ManagedSubject() }
     shiroSubject.isPermitted("app:administrator") >> true
 
     when:
@@ -114,7 +114,7 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from list without permissions'() {
     setup:
-    (1..10).each { ManagedSubject.build() }
+    (1..10).each { new ManagedSubject() }
     shiroSubject.isPermitted("app:administrator") >> false
 
     when:
@@ -133,7 +133,7 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from show'() {
     setup:
-    def managedSubjectTestInstance = ManagedSubject.build()
+    def managedSubjectTestInstance = new ManagedSubject()
     shiroSubject.isPermitted("app:manage:organization:${managedSubjectTestInstance.organization.id}:group:${managedSubjectTestInstance.group.id}:managedsubject:show") >> true
 
     when:
@@ -146,7 +146,7 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from show when invalid permission'() {
     setup:
-    def managedSubjectTestInstance = ManagedSubject.build()
+    def managedSubjectTestInstance = new ManagedSubject()
     shiroSubject.isPermitted("app:manage:organization:${managedSubjectTestInstance.organization.id}:group:${managedSubjectTestInstance.group.id}:managedsubject:show") >> false
 
     when:
@@ -159,8 +159,8 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from create when valid permission'() {
     setup:
-    def organization = Organization.build(active:true)
-    def group = Group.build(organization:organization)
+    def organization = new Organization(active:true)
+    def group = new Group(organization:organization)
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id}:managedsubject:create") >> true
 
     when:
@@ -173,8 +173,8 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from create when invalid permission'() {
     setup:
-    def organization = Organization.build(active:true)
-    def group = Group.build(organization:organization)
+    def organization = new Organization(active:true)
+    def group = new Group(organization:organization)
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id + 1}:managedsubject:create") >> true
 
     when:
@@ -188,8 +188,8 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from createcsv when valid permission'() {
     setup:
-    def organization = Organization.build(active:true)
-    def group = Group.build(organization:organization)
+    def organization = new Organization(active:true)
+    def group = new Group(organization:organization)
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id}:managedsubject:create") >> true
 
     when:
@@ -202,8 +202,8 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from createcsv when invalid permission'() {
     setup:
-    def organization = Organization.build(active:true)
-    def group = Group.build(organization:organization)
+    def organization = new Organization(active:true)
+    def group = new Group(organization:organization)
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id + 1}:managedsubject:create") >> true
 
     when:
@@ -217,8 +217,8 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from save when invalid permission'() {
     setup:
-    def organization = Organization.build(active:true)
-    def group = Group.build(organization:organization)
+    def organization = new Organization(active:true)
+    def group = new Group(organization:organization)
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id + 1}:managedsubject:create") >> true
 
     when:
@@ -234,11 +234,11 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
   def 'ensure correct output from save with invalid data and when valid permission'() {
     setup:
     def sharedTokenService = Mock(aaf.vhr.SharedTokenService)
-    def organization = Organization.build(active:true)
-    def group = Group.build(organization:organization)
+    def organization = new Organization(active:true)
+    def group = new Group(organization:organization)
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id}:managedsubject:create") >> true
 
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization)
     managedSubjectTestInstance.properties.each {
       if(it.value) {
         if(grailsApplication.isDomainClass(it.value.getClass()))
@@ -273,13 +273,13 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
     setup:
     def sharedTokenService = Mock(aaf.vhr.SharedTokenService)
     def managedSubjectService = Mock(aaf.vhr.ManagedSubjectService)
-    def organization = Organization.build(active:true, subjectLimit:5)
-    def group = Group.build(organization:organization)
+    def organization = new Organization(active:true, subjectLimit:5)
+    def group = new Group(organization:organization)
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id}:managedsubject:create") >> true
 
-    (1..5).each { ManagedSubject.build(group:group, organization:group.organization) }
+    (1..5).each { new ManagedSubject(group:group, organization:group.organization) }
 
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization)
     managedSubjectTestInstance.properties.each {
       if(it.value) {
         if(grailsApplication.isDomainClass(it.value.getClass()))
@@ -312,8 +312,8 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
     setup:
     def sharedTokenService = Mock(aaf.vhr.SharedTokenService)
     def managedSubjectService = Mock(aaf.vhr.ManagedSubjectService)
-    def organization = Organization.build(active:true)
-    def group = Group.build(organization:organization)
+    def organization = new Organization(active:true)
+    def group = new Group(organization:organization)
     shiroSubject.isPermitted("app:administrator") >> false
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id}:managedsubject:create") >> true
 
@@ -354,8 +354,8 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
     setup:
     def sharedTokenService = Mock(aaf.vhr.SharedTokenService)
     def managedSubjectService = Mock(aaf.vhr.ManagedSubjectService)
-    def organization = Organization.build(active:true)
-    def group = Group.build(organization:organization)
+    def organization = new Organization(active:true)
+    def group = new Group(organization:organization)
     shiroSubject.isPermitted("app:administrator") >> false
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id}:managedsubject:create") >> true
 
@@ -400,8 +400,8 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
     setup:
     def sharedTokenService = Mock(aaf.vhr.SharedTokenService)
     def managedSubjectService = Mock(aaf.vhr.ManagedSubjectService)
-    def organization = Organization.build(active:true)
-    def group = Group.build(organization:organization)
+    def organization = new Organization(active:true)
+    def group = new Group(organization:organization)
     shiroSubject.isPermitted("app:administrator") >> false
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id}:managedsubject:create") >> true
 
@@ -447,8 +447,8 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
     setup:
     def sharedTokenService = Mock(aaf.vhr.SharedTokenService)
     def managedSubjectService = Mock(aaf.vhr.ManagedSubjectService)
-    def organization = Organization.build(active:true)
-    def group = Group.build(organization:organization)
+    def organization = new Organization(active:true)
+    def group = new Group(organization:organization)
     shiroSubject.isPermitted("app:administrator") >> true
 
     def managedSubjectTestInstance = ManagedSubject.buildWithoutSave(group:group, organization:group.organization)
@@ -491,8 +491,8 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from savecsv when invalid permission'() {
     setup:
-    def organization = Organization.build(active:true)
-    def group = Group.build(organization:organization)
+    def organization = new Organization(active:true)
+    def group = new Group(organization:organization)
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id + 1}:managedsubject:create") >> true
 
     when:
@@ -506,8 +506,8 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from edit when invalid permission'() {
     setup:
-    def group = Group.build()
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization)
+    def group = new Group()
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization)
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id + 1}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
 
     when:
@@ -521,9 +521,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from edit when valid permission'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization, hash:'0'*60)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization, hash:'0'*60)
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
 
     when:
@@ -536,9 +536,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from update when invalid permission'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization)
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id + 1}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
 
     when:
@@ -553,9 +553,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from update when account has no login assigned and non super administrator tries to set one'() {
     setup:
-    def group = Group.build(active:true)
+    def group = new Group(active:true)
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization, login:null, archived: false)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization, login:null, archived: false)
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
 
     when:
@@ -573,9 +573,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from update when account has no login assigned and super administrator tries to set one'() {
     setup:
-    def group = Group.build(active:true)
+    def group = new Group(active:true)
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization, login:null, archived: false)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization, login:null, archived: false)
     shiroSubject.isPermitted("app:administrator") >> true
 
     expect:
@@ -597,9 +597,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from update with null version but valid permission'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization)
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
 
     expect:
@@ -619,9 +619,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from update with invalid data and when valid permission'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization)
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
     managedSubjectTestInstance.getVersion() >> 20
 
@@ -656,9 +656,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from update with valid data and when valid permission'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization, sharedToken:'abcd1234')
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization, sharedToken:'abcd1234')
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
 
     managedSubjectTestInstance.properties.each {
@@ -697,9 +697,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from update with valid data and when valid permission for a non-finalized account'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization, sharedToken:'abcd1234', login:null)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization, sharedToken:'abcd1234', login:null)
     shiroSubject.isPermitted('app:administrator') >> true
 
     managedSubjectTestInstance.properties.each {
@@ -736,9 +736,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from update with valid data including entitlements and when valid permission'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization, sharedToken:'abcd1234', eduPersonEntitlement:'initial:urn;initial:urn:2')
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization, sharedToken:'abcd1234', eduPersonEntitlement:'initial:urn;initial:urn:2')
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
 
     managedSubjectTestInstance.properties.each {
@@ -781,9 +781,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from update with valid data containing multiple eduPersonAffiliation and when valid permission'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization, sharedToken:'abcd1234', eduPersonAffiliation:'employee')
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization, sharedToken:'abcd1234', eduPersonAffiliation:'employee')
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
 
     managedSubjectTestInstance.properties.each {
@@ -824,9 +824,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from update including sharedToken update with valid data and when super admin'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization, sharedToken:'abcd1234')
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization, sharedToken:'abcd1234')
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
     shiroSubject.isPermitted("app:administrator") >> true
 
@@ -866,9 +866,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from delete when invalid permission'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization)
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id + 1}:managedsubject:delete") >> true
 
     when:
@@ -883,8 +883,8 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from delete when valid permission'() {
     setup:
-    def group = Group.build()
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization)
+    def group = new Group()
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization)
     shiroSubject.isPermitted("app:administrator") >> true
 
     expect:
@@ -906,9 +906,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from delete when integrity violation'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization)
     shiroSubject.isPermitted("app:administrator") >> true
 
     ManagedSubject.metaClass.delete { throw new org.springframework.dao.DataIntegrityViolationException("Thrown from test case") }
@@ -932,8 +932,8 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from resend when invalid permission'() {
     setup:
-    def group = Group.build()
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization)
+    def group = new Group()
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization)
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id + 1}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
 
     when:
@@ -949,9 +949,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
   def 'ensure correct output from resend with valid data and when valid permission'() {
     setup:
     def managedSubjectService = Mock(aaf.vhr.ManagedSubjectService)
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization)
     shiroSubject.isPermitted("app:manage:organization:${group.organization.id}:group:${group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
 
     controller.managedSubjectService = managedSubjectService
@@ -974,9 +974,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from togglelock when invalid permission'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization)
     shiroSubject.isPermitted("app:manage:organization:${managedSubjectTestInstance.organization.id}:group:${managedSubjectTestInstance.group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> false
 
     when:
@@ -990,9 +990,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from toggleLock with null version but valid permission'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization)
     shiroSubject.isPermitted("app:manage:organization:${managedSubjectTestInstance.organization.id}:group:${managedSubjectTestInstance.group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
 
     expect:
@@ -1011,9 +1011,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from toggleLock with valid permission'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(locked:true, group:group, organization:group.organization)
+    def managedSubjectTestInstance = new ManagedSubject(locked:true, group:group, organization:group.organization)
     shiroSubject.isPermitted("app:manage:organization:${managedSubjectTestInstance.organization.id}:group:${managedSubjectTestInstance.group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
 
     expect:
@@ -1034,9 +1034,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from toggleblock when invalid permission'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization)
     shiroSubject.isPermitted("app:administration") >> false
 
     when:
@@ -1050,9 +1050,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from toggleBlock with null version but valid permission'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization)
     shiroSubject.isPermitted("app:administration") >> true
 
     expect:
@@ -1071,9 +1071,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from toggleBlock with valid permission'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(blocked:true, group:group, organization:group.organization)
+    def managedSubjectTestInstance = new ManagedSubject(blocked:true, group:group, organization:group.organization)
     shiroSubject.isPermitted("app:administration") >> true
 
     expect:
@@ -1094,9 +1094,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from toggleActive when invalid permission'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization)
     shiroSubject.isPermitted("app:manage:organization:${managedSubjectTestInstance.organization.id}:group:${managedSubjectTestInstance.group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> false
 
     when:
@@ -1110,9 +1110,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from toggleActive with null version but valid permission'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization)
     shiroSubject.isPermitted("app:manage:organization:${managedSubjectTestInstance.organization.id}:group:${managedSubjectTestInstance.group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
 
     expect:
@@ -1131,9 +1131,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from toggleActive with valid permission'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(active:false, group:group, organization:group.organization)
+    def managedSubjectTestInstance = new ManagedSubject(active:false, group:group, organization:group.organization)
     shiroSubject.isPermitted("app:manage:organization:${managedSubjectTestInstance.organization.id}:group:${managedSubjectTestInstance.group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
 
     expect:
@@ -1154,9 +1154,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
     def 'ensure correct output from toggleArchive when invalid permission'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization)
     shiroSubject.isPermitted("app:manage:organization:${managedSubjectTestInstance.organization.id}:group:${managedSubjectTestInstance.group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> false
 
     when:
@@ -1170,9 +1170,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from toggleArchive with null version but valid permission'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization)
     shiroSubject.isPermitted("app:manage:organization:${managedSubjectTestInstance.organization.id}:group:${managedSubjectTestInstance.group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
 
     expect:
@@ -1191,9 +1191,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from toggleArchive with valid permission'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(archived:false, group:group, organization:group.organization)
+    def managedSubjectTestInstance =new ManagedSubject(archived:false, group:group, organization:group.organization)
     shiroSubject.isPermitted("app:manage:organization:${managedSubjectTestInstance.organization.id}:group:${managedSubjectTestInstance.group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
 
     expect:
@@ -1214,9 +1214,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from resettwosteplogin'() {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization, totpKey:'1234')
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization, totpKey:'1234')
     shiroSubject.isPermitted("app:manage:organization:${managedSubjectTestInstance.organization.id}:group:${managedSubjectTestInstance.group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
 
     expect:
@@ -1238,9 +1238,9 @@ class ManagedSubjectControllerSpec  extends Specification implements ControllerU
 
   def 'ensure correct output from enforcetwosteplogin'()  {
     setup:
-    def group = Group.build()
+    def group = new Group()
     group.organization.active = true
-    def managedSubjectTestInstance = ManagedSubject.build(group:group, organization:group.organization, totpKey:'1234', totpForce: !enforce)
+    def managedSubjectTestInstance = new ManagedSubject(group:group, organization:group.organization, totpKey:'1234', totpForce: !enforce)
     shiroSubject.isPermitted("app:manage:organization:${managedSubjectTestInstance.organization.id}:group:${managedSubjectTestInstance.group.id}:managedsubject:${managedSubjectTestInstance.id}:edit") >> true
 
     expect:

@@ -43,7 +43,7 @@ class LostUsernameControllerSpec extends Specification implements ControllerUnit
 
   def 'send succeeds for valid managed subject'() {
     setup:
-    def ms = ManagedSubject.build(login: 'testuser', email: 'test@example.com')
+    def ms = new ManagedSubject(login: 'testuser', email: 'test@example.com')
     params.email = ms.email
 
     when:
@@ -58,7 +58,7 @@ class LostUsernameControllerSpec extends Specification implements ControllerUnit
 
   def 'send succeeds when managed subject not found'() {
     setup:
-    def ms = ManagedSubject.build(login: 'testuser', email: 'test@example.com')
+    def ms = new ManagedSubject(login: 'testuser', email: 'test@example.com')
     params.email = 'wrong-email@example.com'
 
     when:

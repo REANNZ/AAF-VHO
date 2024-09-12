@@ -21,7 +21,7 @@ class CryptoServiceSpec extends Specification implements ServiceUnitTest<CryptoS
 
   def 'validate various passwords store and confirm correctly'() {
     setup:
-    def subject = ManagedSubject.build()
+    def subject = new ManagedSubject()
     subject.hash = null
     subject.plainPassword = pw
     subject.plainPasswordConfirmation = pw
@@ -43,7 +43,7 @@ class CryptoServiceSpec extends Specification implements ServiceUnitTest<CryptoS
 
   def 'validate various passwords fail if not entered correctly'() {
     setup:
-    def subject = ManagedSubject.build()
+    def subject = new ManagedSubject()
     subject.hash = null
     subject.plainPassword = pw
     subject.plainPasswordConfirmation = pw
@@ -66,7 +66,7 @@ class CryptoServiceSpec extends Specification implements ServiceUnitTest<CryptoS
 
   def 'validate passwords larger then 72 still validate correctly even though silently dropping extra char'() {
     setup:
-    def subject = ManagedSubject.build()
+    def subject = new ManagedSubject()
     subject.hash = null
     subject.plainPassword = pw
     subject.plainPasswordConfirmation = pw
@@ -132,7 +132,7 @@ class CryptoServiceSpec extends Specification implements ServiceUnitTest<CryptoS
 
   def 'Validate code and sha512 hash creation for ChallengeResponse'() {
     setup:
-    def er = EmailReset.build()
+    def er = new EmailReset()
 
     when:
     cs.generateEmailResetHash(er)

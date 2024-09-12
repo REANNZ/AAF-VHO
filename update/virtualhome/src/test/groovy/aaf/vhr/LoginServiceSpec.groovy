@@ -28,7 +28,7 @@ class LoginServiceSpec extends Specification implements ServiceUnitTest<LoginSer
     service.cryptoService = cryptoService
 
     service.afterPropertiesSet()
-    ms = ManagedSubject.build(hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+    ms = new ManagedSubject(hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
     ms.twoStepSessions = []
     ms.metaClass.addToTwoStepSessions = {TwoStepSession session -> ms.twoStepSessions.add(session)}
 

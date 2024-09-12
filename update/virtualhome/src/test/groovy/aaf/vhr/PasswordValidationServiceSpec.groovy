@@ -22,7 +22,7 @@ class PasswordValidationServiceSpec extends Specification implements ServiceUnit
 
   def 'confirm passwords submitted must match each other'() {
     setup:
-    def subject = ManagedSubject.build()
+    def subject = new ManagedSubject()
     subject.plainPassword = val
     subject.plainPasswordConfirmation = val + "abcdefg"
 
@@ -39,7 +39,7 @@ class PasswordValidationServiceSpec extends Specification implements ServiceUnit
 
   def 'confirm passwords submitted must not contain the login name'() {
     setup:
-    def subject = ManagedSubject.build()
+    def subject = new ManagedSubject()
     subject.login = 'harry'
     subject.plainPassword = val
     subject.plainPasswordConfirmation = val
@@ -57,7 +57,7 @@ class PasswordValidationServiceSpec extends Specification implements ServiceUnit
 
   def 'confirm password submitted is not the same as previously used'() {
     setup:
-    def subject = ManagedSubject.build()
+    def subject = new ManagedSubject()
     subject.login = 'harry'
     subject.plainPassword = val
     subject.plainPasswordConfirmation = val
@@ -76,7 +76,7 @@ class PasswordValidationServiceSpec extends Specification implements ServiceUnit
 
   def 'confirm password meets NIST minimum of 8 char for user generated pw'() {
     setup:
-    def subject = ManagedSubject.build()
+    def subject = new ManagedSubject()
     subject.plainPassword = val
     subject.plainPasswordConfirmation = val
 
@@ -98,7 +98,7 @@ class PasswordValidationServiceSpec extends Specification implements ServiceUnit
 
   def 'confirm short password meets char characteristic rules'() {
     setup:
-    def subject = ManagedSubject.build()
+    def subject = new ManagedSubject()
     subject.plainPassword = val
     subject.plainPasswordConfirmation = val
 
@@ -120,7 +120,7 @@ class PasswordValidationServiceSpec extends Specification implements ServiceUnit
 
   def 'confirm longer password (16+) is allowed dictionary words and does not need to meet char characteristics'() {
     setup:
-    def subject = ManagedSubject.build()
+    def subject = new ManagedSubject()
     subject.plainPassword = val
     subject.plainPasswordConfirmation = val
 

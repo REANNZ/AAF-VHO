@@ -23,7 +23,7 @@ class DashboardControllerSpec extends Specification implements ControllerUnitTes
   }
 
   def setup() {
-    subject = aaf.base.identity.Subject.build()
+    subject = new aaf.base.identity.Subject()
 
     shiroSubject = Mock(org.apache.shiro.subject.Subject)
     shiroSubject.id >> subject.id
@@ -47,8 +47,8 @@ class DashboardControllerSpec extends Specification implements ControllerUnitTes
 
   def 'ensure subject administering an organization has correct data supplied'() {
     setup:
-    def o = Organization.build()
-    def r = Role.build(name:"organization:${o.id}:adminsters")
+    def o = new Organization()
+    def r = new Role(name:"organization:${o.id}:adminsters")
     
     subject.addToRoles(r)
     subject.save()
@@ -68,16 +68,16 @@ class DashboardControllerSpec extends Specification implements ControllerUnitTes
   def 'ensure subject administering multiple organizations have correct data supplied'() {
     setup:
     (1..10).each {
-      def o = Organization.build()
-      def r = Role.build(name:"organization:${o.id}:adminsters")
+      def o = new Organization()
+      def r = new Role(name:"organization:${o.id}:adminsters")
 
       subject.addToRoles(r)
       subject.save()
     }
 
     (1..10).each {
-      def o = Organization.build()
-      def r = Role.build(name:"organization:${o.id}:adminsters")
+      def o = new Organization()
+      def r = new Role(name:"organization:${o.id}:adminsters")
     }
 
     expect:
@@ -97,8 +97,8 @@ class DashboardControllerSpec extends Specification implements ControllerUnitTes
 
   def 'ensure subject administering a group has correct data supplied'() {
     setup:
-    def g = Group.build()
-    def r = Role.build(name:"group:${g.id}:adminsters")
+    def g = new Group()
+    def r = new Role(name:"group:${g.id}:adminsters")
     
     subject.addToRoles(r)
     subject.save()
@@ -117,19 +117,19 @@ class DashboardControllerSpec extends Specification implements ControllerUnitTes
 
   def 'ensure subject administering multiple groups has correct data supplied'() {
     setup:
-    def organizationTestInstance = Organization.build()
+    def organizationTestInstance = new Organization()
 
     (1..10).each {
-      def g = Group.build(organization:organizationTestInstance)
-      def r = Role.build(name:"group:${g.id}:adminsters")
+      def g = new Group(organization:organizationTestInstance)
+      def r = new Role(name:"group:${g.id}:adminsters")
       
       subject.addToRoles(r)
       subject.save()
     }
 
     (1..10).each {
-      def g = Group.build()
-      def r = Role.build(name:"group:${g.id}:adminsters")
+      def g = new Group()
+      def r = new Role(name:"group:${g.id}:adminsters")
     }
 
     when:
@@ -147,29 +147,29 @@ class DashboardControllerSpec extends Specification implements ControllerUnitTes
   def 'ensure statistics are correctly populated'() {
     setup:
     (1..10).each {
-      ManagedSubject.build()
+      new ManagedSubject()
     }
     (1..10).each {
-      def g = Group.build()
-      def r = Role.build(name:"group:${g.id}:adminsters")
+      def g = new Group()
+      def r = new Role(name:"group:${g.id}:adminsters")
       
       subject.addToRoles(r)
       subject.save()
     }
     (1..10).each {
-      def g = Group.build()
-      def r = Role.build(name:"group:${g.id}:adminsters")
+      def g = new Group()
+      def r = new Role(name:"group:${g.id}:adminsters")
     }
     (1..10).each {
-      def o = Organization.build()
-      def r = Role.build(name:"organization:${o.id}:adminsters")
+      def o = new Organization()
+      def r = new Role(name:"organization:${o.id}:adminsters")
 
       subject.addToRoles(r)
       subject.save()
     }
     (1..10).each {
-      def o = Organization.build()
-      def r = Role.build(name:"organization:${o.id}:adminsters")
+      def o = new Organization()
+      def r = new Role(name:"organization:${o.id}:adminsters")
     }
 
     aaf.base.identity.SessionRecord.metaClass.'static'.executeQuery = {String q, Map params -> [13,20] as List}

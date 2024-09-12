@@ -66,7 +66,7 @@ class SharedTokenServiceSpec extends Specification implements ServiceUnitTest<Sh
   def 'create basic SHA1 shared token'() {
     setup:
     def tokens = []
-    def subject = ManagedSubject.build()
+    def subject = new ManagedSubject()
 
     when:
     st.generate(subject)

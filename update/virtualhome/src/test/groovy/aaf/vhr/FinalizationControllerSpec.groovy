@@ -22,7 +22,7 @@ class FinalizationControllerSpec  extends Specification implements ControllerUni
   }
 
   def setup() {
-    subject = aaf.base.identity.Subject.build()
+    subject = new aaf.base.identity.Subject()
 
     shiroSubject = Mock(org.apache.shiro.subject.Subject)
     shiroSubject.id >> subject.id
@@ -44,7 +44,7 @@ class FinalizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure utilised invitation redirects to used action'() {
     setup:
-    def inv = ManagedSubjectInvitation.build(utilized:true)
+    def inv = new ManagedSubjectInvitation(utilized:true)
 
     when:
     params.inviteCode = inv.inviteCode
@@ -56,7 +56,7 @@ class FinalizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure valid invitation passes to view'() {
     setup:
-    def inv = ManagedSubjectInvitation.build(utilized:false)
+    def inv = new ManagedSubjectInvitation(utilized:false)
 
     when:
     params.inviteCode = inv.inviteCode
@@ -78,7 +78,7 @@ class FinalizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure login available returns false if username exists'() {
     setup:
-    def managedSubjectTestInstance = ManagedSubject.build(login:'testusername')
+    def managedSubjectTestInstance = new ManagedSubject(login:'testusername')
 
     when:
     params.login = "testusername"
@@ -90,7 +90,7 @@ class FinalizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure login available returns true if username available'() {
     setup:
-    def managedSubjectTestInstance = ManagedSubject.build(login:'testusername')
+    def managedSubjectTestInstance = new ManagedSubject(login:'testusername')
 
     when:
     params.login = "myusername"
@@ -102,7 +102,7 @@ class FinalizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure login available returns true if username already assigned to current subject'() {
     setup:
-    def managedSubjectTestInstance = ManagedSubject.build(login:'testusername')
+    def managedSubjectTestInstance = new ManagedSubject(login:'testusername')
 
     when:
     session.setAttribute(FinalizationController.MANAGED_SUBJECT_ID, managedSubjectTestInstance.id)
@@ -126,8 +126,8 @@ class FinalizationControllerSpec  extends Specification implements ControllerUni
   def 'ensure fault in ManagedSubjectService renders index again for user to fix errors'() {
     setup:
     def managedSubjectService = Mock(aaf.vhr.ManagedSubjectService)
-    def managedSubjectTestInstance = ManagedSubject.build(login:'testuser', mobileNumber:'0213123456')
-    def inv = ManagedSubjectInvitation.build(utilized:false, managedSubject:managedSubjectTestInstance)
+    def managedSubjectTestInstance = new ManagedSubject(login:'testuser', mobileNumber:'0213123456')
+    def inv = new ManagedSubjectInvitation(utilized:false, managedSubject:managedSubjectTestInstance)
 
     controller.managedSubjectService = managedSubjectService
 
@@ -151,8 +151,8 @@ class FinalizationControllerSpec  extends Specification implements ControllerUni
 def 'ensure successful complete provides complete view'() {
     setup:
     def managedSubjectService = Mock(aaf.vhr.ManagedSubjectService)
-    def managedSubjectTestInstance = ManagedSubject.build(login:'testuser', mobileNumber:'0213123456')
-    def inv = ManagedSubjectInvitation.build(utilized:false, managedSubject:managedSubjectTestInstance)
+    def managedSubjectTestInstance = new ManagedSubject(login:'testuser', mobileNumber:'0213123456')
+    def inv = new ManagedSubjectInvitation(utilized:false, managedSubject:managedSubjectTestInstance)
 
     controller.managedSubjectService = managedSubjectService
 

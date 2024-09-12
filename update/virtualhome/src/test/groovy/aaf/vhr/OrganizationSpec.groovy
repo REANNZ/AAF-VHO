@@ -27,7 +27,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'ensure name can not be null or blank'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.name = val
 
     when:
@@ -47,7 +47,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'ensure displayName can not be null or blank'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.displayName = val
 
     when:
@@ -67,7 +67,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'ensure description can be null but not blank'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.description = val
 
     when:
@@ -87,7 +87,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure unlimited and active org can register subjects'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = true
     o.subjectLimit = 0
 
@@ -100,7 +100,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure unlimited but inactive org can register subjects'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = false
     o.subjectLimit = 0
 
@@ -113,12 +113,12 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure limited, active org that hasnt reached max can register subjects'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = true
     o.subjectLimit = 100
 
     (1..99).each {
-      def s = ManagedSubject.build()
+      def s = new ManagedSubject()
       o.addToSubjects(s)
     }
 
@@ -131,12 +131,12 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure limited, active org that has reached max cant register subjects'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = true
     o.subjectLimit = 100
 
     (1..100).each {
-      def s = ManagedSubject.build()
+      def s = new ManagedSubject()
       o.addToSubjects(s)
     }
 
@@ -149,12 +149,12 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure limited, active org some how over max cant register subjects'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = true
     o.subjectLimit = 100
 
     (1..101).each {
-      def s = ManagedSubject.build()
+      def s = new ManagedSubject()
       o.addToSubjects(s)
     }
 
@@ -167,12 +167,12 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure limited, inactive org that hasnt reached max cant register subjects'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = false
     o.subjectLimit = 100
 
     (1..99).each {
-      def s = ManagedSubject.build()
+      def s = new ManagedSubject()
       o.addToSubjects(s)
     }
 
@@ -185,12 +185,12 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure limited, inactive org that has reached max cant register subjects'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = false
     o.subjectLimit = 100
 
     (1..100).each {
-      def s = ManagedSubject.build()
+      def s = new ManagedSubject()
       o.addToSubjects(s)
     }
 
@@ -203,12 +203,12 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure limited, inactive org some how over max cant register subjects'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = false
     o.subjectLimit = 100
 
     (1..101).each {
-      def s = ManagedSubject.build()
+      def s = new ManagedSubject()
       o.addToSubjects(s)
     }
 
@@ -221,7 +221,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure unlimited and active org can register groups'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = true
     o.groupLimit = 0
 
@@ -234,7 +234,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure unlimited but inactive org cant register groups'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = false
     o.groupLimit = 0
 
@@ -247,12 +247,12 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure limited, active org that hasnt reached max can register groups'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = true
     o.groupLimit = 100
 
     (1..99).each {
-      def s = Group.build()
+      def s = new Group()
       o.addToGroups(s)
     }
 
@@ -265,12 +265,12 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure limited, active org that has reached max cant register groups'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = true
     o.groupLimit = 100
 
     (1..100).each {
-      def g = Group.build()
+      def g = new Group()
       o.addToGroups(g)
     }
 
@@ -283,12 +283,12 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure limited, active org some how over max cant register groups'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = true
     o.groupLimit = 100
 
     (1..101).each {
-      def s = Group.build()
+      def s = new Group()
       o.addToGroups(s)
     }
 
@@ -301,12 +301,12 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure limited, inactive org that hasnt reached max cant register groups'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = false
     o.groupLimit = 100
 
     (1..99).each {
-      def s = Group.build()
+      def s = new Group()
       o.addToGroups(s)
     }
 
@@ -319,12 +319,12 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure limited, inactive org that has reached max cant register groups'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = false
     o.groupLimit = 100
 
     (1..100).each {
-      def s = Group.build()
+      def s = new Group()
       o.addToGroups(s)
     }
 
@@ -337,12 +337,12 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure limited, inactive org some how over max cant register groups'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = false
     o.groupLimit = 100
 
     (1..101).each {
-      def s = Group.build()
+      def s = new Group()
       o.addToGroups(s)
     }
 
@@ -355,7 +355,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure active, non workflow Organization is functioning'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = true
     o.undergoingWorkflow = false
 
@@ -368,7 +368,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure non active, non workflow Organization isnt functioning'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = false
     o.undergoingWorkflow = false
 
@@ -381,7 +381,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure non active, workflow Organization isnt functioning'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = false
     o.undergoingWorkflow = true
 
@@ -394,7 +394,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure active, workflow Organization isnt functioning'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = true
     o.undergoingWorkflow = true
 
@@ -407,7 +407,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure archived Organization isnt functioning'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = true
     o.undergoingWorkflow = false
     o.archived = true
@@ -421,7 +421,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure blocked Organization isnt functioning'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = true
     o.undergoingWorkflow = false
     o.blocked = true
@@ -435,7 +435,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure super administrator can always create Organization'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     shiroSubject.isPermitted("app:administrator") >> true
 
     when:
@@ -447,7 +447,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure non super administrator cant create Organization'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
 
     when:
     def result = o.canCreate()
@@ -458,7 +458,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure non administrator cant modify Organization'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
 
     when:
     def result = o.canMutate()
@@ -469,7 +469,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure super administrator can always modify Organization'() {
     setup:
-    def o = Organization.build(archived:true, blocked:true)
+    def o = Organization(archived:true, blocked:true)
     shiroSubject.isPermitted("app:administrator") >> true
 
     when:
@@ -481,7 +481,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure administrator cant modify Organization when blocked'() {
     setup:
-    def o = Organization.build(archived:false, blocked:true)
+    def o = new Organization(archived:false, blocked:true)
     o.active = true
     shiroSubject.isPermitted("app:manage:organization:${o.id}:edit") >> true
 
@@ -494,7 +494,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure administrator cant modify Organization when archived'() {
     setup:
-    def o = Organization.build(archived:true, blocked:false)
+    def o = new Organization(archived:true, blocked:false)
     o.active = true
     shiroSubject.isPermitted("app:manage:organization:${o.id}:edit") >> true
 
@@ -507,7 +507,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure administrator can modify Organization when not blocked or archived'() {
     setup:
-    def o = Organization.build(archived:false, blocked:false)
+    def o = new Organization(archived:false, blocked:false)
     o.active = true
     shiroSubject.isPermitted("app:manage:organization:${o.id}:edit") >> true
 
@@ -520,7 +520,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure super administrator can always delete Organization'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.blocked = true
     shiroSubject.isPermitted("app:administrator") >> true
 
@@ -533,7 +533,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure non administrator cant delete Organization'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
 
     when:
     def result = o.canDelete()

@@ -40,9 +40,9 @@ class ScopesApiControllerSpec extends Specification implements ControllerUnitTes
   def "scopes: valid json response with organization"() {
     setup:
     grailsApplication.config.aaf.vhr.scopes.base_scope = 'vho.example.org'
-    def org1 = Organization.build(active:true, orgScope: 'org1')
-    def org2 = Organization.build(active:false, orgScope: 'org2')
-    def org3 = Organization.build(active:true)
+    def org1 = new Organization(active:true, orgScope: 'org1')
+    def org2 = new Organization(active:false, orgScope: 'org2')
+    def org3 = new Organization(active:true)
 
 
     when:
@@ -59,17 +59,17 @@ class ScopesApiControllerSpec extends Specification implements ControllerUnitTes
   def "scopes: valid json response with organization and groups"() {
     setup:
     grailsApplication.config.aaf.vhr.scopes.base_scope = 'vho.example.org'
-    def org1 = Organization.build(active:true, orgScope: 'org1')
-    def org2 = Organization.build(active:false, orgScope: 'org2')
-    def org3 = Organization.build(active:true)
+    def org1 = new Organization(active:true, orgScope: 'org1')
+    def org2 = new Organization(active:false, orgScope: 'org2')
+    def org3 = new Organization(active:true)
 
-    def org1_group1 = Group.build(active: true, organization: org1, groupScope: 'group1')
-    def org1_group2 = Group.build(active: false, organization: org1, groupScope: 'group2')
-    def org1_group3 = Group.build(active: true, organization: org1)
+    def org1_group1 = new Group(active: true, organization: org1, groupScope: 'group1')
+    def org1_group2 = new Group(active: false, organization: org1, groupScope: 'group2')
+    def org1_group3 = new Group(active: true, organization: org1)
 
     // should be ignored because org is inactive / has no scope
-    def org2_group1 = Group.build(active: true, organization: org2, groupScope: 'group1')
-    def org3_group1 = Group.build(active: true, organization: org3, groupScope: 'group1')
+    def org2_group1 = new Group(active: true, organization: org2, groupScope: 'group1')
+    def org3_group1 = new Group(active: true, organization: org3, groupScope: 'group1')
 
     when:
     controller.list()

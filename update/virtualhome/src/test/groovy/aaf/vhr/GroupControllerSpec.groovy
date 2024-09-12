@@ -22,7 +22,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
   }
 
   def setup() {
-    subject = aaf.base.identity.Subject.build()
+    subject = new aaf.base.identity.Subject()
 
     shiroSubject = Mock(org.apache.shiro.subject.Subject)
     shiroSubject.id >> subject.id
@@ -74,8 +74,8 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure true if valid instance found by beforeInterceptor and functioning and not app admin'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
-    def groupTestInstance = Group.build(organization:organizationTestInstance, active:true)
+    def organizationTestInstance = new Organization(active:true)
+    def groupTestInstance = new Group(organization:organizationTestInstance, active:true)
 
     shiroSubject.isPermitted("app:administrator") >> false
 
@@ -119,7 +119,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure true if valid organization found by validOrganization and functioning'() {
     setup:
-    def organization = Organization.build(active:true)
+    def organization = new Organization(active:true)
 
     when:
     params.organization = [id:organization.id]
@@ -131,7 +131,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from list'() {
     setup:
-    (1..10).each { Group.build() }
+    (1..10).each { new Group() }
 
     when:
     params.max = max
@@ -149,7 +149,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from show'() {
     setup:
-    def groupTestInstance = Group.build()
+    def groupTestInstance = new Group()
 
     when:
     params.id = groupTestInstance.id
@@ -161,7 +161,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from create when valid permission'() {
     setup:
-    def o = Organization.build(active:true)
+    def o = new Organization(active:true)
     shiroSubject.isPermitted("app:manage:organization:${o.id}:group:create") >> true
 
     when:
@@ -173,7 +173,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
   }
 
   def 'ensure correct output from create when invalid permission'() {
-    def o = Organization.build(active:true)
+    def o = new Organization(active:true)
     shiroSubject.isPermitted("app:manage:organization:${o.id}:group:create") >> false
 
     when:
@@ -186,7 +186,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
   }
 
   def 'ensure correct output from save when invalid permission'() {
-    def o = Organization.build(active:true)
+    def o = new Organization(active:true)
     shiroSubject.isPermitted("app:manage:organization:${o.id}:group:create") >> false
 
     when:
@@ -202,10 +202,10 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
   @Ignore // TODO: Find out why this broke in Grails 2.2.3
   def 'ensure correct output from save with invalid data and when valid permission'() {
     setup:
-    def o = Organization.build(active:true)
+    def o = new Organization(active:true)
     shiroSubject.isPermitted("app:manage:organization:${o.id}:group:create") >> true
 
-    def groupTestInstance = Group.build(organization: o)
+    def groupTestInstance = new Group(organization: o)
     groupTestInstance.properties.each {
       if(it.value) {
         if(grailsApplication.isDomainClass(it.value.getClass()))
@@ -235,12 +235,12 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
   @Ignore // TODO: Find out why this broke in Grails 2.2.3
   def 'ensure correct output from save with valid data valid permission but licensing violation'() {
     setup:
-    def o = Organization.build(groupLimit: 3, active:true)
+    def o = new Organization(groupLimit: 3, active:true)
     shiroSubject.isPermitted("app:manage:organization:${o.id}:group:create") >> true
 
-    (1..3).each { Group.build(organization: o) }
+    (1..3).each { new Group(organization: o) }
 
-    def groupTestInstance = Group.build(organization: o)
+    def groupTestInstance = new Group(organization: o)
     groupTestInstance.properties.each {
       if(it.value) {
         if(grailsApplication.isDomainClass(it.value.getClass()))
@@ -272,10 +272,10 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
   @Ignore // TODO: Find out why this broke in Grails 2.2.3
   def 'ensure correct output from save with valid data and when valid permission'() {
     setup:
-    def o = Organization.build(active:true)
+    def o = new Organization(active:true)
     shiroSubject.isPermitted("app:manage:organization:${o.id}:group:create") >> true
 
-    def groupTestInstance = Group.build(organization: o)
+    def groupTestInstance = new Group(organization: o)
     groupTestInstance.properties.each {
       if(it.value) {
         if(grailsApplication.isDomainClass(it.value.getClass()))
@@ -316,7 +316,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from edit when invalid permission'() {
     setup:
-    def groupTestInstance = Group.build()
+    def groupTestInstance = new Group()
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:edit") >> false
 
     when:
@@ -330,7 +330,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from edit when valid permission'() {
     setup:
-    def groupTestInstance = Group.build()
+    def groupTestInstance = new Group()
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:edit") >> true
 
@@ -344,7 +344,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from update when invalid permission'() {
     setup:
-    def groupTestInstance = Group.build()
+    def groupTestInstance = new Group()
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:edit") >> false
 
@@ -360,7 +360,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from update with null version but valid permission'() {
     setup:
-    def groupTestInstance = Group.build()
+    def groupTestInstance = new Group()
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:edit") >> true
 
@@ -381,7 +381,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from update with invalid data and when valid permission'() {
     setup:
-    def groupTestInstance = Group.build()
+    def groupTestInstance = new Group()
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:edit") >> true
     groupTestInstance.getVersion() >> 20
@@ -417,7 +417,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from update with valid data and when valid permission'() {
     setup:
-    def groupTestInstance = Group.build(groupScope:'groupname')
+    def groupTestInstance = new Group(groupScope:'groupname')
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:edit") >> true
 
@@ -454,9 +454,9 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from delete when invalid permission'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = true
-    def groupTestInstance = Group.build(organization:o)
+    def groupTestInstance = new Group(organization:o)
     shiroSubject.isPermitted("app:manage:organization:${o.id}:group:delete") >> false
 
     when:
@@ -472,11 +472,11 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
   @Ignore // TODO: Find out why this broke in Grails 2.2.3
   def 'ensure correct output from delete when valid permission'() {
     setup:
-    def o = Organization.build()
+    def o = new Organization()
     o.active = true
-    def groupTestInstance = Group.build(organization:o)
+    def groupTestInstance = new Group(organization:o)
     shiroSubject.isPermitted("app:administrator") >> true
-    def groupRole = Role.build(name:"group:${groupTestInstance.id}:administrators")
+    def groupRole = new Role(name:"group:${groupTestInstance.id}:administrators")
     def roleService = Mock(RoleService)
     controller.roleService = roleService
 
@@ -501,8 +501,8 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from delete when integrity violation'() {
     setup:
-    def o = Organization.build(active:true)
-    def groupTestInstance = Group.build(organization:o)
+    def o = new Organization(active:true)
+    def groupTestInstance = new Group(organization:o)
     shiroSubject.isPermitted("app:administrator") >> true
 
     Group.metaClass.delete { throw new org.springframework.dao.DataIntegrityViolationException("Thrown from test case") }
@@ -526,7 +526,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from toggleActive when invalid permission'() {
     setup:
-    def groupTestInstance = Group.build()
+    def groupTestInstance = new Group()
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:edit") >> false
 
@@ -541,7 +541,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from toggleActive with null version but valid permission'() {
     setup:
-    def groupTestInstance = Group.build()
+    def groupTestInstance = new Group()
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:edit") >> true
 
@@ -561,7 +561,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from toggleActive'() {
     setup:
-    def groupTestInstance = Group.build(active:false)
+    def groupTestInstance = new Group(active:false)
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:edit") >> true
 
@@ -583,7 +583,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from toggleBlocked when invalid permission'() {
     setup:
-    def groupTestInstance = Group.build()
+    def groupTestInstance = new Group()
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:administrator") >> false
 
@@ -598,7 +598,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from toggleBlocked with null version but valid permission'() {
     setup:
-    def groupTestInstance = Group.build()
+    def groupTestInstance = new Group()
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:administrator") >> true
 
@@ -618,7 +618,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from toggleBlocked'() {
     setup:
-    def groupTestInstance = Group.build(blocked:false)
+    def groupTestInstance = new Group(blocked:false)
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:administrator") >> true
 
@@ -640,7 +640,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from toggleArchived when invalid permission'() {
     setup:
-    def groupTestInstance = Group.build()
+    def groupTestInstance = new Group()
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:administrator") >> false
 
@@ -655,7 +655,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from toggleArchived with null version but valid permission'() {
     setup:
-    def groupTestInstance = Group.build()
+    def groupTestInstance = new Group()
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:administrator") >> true
 
@@ -675,7 +675,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from toggleArchived'() {
     setup:
-    def groupTestInstance = Group.build(archived:false)
+    def groupTestInstance = new Group(archived:false)
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:administrator") >> true
 
@@ -697,7 +697,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from enforcetwosteplogin'() {
     setup:
-    def groupTestInstance = Group.build(archived:false, active:true, blocked:false)
+    def groupTestInstance = new Group(archived:false, active:true, blocked:false)
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:administrator") >> true
 
@@ -722,7 +722,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from nonfinalized when invalid permission'() {
     setup:
-    def groupTestInstance = Group.build()
+    def groupTestInstance = new Group()
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:edit") >> false
 
     when:
@@ -736,7 +736,7 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   def 'ensure correct output from nonfinalized when valid permission'() {
     setup:
-    def groupTestInstance = Group.build()
+    def groupTestInstance = new Group()
     groupTestInstance.organization.active = true
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:edit") >> true
 

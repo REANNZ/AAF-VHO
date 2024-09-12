@@ -23,7 +23,7 @@ class ManageAdministratorsControllerSpec extends Specification implements Contro
   }
 
   def setup() {
-    subject = aaf.base.identity.Subject.build()
+    subject = new aaf.base.identity.Subject()
 
     shiroSubject = Mock(org.apache.shiro.subject.Subject)
     shiroSubject.id >> subject.id
@@ -64,8 +64,8 @@ class ManageAdministratorsControllerSpec extends Specification implements Contro
 
   def 'ensure validRoleInstance returns correct Role and Instance when valid org and valid perms'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
-    def roleTestInstance = Role.build(name:"organization:${organizationTestInstance.id}:administrators")
+    def organizationTestInstance = new Organization(active:true)
+    def roleTestInstance = new Role(name:"organization:${organizationTestInstance.id}:administrators")
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:manage:administrators") >> true
 
     when:
@@ -91,8 +91,8 @@ class ManageAdministratorsControllerSpec extends Specification implements Contro
 
   def 'ensure validRoleInstance returns correct Role and Instance when valid but not functioning org and app:administrator perms'() {
     setup:
-    def organizationTestInstance = Organization.build(active:false)
-    def roleTestInstance = Role.build(name:"organization:${organizationTestInstance.id}:administrators")
+    def organizationTestInstance = new Organization(active:false)
+    def roleTestInstance = new Role(name:"organization:${organizationTestInstance.id}:administrators")
     shiroSubject.isPermitted("app:administrator") >> true
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:manage:administrators") >> true
 
@@ -108,8 +108,8 @@ class ManageAdministratorsControllerSpec extends Specification implements Contro
 
   def 'ensure validRoleInstance returns 400 when valid but not functioning org and not app:administrator perms'() {
     setup:
-    def organizationTestInstance = Organization.build(active:false)
-    def roleTestInstance = Role.build(name:"organization:${organizationTestInstance.id}:administrators")
+    def organizationTestInstance = new Organization(active:false)
+    def roleTestInstance = new Role(name:"organization:${organizationTestInstance.id}:administrators")
     shiroSubject.isPermitted("app:administrator") >> false
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:manage:administrators") >> true
     
@@ -126,8 +126,8 @@ class ManageAdministratorsControllerSpec extends Specification implements Contro
 
   def 'ensure validRoleInstance returns 403 when valid org but invalid perms'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
-    def roleTestInstance = Role.build(name:"organization:${organizationTestInstance.id}:administrators")
+    def organizationTestInstance = new Organization(active:true)
+    def roleTestInstance = new Role(name:"organization:${organizationTestInstance.id}:administrators")
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:manage:administrators") >> false
 
     when:
@@ -143,7 +143,7 @@ class ManageAdministratorsControllerSpec extends Specification implements Contro
 
   def 'ensure validRoleInstance returns 400 when valid org and valid perms but non existant admin role'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
+    def organizationTestInstance = new Organization(active:true)
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:manage:administrators") >> true
 
     when:
@@ -159,9 +159,9 @@ class ManageAdministratorsControllerSpec extends Specification implements Contro
 
   def 'ensure validRoleInstance returns correct Role when valid group and valid perms'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
-    def groupTestInstance = Group.build(organization:organizationTestInstance, active:true)
-    def roleTestInstance = Role.build(name:"group:${groupTestInstance.id}:administrators")
+    def organizationTestInstance = new Organization(active:true)
+    def groupTestInstance = new Group(organization:organizationTestInstance, active:true)
+    def roleTestInstance = new Role(name:"group:${groupTestInstance.id}:administrators")
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:manage:administrators") >> true
 
     when:
@@ -187,9 +187,9 @@ class ManageAdministratorsControllerSpec extends Specification implements Contro
 
   def 'ensure validRoleInstance returns correct Role when valid but not functioning group and app:administrator perms'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
-    def groupTestInstance = Group.build(organization:organizationTestInstance, active:false)
-    def roleTestInstance = Role.build(name:"group:${groupTestInstance.id}:administrators")
+    def organizationTestInstance = new Organization(active:true)
+    def groupTestInstance = new Group(organization:organizationTestInstance, active:false)
+    def roleTestInstance = new Role(name:"group:${groupTestInstance.id}:administrators")
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:manage:administrators") >> true
     shiroSubject.isPermitted("app:administrator") >> true
     when:
@@ -204,9 +204,9 @@ class ManageAdministratorsControllerSpec extends Specification implements Contro
 
   def 'ensure validRoleInstance returns 400 when valid but not functioning group and without app:administrator perms'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
-    def groupTestInstance = Group.build(organization:organizationTestInstance, active:false)
-    def roleTestInstance = Role.build(name:"group:${groupTestInstance.id}:administrators")
+    def organizationTestInstance = new Organization(active:true)
+    def groupTestInstance = new Group(organization:organizationTestInstance, active:false)
+    def roleTestInstance = new Role(name:"group:${groupTestInstance.id}:administrators")
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:manage:administrators") >> true
     shiroSubject.isPermitted("app:administrator") >> false
     when:
@@ -222,9 +222,9 @@ class ManageAdministratorsControllerSpec extends Specification implements Contro
 
   def 'ensure validRoleInstance returns 403 when valid group but invalid perms'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
-    def groupTestInstance = Group.build(organization:organizationTestInstance, active:true)
-    def roleTestInstance = Role.build(name:"group:${groupTestInstance.id}:administrators")
+    def organizationTestInstance = new Organization(active:true)
+    def groupTestInstance = new Group(organization:organizationTestInstance, active:true)
+    def roleTestInstance = new Role(name:"group:${groupTestInstance.id}:administrators")
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:manage:administrators") >> false
 
     when:
@@ -240,7 +240,7 @@ class ManageAdministratorsControllerSpec extends Specification implements Contro
 
   def 'ensure validRoleInstance returns 400 when valid group and valid perms but non existant admin role'() {
     setup:
-    def groupTestInstance = Group.build(active:true)
+    def groupTestInstance = new Group(active:true)
     shiroSubject.isPermitted("app:manage:organization:${groupTestInstance.organization.id}:group:${groupTestInstance.id}:manage:administrators") >> true
 
     when:
@@ -267,12 +267,12 @@ class ManageAdministratorsControllerSpec extends Specification implements Contro
 
   def 'ensure search returns all subjects when no current admins'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
-    def roleTestInstance = Role.build(name:"organization:${organizationTestInstance.id}:administrators")
+    def organizationTestInstance = new Organization(active:true)
+    def roleTestInstance = new Role(name:"organization:${organizationTestInstance.id}:administrators")
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:manage:administrators") >> true
 
     (1..10).each { i ->
-      aaf.base.identity.Subject.build(sharedToken:"abcd$i", enabled:true)
+      new aaf.base.identity.Subject(sharedToken:"abcd$i", enabled:true)
     }
 
     views['/templates/manageadministrators/_search.gsp'] = "count: \${subjects.size()} role:\${role.id}"
@@ -289,12 +289,12 @@ class ManageAdministratorsControllerSpec extends Specification implements Contro
 
   def 'ensure search returns subjects that arent current admins'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
-    def roleTestInstance = Role.build(name:"organization:${organizationTestInstance.id}:administrators")
+    def organizationTestInstance = new Organization(active:true)
+    def roleTestInstance = new Role(name:"organization:${organizationTestInstance.id}:administrators")
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:manage:administrators") >> true
 
     (1..10).each { i ->
-      aaf.base.identity.Subject.build(sharedToken:"abcd$i", enabled:true)
+      new aaf.base.identity.Subject(sharedToken:"abcd$i", enabled:true)
 
       if(i < 3) {
         roleTestInstance.addToSubjects(subject)
@@ -317,12 +317,12 @@ class ManageAdministratorsControllerSpec extends Specification implements Contro
 
   def 'ensure valid role/permissions required for search'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
-    def roleTestInstance = Role.build(name:"organization:${organizationTestInstance.id}:administrators")
+    def organizationTestInstance = new Organization(active:true)
+    def roleTestInstance = new Role(name:"organization:${organizationTestInstance.id}:administrators")
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:manage:administrators") >> false
 
     (1..10).each { i ->
-      def subject = aaf.base.identity.Subject.build()
+      def subject = new aaf.base.identity.Subject()
 
       if(i < 3) {
         roleTestInstance.addToSubjects(subject)
@@ -345,8 +345,8 @@ class ManageAdministratorsControllerSpec extends Specification implements Contro
 
   def 'ensure valid role/permissions required for add'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
-    def roleTestInstance = Role.build(name:"organization:${organizationTestInstance.id}:administrators")
+    def organizationTestInstance = new Organization(active:true)
+    def roleTestInstance = new Role(name:"organization:${organizationTestInstance.id}:administrators")
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:manage:administrators") >> false
 
     views['/templates/manageadministrators/_search.gsp'] = "count: \${subjects.size()} role:\${role.id}"
@@ -364,8 +364,8 @@ class ManageAdministratorsControllerSpec extends Specification implements Contro
 
   def 'ensure valid target subject required for add'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
-    def roleTestInstance = Role.build(name:"organization:${organizationTestInstance.id}:administrators")
+    def organizationTestInstance = new Organization(active:true)
+    def roleTestInstance = new Role(name:"organization:${organizationTestInstance.id}:administrators")
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:manage:administrators") >> true
 
     views['/templates/manageadministrators/_search.gsp'] = "count: \${subjects.size()} role:\${role.id}"
@@ -383,13 +383,13 @@ class ManageAdministratorsControllerSpec extends Specification implements Contro
 
   def 'ensure correct output from add when all input valid'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
-    def targetSubject = aaf.base.identity.Subject.build()
-    def roleTestInstance = Role.build(name:"organization:${organizationTestInstance.id}:administrators")
+    def organizationTestInstance = new Organization(active:true)
+    def targetSubject = new aaf.base.identity.Subject()
+    def roleTestInstance = new Role(name:"organization:${organizationTestInstance.id}:administrators")
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:manage:administrators") >> true
 
     (1..10).each { i ->
-      def subject = aaf.base.identity.Subject.build()
+      def subject = new aaf.base.identity.Subject()
     }
 
     views['/templates/manageadministrators/_modifiedadministrators.gsp'] = "role:\${role.id} subject:\${role.subjects.toArray()[0].id}"
@@ -413,8 +413,8 @@ class ManageAdministratorsControllerSpec extends Specification implements Contro
 
   def 'ensure valid role/permissions required for remove'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
-    def roleTestInstance = Role.build(name:"organization:${organizationTestInstance.id}:administrators")
+    def organizationTestInstance = new Organization(active:true)
+    def roleTestInstance = new Role(name:"organization:${organizationTestInstance.id}:administrators")
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:manage:administrators") >> false
 
     views['/templates/manageadministrators/_search.gsp'] = "count: \${subjects.size()} role:\${role.id}"
@@ -432,8 +432,8 @@ class ManageAdministratorsControllerSpec extends Specification implements Contro
 
   def 'ensure valid target subject required for remove'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
-    def roleTestInstance = Role.build(name:"organization:${organizationTestInstance.id}:administrators")
+    def organizationTestInstance = new Organization(active:true)
+    def roleTestInstance = new Role(name:"organization:${organizationTestInstance.id}:administrators")
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:manage:administrators") >> true
 
     views['/templates/manageadministrators/_search.gsp'] = "count: \${subjects.size()} role:\${role.id}"
@@ -451,9 +451,9 @@ class ManageAdministratorsControllerSpec extends Specification implements Contro
 
   def 'ensure correct output from delete when all input valid'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
-    def targetSubject = aaf.base.identity.Subject.build()
-    def roleTestInstance = Role.build(name:"organization:${organizationTestInstance.id}:administrators")
+    def organizationTestInstance = new Organization(active:true)
+    def targetSubject = new aaf.base.identity.Subject()
+    def roleTestInstance = new Role(name:"organization:${organizationTestInstance.id}:administrators")
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:manage:administrators") >> true
 
     roleTestInstance.addToSubjects(targetSubject)

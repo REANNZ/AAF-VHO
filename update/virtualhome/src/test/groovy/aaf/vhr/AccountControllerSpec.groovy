@@ -28,7 +28,7 @@ class AccountControllerSpec extends Specification implements ControllerUnitTest<
     setup:
     def loginService = Mock(aaf.vhr.LoginService)
 
-    def ms = ManagedSubject.build(active:true, failedLogins: 0)
+    def ms = new ManagedSubject(active:true, failedLogins: 0)
     ms.organization.active = true
 
     controller.loginService = loginService
@@ -46,7 +46,7 @@ class AccountControllerSpec extends Specification implements ControllerUnitTest<
     setup:
     def loginService = Mock(aaf.vhr.LoginService)
 
-    def ms = ManagedSubject.build(active:true, failedLogins: 0)
+    def ms = new ManagedSubject(active:true, failedLogins: 0)
     ms.organization.active = true
 
     controller.loginService = loginService
@@ -87,7 +87,7 @@ class AccountControllerSpec extends Specification implements ControllerUnitTest<
     setup:
     def cryptoService = Mock(aaf.vhr.CryptoService)
 
-    def managedSubjectTestInstance = ManagedSubject.build(login:'validlogin')
+    def managedSubjectTestInstance = new ManagedSubject(login:'validlogin')
     session.setAttribute(controller.CURRENT_USER, managedSubjectTestInstance.id)
 
     controller.cryptoService = cryptoService
@@ -113,7 +113,7 @@ class AccountControllerSpec extends Specification implements ControllerUnitTest<
 
   def 'changedetails with existing login succeeds'() {
     setup:
-    def managedSubjectTestInstance = ManagedSubject.build(login:'validlogin')
+    def managedSubjectTestInstance = new ManagedSubject(login:'validlogin')
     session.setAttribute(controller.CURRENT_USER, managedSubjectTestInstance.id)
 
     when:
@@ -137,7 +137,7 @@ class AccountControllerSpec extends Specification implements ControllerUnitTest<
     setup:
     def cryptoService = Mock(aaf.vhr.CryptoService)
 
-    def managedSubjectTestInstance = ManagedSubject.build(login:'validlogin')
+    def managedSubjectTestInstance = new ManagedSubject(login:'validlogin')
     session.setAttribute(controller.CURRENT_USER, managedSubjectTestInstance.id)
     params.currentPassword = 'password'
 
@@ -161,7 +161,7 @@ class AccountControllerSpec extends Specification implements ControllerUnitTest<
     def cryptoService = Mock(aaf.vhr.CryptoService)
     def passwordValidationService = Mock(aaf.vhr.PasswordValidationService)
 
-    def managedSubjectTestInstance = ManagedSubject.build(login:'validlogin')
+    def managedSubjectTestInstance = new ManagedSubject(login:'validlogin')
     session.setAttribute(controller.CURRENT_USER, managedSubjectTestInstance.id)
 
     params.currentPassword = 'password'
@@ -190,7 +190,7 @@ class AccountControllerSpec extends Specification implements ControllerUnitTest<
     def cryptoService = Mock(aaf.vhr.CryptoService)
     def passwordValidationService = Mock(aaf.vhr.PasswordValidationService)
 
-    def managedSubjectTestInstance = ManagedSubject.build(login:'validlogin')
+    def managedSubjectTestInstance = new ManagedSubject(login:'validlogin')
     session.setAttribute(controller.CURRENT_USER, managedSubjectTestInstance.id)
 
     params.currentPassword = 'password'
@@ -219,7 +219,7 @@ class AccountControllerSpec extends Specification implements ControllerUnitTest<
     def cryptoService = Mock(aaf.vhr.CryptoService)
     controller.cryptoService = cryptoService
 
-    def managedSubjectTestInstance = ManagedSubject.build(login: 'validlogin', mobileNumber: '+61487654321')
+    def managedSubjectTestInstance = new ManagedSubject(login: 'validlogin', mobileNumber: '+61487654321')
     session.setAttribute(controller.CURRENT_USER, managedSubjectTestInstance.id)
 
     when:
@@ -239,7 +239,7 @@ class AccountControllerSpec extends Specification implements ControllerUnitTest<
 
   def 'ensure enabletwostep generates totpkey'() {
     setup:
-    def managedSubjectTestInstance = ManagedSubject.build(login: 'validlogin', mobileNumber: '+61487654321')
+    def managedSubjectTestInstance = new ManagedSubject(login: 'validlogin', mobileNumber: '+61487654321')
     session.setAttribute(controller.CURRENT_USER, managedSubjectTestInstance.id)
 
     when:
@@ -252,7 +252,7 @@ class AccountControllerSpec extends Specification implements ControllerUnitTest<
 
   def 'ensure finishenablingtwostep fails with invalid code'() {
     setup:
-    def managedSubjectTestInstance = ManagedSubject.build(login: 'validlogin', mobileNumber: '+61487654321')
+    def managedSubjectTestInstance = new ManagedSubject(login: 'validlogin', mobileNumber: '+61487654321')
     session.setAttribute(controller.CURRENT_USER, managedSubjectTestInstance.id)
     session.setAttribute(controller.NEW_TOTP_KEY, "0")
 
@@ -274,7 +274,7 @@ class AccountControllerSpec extends Specification implements ControllerUnitTest<
 
   def 'ensure finishenablingtwostep succeeds with valid code'() {
     setup:
-    def managedSubjectTestInstance = ManagedSubject.build(login: 'validlogin', mobileNumber: '+61487654321')
+    def managedSubjectTestInstance = new ManagedSubject(login: 'validlogin', mobileNumber: '+61487654321')
     session.setAttribute(controller.CURRENT_USER, managedSubjectTestInstance.id)
     session.setAttribute(controller.NEW_TOTP_KEY, "0")
 

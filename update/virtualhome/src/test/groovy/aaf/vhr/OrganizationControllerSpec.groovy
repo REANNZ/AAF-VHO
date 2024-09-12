@@ -22,7 +22,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
   }
 
   def setup() {
-    subject = aaf.base.identity.Subject.build()
+    subject = new aaf.base.identity.Subject()
 
     shiroSubject = Mock(org.apache.shiro.subject.Subject)
     shiroSubject.id >> subject.id
@@ -73,7 +73,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from list'() {
     setup:
-    (1..10).each { Organization.build() }
+    (1..10).each { new Organization() }
 
     when:
     params.max = max
@@ -91,7 +91,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from show'() {
     setup:
-    def organizationTestInstance = Organization.build()
+    def organizationTestInstance = new Organization()
 
     when:
     params.id = organizationTestInstance.id
@@ -143,7 +143,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
     shiroSubject.isPermitted("app:administrator") >> true
 
-    def organizationTestInstance = Organization.build()
+    def organizationTestInstance = new Organization()
     organizationTestInstance.properties.each {
       if(it.value) {
         if(it.value.hasProperty('id'))
@@ -183,7 +183,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
     shiroSubject.isPermitted("app:administrator") >> true
 
-    def organizationTestInstance = Organization.build()
+    def organizationTestInstance = new Organization()
     organizationTestInstance.properties.each {
       if(it.value) {
         if(it.value.hasProperty('id'))
@@ -217,7 +217,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
     shiroSubject.isPermitted("app:administrator") >> true
 
-    def organizationTestInstance = Organization.build()
+    def organizationTestInstance = new Organization()
     organizationTestInstance.properties.each {
       if(it.value) {
         if(it.value.hasProperty('id'))
@@ -249,7 +249,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from edit when invalid permission'() {
     setup:
-    def organizationTestInstance = Organization.build()
+    def organizationTestInstance = new Organization()
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:edit") >> false
 
     when:
@@ -263,7 +263,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from edit when valid permission'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
+    def organizationTestInstance = new Organization(active:true)
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:edit") >> true
 
     when:
@@ -276,7 +276,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from update when invalid permission'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
+    def organizationTestInstance = new Organization(active:true)
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance}.id}:edit") >> false
 
     when:
@@ -291,7 +291,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from update with null version but valid permission'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
+    def organizationTestInstance = new Organization(active:true)
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:edit") >> true
     
     expect:
@@ -311,7 +311,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from update with invalid data and when valid permission'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true)
+    def organizationTestInstance = new Organization(active:true)
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:edit") >> true
     organizationTestInstance.getVersion() >> 20
     
@@ -346,7 +346,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from update with valid data and when valid permission'() {
     setup:
-    def organizationTestInstance = Organization.build(active:true, orgScope:'orgname')
+    def organizationTestInstance = new Organization(active:true, orgScope:'orgname')
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:edit") >> true
     
     organizationTestInstance.properties.each {
@@ -382,7 +382,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from delete when invalid permission'() {
     setup:
-    def organizationTestInstance = Organization.build()
+    def organizationTestInstance = new Organization()
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:delete") >> false
 
     when:
@@ -397,7 +397,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from delete when valid permission'() {
     setup:
-    def organizationTestInstance = Organization.build()
+    def organizationTestInstance = new Organization()
     shiroSubject.isPermitted("app:administrator") >> true
     def organizationService = Mock(OrganizationService)
     controller.organizationService = organizationService
@@ -418,7 +418,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from delete when integrity violation'() {
     setup:
-    def organizationTestInstance = Organization.build()
+    def organizationTestInstance = new Organization()
     shiroSubject.isPermitted("app:administrator") >> true
 
     def organizationService = Mock(OrganizationService)
@@ -440,7 +440,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from toggleActive when invalid permission'() {
     setup:
-    def organizationTestInstance = Organization.build()
+    def organizationTestInstance = new Organization()
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance}.id}:edit") >> false
 
     when:
@@ -454,7 +454,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from toggleActive with null version but valid permission'() {
     setup:
-    def organizationTestInstance = Organization.build()
+    def organizationTestInstance = new Organization()
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:edit") >> true
     
     expect:
@@ -473,7 +473,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from toggleActive'() {
     setup:
-    def organizationTestInstance = Organization.build(active:false)
+    def organizationTestInstance = new Organization(active:false)
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:edit") >> true
     
     expect:
@@ -496,7 +496,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from toggleArchive when invalid permission'() {
     setup:
-    def organizationTestInstance = Organization.build()
+    def organizationTestInstance = new Organization()
     shiroSubject.isPermitted("app:administration") >> false
 
     when:
@@ -509,7 +509,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from toggleArchive with null version but valid permission'() {
     setup:
-    def organizationTestInstance = Organization.build()
+    def organizationTestInstance = new Organization()
     shiroSubject.isPermitted("app:administration") >> true
     
     expect:
@@ -528,7 +528,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from toggleArchive'() {
     setup:
-    def organizationTestInstance = Organization.build(active:false)
+    def organizationTestInstance = new Organization(active:false)
     shiroSubject.isPermitted("app:administration") >> true
     
     expect:
@@ -552,7 +552,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from toggleBlocked when invalid permission'() {
     setup:
-    def organizationTestInstance = Organization.build()
+    def organizationTestInstance = new Organization()
     shiroSubject.isPermitted("app:administration") >> false
 
     when:
@@ -565,7 +565,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from toggleBlocked with null version but valid permission'() {
     setup:
-    def organizationTestInstance = Organization.build()
+    def organizationTestInstance = new Organization()
     shiroSubject.isPermitted("app:administration") >> true
     
     expect:
@@ -584,7 +584,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from toggleBlocked'() {
     setup:
-    def organizationTestInstance = Organization.build(active:false)
+    def organizationTestInstance = new Organization(active:false)
     shiroSubject.isPermitted("app:administration") >> true
     
     expect:
@@ -611,7 +611,7 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from createAccount when invalid permission'() {
     setup:
-    def organizationTestInstance = Organization.build()
+    def organizationTestInstance = new Organization()
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance}.id}:edit") >> false
 
     when:
@@ -625,9 +625,9 @@ class OrganizationControllerSpec  extends Specification implements ControllerUni
 
   def 'ensure correct output from createAccount'() {
     setup:
-    def organizationTestInstance = Organization.build()
+    def organizationTestInstance = new Organization()
 
-    (1..10).each { Group.build(organization:organizationTestInstance)}
+    (1..10).each { new Group(organization:organizationTestInstance)}
 
     shiroSubject.isPermitted("app:manage:organization:${organizationTestInstance.id}:edit") >> true
 

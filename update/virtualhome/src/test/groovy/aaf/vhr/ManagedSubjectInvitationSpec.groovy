@@ -21,7 +21,7 @@ class ManagedSubjectInvitationSpec extends Specification implements DomainUnitTe
 
   def "ensure new invitations are populated with unique codes"() {
     setup:
-    def subject = ManagedSubject.build()
+    def subject = new ManagedSubject()
     def valid = true
 
     when:
@@ -42,7 +42,7 @@ class ManagedSubjectInvitationSpec extends Specification implements DomainUnitTe
 
   def "ensure inviteCode constraints"() {    
     setup:
-    def subject = ManagedSubject.build()
+    def subject = new ManagedSubject()
     def inv = new ManagedSubjectInvitation(managedSubject:subject)
     mockForConstraintsTests(ManagedSubjectInvitation, [inv])
 

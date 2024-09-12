@@ -34,7 +34,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure login can be null'() {
     setup:
-    def s = ManagedSubject.build()
+    def s = new ManagedSubject()
     mockForConstraintsTests(ManagedSubject, [s])
 
     expect:
@@ -50,7 +50,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure login must not be blank'() {
     setup:
-    def s = ManagedSubject.build()
+    def s = new ManagedSubject()
     mockForConstraintsTests(ManagedSubject, [s])
 
     expect:
@@ -70,8 +70,8 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure login must be unique'() {
     setup:
-    def s = ManagedSubject.build()
-    def s2 = ManagedSubject.build()
+    def s = new ManagedSubject()
+    def s2 = ManagedSubject()
     mockForConstraintsTests(ManagedSubject, [s])
 
     expect:
@@ -89,7 +89,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure totpKey can be null'() {
     setup:
-    def s = ManagedSubject.build(totpKey:'1234')
+    def s = new ManagedSubject(totpKey:'1234')
     mockForConstraintsTests(ManagedSubject, [s])
 
     expect:
@@ -105,7 +105,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure subject stores attribute values'() {
     setup:
-    def s = ManagedSubject.build()
+    def s = new ManagedSubject()
 
     expect:
     s.save()
@@ -120,8 +120,8 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure subject stores challenge responses'() {
     setup:
-    def s = ManagedSubject.build()
-    def cr = ChallengeResponse.build()
+    def s = new ManagedSubject()
+    def cr = ChallengeResponse()
 
     expect:
     s.save()
@@ -137,10 +137,10 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure subject stores multiple challenge responses'() {
     setup:
-    def s = ManagedSubject.build()
-    def cr = ChallengeResponse.build()
-    def cr2 = ChallengeResponse.build()
-    def cr3 = ChallengeResponse.build()
+    def s = new ManagedSubject()
+    def cr =  new ChallengeResponse()
+    def cr2 = new ChallengeResponse()
+    def cr3 = new ChallengeResponse()
 
     expect:
     s.save()
@@ -158,7 +158,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure email must not be null or blank and be an email address'() {
     setup:
-    def s = ManagedSubject.build()
+    def s = new ManagedSubject()
     mockForConstraintsTests(ManagedSubject, [s])
 
     expect:
@@ -182,7 +182,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure cn must not be null or blank and either singular or first<space>last name formatted'() {
     setup:
-    def s = ManagedSubject.build()
+    def s = new ManagedSubject()
     mockForConstraintsTests(ManagedSubject, [s])
 
     expect:
@@ -206,7 +206,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure sharedtoken must not be null or blank'() {
     setup:
-    def s = ManagedSubject.build()
+    def s = new ManagedSubject()
     mockForConstraintsTests(ManagedSubject, [s])
 
     expect:
@@ -230,8 +230,8 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure shared token must be unique'() {
     setup:
-    def s = ManagedSubject.build()
-    def s2 = ManagedSubject.build()
+    def s = new ManagedSubject()
+    def s2 = new ManagedSubject()
     mockForConstraintsTests(ManagedSubject, [s])
     simpleDatastore.currentSession.flush()
 
@@ -249,7 +249,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure eduPersonEntitlement can be null not be blank'() {
     setup:
-    def s = ManagedSubject.build()
+    def s = new ManagedSubject()
     mockForConstraintsTests(ManagedSubject, [s])
 
     expect:
@@ -271,7 +271,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure mobileNumber can be null not be blank'() {
     setup:
-    def s = ManagedSubject.build()
+    def s = new ManagedSubject()
     mockForConstraintsTests(ManagedSubject, [s])
 
     expect:
@@ -293,7 +293,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure active is false by default'() {
     when:
-    def s = ManagedSubject.build()
+    def s = new ManagedSubject()
 
     then:
     !s.active
@@ -301,11 +301,11 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure functioning when active, not locked and sponsored'() {
     setup:
-    def s = ManagedSubject.build(active:true, locked:false)
+    def s = new ManagedSubject(active:true, locked:false)
 
     when:
-    s.organization = Organization.build(active:true)
-    s.group = Group.build(organization:s.organization, active:true)
+    s.organization = Organization(active:true)
+    s.group = Group(organization:s.organization, active:true)
 
     then:
     s.functioning()
@@ -313,11 +313,11 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure not functioning when active and sponsor org is not functioning'() {
     setup:
-    def s = ManagedSubject.build()
+    def s = new ManagedSubject()
 
     when:
-    s.organization = Organization.build(active:false)
-    s.group = Group.build(organization:s.organization, active:true)
+    s.organization = new Organization(active:false)
+    s.group = Group(organization:s.organization, active:true)
 
     then:
     !s.functioning()
@@ -325,11 +325,11 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure not functioning when active and sponsor group is not functioning'() {
     setup:
-    def s = ManagedSubject.build()
+    def s = new ManagedSubject()
 
     when:
-    s.organization = Organization.build(active:true)
-    s.group = Group.build(organization:s.organization, active:false)
+    s.organization = Organization(active:true)
+    s.group = Group(organization:s.organization, active:false)
 
     then:
     !s.functioning()
@@ -337,12 +337,12 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure not functioning when inactive and sponsored'() {
     setup:
-    def s = ManagedSubject.build()
+    def s = new ManagedSubject()
 
     when:
     s.active = false
-    s.organization = Organization.build()
-    s.group = Group.build(organization:s.organization)
+    s.organization = new Organization()
+    s.group = new Group(organization:s.organization)
 
     then:
     !s.functioning()
@@ -350,12 +350,12 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure not functioning when active and sponsored but locked by AAF'() {
     setup:
-    def s = ManagedSubject.build(active:true, locked:true)
+    def s = new ManagedSubject(active:true, locked:true)
 
     when:
     s.active = false
-    s.organization = Organization.build()
-    s.group = Group.build(organization:s.organization)
+    s.organization = new Organization()
+    s.group = new Group(organization:s.organization)
 
     then:
     !s.functioning()
@@ -363,7 +363,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure apiKey is always created'() {
     when:
-    def s = ManagedSubject.build()
+    def s = new ManagedSubject()
 
     then:
     s.validate()
@@ -373,7 +373,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure eptidKey is always created'() {
     when:
-    def s = ManagedSubject.build()
+    def s = new ManagedSubject()
 
     then:
     s.validate()
@@ -383,7 +383,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure resetCode is sanitized'() {
     setup:
-    def s = ManagedSubject.build()
+    def s = new ManagedSubject()
 
     when:
     s.resetCode = 'abcIlO0'
@@ -394,7 +394,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure resetCodeExternal is sanitized'() {
     setup:
-    def s = ManagedSubject.build()
+    def s = new ManagedSubject()
 
     when:
     s.resetCodeExternal = 'abcIlO0'
@@ -405,7 +405,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure resetCode cannot equal resetCodeExternal'() {
     setup:
-    def s = ManagedSubject.build()
+    def s = new ManagedSubject()
 
     when:
     s.resetCode = '123456'
@@ -417,7 +417,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure accounts are correctly locked'() {
     setup:
-    def s = ManagedSubject.build()
+    def s = new ManagedSubject()
 
     expect:
     s.stateChanges == null
@@ -434,7 +434,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure accounts are correctly unlocked'() {
     setup:
-    def s = ManagedSubject.build(failedResets:2)
+    def s = new ManagedSubject(failedResets:2)
     s.lock("reason", "category", "environment", null)
 
     expect:
@@ -453,7 +453,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure accounts are correctly blocked'() {
     setup:
-    def s = ManagedSubject.build()
+    def s = new ManagedSubject()
 
     expect:
     s.stateChanges == null
@@ -471,7 +471,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure accounts are correctly unblocked'() {
     setup:
-    def s = ManagedSubject.build(failedResets:2, active:true)
+    def s = new ManagedSubject(failedResets:2, active:true)
     s.organization.active = true
     s.block("reason", "category", "environment", null)
 
@@ -492,7 +492,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure accounts are correctly deactivated'() {
     setup:
-    def s = ManagedSubject.build(active:true)
+    def s = new ManagedSubject(active:true)
 
     expect:
     s.stateChanges == null
@@ -509,7 +509,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure accounts are correctly activated'() {
     setup:
-    def s = ManagedSubject.build(failedLogins:2)
+    def s = new ManagedSubject(failedLogins:2)
     s.deactivate("reason", "category", "environment", null)
 
     expect:
@@ -528,7 +528,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure accounts are correctly incremented when failed password reset occurs'() {
     setup:
-    def s = ManagedSubject.build(active:true)
+    def s = new ManagedSubject(active:true)
 
     expect:
     s.failedResets == 0
@@ -544,7 +544,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure accounts are correctly archived'() {
     setup:
-    def s = ManagedSubject.build()
+    def s = new ManagedSubject()
 
     expect:
     s.stateChanges == null
@@ -562,7 +562,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure accounts are correctly unarchived'() {
     setup:
-    def s = ManagedSubject.build(active:true)
+    def s = new ManagedSubject(active:true)
     s.organization.active = true
     s.archive("reason", "category", "environment", null)
 
@@ -583,8 +583,8 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'Ensure super administrator can always create ManagedSubject'() {
     setup:
-    def g = Group.build()
-    def ms = ManagedSubject.build(group:g)
+    def g = new Group()
+    def ms = new ManagedSubject(group:g)
     g.blocked = true
     shiroSubject.isPermitted("app:administrator") >> true
 
@@ -597,8 +597,8 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'Ensure non administrator cant create ManagedSubject'() {
     setup:
-    def g = Group.build()
-    def ms = ManagedSubject.build(group:g)
+    def g = new Group()
+    def ms = new ManagedSubject(group:g)
 
     when:
     def result = ms.canCreate(g)
@@ -609,8 +609,8 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'Ensure administrator can create ManagedSubject'() {
     setup:
-    def g = Group.build()
-    def ms = ManagedSubject.build(organization:g.organization, group:g)
+    def g = new Group()
+    def ms = new ManagedSubject(organization:g.organization, group:g)
     g.organization.active = true
     shiroSubject.isPermitted("app:manage:organization:${g.organization.id}:group:${g.id}:managedsubject:create") >> true
 
@@ -623,9 +623,9 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'Ensure administrator cant create ManagedSubject if owner is not functioning'() {
     setup:
-    def g = Group.build()
+    def g = new Group()
     g.blocked = true
-    def ms = ManagedSubject.build(group:g)
+    def ms = new ManagedSubject(group:g)
     shiroSubject.isPermitted("app:manage:organization:${g.organization.id}:group:${g.id}:managedsubject:create") >> true
 
     when:
@@ -637,7 +637,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'Ensure non administrator cant modify ManagedSubject'() {
     setup:
-    def ms = ManagedSubject.build()
+    def ms = new ManagedSubject()
 
     when:
     def result = ms.canMutate()
@@ -648,7 +648,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'Ensure super administrator can always modify ManagedSubject'() {
     setup:
-    def ms = ManagedSubject.build(archived:true, blocked:true)
+    def ms = new ManagedSubject(archived:true, blocked:true)
     shiroSubject.isPermitted("app:administrator") >> true
 
     when:
@@ -660,7 +660,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'Ensure administrator cant modify ManagedSubject when blocked'() {
     setup:
-    def ms = ManagedSubject.build(archived:false, blocked:true)
+    def ms = new ManagedSubject(archived:false, blocked:true)
     ms.organization.active = true
     shiroSubject.isPermitted("app:manage:organization:${ms.organization.id}:group:${ms.group.id}:managedsubject:${ms.id}:edit") >> true
 
@@ -673,7 +673,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'Ensure administrator cant modify ManagedSubject when archived'() {
     setup:
-    def ms = ManagedSubject.build(archived:true, blocked:false)
+    def ms = new ManagedSubject(archived:true, blocked:false)
     ms.organization.active = true
     shiroSubject.isPermitted("app:manage:organization:${ms.organization.id}:group:${ms.group.id}:managedsubject:${ms.id}:edit") >> true
 
@@ -686,7 +686,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'Ensure administrator cant modify ManagedSubject when owner cant be modified'() {
     setup:
-    def ms = ManagedSubject.build(archived:false, blocked:false)
+    def ms = new ManagedSubject(archived:false, blocked:false)
     ms.organization.active = true
     ms.group.blocked = true
     shiroSubject.isPermitted("app:manage:organization:${ms.organization.id}:group:${ms.group.id}:managedsubject:${ms.id}:edit") >> true
@@ -700,7 +700,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'Ensure administrator can modify ManagedSubject when not blocked or archived'() {
     setup:
-    def ms = ManagedSubject.build(archived:false, blocked:false)
+    def ms = new ManagedSubject(archived:false, blocked:false)
     ms.organization.active = true
     shiroSubject.isPermitted("app:manage:organization:${ms.organization.id}:group:${ms.group.id}:managedsubject:${ms.id}:edit") >> true
 
@@ -713,7 +713,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'Ensure super administrator can always delete ManagedSubject'() {
     setup:
-    def ms = ManagedSubject.build()
+    def ms = new ManagedSubject()
     ms.group.blocked = true
     shiroSubject.isPermitted("app:administrator") >> true
 
@@ -726,7 +726,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'Ensure non super administrator cant delete ManagedSubject'() {
     setup:
-    def ms = ManagedSubject.build()
+    def ms = new ManagedSubject()
 
     when:
     def result = ms.canDelete()
@@ -737,7 +737,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'Ensure account with null expiry returns false for isExpired'() {
     setup:
-    def ms = ManagedSubject.build()
+    def ms = new ManagedSubject()
 
     when:
     def result = ms.isExpired()
@@ -748,7 +748,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'Ensure expired account returns true for isExpired'() {
     setup:
-    def ms = ManagedSubject.build()
+    def ms = new ManagedSubject()
     def now = new Date()
     ms.accountExpires = now - 1
 
@@ -761,7 +761,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'Ensure not yet expired account returns false for isExpired'() {
     setup:
-    def ms = ManagedSubject.build()
+    def ms = new ManagedSubject()
     def now = new Date()
     ms.accountExpires = now + 1
 
@@ -774,7 +774,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure canLogin fails if not password set'() {
     setup:
-    def ms = ManagedSubject.build(hash: null)
+    def ms = new ManagedSubject(hash: null)
     ms.organization.active = true
 
     when:
@@ -790,7 +790,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure canLogin operates as expected'() {
     setup:
-    def ms = ManagedSubject.build(hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+    def ms = new ManagedSubject(hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
     ms.organization.active = true
 
     when:
@@ -806,7 +806,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure requiresLoginCaptcha operates as expected'() {
     setup:
-    def ms = ManagedSubject.build()
+    def ms = new ManagedSubject()
     ms.organization.active = true
 
     when:
@@ -822,7 +822,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure failCaptcha behaves correctly'() {
     setup:
-    def s = ManagedSubject.build(failedLogins:1, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+    def s = new ManagedSubject(failedLogins:1, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
     s.organization.active = true
 
     expect:
@@ -840,7 +840,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure failLogin increments correctly'() {
     setup:
-    def s = ManagedSubject.build(failedLogins:2, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+    def s = new ManagedSubject(failedLogins:2, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
     s.organization.active = true
 
     expect:
@@ -860,7 +860,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure failLogin deactivates after 5 failures'() {
     setup:
-    def s = ManagedSubject.build(failedLogins:4, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+    def s = new ManagedSubject(failedLogins:4, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
     s.managedSubjectService = managedSubjectService
     s.organization.active = true
 
@@ -882,7 +882,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure failLogin does not send duplication deactivation emails'() {
     setup:
-    def s = ManagedSubject.build(failedLogins:6, active:false, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+    def s = new ManagedSubject(failedLogins:6, active:false, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
     s.managedSubjectService = managedSubjectService
     s.organization.active = true
 
@@ -904,7 +904,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure successfulLogin performs correctly'() {
     setup:
-    def s = ManagedSubject.build(failedLogins:1, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+    def s = new ManagedSubject(failedLogins:1, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
     s.organization.active = true
 
     expect:
@@ -924,7 +924,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure successfulLostPassword performs correctly'() {
     setup:
-    def s = ManagedSubject.build(failedResets: 2, failedLogins:1, resetCode:'123', resetCodeExternal:'456', active:false, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+    def s = new ManagedSubject(failedResets: 2, failedLogins:1, resetCode:'123', resetCodeExternal:'456', active:false, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
     s.organization.active = true
 
     expect:
@@ -947,7 +947,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure isUsingTwoStepLogin works correctly'() {
     setup:
-    def s = ManagedSubject.build(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222', totpKey: totpKey)
+    def s = new ManagedSubject(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222', totpKey: totpKey)
     s.organization.active = true
 
     when:
@@ -963,7 +963,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure hasEstablishedTwoStepLogin works correctly'() {
       setup:
-      def s = ManagedSubject.build(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222', totpKey: 'DPS6XA5YWTZFQ4FI')
+      def s = new ManagedSubject(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222', totpKey: 'DPS6XA5YWTZFQ4FI')
       s.organization.active = true
       s.twoStepSessions = [sessions]
 
@@ -981,7 +981,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure cleanupEstablishedTwoStepLogin works correctly'() {
       setup:
-      def s = ManagedSubject.build(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222', totpKey: 'DPS6XA5YWTZFQ4FI')
+      def s = new ManagedSubject(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222', totpKey: 'DPS6XA5YWTZFQ4FI')
       s.organization.active = true
       s.twoStepSessions = [sessions]
       s.save()
@@ -1000,7 +1000,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure establishTwoStepSession works correctly'() {
       setup:
-      def s = ManagedSubject.build(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222', totpKey: 'DPS6XA5YWTZFQ4FI')
+      def s = new ManagedSubject(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222', totpKey: 'DPS6XA5YWTZFQ4FI')
       s.organization.active = true
 
       expect:
@@ -1016,7 +1016,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'ensure enforceTwoStepLogin works correctly'() {
     setup:
-    def s = ManagedSubject.build(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222', totpForce: subjectForce)
+    def s = new ManagedSubject(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222', totpForce: subjectForce)
     s.group.totpForce = groupForce
 
     expect:
@@ -1031,7 +1031,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
 
   def 'non specified issuer returned as null'() {
     setup:
-    def s = ManagedSubject.build(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+    def s = new ManagedSubject(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
 
     expect:
     s.encodedTwoStepIssuer == null
@@ -1040,7 +1040,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
   def 'empty issuer returned as null'() {
     setup:
     config.aaf.vhr.twosteplogin.issuer = ''
-    def s = ManagedSubject.build(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+    def s = new ManagedSubject(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
 
     expect:
     s.encodedTwoStepIssuer == null
@@ -1049,7 +1049,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
   def 'specified issuer returned as uri encoded'() {
     setup:
     config.aaf.vhr.twosteplogin.issuer = 'Example'
-    def s = ManagedSubject.build(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+    def s = new ManagedSubject(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
 
     expect:
     s.encodedTwoStepIssuer == 'Example'
@@ -1058,7 +1058,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
   def 'specified issuer returned as uri encoded when space present'() {
     setup:
     config.aaf.vhr.twosteplogin.issuer = 'Example Org'
-    def s = ManagedSubject.build(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+    def s = new ManagedSubject(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
 
     expect:
     s.encodedTwoStepIssuer == 'Example%20Org'
@@ -1067,7 +1067,7 @@ class ManagedSubjectSpec extends Specification implements DomainUnitTest<Managed
   def 'specified issuer returned as uri encoded when special char present'() {
     setup:
     config.aaf.vhr.twosteplogin.issuer = 'Example & Example Org'
-    def s = ManagedSubject.build(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
+    def s = new ManagedSubject(failedLogins:0, active:true, hash:'z0tYfrdu6V8stLN/hIu+xK8Rd5dsSueYwJ88XRgL2U4Z0JFSVspxsGOPK222')
 
     expect:
     s.encodedTwoStepIssuer == 'Example%20%26%20Example%20Org'

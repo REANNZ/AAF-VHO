@@ -532,11 +532,11 @@ class OrganizationServiceSpec extends Specification implements ServiceUnitTest<O
 
   def 'expect roles to be deleted when deleting an organization'() {
     setup:
-    def org = Organization.build()
-    def group = Group.build(organization: org)
+    def org = new Organization()
+    def group = new Group(organization: org)
 
-    def orgRole = Role.build(name: "organization:${org.id}:administrators")
-    def groupRole = Role.build(name: "group:${group.id}:administrators")
+    def orgRole = new Role(name: "organization:${org.id}:administrators")
+    def groupRole = new Role(name: "group:${group.id}:administrators")
 
     when:
     os.delete(org)

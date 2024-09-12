@@ -46,7 +46,7 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
     setup:
     grailsApplication.config.aaf.vhr.passwordreset.reset_attempt_limit = 5
     
-    def ms = ManagedSubject.build(locked:true)
+    def ms = new ManagedSubject(locked:true)
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
     when:
@@ -61,7 +61,7 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
     setup:
     grailsApplication.config.aaf.vhr.passwordreset.reset_attempt_limit = 5
 
-    def ms = ManagedSubject.build(locked:false, failedResets:5)
+    def ms = new ManagedSubject(locked:false, failedResets:5)
     ms.organization.active = true
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
@@ -80,7 +80,7 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
     setup:
     grailsApplication.config.aaf.vhr.passwordreset.reset_attempt_limit = 5
 
-    def ms = ManagedSubject.build(locked:false, failedResets:2)
+    def ms = new ManagedSubject(locked:false, failedResets:2)
     ms.organization.active = true
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
@@ -107,7 +107,7 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
 
   def 'obtainsubject errors if account can not change password'() {
     setup:
-    def ms = ManagedSubject.build(login:'testuser', locked:true)
+    def ms = new ManagedSubject(login:'testuser', locked:true)
     params.login = 'testuser'
 
     when:
@@ -120,7 +120,7 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
 
   def 'obtainsubject errors if account has not been finalized'() {
     setup:
-    def ms = ManagedSubject.build(login:'testuser2')
+    def ms = new ManagedSubject(login:'testuser2')
     ms.hash = null
     params.login = 'testuser2'
 
@@ -134,8 +134,8 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
 
   def 'obtainsubject does not reset codes if not requested'() {
     setup:
-    def o = Organization.build()
-    def ms = ManagedSubject.build(login:'testuser', resetCode:'1234', resetCodeExternal:'5678')
+    def o = new Organization()
+    def ms = new ManagedSubject(login:'testuser', resetCode:'1234', resetCodeExternal:'5678')
     ms.organization.active = true
     params.login = 'testuser'
 
@@ -151,14 +151,14 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
 
   def 'reset generates email code if not present'() {
     setup:
-    def ms = ManagedSubject.build()
+    def ms = new ManagedSubject()
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
     grailsApplication.config.aaf.vhr.passwordreset.second_factor_required = false
     grailsApplication.config.aaf.vhr.passwordreset.reset_code_length = 6
 
-    Role.build(name:"group:${ms.group.id}:administrators")
-    Role.build(name:"organization:${ms.organization.id}:administrators")
+    new Role(name:"group:${ms.group.id}:administrators")
+    new Role(name:"organization:${ms.organization.id}:administrators")
 
     expect:
     ms.resetCode == null
@@ -177,15 +177,15 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
 
   def 'reset does not sms if no mobileNumber'() {
     setup:
-    def ms = ManagedSubject.build()
+    def ms = new ManagedSubject()
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
     grailsApplication.config.aaf.vhr.passwordreset.second_factor_required = true
     grailsApplication.config.aaf.vhr.passwordreset.reset_code_length = 6
     grailsApplication.config.aaf.vhr.passwordreset.reset_sms_text = '{0}'
 
-    Role.build(name:"group:${ms.group.id}:administrators")
-    Role.build(name:"organization:${ms.organization.id}:administrators")
+    new Role(name:"group:${ms.group.id}:administrators")
+    new Role(name:"organization:${ms.organization.id}:administrators")
 
     expect:
     ms.resetCode == null
@@ -204,15 +204,15 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
 
   def 'reset does not send email if no mobileNumber and no externalcode'() {
     setup:
-    def ms = ManagedSubject.build(resetCode: '123456')
+    def ms = new ManagedSubject(resetCode: '123456')
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
     grailsApplication.config.aaf.vhr.passwordreset.second_factor_required = true
     grailsApplication.config.aaf.vhr.passwordreset.reset_code_length = 6
     grailsApplication.config.aaf.vhr.passwordreset.reset_sms_text = '{0}'
 
-    Role.build(name:"group:${ms.group.id}:administrators")
-    Role.build(name:"organization:${ms.organization.id}:administrators")
+    new Role(name:"group:${ms.group.id}:administrators")
+    new Role(name:"organization:${ms.organization.id}:administrators")
 
     expect:
     ms.resetCode != null
@@ -229,7 +229,7 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
 
   def 'reset does send sms if mobileNumber but redirects to unavailable on fault'() {
     setup:
-    def ms = ManagedSubject.build(mobileNumber:'+61413234567')
+    def ms = new ManagedSubject(mobileNumber:'+61413234567')
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
     grailsApplication.config.aaf.vhr.passwordreset.second_factor_required = true
@@ -253,14 +253,14 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
 
   def 'reset does send sms if mobileNumber'() {
     setup:
-    def ms = ManagedSubject.build(mobileNumber:'+61413234567')
+    def ms = new ManagedSubject(mobileNumber:'+61413234567')
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
     grailsApplication.config.aaf.vhr.passwordreset.second_factor_required = true
     grailsApplication.config.aaf.vhr.passwordreset.reset_code_length = 6
 
-    Role.build(name:"group:${ms.group.id}:administrators")
-    Role.build(name:"organization:${ms.organization.id}:administrators")
+    new Role(name:"group:${ms.group.id}:administrators")
+    new Role(name:"organization:${ms.organization.id}:administrators")
 
     expect:
     ms.resetCode == null
@@ -282,7 +282,7 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
 
   def 'resend sets resend time'() {
     setup:
-    def ms = ManagedSubject.build(resetCode:'1234')
+    def ms = new ManagedSubject(resetCode:'1234')
     session.setAttribute(controller.CURRENT_USER, ms.id)
     def start = new Date()
 
@@ -298,7 +298,7 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
 
   def 'resend sends the same codes again'() {
     setup:
-    def ms = ManagedSubject.build(resetCode:'1234')
+    def ms = new ManagedSubject(resetCode:'1234')
     session.setAttribute(controller.CURRENT_USER, ms.id)
     def start = new Date()
 
@@ -315,7 +315,7 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
 
   def 'resend refuses to send codes again too quickly'() {
     setup:
-    def ms = ManagedSubject.build(resetCode:'1234', lastCodeResend: new Date())
+    def ms = new ManagedSubject(resetCode:'1234', lastCodeResend: new Date())
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
     when:
@@ -330,7 +330,7 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
 
   def 'validatereset increases failure count if resetCodes do not match'() {
     setup:
-    def ms = ManagedSubject.build(resetCodeExternal:'1234', mobileNumber:'+61413234567')
+    def ms = new ManagedSubject(resetCodeExternal:'1234', mobileNumber:'+61413234567')
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
     params.resetCodeExternal = '5678'
@@ -353,7 +353,7 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
 
   def 'validatereset increases failure count if resetCodeExternal does not match and second_factor_required'() {
     setup:
-    def ms = ManagedSubject.build(resetCode:'1234', resetCodeExternal:'5678', mobileNumber:'+61413234567')
+    def ms = new ManagedSubject(resetCode:'1234', resetCodeExternal:'5678', mobileNumber:'+61413234567')
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
     params.resetCode = '1234'
@@ -377,11 +377,11 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
 
   def 'validatereset does not increase failure count if resetCodeExternal does not match with second_factor_required disabled'() {
     setup:
-    def ms = ManagedSubject.build(resetCode:'1234', resetCodeExternal:'5678')
+    def ms = new ManagedSubject(resetCode:'1234', resetCodeExternal:'5678')
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
-    Role.build(name:"group:${ms.group.id}:administrators")
-    Role.build(name:"organization:${ms.organization.id}:administrators")
+    new Role(name:"group:${ms.group.id}:administrators")
+    new Role(name:"organization:${ms.organization.id}:administrators")
 
     params.resetCode = '1234'
     params.resetCodeExternal = 'abcd'
@@ -408,11 +408,11 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
 
   def 'validatereset does not increase counts but fails to pass on password format error'() {
     setup:
-    def ms = ManagedSubject.build(resetCode:'1234', resetCodeExternal:'5678')
+    def ms = new ManagedSubject(resetCode:'1234', resetCodeExternal:'5678')
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
-    Role.build(name:"group:${ms.group.id}:administrators")
-    Role.build(name:"organization:${ms.organization.id}:administrators")
+    new Role(name:"group:${ms.group.id}:administrators")
+    new Role(name:"organization:${ms.organization.id}:administrators")
 
     params.resetCode = '1234'
     params.resetCodeExternal = '5678'
@@ -439,11 +439,11 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
 
   def 'validatereset completes successfully with correct codes and valid password'() {
     setup:
-    def ms = ManagedSubject.build(active:false, failedResets:1, failedLogins:2, resetCode:'1234', resetCodeExternal:'5678')
+    def ms = new ManagedSubject(active:false, failedResets:1, failedLogins:2, resetCode:'1234', resetCodeExternal:'5678')
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
-    Role.build(name:"group:${ms.group.id}:administrators")
-    Role.build(name:"organization:${ms.organization.id}:administrators")
+    new Role(name:"group:${ms.group.id}:administrators")
+    new Role(name:"organization:${ms.organization.id}:administrators")
 
     params.resetCode = '1234'
     params.resetCodeExternal = '5678'
@@ -485,11 +485,11 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
 
   def 'ensure correct functioning of support'() {
     setup:
-    def ms = ManagedSubject.build(failedResets:1, resetCode:'1234', resetCodeExternal:'5678')
+    def ms = new ManagedSubject(failedResets:1, resetCode:'1234', resetCodeExternal:'5678')
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
-    def gr = Role.build(name:"group:${ms.group.id}:administrators")
-    def or = Role.build(name:"organization:${ms.organization.id}:administrators")
+    def gr = new Role(name:"group:${ms.group.id}:administrators")
+    def or = new Role(name:"organization:${ms.organization.id}:administrators")
 
     when:
     def model = controller.support()
@@ -502,7 +502,7 @@ class LostPasswordControllerSpec extends Specification implements ControllerUnit
 
   def 'ensure logout invalidates session and redirects'() {
     setup:
-    def ms = ManagedSubject.build(failedResets:1, resetCode:'1234', resetCodeExternal:'5678')
+    def ms = new ManagedSubject(failedResets:1, resetCode:'1234', resetCodeExternal:'5678')
     session.setAttribute(controller.CURRENT_USER, ms.id)
 
     expect:

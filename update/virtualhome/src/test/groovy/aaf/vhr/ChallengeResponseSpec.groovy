@@ -13,7 +13,7 @@ class ChallengeResponseSpec extends Specification implements DomainUnitTest<Chal
 
   def 'ensure challenge must not be null or blank and be at least 6 characters long'() {
     setup:
-    def cr = ChallengeResponse.build()
+    def cr = new ChallengeResponse()
     mockForConstraintsTests(ChallengeResponse, [cr])
 
     expect:
@@ -37,7 +37,7 @@ class ChallengeResponseSpec extends Specification implements DomainUnitTest<Chal
 
   def 'ensure hash must not be null or blank and be at least 6 characters long'() {
     setup:
-    def cr = ChallengeResponse.build()
+    def cr = new ChallengeResponse()
     mockForConstraintsTests(ChallengeResponse, [cr])
 
     expect:
@@ -64,7 +64,7 @@ class ChallengeResponseSpec extends Specification implements DomainUnitTest<Chal
 
   def 'ensure salt must not be null or blank and exactly 29 characters long'() {
     setup:
-    def cr = ChallengeResponse.build()
+    def cr = new ChallengeResponse()
     cr.hash = '0e819f575d8ca7e9b12dec270db4208c0ae20746d647432b2f846aff7ffc559c1029b85b23b7d25fa42a4d39aa3f76f6f9199310472ab1cb28921e3e5347db47'
     mockForConstraintsTests(ChallengeResponse, [cr])
 

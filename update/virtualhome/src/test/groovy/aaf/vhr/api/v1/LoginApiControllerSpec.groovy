@@ -69,7 +69,7 @@ class LoginApiControllerSpec extends Specification implements ControllerUnitTest
 
   def "basicauth: receive 403 if account not functioning"() {
     setup:
-    def ms = aaf.vhr.ManagedSubject.build(active:false)
+    def ms = new aaf.vhr.ManagedSubject(active:false)
     ms.organization.active = true
 
     def cryptoService = Mock(aaf.vhr.CryptoService)
@@ -86,7 +86,7 @@ class LoginApiControllerSpec extends Specification implements ControllerUnitTest
 
   def "basicauth: receive 403 if invalid credential supplied"() {
     setup:
-    def ms = aaf.vhr.ManagedSubject.build(active:true)
+    def ms = new aaf.vhr.ManagedSubject(active:true)
     ms.organization.active = true
 
     def cryptoService = Mock(aaf.vhr.CryptoService)
@@ -103,7 +103,7 @@ class LoginApiControllerSpec extends Specification implements ControllerUnitTest
 
   def "basicauth: receive 200 if valid credential supplied"() {
     setup:
-    def ms = aaf.vhr.ManagedSubject.build(active:true)
+    def ms = new aaf.vhr.ManagedSubject(active:true)
     ms.organization.active = true
 
     def cryptoService = Mock(aaf.vhr.CryptoService)

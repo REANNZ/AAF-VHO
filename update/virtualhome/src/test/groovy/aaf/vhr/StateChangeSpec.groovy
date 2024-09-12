@@ -13,7 +13,7 @@ class StateChangeSpec extends Specification implements DomainUnitTest<StateChang
 
   def 'ensure creation of basic state active change'() {
     setup:
-    def managedSubjectTestInstance = ManagedSubject.build()
+    def managedSubjectTestInstance = new ManagedSubject()
     def change = new StateChange(event: StateChangeType.DEACTIVATE, reason:'system deactivated account')
 
     when:
@@ -29,7 +29,7 @@ class StateChangeSpec extends Specification implements DomainUnitTest<StateChang
 
   def 'ensure creation of basic state locked change'() {
     setup:
-    def managedSubjectTestInstance = ManagedSubject.build()
+    def managedSubjectTestInstance = new ManagedSubject()
     def change = new StateChange(event: StateChangeType.LOCKED, reason:'system locked account')
 
     when:
@@ -45,8 +45,8 @@ class StateChangeSpec extends Specification implements DomainUnitTest<StateChang
 
   def 'ensure creation of basic state active change by administrator'() {
     setup:
-    def administrator = aaf.base.identity.Subject.build()
-    def managedSubjectTestInstance = ManagedSubject.build()
+    def administrator = new aaf.base.identity.Subject()
+    def managedSubjectTestInstance = new ManagedSubject()
     def change = new StateChange(event: StateChangeType.DEACTIVATE, reason:'admin deactivated account', actionedBy:administrator)
 
     when:
@@ -62,8 +62,8 @@ class StateChangeSpec extends Specification implements DomainUnitTest<StateChang
 
   def 'ensure creation of basic state locked change by administrator'() {
     setup:
-    def administrator = aaf.base.identity.Subject.build()
-    def managedSubjectTestInstance = ManagedSubject.build()
+    def administrator = new aaf.base.identity.Subject()
+    def managedSubjectTestInstance = new ManagedSubject()
     def change = new StateChange(event: StateChangeType.LOCKED, reason:'admin locked account', actionedBy:administrator)
 
     when:
@@ -79,8 +79,8 @@ class StateChangeSpec extends Specification implements DomainUnitTest<StateChang
 
   def 'ensure creation of extended state active change by administrator'() {
     setup:
-    def administrator = aaf.base.identity.Subject.build()
-    def managedSubjectTestInstance = ManagedSubject.build()
+    def administrator = new aaf.base.identity.Subject()
+    def managedSubjectTestInstance = new ManagedSubject()
     def change = new StateChange(event: StateChangeType.DEACTIVATE, reason:'admin deactivated account', actionedBy:administrator)
     change.category = 'failed_lost_password'
     change.environment = """IP: 1.2.3.4
