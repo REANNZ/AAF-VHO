@@ -13,16 +13,22 @@ import groovy.time.TimeCategory
 import aaf.base.identity.*
 
 import grails.testing.services.ServiceUnitTest
+import grails.testing.gorm.DomainUnitTest
 
-class ManagedSubjectServiceSpec extends Service implements ServiceUnitTest<ManagedSubjectService> {
+import grails.testing.mixin.integration.Integration
+import grails.gorm.transactions.*
+
+@Integration
+@Rollback
+class ManagedSubjectServiceSpec extends Specification implements ServiceUnitTest<ManagedSubjectService>, DomainUnitTest<ManagedSubject> {
   
-  def managedSubjectService
-  def greenMail
-  def cryptoService
+  @Shared def managedSubjectService
+  @Shared def greenMail
+  @Shared def cryptoService
 
-  def grailsApplication
-  def subject
-  def role
+  //def grailsApplication
+  @Shared def subject
+  @Shared def role
 
   def setup() {
     role = new aaf.base.identity.Role(name:'allsubjects')
@@ -32,7 +38,7 @@ class ManagedSubjectServiceSpec extends Service implements ServiceUnitTest<Manag
     // a proper Subject AFTER the Subject instance is created - but for the
     // Subject instantiation to work, we need to have a SecurityManager in place.
     SpecHelpers.setupShiroEnv(null)
-    subject = aaf.base.identity.Subject.build(principal:'http://idp.test.com/entity!http://sp.test.com/entity!1234', cn:'test subject', email:'testsubject@test.com', sharedToken:'1234sharedtoken')
+    subject = new aaf.base.identity.Subject(principal:'http://idp.test.com/entity!http://sp.test.com/entity!1234', cn:'test subject', email:'testsubject@test.com', sharedToken:'1234sharedtoken')
     subject.save()
     subject.errors.each { println it }
     
@@ -58,10 +64,10 @@ class ManagedSubjectServiceSpec extends Service implements ServiceUnitTest<Manag
 
   def 'ensure successful finalize for ManagedSubject'() {
     setup:
-    def o = Organization.build(active: true)
-    def g = Group.build(active:true, organization: o)
-    def ms = ManagedSubject.build(login:null, hash:null, organization:o, group:g, active:false)
-    def inv = ManagedSubjectInvitation.build(managedSubject: ms)
+    def o = new Organization(active: true)
+    def g = new Group(active:true, organization: o)
+    def ms = new ManagedSubject(login:null, hash:null, organization:o, group:g, active:false)
+    def inv = new ManagedSubjectInvitation(managedSubject: ms)
 
     expect:
     ManagedSubject.count() == 1
@@ -95,10 +101,10 @@ class ManagedSubjectServiceSpec extends Service implements ServiceUnitTest<Manag
 
   def 'ensure successful finalize for ManagedSubject with no mobile'() {
     setup:
-    def o = Organization.build(active: true)
-    def g = Group.build(active:true, organization: o)
-    def ms = ManagedSubject.build(login:null, hash:null, organization:o, group:g, active:false)
-    def inv = ManagedSubjectInvitation.build(managedSubject: ms)
+    def o = new Organization(active: true)
+    def g = new Group(active:true, organization: o)
+    def ms = new ManagedSubject(login:null, hash:null, organization:o, group:g, active:false)
+    def inv = new ManagedSubjectInvitation(managedSubject: ms)
 
     expect:
     ManagedSubject.count() == 1
@@ -130,9 +136,9 @@ class ManagedSubjectServiceSpec extends Service implements ServiceUnitTest<Manag
 
   def 'ensure failed finalize for ManagedSubject with poor password'() {
     setup:
-    def o = Organization.build()
-    def g = Group.build(organization: o)
-    def ms = ManagedSubject.build(organization:o, group:g, login:null, hash: null)
+    def o = new Organization()
+    def g = new Group(organization: o)
+    def ms = new ManagedSubject(organization:o, group:g, login:null, hash: null)
     def inv = new ManagedSubjectInvitation(managedSubject: ms).save()
 
     expect:
@@ -156,9 +162,9 @@ class ManagedSubjectServiceSpec extends Service implements ServiceUnitTest<Manag
 
   def 'ensure failed finalize for ManagedSubject that has already undertaken the process'() {
     setup:
-    def o = Organization.build()
-    def g = Group.build(organization: o)
-    def ms = ManagedSubject.build(organization:o, group:g, login:'mylogin')
+    def o = new Organization()
+    def g = new Group(organization: o)
+    def ms = new ManagedSubject(organization:o, group:g, login:'mylogin')
     def inv = new ManagedSubjectInvitation(managedSubject: ms).save()
 
     expect:
@@ -177,9 +183,9 @@ class ManagedSubjectServiceSpec extends Service implements ServiceUnitTest<Manag
 
   def 'ensure failed finalize for ManagedSubject that has no unutilized invite'() {
     setup:
-    def o = Organization.build()
-    def g = Group.build(organization: o)
-    def ms = ManagedSubject.build(organization:o, group:g, login:'mylogin')
+    def o = new Organization()
+    def g = new Group(organization: o)
+    def ms = new ManagedSubject(organization:o, group:g, login:'mylogin')
     def inv = new ManagedSubjectInvitation(managedSubject: ms, utilized:true).save()
 
     expect:
@@ -199,10 +205,10 @@ class ManagedSubjectServiceSpec extends Service implements ServiceUnitTest<Manag
 
   def 'ensure failed finalize for ManagedSubject with non matching password'() {
     setup:
-    def o = Organization.build()
-    def g = Group.build(organization: o)
-    def ms = ManagedSubject.build(organization:o, group:g, login:null, hash: null)
-    def inv = ManagedSubjectInvitation.build(managedSubject: ms)
+    def o = new Organization()
+    def g = new Group(organization: o)
+    def ms = new ManagedSubject(organization:o, group:g, login:null, hash: null)
+    def inv = new ManagedSubjectInvitation(managedSubject: ms)
 
     expect:
     ManagedSubject.count() == 1
@@ -225,8 +231,8 @@ class ManagedSubjectServiceSpec extends Service implements ServiceUnitTest<Manag
 
   def 'ensure register creates new ManagedSubject'() {
     setup:
-    def o = Organization.build(active:true)
-    def g = Group.build(organization: o, active:true)
+    def o = new Organization(active:true)
+    def g = new Group(organization: o, active:true)
     def et_orig = EmailTemplate.findWhere(name: 'registered_managed_subject')
     if (et_orig) { et_orig.delete(flush: true) }
     def et = new EmailTemplate(name:'registered_managed_subject', content: 'This is an email for ${managedSubject.cn} telling them to come and complete registration with code ${invitation.inviteCode}').save()
@@ -261,8 +267,8 @@ class ManagedSubjectServiceSpec extends Service implements ServiceUnitTest<Manag
 
   def 'ensure invalid CSV lines are rejected correctly (no admin rights)'() {
     setup:
-    def o = Organization.build()
-    def g = Group.build(organization: o)
+    def o = new Organization()
+    def g = new Group(organization: o)
 
     expect:
     ManagedSubject.count() == 0
@@ -290,11 +296,11 @@ class ManagedSubjectServiceSpec extends Service implements ServiceUnitTest<Manag
 
   def 'ensure invalid CSV lines are rejected correctly (admin rights)'() {
     setup:
-    def o = Organization.build()
-    def g = Group.build(organization: o)
+    def o = new Organization()
+    def g = new Group(organization: o)
 
     subject.permissions = []
-    subject.permissions.add(Permission.build(target:"app:administrator"))
+    subject.permissions.add(new Permission(target:"app:administrator"))
 
     expect:
     ManagedSubject.count() == 0
@@ -322,9 +328,9 @@ class ManagedSubjectServiceSpec extends Service implements ServiceUnitTest<Manag
 
   def 'ensure CSV lines cause account conflicts are rejected correctly'() {
     setup:
-    def o = Organization.build()
-    def g = Group.build(organization: o)
-    def ms = ManagedSubject.build(cn:'Test User', email:'testuser@testdomain.com', eduPersonAffiliation:'member')
+    def o = new Organization()
+    def g = new Group(organization: o)
+    def ms = new ManagedSubject(cn:'Test User', email:'testuser@testdomain.com', eduPersonAffiliation:'member')
 
     String csv = "Test User,testuser@testdomain.com,member,0\nTest User2,testuser2@testdomain.com,staff,12"
 
@@ -346,8 +352,8 @@ class ManagedSubjectServiceSpec extends Service implements ServiceUnitTest<Manag
 
   def 'ensure CSV lines which conflict with other CSV lines are rejected correctly'() {
     setup:
-    def o = Organization.build()
-    def g = Group.build(organization: o)
+    def o = new Organization()
+    def g = new Group(organization: o)
 
     String csv = "Test User,testuser@testdomain.com,member,0\nTest User2,testuser@testdomain.com,staff,12"
 
@@ -367,13 +373,13 @@ class ManagedSubjectServiceSpec extends Service implements ServiceUnitTest<Manag
 
   def 'ensure CSV lines for admin with invalid password are rejected correctly'() {
     setup:
-    def o = Organization.build()
-    def g = Group.build(organization: o)
+    def o = new Organization()
+    def g = new Group(organization: o)
 
     String csv = "Test User,testuser@testdomain.com,member,0,username,password\nTest User2,testuser2@testdomain.com,staff,12,username2,password2"
 
     subject.permissions = []
-    subject.permissions.add(Permission.build(target:"app:administrator"))
+    subject.permissions.add(new Permission(target:"app:administrator"))
 
     when:
     def (result, errors, subjects, linesProcessed) = managedSubjectService.registerFromCSV(g, csv.bytes)
@@ -394,8 +400,8 @@ class ManagedSubjectServiceSpec extends Service implements ServiceUnitTest<Manag
 
   def 'ensure valid CSV creates new ManagedSubject from each line'() {
     setup:
-    def o = Organization.build(active:true)
-    def g = Group.build(organization: o, active:true)
+    def o = new Organization(active:true)
+    def g = new Group(organization: o, active:true)
     def et_orig = EmailTemplate.findWhere(name: 'registered_managed_subject')
     if (et_orig) { et_orig.delete(flush: true) }
     def et = new EmailTemplate(name:'registered_managed_subject', content: 'This is an email for ${managedSubject.cn} telling them to come and complete registration with code ${invitation.inviteCode}').save()
@@ -459,14 +465,14 @@ class ManagedSubjectServiceSpec extends Service implements ServiceUnitTest<Manag
 
   def 'ensure valid CSV creates new ManagedSubject from each line for admins'() {
     setup:
-    def o = Organization.build(active:true)
-    def g = Group.build(organization: o, active:true)
+    def o = new Organization(active:true)
+    def g = new Group(organization: o, active:true)
     def et_orig = EmailTemplate.findWhere(name: 'registered_managed_subject')
     if (et_orig) { et_orig.delete(flush: true) }
     def et = new EmailTemplate(name:'registered_managed_subject', content: 'This is an email for ${managedSubject.cn} telling them to come and complete registration with code ${invitation.inviteCode}').save()
     
     subject.permissions = []
-    subject.permissions.add(Permission.build(target:"app:administrator"))
+    subject.permissions.add(new Permission(target:"app:administrator"))
 
     expect:
     ManagedSubject.count() == 0
@@ -519,14 +525,14 @@ class ManagedSubjectServiceSpec extends Service implements ServiceUnitTest<Manag
 
   def 'ensure valid CSV creates new ManagedSubject without password from each line for admins'() {
     setup:
-    def o = Organization.build(active:true)
-    def g = Group.build(organization: o, active:true)
+    def o = new Organization(active:true)
+    def g = new Group(organization: o, active:true)
     def et_orig = EmailTemplate.findWhere(name: 'registered_managed_subject')
     if (et_orig) { et_orig.delete(flush: true) }
     def et = new EmailTemplate(name:'registered_managed_subject', content: 'This is an email for ${managedSubject.cn} telling them to come and complete registration with code ${invitation.inviteCode}').save()
 
     subject.permissions = []
-    subject.permissions.add(Permission.build(target:"app:administrator"))
+    subject.permissions.add(new Permission(target:"app:administrator"))
 
     expect:
     ManagedSubject.count() == 0
@@ -577,16 +583,16 @@ class ManagedSubjectServiceSpec extends Service implements ServiceUnitTest<Manag
 
   def 'ensure sendAccountDeactivated emails identified subject'() {
     setup:
-    def o = Organization.build(active:true)
-    def orgRole = Role.build(name:"organization:${o.id}:administrators")
+    def o = new Organization(active:true)
+    def orgRole = new Role(name:"organization:${o.id}:administrators")
 
-    def g = Group.build(organization: o, active:true)
-    def groupRole = Role.build(name:"group:${o.id}:administrators")
+    def g = new Group(organization: o, active:true)
+    def groupRole = new Role(name:"group:${o.id}:administrators")
 
     def et_orig = EmailTemplate.findWhere(name: 'deactivated_managed_subject')
     if (et_orig) { et_orig.delete(flush: true) }
     def et = new EmailTemplate(name:'deactivated_managed_subject', content: 'This is an email for ${managedSubject.cn} telling them that their account was locked. Organisation: ${organizationRole.id}, Role: ${groupRole.id}').save()
-    def s = ManagedSubject.build(organization:o, group:g, cn:'Test User', email:'testuser@example.com')
+    def s = new ManagedSubject(organization:o, group:g, cn:'Test User', email:'testuser@example.com')
 
     when:
     managedSubjectService.sendAccountDeactivated(s)

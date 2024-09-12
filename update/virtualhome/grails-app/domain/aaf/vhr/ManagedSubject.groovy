@@ -115,7 +115,30 @@ class ManagedSubject {
 
     eduPersonAffiliation nullable:false, blank:false, maxSize: 255
 
-    mobileNumber nullable: true, blank: false, validator: validMobileNumber
+    mobileNumber nullable: true, blank: false, validator: { value, obj ->
+      if(value == "" || value == null) {
+        obj.mobileNumber = null
+        return true 
+      }
+
+      def checkedNumber = value
+
+      // Translate NZ numbers to international format (02x denotes a mobile number in NZ)
+      if(checkedNumber.startsWith('02')) {
+        checkedNumber = checkedNumber[1..-1]
+        checkedNumber = "+64$checkedNumber"
+      }
+
+      checkedNumber = checkedNumber.replace(' ','')
+
+      if(!checkedNumber.startsWith('+')) {
+        return false
+      } else {
+        obj.mobileNumber = checkedNumber
+        return true
+      }
+    }
+
     givenName nullable: true, blank: false
     surname nullable: true, blank: false
     telephoneNumber nullable: true, blank: false
@@ -502,29 +525,5 @@ class ManagedSubject {
     }
 
     code
-  }
-
-  static validMobileNumber = { value, obj ->
-    if(value == "" || value == null) {
-      obj.mobileNumber = null
-      return true
-    }
-
-    def checkedNumber = value
-
-    // Translate NZ numbers to international format (02x denotes a mobile number in NZ)
-    if(checkedNumber.startsWith('02')) {
-      checkedNumber = checkedNumber[1..-1]
-      checkedNumber = "+64$checkedNumber"
-    }
-
-    checkedNumber = checkedNumber.replace(' ','')
-
-    if(!checkedNumber.startsWith('+')) {
-      return false
-    } else {
-      obj.mobileNumber = checkedNumber
-      return true
-    }
   }
 }
