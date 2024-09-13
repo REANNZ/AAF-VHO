@@ -29,6 +29,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
     setup:
     def o = new Organization()
     o.name = val
+    o.displayName = 'dummy'
 
     when:
     def result = o.validate()
@@ -48,6 +49,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
   def 'ensure displayName can not be null or blank'() {
     setup:
     def o = new Organization()
+    o.name = 'dummy'
     o.displayName = val
 
     when:
@@ -68,6 +70,8 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
   def 'ensure description can be null but not blank'() {
     setup:
     def o = new Organization()
+    o.name = 'dummy'
+    o.displayName = 'dummy'
     o.description = val
 
     when:
