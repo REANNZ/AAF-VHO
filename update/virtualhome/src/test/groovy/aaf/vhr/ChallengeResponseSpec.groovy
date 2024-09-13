@@ -14,10 +14,11 @@ class ChallengeResponseSpec extends Specification implements DomainUnitTest<Chal
   def 'ensure challenge must not be null or blank and be at least 6 characters long'() {
     setup:
     def cr = new ChallengeResponse()
-    //mockForConstraintsTests(ChallengeResponse, [cr])
+    // cr.subject cannot be null due to the belongsTo relationship, so we create a mock of it here
+    cr.subject = Mock(ManagedSubject)
 
-    expect:
-    cr.validate()
+    cr.hash = 'a'.multiply(128)
+    cr.salt = 'b'.multiply(29)
 
     when:
     cr.challenge = val
@@ -38,10 +39,10 @@ class ChallengeResponseSpec extends Specification implements DomainUnitTest<Chal
   def 'ensure hash must not be null or blank and be at least 6 characters long'() {
     setup:
     def cr = new ChallengeResponse()
-    //mockForConstraintsTests(ChallengeResponse, [cr])
-
-    expect:
-    cr.validate()
+    cr.challenge = '123456'
+    cr.salt = 'b'.multiply(29)
+    // cr.subject cannot be null due to the belongsTo relationship, so we create a mock of it here
+    cr.subject = Mock(ManagedSubject)
 
     when:
     cr.hash = val
@@ -66,10 +67,9 @@ class ChallengeResponseSpec extends Specification implements DomainUnitTest<Chal
     setup:
     def cr = new ChallengeResponse()
     cr.hash = '0e819f575d8ca7e9b12dec270db4208c0ae20746d647432b2f846aff7ffc559c1029b85b23b7d25fa42a4d39aa3f76f6f9199310472ab1cb28921e3e5347db47'
-    //mockForConstraintsTests(ChallengeResponse, [cr])
-
-    expect:
-    cr.validate()
+    cr.challenge = '123456'
+    // cr.subject cannot be null due to the belongsTo relationship, so we create a mock of it here
+    cr.subject = Mock(ManagedSubject)
 
     when:
     cr.salt = val
