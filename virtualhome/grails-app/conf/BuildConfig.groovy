@@ -32,11 +32,6 @@ grails.project.dependency.resolution = {
     mavenRepo "https://repository.jboss.org/maven2/"
   }
 
-  dependencies {
-    compile "commons-collections:commons-collections:3.2.2"
-    compile "commons-validator:commons-validator:1.7"
-  }
-
   /*
     Types of plugin:
     build: Dependencies for the build system only
