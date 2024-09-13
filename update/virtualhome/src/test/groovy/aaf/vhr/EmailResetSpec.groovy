@@ -15,14 +15,16 @@ class EmailResetSpec extends Specification implements DomainUnitTest<EmailReset>
   def 'ensure code must not be null or blank and 24 characters long'() {
     setup:
     def er = new EmailReset()
-    //mockForConstraintsTests(EmailReset, [er])
-
-    expect:
-    er.validate()
+    er.hash = 'x'.multiply(128)
+    er.salt = 'x'.multiply(29)
+    er.validUntil = Mock(Date)
+    // er.subject cannot be null due to the belongsTo relationship, so we create a mock of it here
+    er.subject = Mock(ManagedSubject)
 
     when:
     er.code = val
     def result = er.validate() 
+    println er.errors
 
     then:
     result == expectedResult
@@ -42,10 +44,11 @@ class EmailResetSpec extends Specification implements DomainUnitTest<EmailReset>
   def 'ensure hash must not be null or blank and be at least 6 characters long'() {
     setup:
     def er = new EmailReset()
-    //mockForConstraintsTests(EmailReset, [er])
-
-    expect:
-    er.validate()
+    er.code = 'x'.multiply(24)
+    er.salt = 'x'.multiply(29)
+    er.validUntil = Mock(Date)
+    // er.subject cannot be null due to the belongsTo relationship, so we create a mock of it here
+    er.subject = Mock(ManagedSubject)
 
     when:
     er.hash = val
@@ -69,10 +72,11 @@ class EmailResetSpec extends Specification implements DomainUnitTest<EmailReset>
   def 'ensure salt must not be null or blank and exactly 29 characters long'() {
     setup:
     def er = new EmailReset()
-    //mockForConstraintsTests(EmailReset, [er])
-
-    expect:
-    er.validate()
+    er.code = 'x'.multiply(24)
+    er.hash = 'x'.multiply(128)
+    er.validUntil = Mock(Date)
+    // er.subject cannot be null due to the belongsTo relationship, so we create a mock of it here
+    er.subject = Mock(ManagedSubject)
 
     when:
     er.salt = val
@@ -96,10 +100,11 @@ class EmailResetSpec extends Specification implements DomainUnitTest<EmailReset>
   def 'ensure validUntil must not be null and a valid date'() {
     setup:
     def er = new EmailReset()
-    //mockForConstraintsTests(EmailReset, [er])
-
-    expect:
-    er.validate()
+    er.code = 'x'.multiply(24)
+    er.hash = 'x'.multiply(128)
+    er.salt = 'x'.multiply(29)
+    // er.subject cannot be null due to the belongsTo relationship, so we create a mock of it here
+    er.subject = Mock(ManagedSubject)
     
     when:
     er.validUntil = val
