@@ -473,7 +473,7 @@ class OrganizationSpec extends Specification implements DomainUnitTest<Organizat
 
   def 'Ensure super administrator can always modify Organization'() {
     setup:
-    def o = Organization(archived:true, blocked:true)
+    def o = new Organization(archived:true, blocked:true)
     shiroSubject.isPermitted("app:administrator") >> true
 
     when:
