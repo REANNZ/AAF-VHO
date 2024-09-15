@@ -6,7 +6,7 @@ import org.apache.shiro.authc.DisabledAccountException
 import org.apache.shiro.authc.IncorrectCredentialsException
 
 class FederatedSessionsController {    
-  def grailsApplication
+  //def grailsApplication
   
   def federatedlogin = {
     def incomplete = false

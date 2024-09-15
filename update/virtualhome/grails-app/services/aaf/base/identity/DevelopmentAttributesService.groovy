@@ -3,7 +3,7 @@ package aaf.base.identity
 class DevelopmentAttributesService {
   public static final String KEY_NAME = "aaf.base.identity.developmentAttributes"
 
-  def grailsApplication
+  //def grailsApplication
 
   public void injectAttributes(request, session) {
     if (grailsApplication.config.aaf.base.realms.federated.development.active) {

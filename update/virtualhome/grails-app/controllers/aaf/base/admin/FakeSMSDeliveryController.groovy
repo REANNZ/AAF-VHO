@@ -1,7 +1,7 @@
 package aaf.base.admin
 
 class FakeSMSDeliveryController {
-  def grailsApplication
+  //def grailsApplication
   def mailService
 
   def json() {

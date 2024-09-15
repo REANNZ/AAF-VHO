@@ -7,7 +7,7 @@ class AuthController {
 
   static defaultAction = "login"
     
-  def grailsApplication
+  //def grailsApplication
 
   def login = {
     // Stores initial content user is attempting to access to redirect when auth complete
