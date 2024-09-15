@@ -4,8 +4,12 @@ import grails.test.mixin.*
 import spock.lang.*
 import grails.test.spock.*
 
-@TestFor(aaf.base.identity.Subject)
-class SubjectSpec extends spock.lang.Specification {
+
+import grails.testing.gorm.DomainUnitTest
+import spock.lang.Stepwise
+
+@Stepwise
+class SubjectSpec extends Specification implements DomainUnitTest<Subject> {
   
   def 'Ensure subject wont validate with null principal'() {    
     when:

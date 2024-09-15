@@ -4,8 +4,9 @@ import grails.test.mixin.*
 import spock.lang.*
 import grails.test.spock.*
 
-@TestFor(aaf.base.api.ApiBaseController)
-class ApiBaseControllerSpec extends spock.lang.Specification {
+import grails.testing.web.controllers.ControllerUnitTest
+
+class ApiBaseControllerSpec extends Specification implements ControllerUnitTest<ApiBaseController> {
 
   /*
    TODO: Due to time pressure to ship VHR into test i'll 

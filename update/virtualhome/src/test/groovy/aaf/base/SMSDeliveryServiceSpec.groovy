@@ -6,9 +6,10 @@ import static groovyx.net.http.Method.*
 
 import spock.lang.*
 
-@TestFor(SMSDeliveryService)
-class SMSDeliveryServiceSpec extends Specification {
-  def service
+import grails.testing.services.ServiceUnitTest
+
+class SMSDeliveryServiceSpec extends Specification implements ServiceUnitTest<SMSDeliveryService> {
+  @Shared def service
 
   def setup() {
     service = new SMSDeliveryService()

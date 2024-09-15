@@ -3,8 +3,9 @@ package aaf.base.identity
 import spock.lang.*
 import grails.util.Holders
 
-@TestFor(DevelopmentAttributesService)
-class DevelopmentAttributesServiceSpec extends spock.lang.Specification {
+import grails.testing.services.ServiceUnitTest
+
+class DevelopmentAttributesServiceSpec extends Specification implements ServiceUnitTest<DevelopmentAttributesService> {
   def setup() {
     grailsApplication.config.aaf.base.realms.federated = [
       active: false,

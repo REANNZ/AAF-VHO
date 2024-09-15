@@ -4,13 +4,16 @@ import grails.test.mixin.*
 import spock.lang.*
 import grails.test.spock.*
 
-@TestFor(EmailTemplate)
-class EmailTemplateSpec extends Specification {
+import grails.testing.gorm.DomainUnitTest
+import spock.lang.Stepwise
+
+@Stepwise
+class EmailTemplateSpec extends Specification implements DomainUnitTest<EmailTemplate> {
 
   def 'ensure name must not be null or blank'() {
     setup:
     def ev = new EmailTemplate(content:"test content")
-    mockForConstraintsTests(EmailTemplate, [ev])
+    //mockForConstraintsTests(EmailTemplate, [ev])
 
     when:
     ev.name = val
@@ -31,7 +34,7 @@ class EmailTemplateSpec extends Specification {
   def 'ensure content must not be null or blank and contains HTML replacement banner'() {
     setup:
     def ev = new EmailTemplate(name:"test name")
-    mockForConstraintsTests(EmailTemplate, [ev])
+    //mockForConstraintsTests(EmailTemplate, [ev])
 
     when:
     ev.content = val

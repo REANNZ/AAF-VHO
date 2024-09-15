@@ -1,20 +1,18 @@
 package aaf.base.identity
 
 import grails.test.mixin.*
-import grails.buildtestdata.mixin.Build
 import spock.lang.*
 import grails.test.spock.*
 
-@TestFor(aaf.base.identity.PermissionService)
-@Mock([Subject, Role, Permission])
-@Build([Subject, Role, Permission])
-class PermissionServiceSpec extends Specification {
+import grails.testing.services.ServiceUnitTest
+
+class PermissionServiceSpec extends Specification implements ServiceUnitTest<PermissionService> {
 
   def 'ensure error saving permissions throws RuntimeException to rollback transaction state'() {
     setup:
     def ps = new PermissionService()
-    def owner = Subject.build()
-    def permission = Permission.build()
+    def owner = new Subject()
+    def permission = new Permission()
     permission.metaClass.save = { null }
 
     when:
@@ -28,8 +26,8 @@ class PermissionServiceSpec extends Specification {
   def 'ensure error saving owner throws RuntimeException to rollback transaction state'() {
     setup:
     def ps = new PermissionService()
-    def owner = Subject.build()
-    def permission = Permission.build()
+    def owner = new Subject()
+    def permission = new Permission()
     owner.metaClass.save = { null }
 
     when:
@@ -43,8 +41,8 @@ class PermissionServiceSpec extends Specification {
   def 'valid permission is correctly added to Subject owner'() {
     setup:
     def ps = new PermissionService()
-    def owner = Subject.build()
-    def permission = Permission.build()
+    def owner = new Subject()
+    def permission = new Permission()
 
     when:
     def savedPermission = ps.createPermission(permission, owner)
@@ -57,8 +55,8 @@ class PermissionServiceSpec extends Specification {
   def 'valid permission is correctly added to Role owner'() {
     setup:
     def ps = new PermissionService()
-    def owner = Role.build()
-    def permission = Permission.build()
+    def owner = new Role()
+    def permission = new Permission()
 
     when:
     def savedPermission = ps.createPermission(permission, owner)
@@ -71,8 +69,8 @@ class PermissionServiceSpec extends Specification {
   def 'ensure error when saving owner during deleting permission throws RuntimeException to rollback transaction state'() {
     setup:
     def ps = new PermissionService()
-    def owner = Subject.build()
-    def permission = Permission.build()
+    def owner = new Subject()
+    def permission = new Permission()
     permission.owner = owner
     permission.save()
     owner.addToPermissions(permission)
@@ -91,8 +89,8 @@ class PermissionServiceSpec extends Specification {
   def 'valid permission is successfully deleted from Subject'() {
     setup:
     def ps = new PermissionService()
-    def owner = Subject.build()
-    def permission = Permission.build()
+    def owner = new Subject()
+    def permission = new Permission()
     permission.owner = owner
     permission.save()
     owner.addToPermissions(permission)
@@ -113,8 +111,8 @@ class PermissionServiceSpec extends Specification {
   def 'valid permission is successfully deleted from Role'() {
     setup:
     def ps = new PermissionService()
-    def owner = Role.build()
-    def permission = Permission.build()
+    def owner = new Role()
+    def permission = new Permission()
     permission.owner = owner
     permission.save()
     owner.addToPermissions(permission)

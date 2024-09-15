@@ -1,14 +1,11 @@
 package aaf.base.admin
 
 import grails.test.mixin.*
-import grails.buildtestdata.mixin.Build
 import spock.lang.*
 import grails.test.spock.*
+import grails.testing.web.controllers.ControllerUnitTest
 
-@TestFor(aaf.base.admin.EmailTemplateController)
-@Mock([EmailTemplate])
-@Build([EmailTemplate])
-class EmailTemplateControllerSpec extends spock.lang.Specification {
+class EmailTemplateControllerSpec extends Specification implements ControllerUnitTest<EmailTemplateController> {
 
   def "ensure default action"() {
     expect:
@@ -17,7 +14,7 @@ class EmailTemplateControllerSpec extends spock.lang.Specification {
 
   def "ensure list of EmailTemplates returned"() {
     setup:
-    (1..10).each { EmailTemplate.build() }
+    (1..10).each { new EmailTemplate() }
 
     when:
     def model = controller.list()
@@ -97,7 +94,7 @@ class EmailTemplateControllerSpec extends spock.lang.Specification {
 
   def "ensure show when valid EmailTemplate"() {
     setup:
-    def et = EmailTemplate.build()
+    def et = new EmailTemplate()
     params.id = et.id
 
     when:
@@ -109,7 +106,7 @@ class EmailTemplateControllerSpec extends spock.lang.Specification {
 
   def "ensure edit when valid EmailTemplate"() {
     setup:
-    def et = EmailTemplate.build()
+    def et = new EmailTemplate()
     params.id = et.id
 
     when:
@@ -121,7 +118,7 @@ class EmailTemplateControllerSpec extends spock.lang.Specification {
 
   def "ensure update requires valid EmailTemplate name"() {
     setup:
-    def et = EmailTemplate.build()
+    def et = new EmailTemplate()
     params.id = et.id
     params.name = ''
     params.content = 'testing content'
@@ -139,7 +136,7 @@ class EmailTemplateControllerSpec extends spock.lang.Specification {
 
   def "ensure update requires valid EmailTemplate content"() {
     setup:
-    def et = EmailTemplate.build()
+    def et = new EmailTemplate()
     params.id = et.id
     params.name = 'template_name'
     params.content = ''
@@ -157,7 +154,7 @@ class EmailTemplateControllerSpec extends spock.lang.Specification {
 
   def "ensure update when valid EmailTemplate"() {
     setup:
-    def et = EmailTemplate.build()
+    def et = new EmailTemplate()
     controller.metaClass.getSubject = { [id:1, principal:'http://test.com!http://sp.test.com!1234'] }
 
     params.id = et.id
@@ -200,7 +197,7 @@ class EmailTemplateControllerSpec extends spock.lang.Specification {
 
   def "validEmailTemplate approves request when invalid EmailTemplate requested"() {
     setup:
-    def et = EmailTemplate.build()
+    def et = new EmailTemplate()
     params.id = et.id
 
     when:

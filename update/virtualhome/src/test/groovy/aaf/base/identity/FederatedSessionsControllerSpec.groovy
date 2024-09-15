@@ -10,9 +10,9 @@ import grails.util.Holders
 
 import test.shared.ShiroEnvironment
 
-@TestFor(aaf.base.identity.FederatedSessionsController)
-@TestMixin([grails.test.mixin.support.GrailsUnitTestMixin, grails.test.mixin.web.FiltersUnitTestMixin])
-class FederatedSessionsControllerSpec extends spock.lang.Specification {
+import grails.testing.web.controllers.ControllerUnitTest
+
+class FederatedSessionsControllerSpec extends Specification implements ControllerUnitTest<FederatedSessionsController> {
   
   @Shared def shiroEnvironment = new ShiroEnvironment()
   

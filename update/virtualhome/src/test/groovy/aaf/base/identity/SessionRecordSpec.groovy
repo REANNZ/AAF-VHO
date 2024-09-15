@@ -4,8 +4,11 @@ import grails.test.mixin.*
 import spock.lang.*
 import grails.test.spock.*
 
-@TestFor(aaf.base.identity.SessionRecord)
-class SessionRecordSpec extends Specification {
+import grails.testing.gorm.DomainUnitTest
+import spock.lang.Stepwise
+
+@Stepwise
+class SessionRecordSpec extends Specification implements DomainUnitTest<SessionRecord> {
   
   def 'Ensure SessionRecord wont validate with null credential'() {
     setup:

@@ -10,8 +10,9 @@ import grails.util.Holders
 
 import test.shared.ShiroEnvironment
 
-@TestFor(aaf.base.identity.AuthController)
-class AuthControllerSpec extends spock.lang.Specification {
+import grails.testing.web.controllers.ControllerUnitTest
+
+class AuthControllerSpec extends Specification implements ControllerUnitTest<AuthController> {
 
   @Shared def shiroEnvironment = new ShiroEnvironment()
   

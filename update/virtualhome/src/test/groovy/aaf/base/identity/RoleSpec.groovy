@@ -4,13 +4,13 @@ import grails.test.mixin.*
 import spock.lang.*
 import grails.test.spock.*
 
-@TestFor(aaf.base.identity.Role)
-class RoleSpec extends Specification {
+import grails.testing.gorm.DomainUnitTest
+import spock.lang.Stepwise
+
+@Stepwise
+class RoleSpec extends Specification implements DomainUnitTest<Role> {
   
   def 'Ensure Role wont validate with null name'() {
-    setup:
-    mockDomain(Role)
-    
     when:
     def r = new Role().validate()
     
@@ -19,9 +19,6 @@ class RoleSpec extends Specification {
   }
   
   def 'Ensure Role wont validate with blank name'() {
-    setup:
-    mockDomain(Role)
-    
     when:
     def r = new Role(name:'').validate()
     
@@ -42,9 +39,6 @@ class RoleSpec extends Specification {
   }
   
   def 'Ensure Role will validate'() {
-    setup:
-    mockDomain(Role)
-    
     when:
     def r = new Role(name:'testrole').validate()
     

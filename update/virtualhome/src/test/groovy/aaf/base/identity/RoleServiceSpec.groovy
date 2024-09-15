@@ -1,14 +1,12 @@
 package aaf.base.identity
 
 import grails.test.mixin.*
-import grails.buildtestdata.mixin.Build
 import spock.lang.*
 import grails.test.spock.*
 
-@TestFor(aaf.base.identity.PermissionService)
-@Mock([Subject, Role, Permission])
-@Build([Subject, Role, Permission])
-class RoleServiceSpec extends spock.lang.Specification {
+import grails.testing.services.ServiceUnitTest
+
+class RoleServiceSpec extends Specification implements ServiceUnitTest<RoleService> {
 
   def "successfully creates unprotected role"() {
     setup:
@@ -90,7 +88,7 @@ class RoleServiceSpec extends spock.lang.Specification {
     def rs = new RoleService()
     
     def role = rs.createRole('role', 'role description', false)
-    def subject = Subject.build()
+    def subject = new Subject()
     role.addToSubjects(subject).save()
     subject.addToRoles(role).save()
 
@@ -119,8 +117,8 @@ class RoleServiceSpec extends spock.lang.Specification {
     def rs = new RoleService()
     
     def role = rs.createRole('role', 'role description', false)
-    def subject = Subject.build(principal: "principal1")
-    def subject2 = Subject.build(principal: "principal2")
+    def subject = new Subject(principal: "principal1")
+    def subject2 = new Subject(principal: "principal2")
 
     role.addToSubjects(subject).save()
     role.addToSubjects(subject2).save()
@@ -183,7 +181,7 @@ class RoleServiceSpec extends spock.lang.Specification {
     setup:
     def rs = new RoleService()
     def role = rs.createRole('role', 'role description', false)
-    def subject = Subject.build()
+    def subject = new Subject()
     role.metaClass.save = { null }
 
     expect:
@@ -204,7 +202,7 @@ class RoleServiceSpec extends spock.lang.Specification {
     setup:
     def rs = new RoleService()
     def role = rs.createRole('role', 'role description', false)
-    def subject = Subject.build()
+    def subject = new Subject()
     subject.metaClass.save = { null }
 
     expect:
@@ -225,7 +223,7 @@ class RoleServiceSpec extends spock.lang.Specification {
     setup:
     def rs = new RoleService()
     def role = rs.createRole('role', 'role description', false)
-    def subject = Subject.build()
+    def subject = new Subject()
 
     expect:
     Role.count() == 1
@@ -247,7 +245,7 @@ class RoleServiceSpec extends spock.lang.Specification {
     setup:
     def rs = new RoleService()
     def role = rs.createRole('role', 'role description', false)
-    def subject = Subject.build()
+    def subject = new Subject()
     rs.addMember(subject, role)
     role.metaClass.save = { null }
 
@@ -271,7 +269,7 @@ class RoleServiceSpec extends spock.lang.Specification {
     setup:
     def rs = new RoleService()
     def role = rs.createRole('role', 'role description', false)
-    def subject = Subject.build()
+    def subject = new Subject()
     rs.addMember(subject, role)
     subject.metaClass.save = { null }
 
@@ -295,7 +293,7 @@ class RoleServiceSpec extends spock.lang.Specification {
     setup:
     def rs = new RoleService()
     def role = rs.createRole('role', 'role description', false)
-    def subject = Subject.build()
+    def subject = new Subject()
     rs.addMember(subject, role)
 
     expect:
