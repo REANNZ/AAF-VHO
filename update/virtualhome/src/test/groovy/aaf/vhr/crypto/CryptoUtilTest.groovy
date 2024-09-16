@@ -7,7 +7,7 @@ import org.junit.Assert;
 
 import spock.lang.Specification;
 
-public class CryptoUtilTest extends Specification {
+public class CryptoUtilSpec extends Specification {
 
   public void testRandomAlphanumeric() {
     List<String> outputs = new ArrayList<String>();
