@@ -26,7 +26,7 @@ public class BCryptSpec extends Specification {
 	def test_vectors = [
 			[ "", "\$2a\$06\$DCq7YPn5Rq63x1Lad4cll.", "\$2a\$06\$DCq7YPn5Rq63x1Lad4cll.TV4S6ytwfsfvkgY8jIucDrjc8deX1s." ],
 			[ "", "\$2a\$08\$HqWuK6/Ng6sg9gQzbLrgb.", "\$2a\$08\$HqWuK6/Ng6sg9gQzbLrgb.Tl.ZHfXLhvt/SgVyWhQqgqcZ7ZuUtye" ],
-			[ "". "\$2a\$10\$k1wbIrmNyFAPwPVPSVa/ze", "\$2a\$10\$k1wbIrmNyFAPwPVPSVa/zecw2BCEnBwVS2GbrmgzxFUOqW9dk4TCW" ],
+			[ "", "\$2a\$10\$k1wbIrmNyFAPwPVPSVa/ze", "\$2a\$10\$k1wbIrmNyFAPwPVPSVa/zecw2BCEnBwVS2GbrmgzxFUOqW9dk4TCW" ],
 			[ "", "\$2a\$12\$k42ZFHFWqBp3vWli.nIn8u", "\$2a\$12\$k42ZFHFWqBp3vWli.nIn8uYyIkbvYRvodzbfbK18SSsY.CsIQPlxO" ],
 			[ "a", "\$2a\$06\$m0CrhHm10qJ3lXRY.5zDGO", "\$2a\$06\$m0CrhHm10qJ3lXRY.5zDGO3rS2KdeeWLuGmsfGlMfOxih58VYVfxe" ],
 			[ "a",  "\$2a\$08\$cfcvVd2aQ8CMvoMpP2EBfe", "\$2a\$08\$cfcvVd2aQ8CMvoMpP2EBfeodLEkkFJ9umNEfPD18.hUF62qqlC/V." ],

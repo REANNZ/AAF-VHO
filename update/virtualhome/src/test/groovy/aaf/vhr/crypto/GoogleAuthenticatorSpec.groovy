@@ -8,25 +8,23 @@ import spock.lang.Specification;
 public class GoogleAuthenticatorSpec extends Specification {
 
   def 'testGenerateSecret'() {
-    String secret = GoogleAuthenticator.generateSecretKey();
-    String totpURL = GoogleAuthenticator.getTotpURL('testuser', 'vhr.test.edu.au', secret, null)
+    when:
+    def secret = GoogleAuthenticator.generateSecretKey();
+    def totpURL = GoogleAuthenticator.getTotpURL('testuser', 'vhr.test.edu.au', secret, null)
 
-    println secret
-    println totpURL
-
-    assert secret.length() == 16
-    assert totpURL == "otpauth://totp/testuser@vhr.test.edu.au?secret=" + secret
+    then:
+    secret.length() == 16
+    totpURL == "otpauth://totp/testuser@vhr.test.edu.au?secret=" + secret
   }
 
   def 'testGenerateSecretWithIssuer'() {
-    String secret = GoogleAuthenticator.generateSecretKey();
-    String totpURL = GoogleAuthenticator.getTotpURL('testuser', 'vhr.test.edu.au', secret, "Issuer%20Org")
+    when:
+    def secret = GoogleAuthenticator.generateSecretKey();
+    def totpURL = GoogleAuthenticator.getTotpURL('testuser', 'vhr.test.edu.au', secret, "Issuer%20Org")
 
-    println secret
-    println totpURL
-
-    assert secret.length() == 16
-    assert totpURL == "otpauth://totp/Issuer%20Org:testuser@vhr.test.edu.au?secret=" + secret + "&issuer=Issuer%20Org"
+    then:
+    secret.length() == 16
+    totpURL == "otpauth://totp/Issuer%20Org:testuser@vhr.test.edu.au?secret=" + secret + "&issuer=Issuer%20Org"
   }
 
   /*
