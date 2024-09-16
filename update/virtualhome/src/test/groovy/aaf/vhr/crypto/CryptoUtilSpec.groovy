@@ -9,7 +9,7 @@ import spock.lang.Specification;
 
 public class CryptoUtilSpec extends Specification {
 
-  public void testRandomAlphanumeric() {
+  def 'testRandomAlphanumeric'() {
     List<String> outputs = new ArrayList<String>();
     for (int i = 0; i < 100; i++) {
       String out = CryptoUtil.randomAlphanumeric(200);

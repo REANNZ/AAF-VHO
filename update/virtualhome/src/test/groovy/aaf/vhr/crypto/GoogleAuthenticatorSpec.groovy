@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 import spock.lang.Specification;
 
-public class GoogleAuthenticatorTest extends Specification {
+public class GoogleAuthenticatorSpec extends Specification {
 
-  public void testGenerateSecret() {
+  def 'testGenerateSecret'() {
     String secret = GoogleAuthenticator.generateSecretKey();
     String totpURL = GoogleAuthenticator.getTotpURL('testuser', 'vhr.test.edu.au', secret, null)
 
@@ -18,7 +18,7 @@ public class GoogleAuthenticatorTest extends Specification {
     assert totpURL == "otpauth://totp/testuser@vhr.test.edu.au?secret=" + secret
   }
 
-  public void testGenerateSecretWithIssuer() {
+  def 'testGenerateSecretWithIssuer'() {
     String secret = GoogleAuthenticator.generateSecretKey();
     String totpURL = GoogleAuthenticator.getTotpURL('testuser', 'vhr.test.edu.au', secret, "Issuer%20Org")
 
