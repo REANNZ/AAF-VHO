@@ -2,7 +2,7 @@ package aaf.base.admin
 
 import spock.lang.*
 import aaf.base.EmailManagerService
-import grails.plugin.mail.MailService
+import grails.plugins.mail.MailService
 
 class FakeSMSDeliveryControllerSpec extends Specification {
   def 'pretend to deliver an sms'() {

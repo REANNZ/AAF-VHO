@@ -9,17 +9,11 @@ import spock.lang.*
 import grails.testing.services.ServiceUnitTest
 
 class SMSDeliveryServiceSpec extends Specification implements ServiceUnitTest<SMSDeliveryService> {
-  @Shared def service
 
   def setup() {
-    service = new SMSDeliveryService()
-
-    service.grailsApplication = [
-      config: [aaf: [base: [sms: [
-        api_key: 'api_key',
-        api_secret: 'api_secret'
-      ]]]]
-    ]
+    // Mocking configuration
+    grailsApplication.config.aaf.base.sms.api_key = 'api_key'
+    grailsApplication.config.aaf.base.sms.api_secret = 'api_secret'
   }
 
   def 'send the http request'() {
