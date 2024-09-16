@@ -65,7 +65,7 @@ public class BCryptSpec extends Specification {
 			def expected = test_vector[2]
 			def hashed = BCrypt.hashpw(plain, salt)
 
-			expect:
+			then:
 			hashed == expected
 		}
 	}
@@ -82,7 +82,7 @@ public class BCryptSpec extends Specification {
 				def hashed1 = BCrypt.hashpw(plain, salt)
 				def hashed2 = BCrypt.hashpw(plain, hashed1)
 
-				expect:
+				then:
 				hashed1 == hashed2
 			}
 		}
@@ -99,7 +99,7 @@ public class BCryptSpec extends Specification {
 			def hashed1 = BCrypt.hashpw(plain, salt)
 			def hashed2 = BCrypt.hashpw(plain, hashed1)
 
-			expect:
+			then:
 			hashed1 == hashed2
 		}
 	}
@@ -114,7 +114,7 @@ public class BCryptSpec extends Specification {
 			def plain = test_vector[0]
 			def expected = test_vector[2]
 
-			expect:
+			then:
 			BCrypt.checkpw(plain, expected)
 		}
 	}
@@ -130,7 +130,7 @@ public class BCryptSpec extends Specification {
 			def broken_index = (i + 4) % test_vectors.length
 			def expected = test_vectors[broken_index][2]
 
-			expect:
+			then:
 			!BCrypt.checkpw(plain, expected)
 		}
 	}
@@ -145,7 +145,7 @@ public class BCryptSpec extends Specification {
 		def h1 = BCrypt.hashpw(pw1, BCrypt.gensalt());
 		def h2 = BCrypt.hashpw(pw2, BCrypt.gensalt());
 
-		expect:
+		then:
 		!BCrypt.checkpw(pw2, h1)
 		!BCrypt.checkpw(pw1, h2)
 	}
