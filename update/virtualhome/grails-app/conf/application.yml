@@ -106,11 +106,37 @@ environments:
         dataSource:
             dbCreate: create-drop
             url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+        grails:
+            resources:
+                debug: true
+            gsp:
+                enable:
+                    reload: true
+            logging:
+                jul:
+                    usebridge: true
+        greenmail:
+            disabled: false
+        mail:
+            port: 'com.icegreen.greenmail.util.ServerSetupTest.SMTP.port'
     test:
         dataSource:
             dbCreate: update
             url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
     production:
+        testDataConfig:
+            enabled: true
+        grails:
+            resources:
+                debug: false
+            gsp:
+                enable:
+                    reload: false
+            loging:
+                jul:
+                    usebridge: false
+            mail:
+                host: 'localhost'
         dataSource:
             dbCreate: update
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -204,3 +230,11 @@ aaf:
             idp_entityid: 'https://vhr.test.example.edu.au/idp/shibboleth' # VHR Entity ID
         twosteplogin:
             issuer: "Tuakiri Virtual Home"
+
+recaptcha:
+    publicKey: ""
+    privateKey: ""
+    includeNoScript: true
+    forceLanguageInURL: false
+    enabled: true
+    useSecureAPI: true

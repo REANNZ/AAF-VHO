@@ -59,7 +59,7 @@ dependencies {
 
     // Dependencies copied from the old applicationbase plugin
     compile "org.grails.plugins:shiro:1.2.1"
-    compile 'org.grails.plugins:mail:1.0.7'
+    compile 'org.grails.plugins:mail:3.0.0'
     compile 'com.icegreen:greenmail:1.4.0'
 
     runtime 'org.springframework:spring-test:4.3.18.RELEASE'
