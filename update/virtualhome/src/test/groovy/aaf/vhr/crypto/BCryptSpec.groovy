@@ -22,7 +22,7 @@ import spock.lang.Specification;
  * @version 0.2
  */
 
-public class BCryptSpec extends Specification {
+class BCryptSpec extends Specification {
 	def test_vectors = [
 			[ "", "\$2a\$06\$DCq7YPn5Rq63x1Lad4cll.", "\$2a\$06\$DCq7YPn5Rq63x1Lad4cll.TV4S6ytwfsfvkgY8jIucDrjc8deX1s." ],
 			[ "", "\$2a\$08\$HqWuK6/Ng6sg9gQzbLrgb.", "\$2a\$08\$HqWuK6/Ng6sg9gQzbLrgb.Tl.ZHfXLhvt/SgVyWhQqgqcZ7ZuUtye" ],

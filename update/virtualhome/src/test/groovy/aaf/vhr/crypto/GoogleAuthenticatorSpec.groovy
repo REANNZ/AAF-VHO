@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import spock.lang.Specification;
 
-public class GoogleAuthenticatorSpec extends Specification {
+class GoogleAuthenticatorSpec extends Specification {
 
   def 'testGenerateSecret'() {
     when:
