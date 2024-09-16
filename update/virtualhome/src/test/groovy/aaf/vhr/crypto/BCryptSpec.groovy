@@ -14,7 +14,7 @@ package aaf.vhr.crypto;
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-import spock.lang.Specification;
+import spock.lang.*
 
 /**
  * JUnit unit tests for BCrypt routines
@@ -23,7 +23,8 @@ import spock.lang.Specification;
  */
 
 class BCryptSpec extends Specification {
-	def test_vectors = [
+	@Shared def test_vectors = [
+			// [0] is the plaintext information, [1] is the salt, and [2] is the salted hash
 			[ "", "\$2a\$06\$DCq7YPn5Rq63x1Lad4cll.", "\$2a\$06\$DCq7YPn5Rq63x1Lad4cll.TV4S6ytwfsfvkgY8jIucDrjc8deX1s." ],
 			[ "", "\$2a\$08\$HqWuK6/Ng6sg9gQzbLrgb.", "\$2a\$08\$HqWuK6/Ng6sg9gQzbLrgb.Tl.ZHfXLhvt/SgVyWhQqgqcZ7ZuUtye" ],
 			[ "", "\$2a\$10\$k1wbIrmNyFAPwPVPSVa/ze", "\$2a\$10\$k1wbIrmNyFAPwPVPSVa/zecw2BCEnBwVS2GbrmgzxFUOqW9dk4TCW" ],
@@ -57,82 +58,134 @@ class BCryptSpec extends Specification {
 	/**
 	 * Test method for 'BCrypt.hashpw(String, String)'
 	 */
+	 @Unroll
 	def 'testHashpw'() {
-		for (test_vector in test_vectors) {
-			when:
-			def plain = test_vector[0]
-			def salt = test_vector[1]
-			def expected = test_vector[2]
-			def hashed = BCrypt.hashpw(plain, salt)
+		when:
+		def plain = test_vectors[i][0]
+		def salt = test_vectors[i][1]
+		def expected = test_vectors[i][2]
+		def hashed = BCrypt.hashpw(plain, salt)
 
-			then:
-			hashed == expected
-		}
+		then:
+		hashed == expected
+
+		where:
+		i << (0..test_vectors.size() - 1)
 	}
 
 	/**
 	 * Test method for 'BCrypt.gensalt(int)'
 	 */
 	def 'testGensaltInt'() {
-		for (def i = 4;  i <= 12 ; i++ ) {
-			for (def j = 0; j < test_vectors.length ; j+= 4) {
-				when:
-				def plain = test_vectors[j][0]
-				def salt = BCrypt.gensalt(i)
-				def hashed1 = BCrypt.hashpw(plain, salt)
-				def hashed2 = BCrypt.hashpw(plain, hashed1)
+        when:
+		def plain = test_vectors[j][0]
+        def salt = BCrypt.gensalt(i)
+        def hashed1 = BCrypt.hashpw(plain, salt)
+        def hashed2 = BCrypt.hashpw(plain, hashed1)
 
-				then:
-				hashed1 == hashed2
-			}
-		}
+		then:
+        hashed1 == hashed2
+
+        where:
+		i  | j  || _
+		4  | 0  || _
+		4  | 4  || _
+		4  | 8  || _
+		4  | 12 || _
+		4  | 16 || _
+		5  | 0  || _
+		5  | 4  || _
+		5  | 8  || _
+		5  | 12 || _
+		5  | 16 || _
+		6  | 0  || _
+		6  | 4  || _
+		6  | 8  || _
+		6  | 12 || _
+		6  | 16 || _
+		7  | 0  || _
+		7  | 4  || _
+		7  | 8  || _
+		7  | 12 || _
+		7  | 16 || _
+		8  | 0  || _
+		8  | 4  || _
+		8  | 8  || _
+		8  | 12 || _
+		8  | 16 || _
+		9  | 0  || _
+		9  | 4  || _
+		9  | 8  || _
+		9  | 12 || _
+		9  | 16 || _
+		10 | 0  || _
+		10 | 4  || _
+		10 | 8  || _
+		10 | 12 || _
+		10 | 16 || _
+		11 | 0  || _
+		11 | 4  || _
+		11 | 8  || _
+		11 | 12 || _
+		11 | 16 || _
+		12 | 0  || _
+		12 | 4  || _
+		12 | 8  || _
+		12 | 12 || _
+		12 | 16 || _
 	}
 
 	/**
 	 * Test method for 'BCrypt.gensalt()'
 	 */
+	 @Unroll
 	def 'testGensalt'() {
-		for (def i = 0; i < test_vectors.length ; i += 4) {
-			when:
-			def plain = test_vectors[i][0]
-			def salt = BCrypt.gensalt();
-			def hashed1 = BCrypt.hashpw(plain, salt)
-			def hashed2 = BCrypt.hashpw(plain, hashed1)
+		when:
+		def plain = test_vectors[i][0]
+		def salt = BCrypt.gensalt()
+		def hashed1 = BCrypt.hashpw(plain, salt)
+		def hashed2 = BCrypt.hashpw(plain, hashed1)
 
-			then:
-			hashed1 == hashed2
-		}
+		then:
+		hashed1 == hashed2
+
+		where:
+		i << (0..test_vectors.size() - 1).step(4)
 	}
 
 	/**
 	 * Test method for 'BCrypt.checkpw(String, String)'
 	 * expecting success
 	 */
+	 @Unroll
 	def 'testCheckpw_success'() {
-		for (test_vector in test_vectors) {
-			when:
-			def plain = test_vector[0]
-			def expected = test_vector[2]
+		when:
+		def plain = test_vectors[i][0]
+		def expected = test_vectors[i][2]
 
-			then:
-			BCrypt.checkpw(plain, expected)
-		}
+		then:
+		BCrypt.checkpw(plain, expected)
+
+		where:
+		i << (0..test_vectors.size() - 1)
 	}
 
 	/**
 	 * Test method for 'BCrypt.checkpw(String, String)'
 	 * expecting failure
 	 */
+	 @Unroll
 	def 'testCheckpw_failure'() {
-		for (test_vector in test_vectors) {
-			when:
-			def plain = test_vector[0]
-			def broken_index = (i + 4) % test_vectors.length
-			def expected = test_vectors[broken_index][2]
+		when:
+		def plain = test_vectors[i][0]
+		def broken_index = (i + 4) % test_vectors.size()
+		def expected = test_vectors[broken_index][2]
 
-			then:
-			!BCrypt.checkpw(plain, expected)
-		}
+		then:
+		!BCrypt.checkpw(plain, expected)
+
+		where:
+		i << (0..test_vectors.size() - 1)
 	}
 
 	/**

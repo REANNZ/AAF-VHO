@@ -9,15 +9,16 @@ import spock.lang.Specification;
 class CryptoUtilSpec extends Specification {
 
   def 'test random alphanumeric'() {
+    when:
     def outputs = new ArrayList<String>()
-    for (def i = 0 ; i < 100 ; i++) {
-      when:
-      def out = CryptoUtil.randomAlphanumeric(200)
-      outputs.add(out)
+    def out = CryptoUtil.randomAlphanumeric(200)
+    outputs.add(out)
 
-      then:
-      200 == out.length()
-      1 == Collections.frequency(outputs, out)
-    }
+    then:
+    200 == out.length()
+    1 == Collections.frequency(outputs, out)
+
+    where:
+    i << (0..100)
   }
 }
