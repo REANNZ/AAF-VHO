@@ -25,11 +25,14 @@ class GroupSpec extends Specification implements DomainUnitTest<Group>  {
 
   def 'name is required to be valid'() {
     setup:
-    def g = new Group()
+    def o = new Organization()
+    def g = new Group(organization: o)
     //mockForConstraintsTests(Group, [g])
 
     when:
     g.name = val
+    // validate() will fail if we don't have a description, so let's provide one
+    g.description = 'dummy-description'
     def result = g.validate()
 
     then:
@@ -46,11 +49,14 @@ class GroupSpec extends Specification implements DomainUnitTest<Group>  {
 
   def 'description is required to be valid'() {
     setup:
-    def g = new Group()
+    def o = new Organization()
+    def g = new Group(organization: o)
     //mockForConstraintsTests(Group, [g])
 
     when:
     g.description = val
+    // validate() will fail if we don't have a name, so let's provide one
+    g.name = 'dummy-name'
     def result = g.validate()
 
     then:
@@ -67,7 +73,8 @@ class GroupSpec extends Specification implements DomainUnitTest<Group>  {
 
   def 'functioning when active and Organization functioning' () {
     setup:
-    def g = new Group()
+    def org = new Organization()
+    def g = new Group(organization: org)
 
     when:
     g.active = true
@@ -79,7 +86,8 @@ class GroupSpec extends Specification implements DomainUnitTest<Group>  {
 
   def 'not functioning when inactive and Organization functioning' () {
     setup:
-    def g = new Group()
+    def org = new Organization()
+    def g = new Group(organization: org)
 
     when:
     g.active = false
@@ -91,7 +99,9 @@ class GroupSpec extends Specification implements DomainUnitTest<Group>  {
 
   def 'not functioning when inactive and Organization not functioning' () {
     setup:
-    def g = new Group()
+
+    def org = new Organization()
+    def g = new Group(organization: org)
 
     when:
     g.active = false
@@ -103,7 +113,8 @@ class GroupSpec extends Specification implements DomainUnitTest<Group>  {
 
   def 'not functioning when active but Organization not functioning' () {
     setup:
-    def g = new Group()
+    def org = new Organization()
+    def g = new Group(organization: org)
 
     when:
     g.active = true
@@ -115,8 +126,8 @@ class GroupSpec extends Specification implements DomainUnitTest<Group>  {
 
   def 'not functioning when blocked' () {
     setup:
-    def g = new Group()
-    g.organization.active = true
+    def org = new Organization(active: true)
+    def g = new Group(organization: org)
 
     expect:
     g.functioning()
@@ -130,8 +141,8 @@ class GroupSpec extends Specification implements DomainUnitTest<Group>  {
 
   def 'not functioning when archived' () {
     setup:
-    def g = new Group()
-    g.organization.active = true
+    def org = new Organization(active: true)
+    def g = new Group(organization: org)
 
     expect:
     g.functioning()
@@ -146,8 +157,7 @@ class GroupSpec extends Specification implements DomainUnitTest<Group>  {
   def 'Ensure super administrator can always create Group'() {
     setup:
     def o = new Organization()
-    def g = new Group(organization:o)
-    g.blocked = true
+    def g = new Group(organization:o, blocked: true)
     shiroSubject.isPermitted("app:administrator") >> true
 
     when:
@@ -171,9 +181,8 @@ class GroupSpec extends Specification implements DomainUnitTest<Group>  {
 
   def 'Ensure administrator can create Group'() {
     setup:
-    def o = new Organization()
+    def o = new Organization(active: true)
     def g = new Group(organization:o)
-    g.organization.active = true
     shiroSubject.isPermitted("app:manage:organization:${g.organization.id}:group:create") >> true
 
     when:
@@ -185,8 +194,7 @@ class GroupSpec extends Specification implements DomainUnitTest<Group>  {
 
   def 'Ensure administrator cant create Group if owner is not functioning'() {
     setup:
-    def o = new Organization()
-    o.blocked = true
+    def o = new Organization(blocked: true)
     def g = new Group(organization:o)
     shiroSubject.isPermitted("app:manage:organization:${g.organization.id}:group:create") >> true
 
@@ -199,7 +207,8 @@ class GroupSpec extends Specification implements DomainUnitTest<Group>  {
 
   def 'Ensure non administrator cant modify Group'() {
     setup:
-    def g = new Group()
+    def o = new Organization()
+    def g = new Group(organization: o)
 
     when:
     def result = g.canMutate()
@@ -222,8 +231,8 @@ class GroupSpec extends Specification implements DomainUnitTest<Group>  {
 
   def 'Ensure administrator cant modify Group when blocked'() {
     setup:
-    def g = new Group(archived:false, blocked:true)
-    g.organization.active = true
+    def org = new Organization(active: true)
+    def g = new Group(archived:false, blocked:true, organization: org)
     shiroSubject.isPermitted("app:manage:organization:${g.organization.id}:group:${g.id}:edit") >> true
 
     when:
@@ -235,8 +244,8 @@ class GroupSpec extends Specification implements DomainUnitTest<Group>  {
 
   def 'Ensure administrator cant modify Group when archived'() {
     setup:
-    def g = new Group(archived:true, blocked:false)
-    g.organization.active = true
+    def org = new Organization(active: true)
+    def g = new Group(archived:true, blocked:false, organization: org)
     shiroSubject.isPermitted("app:manage:organization:${g.organization.id}:group:${g.id}:edit") >> true
 
     when:
@@ -248,9 +257,8 @@ class GroupSpec extends Specification implements DomainUnitTest<Group>  {
 
   def 'Ensure administrator cant modify Group when owner cant be modified'() {
     setup:
-    def g = new Group(archived:false, blocked:false)
-    g.organization.active = true
-    g.organization.blocked = true
+    def org = new Organization(active: true, blocked: true)
+    def g = new Group(archived:false, blocked:false, organization: org)
     shiroSubject.isPermitted("app:manage:organization:${g.organization.id}:group:${g.id}:edit") >> true
 
     when:
@@ -262,8 +270,8 @@ class GroupSpec extends Specification implements DomainUnitTest<Group>  {
 
   def 'Ensure administrator can modify Group when not blocked or archived'() {
     setup:
-    def g = new Group(archived:false, blocked:false)
-    g.organization.active = true
+    def org = new Organization(active: true)
+    def g = new Group(archived:false, blocked:false, organization: org)
     shiroSubject.isPermitted("app:manage:organization:${g.organization.id}:group:${g.id}:edit") >> true
 
     when:
@@ -275,8 +283,8 @@ class GroupSpec extends Specification implements DomainUnitTest<Group>  {
 
   def 'Ensure super administrator can always delete Group'() {
     setup:
-    def g = new Group()
-    g.organization.blocked = true
+    def org = new Organization(blocked: true)
+    def g = new Group(organization: org)
     shiroSubject.isPermitted("app:administrator") >> true
 
     when:
