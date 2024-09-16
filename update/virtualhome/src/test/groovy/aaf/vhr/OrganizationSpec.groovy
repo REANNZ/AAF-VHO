@@ -7,9 +7,7 @@ import grails.test.spock.*
 import test.shared.ShiroEnvironment
 
 import grails.testing.gorm.DomainUnitTest
-import spock.lang.Stepwise
 
-@Stepwise
 class OrganizationSpec extends Specification implements DomainUnitTest<Organization> {
 
   @Shared def shiroEnvironment = new ShiroEnvironment()

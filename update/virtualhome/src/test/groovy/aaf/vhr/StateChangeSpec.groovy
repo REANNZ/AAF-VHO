@@ -6,9 +6,7 @@ import grails.test.spock.*
 
 import aaf.vhr.ManagedSubject
 import grails.testing.gorm.DomainUnitTest
-import spock.lang.Stepwise
 
-@Stepwise
 class StateChangeSpec extends Specification implements DomainUnitTest<StateChange> {
 
   def 'ensure creation of basic state active change'() {

@@ -6,9 +6,7 @@ import grails.test.spock.*
 
 import aaf.vhr.ManagedSubject
 import grails.testing.gorm.DomainUnitTest
-import spock.lang.Stepwise
 
-@Stepwise
 class ChallengeResponseSpec extends Specification implements DomainUnitTest<ChallengeResponse> {
 
   def 'ensure challenge must not be null or blank and be at least 6 characters long'() {

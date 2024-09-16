@@ -11,7 +11,6 @@ import test.shared.ShiroEnvironment
 import groovy.time.TimeCategory
 
 import grails.testing.gorm.DomainUnitTest
-import spock.lang.Stepwise
 
 class ManagedSubjectSpec extends Specification implements DomainUnitTest<ManagedSubject>  {
 

@@ -14,8 +14,8 @@ class GroupControllerSpec  extends Specification implements ControllerUnitTest<G
 
   @Shared def shiroEnvironment = new ShiroEnvironment()
 
-  aaf.base.identity.Subject subject
-  org.apache.shiro.subject.Subject shiroSubject
+  @Shared aaf.base.identity.Subject subject
+  @Shared org.apache.shiro.subject.Subject shiroSubject
 
   def cleanupSpec() {
     shiroEnvironment.tearDownShiro()

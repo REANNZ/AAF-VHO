@@ -7,9 +7,7 @@ import grails.test.spock.*
 import aaf.vhr.ManagedSubject
 
 import grails.testing.gorm.DomainUnitTest
-import spock.lang.Stepwise
 
-@Stepwise
 class EmailResetSpec extends Specification implements DomainUnitTest<EmailReset>{
 
   def 'ensure code must not be null or blank and 24 characters long'() {

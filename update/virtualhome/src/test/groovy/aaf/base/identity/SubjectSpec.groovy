@@ -6,9 +6,7 @@ import grails.test.spock.*
 
 
 import grails.testing.gorm.DomainUnitTest
-import spock.lang.Stepwise
 
-@Stepwise
 class SubjectSpec extends Specification implements DomainUnitTest<Subject> {
   
   def 'Ensure subject wont validate with null principal'() {    

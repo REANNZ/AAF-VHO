@@ -4,9 +4,7 @@ import grails.test.mixin.*
 import spock.lang.*
 import grails.test.spock.*
 import grails.testing.gorm.DomainUnitTest
-import spock.lang.Stepwise
 
-@Stepwise
 class ManagedSubjectInvitationSpec extends Specification implements DomainUnitTest<ManagedSubjectInvitation>{
 
   def "ensure new invitation is populated with code and has not been used"() {

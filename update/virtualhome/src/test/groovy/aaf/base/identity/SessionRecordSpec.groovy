@@ -5,9 +5,7 @@ import spock.lang.*
 import grails.test.spock.*
 
 import grails.testing.gorm.DomainUnitTest
-import spock.lang.Stepwise
 
-@Stepwise
 class SessionRecordSpec extends Specification implements DomainUnitTest<SessionRecord> {
   
   def 'Ensure SessionRecord wont validate with null credential'() {

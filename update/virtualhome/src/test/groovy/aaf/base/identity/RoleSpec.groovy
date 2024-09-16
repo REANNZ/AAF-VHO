@@ -5,9 +5,7 @@ import spock.lang.*
 import grails.test.spock.*
 
 import grails.testing.gorm.DomainUnitTest
-import spock.lang.Stepwise
 
-@Stepwise
 class RoleSpec extends Specification implements DomainUnitTest<Role> {
   
   def 'Ensure Role wont validate with null name'() {

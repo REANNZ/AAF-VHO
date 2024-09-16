@@ -10,7 +10,6 @@ import test.shared.ShiroEnvironment
 
 import grails.testing.gorm.DomainUnitTest
 
-@Stepwise
 class TwoStepSessionSpec extends Specification implements DomainUnitTest<TwoStepSession> {
 
   def 'populate setups up initial session state'() {

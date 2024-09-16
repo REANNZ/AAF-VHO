@@ -5,9 +5,7 @@ import spock.lang.*
 import grails.test.spock.*
 
 import grails.testing.gorm.DomainUnitTest
-import spock.lang.Stepwise
 
-@Stepwise
 class EmailTemplateSpec extends Specification implements DomainUnitTest<EmailTemplate> {
 
   def 'ensure name must not be null or blank'() {
