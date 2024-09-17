@@ -31,21 +31,6 @@ grails.project.dependency.resolution = {
     mavenRepo "https://download.java.net/maven/2/"
     mavenRepo "https://repository.jboss.org/maven2/"
   }
-
-  /*
-    Types of plugin:
-    build: Dependencies for the build system only
-    compile: Dependencies for the compile step
-    runtime: Dependencies needed at runtime but not for compilation (see above)
-    test: Dependencies needed for testing but not at runtime (see above)
-    provided: Dependencies needed at development time, but not during WAR deployment
-
-    PLUGINS LISTED HERE SHOULD BE OVER AND ABOVE THOSE PROVIDED BY AAF-BASE-APPLICATION PLUGIN
-  */
-  plugins {
-    compile ":csv:0.3.1"
-    compile ":recaptcha:1.2.0"
-  }
 }
 
 grails.project.dependency.resolver = "maven"

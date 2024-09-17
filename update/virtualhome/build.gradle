@@ -26,14 +26,32 @@ repositories {
 }
 
 dependencies {
+
+    // Dependencies copied from the old applicationbase plugin
+    compile "org.grails.plugins:shiro:1.2.1"
+    compile 'org.grails.plugins:mail:3.0.0'
+    compile 'com.icegreen:greenmail:1.4.0'
+
+    runtime 'org.springframework:spring-test:4.3.18.RELEASE'
+    runtime 'org.springframework:spring-orm:4.3.18.RELEASE'
+    runtime 'org.springframework:spring-tx:4.3.18.RELEASE'
+    runtime 'org.springframework:spring-aop:4.3.18.RELEASE'
+    runtime 'org.springframework:spring-expression:4.3.18.RELEASE'
+
+    // These used to plugins in the old app but now that distinction is not relevant.
+    compile "org.grails.plugins:jasypt-encryption:2.0.2"
+    compile "org.grails.plugins:csv:0.3.1"
+    compile "org.grails.plugins:recaptcha:1.2.0"
+
     // Dependencies added into new project
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"
     compile "org.springframework.boot:spring-boot-starter-actuator"
+    //compile 'org.springframework.boot:spring-boot-starter-web'
     // Switched from 'compile' to 'testCompile' because we're deploying to an existing Tomcat server.
     // Refer to https://docs.grails.org/6.2.0/guide/deployment.html for details.
-    testCompile "org.springframework.boot:spring-boot-starter-tomcat"
+    provided "org.springframework.boot:spring-boot-starter-tomcat"
     compile "org.grails:grails-web-boot"
     compile "org.grails:grails-logging"
     compile "org.grails:grails-plugin-rest"
@@ -57,17 +75,6 @@ dependencies {
     testCompile "org.grails:grails-gorm-testing-support"
     testCompile "org.grails:grails-web-testing-support"
 
-    // Dependencies copied from the old applicationbase plugin
-    compile "org.grails.plugins:shiro:1.2.1"
-    compile 'org.grails.plugins:mail:3.0.0'
-    compile 'com.icegreen:greenmail:1.4.0'
-
-    runtime 'org.springframework:spring-test:4.3.18.RELEASE'
-    runtime 'org.springframework:spring-orm:4.3.18.RELEASE'
-    runtime 'org.springframework:spring-tx:4.3.18.RELEASE'
-    runtime 'org.springframework:spring-aop:4.3.18.RELEASE'
-    runtime 'org.springframework:spring-expression:4.3.18.RELEASE'
-
     // Dependencies copied from the old virtualhome project
     compile "com.google.zxing:core:3.5.3"
     compile "com.google.zxing:javase:3.5.3"
@@ -83,9 +90,6 @@ dependencies {
     compile "commons-validator:commons-validator:1.9.0"
 
     testCompile 'mysql:mysql-connector-java:5.1.49'
-
-    // These used to plugins in the old app but now that distinction is not relevant.
-    compile "org.grails.plugins:jasypt-encryption:2.0.2"
 
     // Additional dependencies added by Jamie Getty
     compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
