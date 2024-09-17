@@ -1,13 +1,19 @@
 package aaf.base.workflow
 
 import grails.test.spock.*
-import grails.test.mixin.TestMixin
 import org.apache.shiro.subject.Subject
 
 import aaf.base.identity.Subject
 import aaf.base.identity.Role
 
-class WorkflowProcessServiceSpec extends IntegrationSpec {
+import spock.lang.*
+
+import grails.testing.mixin.integration.Integration
+import grails.gorm.transactions.*
+
+@Integration
+@Rollback
+class WorkflowProcessServiceSpec extends Specification {
   static transactional = true
   
   def subject

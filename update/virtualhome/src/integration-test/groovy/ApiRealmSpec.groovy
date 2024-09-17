@@ -9,7 +9,13 @@ import grails.util.GrailsWebUtil
 import org.springframework.mock.web.MockHttpServletRequest
 import java.text.SimpleDateFormat
 
-class ApiRealmSpec extends IntegrationSpec {
+
+import grails.testing.mixin.integration.Integration
+import grails.gorm.transactions.*
+
+@Integration
+@Rollback
+class ApiRealmSpec extends Specification {
 
   /*
    TODO: Due to time pressure to ship VHR into test i'll 

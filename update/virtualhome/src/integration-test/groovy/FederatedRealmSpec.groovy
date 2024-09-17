@@ -5,7 +5,13 @@ import grails.test.spock.*
 import org.apache.shiro.authc.*
 import aaf.base.identity.*
 
-class FederatedRealmSpec extends IntegrationSpec {
+
+import grails.testing.mixin.integration.Integration
+import grails.gorm.transactions.*
+
+@Integration
+@Rollback
+class FederatedRealmSpec extends Specification {
 
   def grailsApplication
   def roleService

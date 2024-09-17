@@ -4,7 +4,14 @@ import grails.test.spock.*
 
 import aaf.base.identity.Subject
 
-class TaskSpec extends IntegrationSpec {
+import spock.lang.*
+
+import grails.testing.mixin.integration.Integration
+import grails.gorm.transactions.*
+
+@Integration
+@Rollback
+class TaskSpec extends Specification {
   static transactional = true
   
   def "Ensure non finish task with no approver, approverRoles or execute fails"() {

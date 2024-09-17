@@ -10,7 +10,12 @@ import aaf.base.identity.Subject
 import aaf.base.identity.Role
 import aaf.base.identity.Permission
 
-class AccessControlRealmSpec extends IntegrationSpec {
+import grails.testing.mixin.integration.Integration
+import grails.gorm.transactions.*
+
+@Integration
+@Rollback
+class AccessControlRealmSpec extends Specification {
   
   def 'positive result when subject has the required role'() {
     setup:

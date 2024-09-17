@@ -7,7 +7,12 @@ import com.icegreen.greenmail.util.*
 
 import aaf.base.admin.EmailTemplate
 
-class EmailManagerServiceSpec extends IntegrationSpec {
+import grails.testing.mixin.integration.Integration
+import grails.gorm.transactions.*
+
+@Integration
+@Rollback
+class EmailManagerServiceSpec extends Specification {
 
   def emailManagerService
   def greenMail

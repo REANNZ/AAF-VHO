@@ -3,7 +3,14 @@ package aaf.base.workflow
 import grails.test.spock.*
 import aaf.base.identity.Subject
 
-class ProcessSpec extends IntegrationSpec {
+import spock.lang.*
+
+import grails.testing.mixin.integration.Integration
+import grails.gorm.transactions.*
+
+@Integration
+@Rollback
+class ProcessSpec extends Specification {
 	static transactional = true
 	
 	def "Ensure process with no tasks is invalid"() {
