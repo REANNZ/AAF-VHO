@@ -1,5 +1,7 @@
 ---
 grails:
+    application:
+        name: 'Virtual Home'
     profile: web
     codegen:
         defaultPackage: virtualhome
@@ -253,4 +255,11 @@ recaptcha:
 
 server:
     session:
-        timeout: 60m
+        timeout: 3600
+    servlet:
+        context:
+            # The order of the welcome pages is important.  JBoss deployment will break if index.gsp is first in the list.
+            welcome-pages:
+                - index.html
+                - index.jsp
+                - index.gsp
