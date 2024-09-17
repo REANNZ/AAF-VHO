@@ -28,6 +28,12 @@ endpoints:
 
 ---
 grails:
+    app:
+        context: '/'
+    serverURL: "https://vh.example.edu.au"
+    mail:
+        default:
+            from: "noreply@example.edu.au"
     mime:
         disable:
             accept:
@@ -115,10 +121,10 @@ environments:
             logging:
                 jul:
                     usebridge: true
+            mail:
+                port: 'com.icegreen.greenmail.util.ServerSetupTest.SMTP.port'
         greenmail:
             disabled: false
-        mail:
-            port: 'com.icegreen.greenmail.util.ServerSetupTest.SMTP.port'
     test:
         dataSource:
             dbCreate: update
@@ -137,6 +143,7 @@ environments:
                     usebridge: false
             mail:
                 host: 'localhost'
+        geenmail: true
         dataSource:
             dbCreate: update
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -182,6 +189,11 @@ aaf:
                 development:
                     active: false
                 sso_endpoint: "/Shibboleth.sso/Login"
+
+                require:
+                    sharedtoken: true
+                    cn: true
+                    email: true
 
                 # Supported as fallback for problematic webservers
                 # AAF webserver configuration shouldn't require this to be false.

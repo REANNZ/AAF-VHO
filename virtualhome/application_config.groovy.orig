@@ -11,9 +11,7 @@ import org.apache.log4j.DailyRollingFileAppender
 // COMMON CONFIGURATION
 
 
-grails.app.context='/'
-grails.serverURL = "https://vh.example.edu.au"
-grails.mail.default.from="noreply@example.edu.au"
+
 
 
 // Logging
