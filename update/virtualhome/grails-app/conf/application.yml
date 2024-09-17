@@ -250,3 +250,7 @@ recaptcha:
     forceLanguageInURL: false
     enabled: true
     useSecureAPI: true
+
+server:
+    session:
+        timeout: 60m
