@@ -1,184 +1,7 @@
----
-grails:
-    application:
-        name: 'Virtual Home'
-    profile: web
-    codegen:
-        defaultPackage: virtualhome
-    gorm:
-        reactor:
-            # Whether to translate GORM events into Reactor events
-            # Disabled by default for performance reasons
-            events: false
-info:
-    app:
-        name: '@info.app.name@'
-        version: '@info.app.version@'
-        grailsVersion: '@info.app.grailsVersion@'
-spring:
-    main:
-        banner-mode: "off"
-    groovy:
-        template:
-            check-template-location: false
-
-# Spring Actuator Endpoints are Disabled by Default
-endpoints:
-    enabled: false
-    jmx:
-        enabled: true
-
----
-grails:
-    app:
-        context: '/'
-    serverURL: "https://vh.example.edu.au"
-    mail:
-        default:
-            from: "noreply@example.edu.au"
-    mime:
-        disable:
-            accept:
-                header:
-                    userAgents:
-                        - Gecko
-                        - WebKit
-                        - Presto
-                        - Trident
-        types:
-            all: '*/*'
-            atom: application/atom+xml
-            css: text/css
-            csv: text/csv
-            form: application/x-www-form-urlencoded
-            html:
-              - text/html
-              - application/xhtml+xml
-            js: text/javascript
-            json:
-              - application/json
-              - text/json
-            multipartForm: multipart/form-data
-            pdf: application/pdf
-            rss: application/rss+xml
-            text: text/plain
-            hal:
-              - application/hal+json
-              - application/hal+xml
-            xml:
-              - text/xml
-              - application/xml
-    urlmapping:
-        cache:
-            maxsize: 1000
-    controllers:
-        defaultScope: singleton
-    converters:
-        encoding: UTF-8
-    views:
-        default:
-            codec: html
-        gsp:
-            encoding: UTF-8
-            htmlcodec: xml
-            codecs:
-                expression: html
-                scriptlets: html
-                taglib: none
-                staticparts: none
-endpoints:
-    jmx:
-        unique-names: true
-
----
-hibernate:
-    cache:
-        queries: false
-        use_second_level_cache: false
-        use_query_cache: false
-dataSource:
-    pooled: true
-    jmxExport: true
-    driverClassName: org.h2.Driver
-    username: sa
-    password: ''
-
-jasypt:
-    alrogithm: "PBEWITHSHA256AND256BITAES-CBC-BC"
-    providerName: "BC"
-    password: "<your very secret passphrase>"
-    keyObtentionIterations: 1000
-
-environments:
-    development:
-        dataSource:
-            dbCreate: create-drop
-            url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
-        grails:
-            resources:
-                debug: true
-            gsp:
-                enable:
-                    reload: true
-            logging:
-                jul:
-                    usebridge: true
-            mail:
-                port: 'com.icegreen.greenmail.util.ServerSetupTest.SMTP.port'
-        greenmail:
-            disabled: false
-    test:
-        dataSource:
-            dbCreate: update
-            url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
-    production:
-        testDataConfig:
-            enabled: true
-        grails:
-            resources:
-                debug: false
-            gsp:
-                enable:
-                    reload: false
-            loging:
-                jul:
-                    usebridge: false
-            mail:
-                host: 'localhost'
-        geenmail: true
-        dataSource:
-            dbCreate: update
-            dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-            jndiName: java:comp/env/jdbc/VHR
-            url: jdbc:h2:./prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
-            properties:
-                jmxEnabled: true
-                initialSize: 5
-                maxActive: 50
-                minIdle: 5
-                maxIdle: 25
-                maxWait: 10000
-                maxAge: 600000
-                timeBetweenEvictionRunsMillis: 5000
-                minEvictableIdleTimeMillis: 60000
-                validationQuery: SELECT 1
-                validationQueryTimeout: 3
-                validationInterval: 15000
-                testOnBorrow: true
-                testWhileIdle: true
-                testOnReturn: false
-                jdbcInterceptors: ConnectionState
-                defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
-
 aaf:
     base:
         # Bootstrap - Allows unauthenticated access to administrative console
         bootstrap: false
-
-        # Session Expiry Warning - minutes
-        session_warning: 50
-        session_decision_time: 5
-
         # Deployed AAF environment [development | test | production]
         deployment_environment: "development"
         realms:
@@ -213,6 +36,9 @@ aaf:
                     cn: "cn"
                     email: "mail"
                     sharedToken: "auEduPersonSharedToken"
+        # Session Expiry Warning - minutes
+        session_warning: 50
+        session_decision_time: 5
         sms:
             api_endpoint: 'https://rest.nexmo.com'
             api_key: ''
@@ -245,13 +71,189 @@ aaf:
         twosteplogin:
             issuer: "Tuakiri Virtual Home"
 
+dataSource:
+    pooled: true
+    jmxExport: true
+    driverClassName: org.h2.Driver
+    username: sa
+    password: ''
+
+# Spring Actuator Endpoints are Disabled by Default
+endpoints:
+    enabled: false
+    jmx:
+        enabled: true
+        unique-names: true
+
+environments:
+    development:
+        dataSource:
+            dbCreate: create-drop
+            url: jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+        grails:
+            gsp:
+                enable:
+                    reload: true
+            logging:
+                jul:
+                    usebridge: true
+            resources:
+                debug: true
+        greenmail:
+            disabled: false
+    production:
+        dataSource:
+            dbCreate: 'update'
+            dialect: 'org.hibernate.dialect.MySQL5InnoDBDialect'
+            jndiName: 'java:comp/env/jdbc/VHR'
+            url: jdbc:h2:./prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+            properties:
+                jmxEnabled: true
+                initialSize: 5
+                maxActive: 50
+                minIdle: 5
+                maxIdle: 25
+                maxWait: 10000
+                maxAge: 600000
+                timeBetweenEvictionRunsMillis: 5000
+                minEvictableIdleTimeMillis: 60000
+                validationQuery: SELECT 1
+                validationQueryTimeout: 3
+                validationInterval: 15000
+                testOnBorrow: true
+                testWhileIdle: true
+                testOnReturn: false
+                jdbcInterceptors: ConnectionState
+                defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+        greenmail:
+            disabled: true
+        grails:
+            resources:
+                debug: false
+            gsp:
+                enable:
+                    reload: false
+            logging:
+                jul:
+                    usebridge: false
+        testDataConfig:
+            enabled: false
+    test:
+        dataSource:
+            dbCreate: update
+            url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
+        greenmail:
+            disabled: true
+
+grails:
+    app:
+        context: '/'
+    application:
+        name: 'Virtual Home'
+    codegen:
+        defaultPackage: virtualhome
+    controllers:
+        defaultScope: singleton
+    converters:
+        encoding: UTF-8
+    gorm:
+        reactor:
+            # Whether to translate GORM events into Reactor events
+            # Disabled by default for performance reasons
+            events: false
+    mail:
+        host: 'localhost'
+        port: 'com.icegreen.greenmail.util.ServerSetupTest.SMTP.port'
+        default:
+            from: "noreply@example.edu.au"
+    mime:
+        disable:
+            accept:
+                header:
+                    userAgents:
+                        - Gecko
+                        - WebKit
+                        - Presto
+                        - Trident
+        file:
+            extensions: true
+        types:
+            all: '*/*'
+            atom: application/atom+xml
+            css: text/css
+            csv: text/csv
+            form: application/x-www-form-urlencoded
+            html:
+              - text/html
+              - application/xhtml+xml
+            js: text/javascript
+            json:
+              - application/json
+              - text/json
+            multipartForm: multipart/form-data
+            pdf: application/pdf
+            rss: application/rss+xml
+            text: text/plain
+            hal:
+              - application/hal+json
+              - application/hal+xml
+            xml:
+              - text/xml
+              - application/xml
+        use:
+            accept:
+                header: true
+    profile: web
+    #serverURL: "https://vh.example.edu.au"
+    urlmapping:
+        cache:
+            maxsize: 1000
+    views:
+        default:
+            codec: html
+        gsp:
+            encoding: UTF-8
+            htmlcodec: xml
+            codecs:
+                expression: html
+                scriptlets: html
+                taglib: none
+                staticparts: none
+            sitemesh:
+                preprocess: true
+
+
+hibernate:
+    cache:
+        queries: false
+        use_second_level_cache: false
+        use_query_cache: false
+
+info:
+    app:
+        name: '@info.app.name@'
+        version: '@info.app.version@'
+        grailsVersion: '@info.app.grailsVersion@'
+
+jasypt:
+    algorithm: 'PBEWITHSHA256AND256BITAES-CBC-BC'
+    providerName: 'BC'
+    password: '<your very secret passphrase>'
+    keyObtentionIterations: 1000
+
+logging:
+    level:
+        root: INFO
+
+
 recaptcha:
     publicKey: ""
     privateKey: ""
     includeNoScript: true
     forceLanguageInURL: false
-    enabled: true
+    enable: true
     useSecureAPI: true
+
 
 server:
     session:
@@ -263,3 +265,10 @@ server:
                 - index.html
                 - index.jsp
                 - index.gsp
+
+spring:
+    main:
+        banner-mode: "off"
+    groovy:
+        template:
+            check-template-location: false
