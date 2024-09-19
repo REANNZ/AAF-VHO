@@ -2,8 +2,6 @@ aaf:
     base:
         # Bootstrap - Allows unauthenticated access to administrative console
         bootstrap: false
-        # Deployed AAF environment [development | test | production]
-        deployment_environment: "development"
         realms:
             api:
                 active: true
@@ -40,16 +38,16 @@ aaf:
         session_warning: 50
         session_decision_time: 5
         sms:
-            api_endpoint: 'https://rest.nexmo.com'
-            api_key: ''
-            api_secret: ''
+            api_endpoint: 'https://multitxt.vodafone.co.nz'
+            api_key: 'reannz'
+            api_secret: 'vlglh4rc'
             fake: false # Deliver via aaf.base.FakeSMSDeliveryController to GreenMail
     vhr:
         crypto:
             log_rounds: 6
             sha_rounds: 1024
         federationregistry:
-            server: "https://manager.test.example.edu.au"
+            server: "https://registry.dev.tuakiri.ac.nz"
             api:
                 organisations: "/federationregistry/api/v1/organizations/"
         login:
@@ -60,6 +58,7 @@ aaf:
             consent_revocation_enabled: true
             consent_recovation_param_name: "_shib_idp_revokeConsent"
         passwordreset:
+            second_factor_required: true
             reset_code_length: 6
             reset_sms_text: "Your VHR 'SMS Code' to reset your lost password is: {0}"
             reset_attempt_limit: 5
@@ -67,11 +66,12 @@ aaf:
             base_scope: "vho.example.org"
         sharedtoken:
             sha_rounds: 1024
-            idp_entityid: 'https://vhr.test.example.edu.au/idp/shibboleth' # VHR Entity ID
+            idp_entityid: 'https://jgetty-test.reannz.co.nz/idp/shibboleth' # VHR Entity ID
         twosteplogin:
-            issuer: "Tuakiri Virtual Home"
+            issuer: "Tuakiri-DEV Virtual Home"
 
 dataSource:
+    jndiName: 'java:comp/env/jdbc/VHR'
     pooled: true
     jmxExport: true
     driverClassName: org.h2.Driver
@@ -105,7 +105,6 @@ environments:
         dataSource:
             dbCreate: 'update'
             dialect: 'org.hibernate.dialect.MySQL5InnoDBDialect'
-            jndiName: 'java:comp/env/jdbc/VHR'
             url: jdbc:h2:./prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
             properties:
                 jmxEnabled: true
@@ -165,7 +164,7 @@ grails:
         host: 'localhost'
         port: 'com.icegreen.greenmail.util.ServerSetupTest.SMTP.port'
         default:
-            from: "noreply@example.edu.au"
+            from: "tuakiri_dev_notifications@reannz.co.nz"
     mime:
         disable:
             accept:
@@ -204,7 +203,7 @@ grails:
             accept:
                 header: true
     profile: web
-    #serverURL: "https://vh.example.edu.au"
+    serverURL: "https://jgetty-test.reannz.co.nz"
     urlmapping:
         cache:
             maxsize: 1000
