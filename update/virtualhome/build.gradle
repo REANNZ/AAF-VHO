@@ -62,6 +62,12 @@ dependencies {
     compile "org.grails:grails-plugin-interceptors"
     compile "org.grails.plugins:cache"
     compile "org.grails.plugins:async"
+
+    // As per https://github.com/gpc/fields , we need to exclude the original fields plugin if we're using scaffolding
+    // version 4.10.0 or less
+    /*compile ("org.grails.plugins:scaffolding") {
+        exclude module: 'fields'
+    }*/
     compile "org.grails.plugins:scaffolding"
     compile "org.grails.plugins:hibernate5"
     compile "org.hibernate:hibernate-core:5.1.5.Final"
@@ -80,7 +86,7 @@ dependencies {
     compile "com.google.zxing:javase:3.5.3"
     compile "org.apache.shiro:shiro-quartz:1.2.5"
     compile "org.apache.shiro:shiro-web:1.2.5"
-    compile "org.apache.shiro:shiro-spring:1.2.5"
+    //compile "org.apache.shiro:shiro-spring:1.2.5"
     compile "org.apache.shiro:shiro-ehcache:1.2.5"
     compile "org.apache.shiro:shiro-core:1.2.5"
     compile "com.google.guava:guava:14.0"
@@ -92,6 +98,7 @@ dependencies {
     testCompile 'mysql:mysql-connector-java:5.1.49'
 
     // Additional dependencies added by Jamie Getty
+    // Required for the HTTPBuilder class
     compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
     // Required otherwise we cannot mock non-interface types
     testCompile 'net.bytebuddy:byte-buddy:1.6.4'
@@ -99,9 +106,15 @@ dependencies {
     compile 'javax.servlet:javax.servlet-api:3.1.0'
     // Required to use the class org.apache.commons.io.IOUtils
     compile 'commons-io:commons-io:2.16.1'
-    // Required for our configured spring beans
-    compile 'org.springframework:spring-beans:4.0.9.RELEASE'
+    // Needed to process application.yml
+    //compile "org.springframework.boot:spring-boot:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-starter"
+    compile "org.springframework.boot:spring-boot-configuration-processor"
+    // Required for the use of grails.plugin.formfields.FormFieldsTagLib when rendering GSPs in emails
+    //compile 'org.grails.plugins:fields:2.2.10' // Confirmed correct version for grails 3.3.8
 
+    // Locally installed submodule of the grails-sanitizer-plugin plugin
+    //compile project(':grails-sanitizer-plugin')
 }
 
 bootRun {
