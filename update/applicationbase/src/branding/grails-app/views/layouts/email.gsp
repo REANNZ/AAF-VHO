@@ -236,7 +236,7 @@
                             <table border="0" cellpadding="0" cellspacing="0" width="600" id="templateHeader">
                               <tr>
                                 <td class="headerContent"> 
-                                  <img src="${grailsApplication.config.grails.serverURL}/images/branding/emailbranding_${grailsApplication.config.aaf.base.deployment_environment}.gif"/>
+                                  <img src="${grailsApplication.config.grails.serverURL}/images/branding/emailbranding_${grailsApplication.config.env}.gif"/>
                                 </td>
                               </tr>
                             </table>
