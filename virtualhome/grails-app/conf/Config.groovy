@@ -30,27 +30,10 @@ grails.plugin.console.enabled = true
 
 grails.project.groupId = appName
 grails.converters.xml.pretty.print = true
-grails.mime.file.extensions = true
-grails.mime.use.accept.header = false
-grails.mime.types = [ html: ['text/html', 'application/xhtml+xml'],
-  xml: ['text/xml', 'application/xml'],
-  text: 'text/plain',
-  js: 'text/javascript',
-  rss: 'application/rss+xml',
-  atom: 'application/atom+xml',
-  css: 'text/css',
-  csv: 'text/csv',
-  all: '*/*',
-  json: ['application/json', 'text/json'],
-  form: 'application/x-www-form-urlencoded',
-  multipartForm: 'multipart/form-data'
-]
 
 grails.views.default.codec = "HTML"
-grails.views.gsp.encoding = "UTF-8"
 grails.converters.encoding = "UTF-8"
 
-grails.views.gsp.sitemesh.preprocess = true
 grails.scaffolding.templates.domainSuffix = 'Instance'
 grails.resources.adhoc.patterns = ['/images/*', '/css/*', '/js/*', '/plugins/*']
 
