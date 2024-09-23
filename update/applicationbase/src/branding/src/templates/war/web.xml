@@ -37,27 +37,4 @@
         <listener-class>org.codehaus.groovy.grails.web.context.GrailsContextLoaderListener</listener-class>
     </listener>
 
-    <!-- Grails dispatcher servlet -->
-    <servlet>
-        <servlet-name>grails</servlet-name>
-        <servlet-class>org.grails.web.servlet.mvc.GrailsDispatcherServlet</servlet-class>
-        <init-param>
-            <param-name>dispatchOptionsRequest</param-name>
-            <param-value>true</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-        <async-supported>true</async-supported>
-    </servlet>
-
-    <!-- The Groovy Server Pages servlet -->
-    <servlet>
-        <servlet-name>gsp</servlet-name>
-        <servlet-class>org.codehaus.groovy.grails.web.pages.GroovyPagesServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>gsp</servlet-name>
-        <url-pattern>*.gsp</url-pattern>
-    </servlet-mapping>
-
 </web-app>
