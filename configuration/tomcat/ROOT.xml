@@ -10,12 +10,9 @@
     auth="Container"
     type="javax.sql.DataSource"
     driverClassName="com.mysql.jdbc.Driver"
-    url="jdbc:mysql://server:3306/virtualhome?useUnicode=yes&amp;characterEncoding=UTF-8"
     username="vhr_webapp" 
     password="secureme"
     maxActive="20" 
-    maxIdle="10" 
-    maxWait="10000" 
     validationQuery="/* ping */" 
     testOnBorrow="true" />
 
