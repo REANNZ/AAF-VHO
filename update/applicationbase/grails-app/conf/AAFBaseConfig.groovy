@@ -42,10 +42,6 @@ grails.mime.types = [ html: ['text/html', 'application/xhtml+xml'],
   multipartForm: 'multipart/form-data'
 ]
 
-grails.views.default.codec = "html"
-grails.views.gsp.encoding = "UTF-8"
-grails.converters.encoding = "UTF-8"
-
 grails.views.gsp.sitemesh.preprocess = true
 grails.scaffolding.templates.domainSuffix = 'Instance'
 grails.resources.adhoc.patterns = ['/images/*', '/css/*', '/js/*', '/plugins/*']
