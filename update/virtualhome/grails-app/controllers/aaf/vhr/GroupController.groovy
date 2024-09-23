@@ -57,7 +57,7 @@ class GroupController {
           return
         }
 
-        //groupInstance.welcomeMessage = params.welcomeMessage?.encodeAsSanitizedMarkup()
+        groupInstance.welcomeMessage = params.welcomeMessage?.encodeAsSanitizedMarkup()
         groupInstance.welcomeMessage = params.welcomeMessage
 
         if(!organization.canRegisterGroups()) {
@@ -134,7 +134,7 @@ class GroupController {
         return
       }
 
-      //groupInstance.welcomeMessage = params.welcomeMessage?.encodeAsSanitizedMarkup()
+      groupInstance.welcomeMessage = params.welcomeMessage?.encodeAsSanitizedMarkup()
       groupInstance.welcomeMessage = params.welcomeMessage
 
       if (!groupInstance.save()) {
