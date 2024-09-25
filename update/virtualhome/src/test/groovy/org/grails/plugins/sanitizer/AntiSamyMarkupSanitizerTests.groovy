@@ -4,13 +4,13 @@ import grails.test.*
 
 import org.springframework.core.io.FileSystemResource
 
-class AntiSamyMarkupSanitizerTests extends GrailsUnitTestCase {
+import spock.lang.*
 
-	private AntiSamyMarkupSanitizer sanitizer
+class AntiSamyMarkupSanitizerTests extends Specification {
 
-	protected void setUp() {
-		super.setUp()
+	@Shared def sanitizer
 
+	def setup() {
 		sanitizer = new AntiSamyMarkupSanitizer(
 			new FileSystemResource("scripts/antisamyConfigs/antisamy-myspace-1.4.4.xml"))
 	}
@@ -20,7 +20,7 @@ class AntiSamyMarkupSanitizerTests extends GrailsUnitTestCase {
 	 * @param expectation
 	 * @param testString
 	 */
-	void assertSanitized(String expectation, String testString){
+	def assertSanitized(String expectation, String testString){
 		assertEquals(expectation, sanitizer.sanitize(testString).cleanString)
 	}
 
@@ -29,37 +29,48 @@ class AntiSamyMarkupSanitizerTests extends GrailsUnitTestCase {
 	 * @param expectation
 	 * @param testString
 	 */
-	void assertValidTrue(String testString){
+	def assertValidTrue(String testString){
 		assertFalse(sanitizer.validateMarkup(testString).isInvalidMarkup())
 	}
 
-	void testSanitizeSanity(){
+	def 'testSanitizeSanity'(){
+		expect:
 		assertSanitized("sanitize", "sanitize")
 	}
 
-	void testValidateSanity(){
+	def 'testValidateSanity'(){
+		expect:
 		assertValidTrue("sanitize")
 	}
 
-	void testSanitizeHtml(){
+	def 'testSanitizeHtml'(){
+		expect:
 		assertSanitized("<div>sanitize</div>", "<div>sanitize</div>")
 	}
 
-	void testValidateHtml(){
+	def 'testValidateHtml'(){
+		expect:
 		assertValidTrue("<div>sanitize</div>")
 	}
 
-	void testSanitizeHtmlScriptTag(){
+	def 'testSanitizeHtmlScriptTag'(){
+		expect:
 		assertSanitized("<div>sanitize</div>", "<script></script><div>sanitize</div>")
 	}
 
-	void testSanitizeHtmlScriptTagWithErrors(){
-		MarkupSanitizerResult result = sanitizer.sanitize("<script><script><div>sanitize</div>")
+	def 'testSanitizeHtmlScriptTagWithErrors'(){
+		setup:
+		def result = sanitizer.sanitize("<script><script><div>sanitize</div>")
+
+		expect:
 		assertTrue(result.isInvalidMarkup())
 	}
 
-	void testValidateHtmlScriptTagWithErrors(){
-		MarkupValidatorResult result = sanitizer.validateMarkup("<script><script><div>sanitize</div>")
+	def 'testValidateHtmlScriptTagWithErrors'(){
+		setup:
+		def result = sanitizer.validateMarkup("<script><script><div>sanitize</div>")
+
+		expect:
 		assertTrue(result.isInvalidMarkup())
 	}
 }

@@ -1,20 +1,25 @@
 package org.grails.plugins.sanitizer
 
-import grails.test.*
+import spock.lang.*
 
-class MarkupValidatorResultTests extends GrailsUnitTestCase {
+class MarkupValidatorResultTests extends Specification {
 
-	void testIsInvalidMarkup() {
+	def 'testIsInvalidMarkup'() {
+		setup:
 		def val = new MarkupValidatorResult()
-		simplePropertyTests(val)
+
+		expect:
+		assertFalse(val.isInvalidMarkup())
 	}
 
-	static void simplePropertyTests(val){
+	def 'testIsInvalidMarkup'() {
+		setup:
+		def val = new MarkupValidatorResult()
 
-		assertFalse(val.isInvalidMarkup())
-
+		when:
 		val.dirtyString = "test"
 
+		then:
 		assertFalse(val.isInvalidMarkup())
 
 		val.errorMessages.add("error1")
@@ -27,6 +32,57 @@ class MarkupValidatorResultTests extends GrailsUnitTestCase {
 
 		val.errorMessages.clear()
 
+		assertFalse(val.isInvalidMarkup())
+	}
+
+	def 'testIsInvalidMarkup'() {
+		setup:
+		def val = new MarkupValidatorResult()
+
+		when:
+		val.dirtyString = "test"
+		val.errorMessages.add("error1")
+
+		then:
+		assertTrue(val.isInvalidMarkup())
+
+		val.errorMessages.add("error2")
+
+		assertTrue(val.isInvalidMarkup())
+
+		val.errorMessages.clear()
+
+		assertFalse(val.isInvalidMarkup())
+	}
+
+	def 'testIsInvalidMarkup'() {
+		setup:
+		def val = new MarkupValidatorResult()
+
+		when:
+		val.dirtyString = "test"
+		val.errorMessages.add("error1")
+		val.errorMessages.add("error2")
+
+		then:
+		assertTrue(val.isInvalidMarkup())
+
+		val.errorMessages.clear()
+
+		assertFalse(val.isInvalidMarkup())
+	}
+
+	def 'testIsInvalidMarkup'() {
+		setup:
+		def val = new MarkupValidatorResult()
+
+		when:
+		val.dirtyString = "test"
+		val.errorMessages.add("error1")
+		val.errorMessages.add("error2")
+		val.errorMessages.clear()
+
+		then:
 		assertFalse(val.isInvalidMarkup())
 	}
 }

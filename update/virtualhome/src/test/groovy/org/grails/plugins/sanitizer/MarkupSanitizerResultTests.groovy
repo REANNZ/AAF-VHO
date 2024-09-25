@@ -1,20 +1,22 @@
 package org.grails.plugins.sanitizer
 
-import grails.test.*
+import spock.lang.*
 
-class MarkupSanitizerResultTests extends GrailsUnitTestCase {
+class MarkupSanitizerResultTests extends Specification {
 
-	void testSpecialConstructor() {
+	def 'testSpecialConstructor'() {
+		setup:
 		def vResult = new MarkupValidatorResult()
 		vResult.dirtyString = "vTest"
 		vResult.errorMessages.add "vError1"
+		def sResult = new MarkupSanitizerResult(vResult)
 
-		MarkupSanitizerResult sResult = new MarkupSanitizerResult(vResult)
+		expect:
 		assertEquals("vTest", sResult.dirtyString)
 		assertEquals("vError1", sResult.errorMessages[0])
 	}
 
-	void testSimplePropertyTest() {
+	def 'testSimplePropertyTest'() {
 		def vResult = new MarkupSanitizerResult()
 		MarkupValidatorResultTests.simplePropertyTests vResult
 	}
