@@ -1,6 +1,6 @@
 package reannz
 
-import spock.lang.*
+import spock.lang.Specification
 
 class EncoderTestsSpec extends Specification {
 
