@@ -2,7 +2,6 @@ import javax.naming.InitialContext
 import javax.naming.Context
 
 import grails.util.Environment
-import org.apache.log4j.FileAppender
 
 // Import externalized configuration
 if(Environment.current != Environment.TEST) {
@@ -48,18 +47,6 @@ environments {
     grails.mail.port = com.icegreen.greenmail.util.ServerSetupTest.SMTP.port
     grails.mail.default.from="noreply-test@aaf.edu.au"
     greenmail.disabled = false
-
-    log4j = {
-      appenders {
-        appender new FileAppender(name:"test-output", layout:pattern(conversionPattern: "%d{[ dd.MM.yy HH:mm:ss.SSS]} %-5p %c %x - %m%n"), file:"/tmp/app-test-output.log")
-      }
-      warn 'test-output'     :[ 'grails.buildtestdata'], additivity:false
-      info  'test-output'    :[ 'grails.app.controllers',
-                                'grails.app.domains',
-                                'grails.app.services',
-                                'grails.app.realms',
-                                'aaf.vhr']
-    }
   }
 }
 

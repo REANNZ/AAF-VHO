@@ -47,7 +47,7 @@ appender('stacktrace-appender', RollingFileAppender) {
 }
 
 // Port of the 'app-security' logger
-logger('app-security', INFO, ['app-security-appender'], false)
+logger('grails.app.filters', INFO, ['app-security-appender'], false)
 
 // Port of the 'app' logger
 logger("grails.app.controllers", INFO, ['app-appender'], false)
@@ -65,3 +65,24 @@ logger("org.codehaus.groovy.grails.web.mapping.filter", WARN, ['app-grails-appen
 logger("org.codehaus.groovy.grails.web.mapping", WARN, ['app-grails-appender'], false)
 logger("org.codehaus.groovy.grails.commons", WARN, ['app-grails-appender'], false)
 logger("org.codehaus.groovy.grails.plugins", WARN, ['app-grails-appender'], false)
+
+environments {
+    test {
+        // Port of the 'test-output' appender from Config.groovy.
+        appender('test-output-appender', FileAppender) {
+            file = "/tmp/app-test-output.log"
+            append = false
+            encoder(PatternLayoutEncoder) {
+                pattern = "%d{[ dd.MM.yy HH:mm:ss.SSS]} %-5p %c %x - %m%n"
+            }
+        }
+
+        // Port of the 'test-output' logger from Config.groovy
+        logger('grails.buildtestdata', WARN, ['test-output-appender'], false)
+        logger('grails.app.controllers', INFO, ['test-output-appender'], true)
+        logger('grails.app.domains', INFO, ['test-output-appender'], true)
+        logger('grails.app.services', INFO, ['test-output-appender'], true)
+        logger('grails.app.realms', INFO, ['test-output-appender'], true)
+        logger('aaf.vhr', INFO, ['test-output-appender'], true)
+    }
+}
