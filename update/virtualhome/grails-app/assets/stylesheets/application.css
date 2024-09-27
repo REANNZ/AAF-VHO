@@ -13,3 +13,83 @@
 *= require mobile
 *= require_self
 */
+
+.statistic {
+    text-align: center;
+    .lead {
+      font-size: 4em;
+      font-weight: bold;
+      margin-top: 12px;
+    }
+  }
+  
+  .administering {
+    position: relative;
+    .view-all {
+      text-align: right;
+      position: absolute; bottom: 6px; right: 6px;
+    }
+    a {
+      color: #0088cc;
+    }
+    a.btn {
+      color: #fff;
+    }
+  }
+  
+  form.finalize label
+  {
+      font-size: 20px;
+      margin-top: 6px;
+  }
+  
+  form.finalize input[type="text"], input[type="password"]
+  {
+      font-size: 36px;
+      height: 46px;
+      line-height: 20px;
+  }
+  
+  form.myaccount label
+  {
+      font-size: 20px;
+      margin-top: 6px;
+  }
+  
+  form.myaccount input[type="text"], input[type="password"]
+  {
+      font-size: 36px;
+      height: 46px;
+      line-height: 20px;
+  }
+  
+  form.form-login input[type="text"], input[type="password"] {
+    font-size: 36px;
+    height: 46px;
+    /* line-height: 46px; */
+    width: 96%;
+  }
+  
+  #loginform .well {
+    margin-top: 6px;
+  }
+  
+  #loginform .well a {
+    color: #08c;
+  }
+  
+  #loginform .servicename h2 {
+    text-align: center;
+  }
+  
+  .help-block-pulse {
+    color: #289ABF; 
+    a {
+      color: #289ABF;
+      text-decoration: underline;
+    }
+  }
+  
+  #recaptcha_area input {
+      height:auto;
+  }
