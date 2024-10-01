@@ -2,12 +2,11 @@ package aaf.base.identity
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import grails.plugins.orm.auditable.Auditable
 
 @ToString(includeNames=true, includeFields=true)
 @EqualsAndHashCode
-class Role {
-  static auditable = true
-  
+class Role implements Auditable {
   String name
   String description
   

@@ -2,12 +2,11 @@ package aaf.vhr
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import grails.plugins.orm.auditable.Auditable
 
 @ToString(includeNames=true, includes="id, subject")
 @EqualsAndHashCode
-class EmailReset {
-  static auditable = true
-
+class EmailReset implements Auditable {
   String code
   String hash
   String salt

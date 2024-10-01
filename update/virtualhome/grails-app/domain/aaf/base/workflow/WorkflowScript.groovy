@@ -6,12 +6,11 @@ import aaf.base.identity.Subject
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import grails.plugins.orm.auditable.Auditable
 
 @ToString(includeNames=true, includeFields=true)
 @EqualsAndHashCode
-class WorkflowScript {
-  static auditable = true
-  
+class WorkflowScript implements Auditable {
   def grailsApplication
   
   String name

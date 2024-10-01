@@ -2,12 +2,11 @@ package aaf.base.identity
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import grails.plugins.orm.auditable.Auditable
 
 @ToString(includeNames=true, includeFields=true)
 @EqualsAndHashCode
-class SessionRecord {
-  static auditable = true
-  
+class SessionRecord implements Auditable {
   String credential
   String remoteHost
   String userAgent

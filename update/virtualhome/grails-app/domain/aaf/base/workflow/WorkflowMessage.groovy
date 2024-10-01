@@ -5,12 +5,11 @@ import aaf.base.identity.Subject
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import grails.plugins.orm.auditable.Auditable
 
 @ToString(includeNames=true, includeFields=true)
 @EqualsAndHashCode
-class WorkflowMessage {
-  static auditable = true
-
+class WorkflowMessage implements Auditable {
   Subject creator
   String message
   Date dateCreated

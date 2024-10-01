@@ -2,16 +2,15 @@ package aaf.base.identity
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import grails.plugins.orm.auditable.Auditable
 
 import java.security.SecureRandom;
 import java.util.Random;
 
 @ToString(includeNames=true, includes="id, utilized, inviteCode")
 @EqualsAndHashCode
-class RoleInvitation {
+class RoleInvitation implements Auditable {
   private static final SecureRandom SECUERANDOM = new SecureRandom();
-
-  static auditable = true
 
   String redirectTo
   String inviteCode

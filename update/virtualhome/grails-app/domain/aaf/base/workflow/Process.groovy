@@ -4,12 +4,11 @@ import aaf.base.identity.Subject
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import grails.plugins.orm.auditable.Auditable
 
 @ToString(includeNames=true, includeFields=true)
 @EqualsAndHashCode
-class Process {
-  static auditable = true
-
+class Process implements Auditable {
   String name
   String description
   String definition

@@ -5,6 +5,7 @@ import com.bloomhealthco.jasypt.GormEncryptedStringType
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 import groovy.time.TimeCategory
+import grails.plugins.orm.auditable.Auditable
 
 import grails.util.Holders
 
@@ -13,8 +14,7 @@ import org.apache.shiro.SecurityUtils
 
 @ToString(includeNames=true, includes="id, login, cn, email")
 @EqualsAndHashCode
-class ManagedSubject {
-  static auditable = true
+class ManagedSubject implements Auditable {
   def managedSubjectService
 
   static final affiliations = [ 'affiliate',

@@ -49,7 +49,7 @@ dependencies {
     runtime "org.grails.plugins:constraintkeys:0.1"
     runtime "org.grails.plugins:console:1.5.9"
     runtime "org.grails.plugins:cache-headers:1.1.7"
-    runtime "org.grails.plugins:audit-logging:1.0.7"
+    runtime "org.grails.plugins:audit-logging:2.0.0" // Required for Grails 3+
     testCompile 'org.grails.plugins:code-coverage:1.2.5'
 
     // These used to plugins in the old app but now that distinction is not relevant.

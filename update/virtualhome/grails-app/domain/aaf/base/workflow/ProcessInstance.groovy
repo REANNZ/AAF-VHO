@@ -4,12 +4,11 @@ import aaf.base.identity.Subject
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import grails.plugins.orm.auditable.Auditable
 
 @ToString(includeNames=true, includeFields=true)
 @EqualsAndHashCode
-class ProcessInstance {
-  static auditable = true
-  
+class ProcessInstance implements Auditable {
   String description
   ProcessStatus status
   ProcessPriority priority

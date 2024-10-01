@@ -2,14 +2,13 @@ package aaf.vhr
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import grails.plugins.orm.auditable.Auditable
 
 import groovy.time.TimeCategory
 
 @ToString
 @EqualsAndHashCode
-class TwoStepSession {
-  static auditable = true
-
+class TwoStepSession implements Auditable {
   String value
   Date expiry
 

@@ -2,14 +2,13 @@ package aaf.vhr
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import grails.plugins.orm.auditable.Auditable
 
 import org.apache.shiro.SecurityUtils
 
 @ToString(includeNames=true, includes="id, name")
 @EqualsAndHashCode
-class Group {
-  static auditable = true
-
+class Group implements Auditable {
   String name
   String description
   String groupScope

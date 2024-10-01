@@ -2,12 +2,11 @@ package aaf.base.workflow
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import grails.plugins.orm.auditable.Auditable
 
 @ToString(includeNames=true, includeFields=true)
 @EqualsAndHashCode
-class TaskRejection {
-  static auditable = true
-
+class TaskRejection implements Auditable {
   String name
   String description
   

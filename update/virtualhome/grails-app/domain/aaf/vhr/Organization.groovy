@@ -2,6 +2,7 @@ package aaf.vhr
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import grails.plugins.orm.auditable.Auditable
 
 import org.apache.shiro.SecurityUtils
 
@@ -9,9 +10,7 @@ import aaf.base.identity.Role
 
 @ToString(includeNames=true, includes="id, name, frID")
 @EqualsAndHashCode
-class Organization  {
-  static auditable = true
-
+class Organization implements Auditable {
   String name
   String displayName
   String description

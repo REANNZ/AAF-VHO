@@ -2,12 +2,11 @@ package aaf.base.identity
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import grails.plugins.orm.auditable.Auditable
 
 @ToString(includeNames=true, includeFields=true, excludes="sharedToken")
 @EqualsAndHashCode
-class Subject {
-  static auditable = true
-
+class Subject implements Auditable {
   String principal
   String cn
   String email

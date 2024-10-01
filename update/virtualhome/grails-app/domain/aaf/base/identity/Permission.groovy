@@ -2,12 +2,11 @@ package aaf.base.identity
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import grails.plugins.orm.auditable.Auditable
 
 @ToString(includeNames=true, includeFields=true)
 @EqualsAndHashCode
-class Permission {
-  static auditable = true
-
+class Permission implements Auditable {
   static public final String defaultPerm = "aaf.base.identity.WildcardPermission"
   static public final String wildcardPerm = "aaf.base.identity.WildcardPermission"
   static public final String adminPerm = "aaf.base.identity.AllPermission"
