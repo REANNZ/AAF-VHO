@@ -15,4 +15,10 @@ beans = {
   conversionService(ConversionServiceFactoryBean)
 
   shiroAuthenticationStrategy(FirstExceptionStrategy)
+
+  // Replaces the old actorClosure from Config.groovy.
+  // The 'grails-audit-logging' plugin, of course, had an overhaul.
+  auditRequestResolver(ShiroAuditResolver) {
+    //customService = ref('customService')
+  }
 }
