@@ -46,6 +46,50 @@ appender('stacktrace-appender', RollingFileAppender) {
     }
 }
 
+// Port of the 'aafbase-security' appender from Config.groovy in applicationbase
+appender('aafbase-security', RollingFileAppender) {
+    append = true
+    encoder(PatternLayoutEncoder) {
+        pattern = "%d{[ dd.MM.yy HH:mm:ss.SSS]} %-5p %c %x - %m%n"
+    }
+    rollingPolicy(TimeBasedRollingPolicy) {
+        FileNamePattern = "/tmp/aafbase-security.log-yyyy-MM-dd"
+    }
+}
+
+// Port of the 'aafbase' appender from Config.groovy in applicationbase
+appender('aafbase', RollingFileAppender) {
+    append = true
+    encoder(PatternLayoutEncoder) {
+        pattern = "%d{[ dd.MM.yy HH:mm:ss.SSS]} %-5p %c %x - %m%n"
+    }
+    rollingPolicy(TimeBasedRollingPolicy) {
+        FileNamePattern = "/tmp/aafbase.log-yyyy-MM-dd"
+    }
+}
+
+// Port of the 'aafbase-grails' appender from Config.groovy in applicationbase
+appender('aafbase-grails', RollingFileAppender) {
+    append = true
+    encoder(PatternLayoutEncoder) {
+        pattern = "%d{[ dd.MM.yy HH:mm:ss.SSS]} %-5p %c %x - %m%n"
+    }
+    rollingPolicy(TimeBasedRollingPolicy) {
+        FileNamePattern = "/tmp/aafbase-grails.log-yyyy-MM-dd"
+    }
+}
+
+// Port of the 'stacktrace' appender from Config.groovy in applicationbase
+appender('stacktrace', RollingFileAppender) {
+    append = true
+    encoder(PatternLayoutEncoder) {
+        pattern = "%d{[ dd.MM.yy HH:mm:ss.SSS]} %-5p %c %x - %m%n"
+    }
+    rollingPolicy(TimeBasedRollingPolicy) {
+        FileNamePattern = "/tmp/aafbase-stacktrace.log-yyyy-MM-dd"
+    }
+}
+
 // Port of the 'app-security' logger
 logger('grails.app.filters', INFO, ['app-security-appender'], false)
 
@@ -84,5 +128,25 @@ environments {
         logger('grails.app.services', INFO, ['test-output-appender'], true)
         logger('grails.app.realms', INFO, ['test-output-appender'], true)
         logger('aaf.vhr', INFO, ['test-output-appender'], true)
+
+        // Port of the 'aafbase-security' logger from Config.groovy in applicationbase
+        logger('grails.app.filters', INFO, ['aafbase-security'], false)
+
+        // Port of the 'aafbase' logger from Config.groovy in applicationbase
+        logger('grails.app.controllers', DEBUG, ['aafbase'], false)
+        logger('grails.app.domains', DEBUG, ['aafbase'], false)
+        logger('grails.app.services', DEBUG, ['aafbase'], false)
+        logger('grails.app.realms', DEBUG, ['aafbase'], false)
+        logger('aaf.base', DEBUG, ['aafbase'], false)
+        logger('org.apache.shiro', DEBUG, ['aafbase'], false)
+        logger('org.spockframework', DEBUG, ['aafbase'], false)
+
+        logger('org.codehaus.groovy.grails.web.servlet', WARN, ['aafbase-grails'], false)
+        logger('org.codehaus.groovy.grails.web.pages', WARN, ['aafbase-grails'], false)
+        logger('org.codehaus.groovy.grails.web.sitemesh', WARN, ['aafbase-grails'], false)
+        logger('org.codehaus.groovy.grails.web.mapping.filter', WARN, ['aafbase-grails'], false)
+        logger('org.codehaus.groovy.grails.web.mapping', WARN, ['aafbase-grails'], false)
+        logger('org.codehaus.groovy.grails.commons', WARN, ['aafbase-grails'], false)
+        logger('org.codehaus.groovy.grails.plugins', WARN, ['aafbase-grails'], false)
     }
 }
