@@ -11,8 +11,6 @@ class GroupController {
   static defaultAction = "list"
   static allowedMethods = [save: "POST", update: "POST", delete: "DELETE"]
 
-  def beforeInterceptor = [action: this.&validGroup, except: ['list', 'create', 'save']]
-
   def roleService
 
   def list() {
@@ -343,31 +341,6 @@ class GroupController {
 
       flash.type = 'info'
       flash.message = 'controllers.aaf.vhr.groups.organization.notfound'
-
-      redirect action:'list'
-      return false
-    }
-
-    true
-  }
-
-  private validGroup() {
-    if(!params.id) {
-      log.warn "ID was not present"
-
-      flash.type = 'info'
-      flash.message = message(code: 'controllers.aaf.vhr.group.no.id')
-
-      redirect action:'list'
-      return false
-    }
-
-    def groupInstance = Group.get(params.id)
-    if (!groupInstance) {
-      log.warn "groupInstance was not a valid instance"
-
-      flash.type = 'info'
-      flash.message = 'controllers.aaf.vhr.group.notfound'
 
       redirect action:'list'
       return false
