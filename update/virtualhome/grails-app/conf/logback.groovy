@@ -9,7 +9,7 @@ appender('app-security-appender', RollingFileAppender) {
         pattern = "%d{[ dd.MM.yy HH:mm:ss.SSS]} %-5p %c %x - %m%n"
     }
     rollingPolicy(TimeBasedRollingPolicy) {
-        FileNamePattern = "/opt/virtualhome/logs/app-security.log-yyyy-MM-dd"
+        FileNamePattern = "/opt/virtualhome/logs/app-security.log-%d{yyyy-MM-dd}"
     }
 }
 
@@ -20,7 +20,7 @@ appender('app-appender', RollingFileAppender) {
         pattern = "%d{[ dd.MM.yy HH:mm:ss.SSS]} %-5p %c %x - %m%n"
     }
     rollingPolicy(TimeBasedRollingPolicy) {
-        FileNamePattern = "/opt/virtualhome/logs/app.log-yyyy-MM-dd"
+        FileNamePattern = "/opt/virtualhome/logs/app.log-%d{yyyy-MM-dd}"
     }
 }
 
@@ -31,7 +31,7 @@ appender('app-grails-appender', RollingFileAppender) {
         pattern = "%d{[ dd.MM.yy HH:mm:ss.SSS]} %-5p %c %x - %m%n"
     }
     rollingPolicy(TimeBasedRollingPolicy) {
-        FileNamePattern = "/opt/virtualhome/logs/app-grails.log-yyyy-MM-dd"
+        FileNamePattern = "/opt/virtualhome/logs/app-grails.log-%d{yyyy-MM-dd}"
     }
 }
 
@@ -42,7 +42,7 @@ appender('stacktrace-appender', RollingFileAppender) {
         pattern = "%d{[ dd.MM.yy HH:mm:ss.SSS]} %-5p %c %x - %m%n"
     }
     rollingPolicy(TimeBasedRollingPolicy) {
-        FileNamePattern = "/opt/virtualhome/logs/app-stacktrace.log-yyyy-MM-dd"
+        FileNamePattern = "/opt/virtualhome/logs/app-stacktrace.log-%d{yyyy-MM-dd}"
     }
 }
 
@@ -53,7 +53,7 @@ appender('aafbase-security', RollingFileAppender) {
         pattern = "%d{[ dd.MM.yy HH:mm:ss.SSS]} %-5p %c %x - %m%n"
     }
     rollingPolicy(TimeBasedRollingPolicy) {
-        FileNamePattern = "/tmp/aafbase-security.log-yyyy-MM-dd"
+        FileNamePattern = "/tmp/aafbase-security.log-%d{yyyy-MM-dd}"
     }
 }
 
@@ -64,7 +64,7 @@ appender('aafbase', RollingFileAppender) {
         pattern = "%d{[ dd.MM.yy HH:mm:ss.SSS]} %-5p %c %x - %m%n"
     }
     rollingPolicy(TimeBasedRollingPolicy) {
-        FileNamePattern = "/tmp/aafbase.log-yyyy-MM-dd"
+        FileNamePattern = "/tmp/aafbase.log-%d{yyyy-MM-dd}"
     }
 }
 
@@ -75,7 +75,7 @@ appender('aafbase-grails', RollingFileAppender) {
         pattern = "%d{[ dd.MM.yy HH:mm:ss.SSS]} %-5p %c %x - %m%n"
     }
     rollingPolicy(TimeBasedRollingPolicy) {
-        FileNamePattern = "/tmp/aafbase-grails.log-yyyy-MM-dd"
+        FileNamePattern = "/tmp/aafbase-grails.log-%d{yyyy-MM-dd}"
     }
 }
 
@@ -86,7 +86,7 @@ appender('stacktrace', RollingFileAppender) {
         pattern = "%d{[ dd.MM.yy HH:mm:ss.SSS]} %-5p %c %x - %m%n"
     }
     rollingPolicy(TimeBasedRollingPolicy) {
-        FileNamePattern = "/tmp/aafbase-stacktrace.log-yyyy-MM-dd"
+        FileNamePattern = "/tmp/aafbase-stacktrace.log-%d{yyyy-MM-dd}"
     }
 }
 
