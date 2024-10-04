@@ -2,8 +2,6 @@ package aaf.base.workflow
 
 class WorkflowProcessController {
   static defaultAction = "list"
-  
-  def beforeInterceptor = [action: this.&validProcess, except: ['list', 'create', 'save']]
 
   def workflowProcessService
 
@@ -92,30 +90,6 @@ class WorkflowProcessController {
       flash.type = "error"
       flash.message = message(code: 'controllers.aaf.base.workflow.workflowprocess.update.totalfailure')
       render view: "edit", model: [process: process]
-    }
-  }
-
-  private validProcess() {
-    if(!params.id) {
-      log.warn "Process ID was not present"
-
-      flash.type = 'info'
-      flash.message = 'controllers.aaf.base.workflow.workflowprocess.noprocessid'
-
-      redirect action:'list'
-      return false
-    }
-
-    def process = Process.get(params.id)
-    if(!process) {
-
-      log.warn "Process identified by ${params.id} does not exist"
-
-      flash.type = 'error'
-      flash.message = 'controllers.aaf.base.workflow.workflowprocess.nonexistant'
-
-      redirect action:'list'
-      return false
     }
   }
 }
