@@ -11,8 +11,6 @@ class MigrateController {
 
   public static final MIGRATION_USER = "aaf.vhr.MigrateController.USER"
 
-  def beforeInterceptor = [action: this.&validMigrationUser, except: ['oops']]
-
   //def grailsApplication
   def recaptchaService
   def passwordValidationService
@@ -152,13 +150,5 @@ class MigrateController {
   def logout() {
     session.removeAttribute(MIGRATION_USER)
     redirect controller:'dashboard', action:'welcome'
-  }
-
-  boolean validMigrationUser() {
-    if(!session.getAttribute(MigrateController.MIGRATION_USER)) {
-      redirect action: 'oops'
-      return false
-    }
-    return true
   }
 }
