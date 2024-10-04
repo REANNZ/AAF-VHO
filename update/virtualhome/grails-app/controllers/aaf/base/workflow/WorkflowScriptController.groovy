@@ -3,8 +3,6 @@ package aaf.base.workflow
 class WorkflowScriptController {
   def defaultAction = "list"
 
-  def beforeInterceptor = [action: this.&validScript, except: ['list', 'create', 'save']]
-
   def list = {
     def scriptList = WorkflowScript.getAll()
     [scriptList: scriptList]
@@ -73,29 +71,5 @@ class WorkflowScriptController {
     flash.message = 'controllers.aaf.base.workflow.workflowscript.update.success'
 
     redirect action: "show", id: script.id
-  }
-
- private validScript() {
-    if(!params.id) {
-      log.warn "Script ID was not present"
-
-      flash.type = 'info'
-      flash.message = message(code: 'controllers.aaf.base.workflow.workflowscript.noscriptid')
-
-      redirect action:'list'
-      return false
-    }
-
-    def script = WorkflowScript.get(params.id)
-    if(!script) {
-
-      log.warn "Script identified by ${params.id} does not exist"
-
-      flash.type = 'error'
-      flash.message = 'controllers.aaf.base.workflow.workflowscript.nonexistant'
-
-      redirect action:'list'
-      return false
-    }
   }
 }
