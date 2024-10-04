@@ -10,8 +10,6 @@ class RoleController {
   def roleService
   def permissionService
 
-  def beforeInterceptor = [action: this.&validRole, except: ['list', 'create', 'save', 'finalization', 'finalizationerror']]
-
   def list() {
     [roles: Role.list(),  roleTotal: Role.count()]
   }
@@ -185,28 +183,5 @@ class RoleController {
   }
 
   def finalizationerror() {
-  }
-
-  private validRole() {
-    if(!params.id) {
-      log.warn "Role ID was not present"
-
-      flash.type = 'info'
-      flash.message = 'controllers.aaf.base.admin.role.noroleid'
-
-      redirect action:'list'
-      return false
-    }
-
-    def role = Role.get(params.id)
-    if (!role) {
-      log.warn "No role for ${params.id} located"
-
-      flash.type = 'error'
-      flash.message = 'controllers.aaf.base.admin.role.nonexistant'
-
-      redirect(action: "list")
-      return false
-    }
   }
 }
