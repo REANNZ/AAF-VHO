@@ -8,8 +8,6 @@ class SubjectController {
 
   def permissionService
 
-  def beforeInterceptor = [action: this.&validSubject, except: ['index', 'list']]
-
   def index() {
     redirect(action: "list", params: params)
   }
@@ -100,28 +98,4 @@ class SubjectController {
     flash.message = 'controllers.aaf.base.admin.subject.delete.permission.success'
     redirect(action: "show", id: subject.id, fragment: "tab-permissions")
   }
-
-  private validSubject() {
-    if(!params.id) {
-      log.warn "Subject ID was not present"
-
-      flash.type = 'info'
-      flash.message = 'controllers.aaf.base.identity.subject.nosubjectid'
-
-      redirect action:'list'
-      return false
-    }
-
-    def subject = Subject.get(params.id)
-    if (!subject) {
-      log.warn "No subject for $params.id located"
-
-      flash.type = 'error'
-      flash.message = 'controllers.aaf.base.identity.subject.nonexistant'
-
-      redirect(action: "list")
-      return false
-    }
-  }
-
 }
