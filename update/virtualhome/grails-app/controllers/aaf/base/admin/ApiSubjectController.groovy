@@ -8,8 +8,6 @@ class ApiSubjectController {
 
   def permissionService
 
-  def beforeInterceptor = [action: this.&validSubject, except: ['index', 'list', 'create', 'save']]
-
   // TODO: This controller requires test cases to be built
 
   def index() {
@@ -157,28 +155,4 @@ class ApiSubjectController {
     flash.message = 'controllers.aaf.base.admin.apisubject.delete.permission.success'
     redirect(action: "show", id: apiSubject.id, fragment:"tab-permissions")
   }
-
-  private validSubject() {
-    if(!params.id) {
-      log.warn "Subject ID was not present"
-
-      flash.type = 'info'
-      flash.message = 'controllers.aaf.base.identity.apisubject.nosubjectid'
-
-      redirect action:'list'
-      return false
-    }
-
-    def apiSubject = ApiSubject.get(params.id)
-    if (!apiSubject) {
-      log.warn "No apiSubject for $params.id located"
-
-      flash.type = 'error'
-      flash.message = 'controllers.aaf.base.identity.apisubject.nonexistant'
-
-      redirect(action: "list")
-      return false
-    }
-  }
-
 }
