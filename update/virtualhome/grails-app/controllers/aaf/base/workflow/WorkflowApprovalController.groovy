@@ -6,8 +6,6 @@ class WorkflowApprovalController {
   static defaultAction = "list"
   
   def workflowTaskService
-
-  def beforeInterceptor = [action: this.&validTaskInstance, except: ['list', 'administrative']]
   
   def list = {
     def tasks = workflowTaskService.retrieveTasksAwaitingApproval(subject)
@@ -87,28 +85,4 @@ class WorkflowApprovalController {
       response.sendError(403)
     }
   }
-
-  private boolean validTaskInstance() {
-    if(!params.id) {
-      log.warn "TaskInstance ID was not present"
-      
-      flash.type = 'error'
-      flash.message = 'controllers.aaf.base.workflow.workflowapproval.notaskinstanceid'
-      
-      redirect action: "list"
-      return false
-    }
-
-    def taskInstance = TaskInstance.get(params.id)
-    if(!taskInstance) {
-      log.warn "TaskInstance identified by ${params.id} does not exist"
-
-      flash.type = 'error'
-      flash.message = 'controllers.aaf.base.workflow.workflowapproval.nonexistant'
-
-      redirect action: "list"
-      return false
-    }
-  }
-
 }
