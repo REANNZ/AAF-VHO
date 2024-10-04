@@ -8,8 +8,6 @@ class ManagedSubjectController {
   static defaultAction = "list"
   static allowedMethods = [save: "POST", update: "POST", delete: "DELETE", resend:"POST", resettwosteplogin:"POST", enforcetwosteplogin:"POST"]
 
-  def beforeInterceptor = [action: this.&validManagedSubject, except: ['list', 'create', 'save', 'createcsv', 'savecsv']]
-
   //def grailsApplication
   def managedSubjectService
   def sharedTokenService
@@ -516,23 +514,6 @@ class ManagedSubjectController {
     }
 
     true
-  }
-
-  private validManagedSubject() {
-    if(!params.id) {
-      log.warn "ID was not present"
-
-      response.sendError 404
-      return false
-    }
-
-    def managedSubjectInstance = ManagedSubject.get(params.id)
-    if (!managedSubjectInstance) {
-      log.warn "managedSubjectInstance was not a valid instance"
-
-      response.sendError 404
-      return false
-    }
   }
 
   private String createRequestDetails(def request) {
