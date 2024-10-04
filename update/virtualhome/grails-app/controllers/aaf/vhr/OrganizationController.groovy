@@ -10,8 +10,6 @@ class OrganizationController {
   static defaultAction = "list"
   static allowedMethods = [save: "POST", update: "POST", delete: "DELETE"]
 
-  def beforeInterceptor = [action: this.&validOrganization, except: ['list', 'create', 'save']]
-
   def organizationService
 
   def list() {
@@ -267,29 +265,6 @@ class OrganizationController {
     else {
       log.warn "Attempt to create ManagedSubject at Organization level for $organizationInstance by $subject was denied - not permitted by assigned permissions"
       response.sendError 403
-    }
-  }
-
-  private validOrganization() {
-    if(!params.id) {
-      log.warn "ID was not present"
-
-      flash.type = 'info'
-      flash.message = message(code: 'controllers.aaf.vhr.organization.no.id')
-
-      redirect action:'list'
-      return false
-    }
-
-    def organizationInstance = Organization.get(params.id)
-    if (!organizationInstance) {
-      log.warn "organizationInstance was not a valid instance"
-
-      flash.type = 'info'
-      flash.message = 'controllers.aaf.vhr.organization.notfound'
-
-      redirect action:'list'
-      return false
     }
   }
 }
