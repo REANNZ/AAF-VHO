@@ -3,8 +3,6 @@ package aaf.base.admin
 class EmailTemplateController {
   def defaultAction = "list"
 
-  def beforeInterceptor = [action: this.&validEmailTemplate, except: ['list', 'create', 'save']]
-
   def list = {
     def emailtemplateList = EmailTemplate.getAll()
     [emailtemplateList: emailtemplateList]
@@ -62,29 +60,5 @@ class EmailTemplateController {
     flash.message = 'controllers.aaf.base.admin.emailtemplate.update.success'
 
     redirect action: "show", id: emailtemplate.id
-  }
-
- private validEmailTemplate() {
-    if(!params.id) {
-      log.warn "EmailTemplate ID was not present"
-
-      flash.type = 'info'
-      flash.message = message(code: 'controllers.aaf.base.admin.emailtemplate.noemailtemplateid')
-
-      redirect action:'list'
-      return false
-    }
-
-    def emailtemplate = EmailTemplate.get(params.id)
-    if(!emailtemplate) {
-
-      log.warn "EmailTemplate identified by ${params.id} does not exist"
-
-      flash.type = 'error'
-      flash.message = 'controllers.aaf.base.admin.emailtemplate.nonexistant'
-
-      redirect action:'list'
-      return false
-    }
   }
 }
