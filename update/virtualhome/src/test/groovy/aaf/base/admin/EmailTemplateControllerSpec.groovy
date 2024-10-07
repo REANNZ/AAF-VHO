@@ -4,8 +4,9 @@ import grails.test.mixin.*
 import spock.lang.*
 import grails.test.spock.*
 import grails.testing.web.controllers.ControllerUnitTest
+import grails.testing.gorm.DomainUnitTest
 
-class EmailTemplateControllerSpec extends Specification implements ControllerUnitTest<EmailTemplateController> {
+class EmailTemplateControllerSpec extends Specification implements ControllerUnitTest<EmailTemplateController>, DomainUnitTest<EmailTemplate> {
 
   def "ensure default action"() {
     expect:
