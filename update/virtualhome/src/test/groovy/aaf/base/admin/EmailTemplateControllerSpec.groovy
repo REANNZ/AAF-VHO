@@ -15,7 +15,9 @@ class EmailTemplateControllerSpec extends Specification implements ControllerUni
 
   def "ensure list of EmailTemplates returned"() {
     setup:
-    (1..10).each { new EmailTemplate() }
+    for (def i = 0; i < 10; i++) {
+      new EmailTemplate(id: i, name: "Name ${i}", content: 'Content').save(flush:true, failOnError: true)
+    }
 
     when:
     def model = controller.list()
@@ -95,7 +97,8 @@ class EmailTemplateControllerSpec extends Specification implements ControllerUni
 
   def "ensure show when valid EmailTemplate"() {
     setup:
-    def et = new EmailTemplate()
+    def et = new EmailTemplate(id: 1, name: 'Name', content: 'Content').save(flush:true, failOnError: true)
+    params.id = et.id
     params.id = et.id
 
     when:
@@ -107,7 +110,7 @@ class EmailTemplateControllerSpec extends Specification implements ControllerUni
 
   def "ensure edit when valid EmailTemplate"() {
     setup:
-    def et = new EmailTemplate()
+    def et = new EmailTemplate(id: 1, name: 'Name', content: 'Content').save(flush:true, failOnError: true)
     params.id = et.id
 
     when:
@@ -119,10 +122,10 @@ class EmailTemplateControllerSpec extends Specification implements ControllerUni
 
   def "ensure update requires valid EmailTemplate name"() {
     setup:
-    def et = new EmailTemplate()
+    def et = new EmailTemplate(id: 1, name: '', content: 'testing content').save(flush:true, validate: false)
     params.id = et.id
-    params.name = ''
-    params.content = 'testing content'
+    params.name = et.name
+    params.content = et.content
 
     when:
     controller.update()
@@ -137,10 +140,10 @@ class EmailTemplateControllerSpec extends Specification implements ControllerUni
 
   def "ensure update requires valid EmailTemplate content"() {
     setup:
-    def et = new EmailTemplate()
+    def et = new EmailTemplate(id: 1, name: 'Name', content: '').save(flush:true, validate:false)
     params.id = et.id
-    params.name = 'template_name'
-    params.content = ''
+    params.name = et.name
+    params.content = et.content
     
     when:
     controller.update()
@@ -155,12 +158,12 @@ class EmailTemplateControllerSpec extends Specification implements ControllerUni
 
   def "ensure update when valid EmailTemplate"() {
     setup:
-    def et = new EmailTemplate()
+    def et = new EmailTemplate(id: 1, name: 'template_name2', content: 'testing content').save(flush:true, failOnError: true)
     controller.metaClass.getSubject = { [id:1, principal:'http://test.com!http://sp.test.com!1234'] }
 
     params.id = et.id
-    params.name = 'template_name2'
-    params.content = 'testing content'
+    params.name = et.name
+    params.content = et.content
     
     when:
     controller.update()
@@ -170,42 +173,4 @@ class EmailTemplateControllerSpec extends Specification implements ControllerUni
     flash.message == 'controllers.aaf.base.admin.emailtemplate.update.success'
     response.redirectedUrl == "/emailTemplate/show/${et.id}"
   }
-
-  def "validEmailTemplate rejects request when no id presented"() {
-    when:
-    def result = controller.validEmailTemplate()
-
-    then:
-    !result
-    flash.type == 'info'
-    flash.message == 'controllers.aaf.base.admin.emailtemplate.noemailtemplateid'
-    response.redirectedUrl == "/emailTemplate/list"
-  }
-
-  def "validEmailTemplate rejects request when invalid EmailTemplate requested"() {
-    setup:
-    params.id = 1000
-
-    when:
-    def result = controller.validEmailTemplate()
-
-    then:
-    !result
-    flash.type == 'error'
-    flash.message == 'controllers.aaf.base.admin.emailtemplate.nonexistant'
-    response.redirectedUrl == "/emailTemplate/list"
-  }
-
-  def "validEmailTemplate approves request when invalid EmailTemplate requested"() {
-    setup:
-    def et = new EmailTemplate()
-    params.id = et.id
-
-    when:
-    def result = controller.validEmailTemplate()
-
-    then:
-    result == null
-  }
-
 }

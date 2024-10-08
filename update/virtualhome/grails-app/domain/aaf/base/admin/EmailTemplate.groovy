@@ -18,6 +18,7 @@ class EmailTemplate {
   }
 
   static constraints = {
+    id bindable: true
     name nullable: false, blank: false, unique:true
     content validator: {val ->
       if (val == null || val == '')
