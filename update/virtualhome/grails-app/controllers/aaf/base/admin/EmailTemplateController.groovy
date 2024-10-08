@@ -24,7 +24,7 @@ class EmailTemplateController {
       return
     }
     
-    log.info "$subject created $emailtemplate"
+    //log.info "$subject created $emailtemplate"
 
     flash.type = 'success'
     flash.message = 'controllers.aaf.base.admin.emailtemplate.save.success'
@@ -54,11 +54,29 @@ class EmailTemplateController {
       return
     }
 
-    log.info "$subject updated $emailtemplate"
+    //log.info "$subject updated $emailtemplate"
 
     flash.type = 'success'
     flash.message = 'controllers.aaf.base.admin.emailtemplate.update.success'
 
     redirect action: "show", id: emailtemplate.id
+  }
+
+  def emailTemplateNoID = {
+    log.warn "EmailTemplate ID was not present"
+
+    flash.type = 'info'
+    flash.message = message(code: 'controllers.aaf.base.admin.emailtemplate.noemailtemplateid')
+
+    redirect action:'list'
+  }
+
+  def emailTemplateNoTemplate = {
+    log.warn "EmailTemplate identified by ${params.id} does not exist"
+
+    flash.type = 'error'
+    flash.message = 'controllers.aaf.base.admin.emailtemplate.nonexistant'
+
+    redirect action:'list'
   }
 }

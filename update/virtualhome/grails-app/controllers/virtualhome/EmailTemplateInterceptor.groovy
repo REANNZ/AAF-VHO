@@ -1,35 +1,24 @@
 package virtualhome
 
+import aaf.base.admin.EmailTemplate
 
 class EmailTemplateInterceptor {
 
     EmailTemplateInterceptor() {
-        match(controller:'emailTemplate').except(action: ['list', 'create', 'save'])
+        match(controller:'emailTemplate', action: ['show', 'edit', 'update'])
     }
 
     boolean before() {
         if(!params.id) {
-            log.warn "EmailTemplate ID was not present"
-
-            flash.type = 'info'
-            flash.message = message(code: 'controllers.aaf.base.admin.emailtemplate.noemailtemplateid')
-
-            redirect action:'list'
-            return false
+            redirect controller:'emailTemplate', action:'emailTemplateNoID'
+            return true
         }
 
         def emailtemplate = EmailTemplate.get(params.id)
         if(!emailtemplate) {
-
-            log.warn "EmailTemplate identified by ${params.id} does not exist"
-
-            flash.type = 'error'
-            flash.message = 'controllers.aaf.base.admin.emailtemplate.nonexistant'
-
-            redirect action:'list'
-            return false
+            redirect controller:'emailTemplate', action:'emailTemplateNoTemplate'
+            return true
         }
-
         return true
     }
 

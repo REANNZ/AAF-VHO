@@ -2,21 +2,25 @@ package virtualhome
 
 import grails.testing.web.interceptor.InterceptorUnitTest
 import spock.lang.Specification
+import grails.testing.gorm.DomainUnitTest
+import aaf.base.admin.EmailTemplate
 
-class EmailTemplateInterceptorSpec extends Specification implements InterceptorUnitTest<EmailTemplateInterceptor> {
+class EmailTemplateInterceptorSpec extends Specification implements InterceptorUnitTest<EmailTemplateInterceptor>, DomainUnitTest<EmailTemplate> {
 
-    def setup() {
+    def 'Ensure that if no ID is given, the interceptor redirects us to emailTemplateNoID'() {
+        when:
+        interceptor.before()
+
+        then:
+        response.redirectedUrl == "/emailTemplate/emailTemplateNoID"
     }
 
-    def cleanup() {
+    def 'Ensure that if no EmailTemplate is found for an ID, the interceptor redirects us to emailTemplateNoTemplate'() {
+        when:
+        params.id = 1
+        interceptor.before()
 
-    }
-
-    void "Test emailTemplate interceptor matching"() {
-        when:"A request matches the interceptor"
-            withRequest(controller:"emailTemplate")
-
-        then:"The interceptor does match"
-            interceptor.doesMatch()
+        then:
+        response.redirectedUrl == "/emailTemplate/emailTemplateNoTemplate"
     }
 }
