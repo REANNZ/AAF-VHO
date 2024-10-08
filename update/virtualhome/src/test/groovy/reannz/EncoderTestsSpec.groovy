@@ -2,6 +2,8 @@ package reannz
 
 import spock.lang.Specification
 
+import codecs.custom.CustomCodec
+
 class EncoderTestsSpec extends Specification {
 
   def 'Ensure we can call encodeAsHTML successfully in our application'() {
@@ -20,5 +22,11 @@ class EncoderTestsSpec extends Specification {
 
     expect:
     '"<script>"'.encodeAsMD5() == '94936c5d221680f28f4128694dfd5c3f'
+  }
+
+  def 'Ensure our custom coded works successfully in our application'() {
+
+    expect:
+    '"<script>"'.encodeAsCustom() == 'Oh hello there'
   }
 }
