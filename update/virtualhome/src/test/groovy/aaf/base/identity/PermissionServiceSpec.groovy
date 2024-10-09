@@ -10,13 +10,12 @@ class PermissionServiceSpec extends Specification implements ServiceUnitTest<Per
 
   def 'ensure error saving permissions throws RuntimeException to rollback transaction state'() {
     setup:
-    def ps = new PermissionService()
     def owner = new Subject()
     def permission = new Permission()
     permission.metaClass.save = { null }
 
     when:
-    ps.createPermission(permission, owner)
+    service.createPermission(permission, owner)
 
     then:
     RuntimeException e = thrown()
@@ -25,13 +24,12 @@ class PermissionServiceSpec extends Specification implements ServiceUnitTest<Per
 
   def 'ensure error saving owner throws RuntimeException to rollback transaction state'() {
     setup:
-    def ps = new PermissionService()
     def owner = new Subject()
     def permission = new Permission()
     owner.metaClass.save = { null }
 
     when:
-    ps.createPermission(permission, owner)
+    service.createPermission(permission, owner)
 
     then:
     RuntimeException e = thrown()
@@ -40,12 +38,11 @@ class PermissionServiceSpec extends Specification implements ServiceUnitTest<Per
 
   def 'valid permission is correctly added to Subject owner'() {
     setup:
-    def ps = new PermissionService()
     def owner = new Subject()
     def permission = new Permission()
 
     when:
-    def savedPermission = ps.createPermission(permission, owner)
+    def savedPermission = service.createPermission(permission, owner)
 
     then:
     owner.permissions.size() == 1
@@ -54,12 +51,11 @@ class PermissionServiceSpec extends Specification implements ServiceUnitTest<Per
 
   def 'valid permission is correctly added to Role owner'() {
     setup:
-    def ps = new PermissionService()
     def owner = new Role()
     def permission = new Permission()
 
     when:
-    def savedPermission = ps.createPermission(permission, owner)
+    def savedPermission = service.createPermission(permission, owner)
 
     then:
     owner.permissions.size() == 1
@@ -68,7 +64,6 @@ class PermissionServiceSpec extends Specification implements ServiceUnitTest<Per
 
   def 'ensure error when saving owner during deleting permission throws RuntimeException to rollback transaction state'() {
     setup:
-    def ps = new PermissionService()
     def owner = new Subject()
     def permission = new Permission()
     permission.owner = owner
@@ -79,7 +74,7 @@ class PermissionServiceSpec extends Specification implements ServiceUnitTest<Per
     owner.metaClass.save = { null }
 
     when:
-    ps.deletePermission(permission)
+    service.deletePermission(permission)
 
     then:
     RuntimeException e = thrown()
@@ -88,7 +83,6 @@ class PermissionServiceSpec extends Specification implements ServiceUnitTest<Per
 
   def 'valid permission is successfully deleted from Subject'() {
     setup:
-    def ps = new PermissionService()
     def owner = new Subject()
     def permission = new Permission()
     permission.owner = owner
@@ -100,7 +94,7 @@ class PermissionServiceSpec extends Specification implements ServiceUnitTest<Per
     def before_contained = owner.permissions.contains permission
 
     when:
-    ps.deletePermission(permission)
+    service.deletePermission(permission)
 
     then:
     before_count == 1
@@ -110,7 +104,6 @@ class PermissionServiceSpec extends Specification implements ServiceUnitTest<Per
 
   def 'valid permission is successfully deleted from Role'() {
     setup:
-    def ps = new PermissionService()
     def owner = new Role()
     def permission = new Permission()
     permission.owner = owner
@@ -122,7 +115,7 @@ class PermissionServiceSpec extends Specification implements ServiceUnitTest<Per
     def before_contained = owner.permissions.contains permission
 
     when:
-    ps.deletePermission(permission)
+    service.deletePermission(permission)
 
     then:
     before_count == 1
