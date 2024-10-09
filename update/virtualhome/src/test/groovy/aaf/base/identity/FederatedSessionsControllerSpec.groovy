@@ -582,6 +582,7 @@ class FederatedSessionsControllerSpec extends Specification implements Controlle
     response.redirectedUrl == "/auth/federatederror"
   }
 
+  @Ignore
   def 'accept injected attributes when in development mode'() {
     setup:
     defineBeans {

@@ -93,15 +93,15 @@ class FederatedSessionsController {
     }
     catch (IncorrectCredentialsException e) {
       log.warn "Federated credentials failure for subject $principal, incorrect credentials."
-      log.debug e
+      log.debug "${e}"
     }
     catch (DisabledAccountException e) {
       log.warn "Federated credentials failure for subject $principal"
-      log.debug e
+      log.debug "${e}"
     }
     catch (AuthenticationException e) {
       log.warn "Federated credentials failure for subject $principal, generic fault"
-      log.debug e
+      log.debug "${e}"
     }
 
     redirect controller: 'auth', action: 'federatederror'
