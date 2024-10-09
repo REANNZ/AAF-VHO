@@ -3,8 +3,10 @@ package aaf.base.admin
 import spock.lang.*
 import aaf.base.EmailManagerService
 import grails.plugins.mail.MailService
+import grails.testing.web.controllers.ControllerUnitTest
 
-class FakeSMSDeliveryControllerSpec extends Specification {
+class FakeSMSDeliveryControllerSpec extends Specification implements ControllerUnitTest<FakeSMSDeliveryController> {
+
   def 'pretend to deliver an sms'() {
     setup:
     grailsApplication.config.aaf.base.sms.fake = true
