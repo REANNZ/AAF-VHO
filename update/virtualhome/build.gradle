@@ -41,7 +41,7 @@ dependencies {
     testCompile 'asm:asm:3.3.1' // Same version as old project
     compile "org.grails.plugins:cache:1.1.8"
     compile "org.grails.plugins:codenarc:0.24"
-    compile 'org.grails.plugins:build-test-data:3.0.0'
+    testCompile 'org.grails.plugins:build-test-data:4.0.0'
     compile "org.grails.plugins:rest:0.8" // Latest version
     compile "org.grails.plugins:scaffolding:2.1.2" // Same version as old project
     runtime "org.grails.plugins:database-migration:1.4.0" // Same version as old project
