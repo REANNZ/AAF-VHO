@@ -9,8 +9,9 @@ import test.shared.ShiroEnvironment
 
 import aaf.base.identity.*
 import grails.testing.web.controllers.ControllerUnitTest
+import grails.testing.gorm.DomainUnitTest
 
-class GroupControllerSpec  extends Specification implements ControllerUnitTest<GroupController> {
+class GroupControllerSpec  extends Specification implements ControllerUnitTest<GroupController>, DomainUnitTest<Group> {
 
   @Shared def shiroEnvironment = new ShiroEnvironment()
 
