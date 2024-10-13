@@ -149,7 +149,9 @@ environments:
             dbCreate: update
             url: jdbc:mysql://server:3306/virtualhome?useUnicode=yes&amp;characterEncoding=UTF-8
         greenmail:
-            disabled: true
+            disabled: false
+        testDataConfig:
+            enabled: true
 
 grails:
     app:
@@ -162,11 +164,22 @@ grails:
         defaultScope: singleton
     converters:
         encoding: UTF-8
+        xml:
+            pretty:
+                print: true
+    enable:
+        native2ascii: true
+    exceptionresolver:
+        params:
+            exclude: ['password', 'password_confim']
     gorm:
         reactor:
             # Whether to translate GORM events into Reactor events
             # Disabled by default for performance reasons
             events: false
+    json:
+        legacy:
+            builder: false
     mail:
         host: 'localhost'
         port: 'com.icegreen.greenmail.util.ServerSetupTest.SMTP.port'
@@ -209,7 +222,20 @@ grails:
         use:
             accept:
                 header: true
+    plugin:
+        console:
+            enabled: true
     profile: web
+    project:
+        fork:
+            run: true
+        groupId: appName
+    resources:
+        adhoc:
+            patterns: ['/images/*', '/css/*', '/js/*', '/plugins/*']
+    scaffolding:
+        templates:
+            domainSuffix: 'Instance'
     serverURL: "https://jgetty-test.reannz.co.nz"
     urlmapping:
         cache:
@@ -229,6 +255,9 @@ grails:
                 preprocess: true
         filteringCodecForContentType:
             text/html: 'html'
+    web:
+        disable:
+            multipart: false
 
 
 hibernate:
@@ -249,10 +278,6 @@ jasypt:
     password: '<your very secret passphrase>'
     keyObtentionIterations: 1000
 
-logging:
-    level:
-        root: INFO
-
 
 recaptcha:
     publicKey: ""
@@ -262,6 +287,11 @@ recaptcha:
     enable: true
     useSecureAPI: true
 
+security:
+    shiro:
+        authc:
+            required: false
+            strategy: aaf.base.shiro.FirstExceptionStrategy
 
 server:
     session:
