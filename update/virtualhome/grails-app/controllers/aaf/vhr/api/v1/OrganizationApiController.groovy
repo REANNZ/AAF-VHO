@@ -3,8 +3,6 @@ package aaf.vhr.api.v1
 import aaf.vhr.*
 
 class OrganizationApiController extends aaf.base.api.ApiBaseController {
-  def beforeInterceptor = [action: this.&validateRequest, except:['update']]
-
   def organizationService
 
   def update() {

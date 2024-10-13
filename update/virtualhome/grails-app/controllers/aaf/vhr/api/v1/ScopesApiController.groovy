@@ -4,7 +4,6 @@ import aaf.vhr.*
 
 class ScopesApiController extends aaf.base.api.ApiBaseController {
   static defaultAction = "index"
-  def beforeInterceptor = [action: this.&validateRequest, except:['list']]
 
   def list() {
     log.info "ScopesApi.list() executed"

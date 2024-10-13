@@ -18,8 +18,6 @@ class LoginApiController extends aaf.base.api.ApiBaseController {
 
   static allowedMethods = [confirmsession: 'GET', basicauth:'POST']
 
-  def beforeInterceptor = [action: this.&validateRequest]
-
   def loginService
   def cryptoService
 
