@@ -1,3 +1,5 @@
+package virtualhome
+
 import aaf.vhr.*
 
 import aaf.base.identity.*
@@ -10,15 +12,60 @@ import org.apache.shiro.SecurityUtils
 
 import grails.util.Environment
 
-class BootStrap {
+class BoostStrap {
 
   def grailsApplication
+  def roleService
+  def permissionService
   def workflowProcessService
 
-    def init = { servletContext ->
-      if(Environment.current != Environment.TEST) {
+  def init = { servletContext ->
 
+    if(Environment.current != Environment.TEST) {
+
+        // This portion was taken from the file AAFBaseBootStrap.groovy
+
+        // Useful for initial workflow population and other actions requiring an internal account
         def subject = aaf.base.identity.Subject.findWhere(principal:"aaf.base.identity:internal_account")
+        if(!subject) {
+        subject = new aaf.base.identity.Subject(principal:"aaf.base.identity:internal_account", enabled:false)
+        if(!subject.save()) {
+            subject.errors.each {
+            println it
+            }
+            throw new RuntimeException("Unable to populate initial subject")
+        }
+        }
+
+        // Populates the super user group if not present
+        def adminRole = Role.findWhere(name:'AAF Application Administrators')
+        if(!adminRole) {
+        adminRole = roleService.createRole('AAF Application Administrators', 'AAF employees who have access to all parts of the application', true)
+
+        def permission = new Permission()
+        permission.type = Permission.defaultPerm
+        permission.target = "*"
+        
+        permissionService.createPermission(permission, adminRole)
+
+        log.warn("Created ${adminRole} for application wide administative access") 
+        }
+
+        def registered_managed_subject = EmailTemplate.findWhere(name:'role_invitation') 
+        if(!registered_managed_subject) {
+        def templateMarkup = grailsApplication.parentContext.getResource("classpath:aaf/base/identity/role_invitation.gsp").inputStream.text
+        registered_managed_subject = new EmailTemplate(name:'role_invitation', content: templateMarkup)
+        if(!registered_managed_subject.save()) {
+            registered_managed_subject.errors.each {
+            println it
+            }
+            throw new RuntimeException("Unable to populate initial role invitation email template role_invitation")
+        }
+        }
+
+        // This portion was taken from the BootStrap.groovy file from the original virtualhome application
+
+        def subject_vho = aaf.base.identity.Subject.findWhere(principal:"aaf.base.identity:internal_account")
         if(!subject) {
           throw new RuntimeException("Unable to retrieve initial subject reference \
             'aaf.base.identity:internal_account' which should be populated by base")
@@ -69,9 +116,7 @@ class BootStrap {
         seedEmailTemplate('approved_new_organization')
         seedEmailTemplate('email_password_code')
         seedEmailTemplate('email_lost_username')
-      }
     }
 
-    def destroy = {
-    }
+  }
 }
