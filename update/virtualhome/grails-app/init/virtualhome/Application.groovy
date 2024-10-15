@@ -21,7 +21,7 @@ class Application extends GrailsAutoConfiguration {
         return reg
     }
 
-    @Bean
+    /*@Bean
     public ServletRegistrationBean grails() {
         GrailsDispatcherServlet gds = new GrailsDispatcherServlet()
         gds.setDispatchOptionsRequest(true)
@@ -30,5 +30,5 @@ class Application extends GrailsAutoConfiguration {
         reg.setLoadOnStartup(1)
         reg.setAsyncSupported(true)
         return reg;
-    }
+    }*/
 }
