@@ -19,6 +19,24 @@ class BoostStrap {
   def permissionService
   def workflowProcessService
 
+  // Inject the authenticated Subject object
+  private void injectAuthn(def clazz) {
+    clazz.metaClass.getPrincipal = {
+      def subject = SecurityUtils.getSubject()
+    }
+
+    clazz.metaClass.getSubject = {
+      def subject = null
+      def principal = SecurityUtils.subject?.principal
+
+      if(principal) {
+        subject = aaf.base.identity.Subject.get(principal)
+        log.debug "returning $subject"
+      }
+      subject
+    }
+  }
+
   def init = { servletContext ->
 
     if(Environment.current != Environment.TEST) {
@@ -118,5 +136,20 @@ class BoostStrap {
         seedEmailTemplate('email_lost_username')
     }
 
+    // Supply authenticated subject to filters
+    grailsApplication.filtersClasses.each { filter ->
+      // Should be used after verified call to 'accessControl'
+      injectAuthn(filter.clazz)
+    }
+
+    // Supply authenticated subject to controllers
+    grailsApplication.controllerClasses?.each { controller ->
+      injectAuthn(controller.clazz)
+    }
+
+    // Supply authenticated subject to services
+    grailsApplication.serviceClasses?.each { service ->
+      injectAuthn(service.clazz)
+    }
   }
 }

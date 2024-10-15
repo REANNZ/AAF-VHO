@@ -3,6 +3,7 @@ import org.springframework.context.support.ConversionServiceFactoryBean
 import org.springframework.boot.web.servlet.FilterRegistrationBean
 
 import aaf.base.shiro.FirstExceptionStrategy
+import aaf.base.SMSDeliveryService
 
 beans = {
 
@@ -20,6 +21,11 @@ beans = {
   // The 'grails-audit-logging' plugin, of course, had an overhaul.
   auditRequestResolver(ShiroAuditResolver) {
     //customService = ref('customService')
+  }
+
+  // Ported from the file AafApplicationBaseGrailsPlugin.groovy file in applicationbase
+  smsDeliveryService(SMSDeliveryService) {
+    it.autowire = 'byName'
   }
 
   // The following has yet to be converted (if it's even applicable)
