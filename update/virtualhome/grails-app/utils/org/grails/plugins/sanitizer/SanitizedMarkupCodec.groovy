@@ -16,7 +16,7 @@ class SanitizedMarkupCodec {
 	/**
 	 * Encode a string as sanitized Markup
 	 */
-	def encode = { dirtyMarkup ->
+	static encode = { dirtyMarkup ->
 
 		if(!markupSanitizerService){
 			markupSanitizerService = Holders.applicationContext.getBean("markupSanitizerService")
