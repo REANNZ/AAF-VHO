@@ -21,4 +21,40 @@ beans = {
   auditRequestResolver(ShiroAuditResolver) {
     //customService = ref('customService')
   }
+
+  // The following has yet to be converted (if it's even applicable)
+  /*
+    <filter>
+      <filter-name>charEncodingFilter</filter-name>
+      <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+      <init-param>
+          <param-name>targetBeanName</param-name>
+          <param-value>characterEncodingFilter</param-value>
+      </init-param>
+      <init-param>
+          <param-name>targetFilterLifecycle</param-name>
+          <param-value>true</param-value>
+      </init-param>
+    </filter>
+
+
+    <filter>
+      <filter-name>multireadFilter</filter-name>
+      <filter-class>aaf.base.util.http.MultiReadServletFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>charEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>targetBeanName</param-name>
+            <param-value>characterEncodingFilter</param-value>
+        </init-param>
+        <init-param>
+            <param-name>targetFilterLifecycle</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+
+  */
 }
