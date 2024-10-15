@@ -182,7 +182,7 @@ grails:
             builder: false
     mail:
         host: 'localhost'
-        port: 'com.icegreen.greenmail.util.ServerSetupTest.SMTP.port'
+        port: 3025
         default:
             from: "tuakiri_dev_notifications@reannz.co.nz"
     mime:
