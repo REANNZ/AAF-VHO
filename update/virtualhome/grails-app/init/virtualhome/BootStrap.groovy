@@ -84,7 +84,7 @@ class BoostStrap {
         // This portion was taken from the BootStrap.groovy file from the original virtualhome application
 
         def subject_vho = aaf.base.identity.Subject.findWhere(principal:"aaf.base.identity:internal_account")
-        if(!subject) {
+        if(!subject_vho) {
           throw new RuntimeException("Unable to retrieve initial subject reference \
             'aaf.base.identity:internal_account' which should be populated by base")
         }
@@ -92,7 +92,7 @@ class BoostStrap {
         def organization_approval = WorkflowScript.findWhere(name:'organization_approval')
         if(!organization_approval) {
           def scriptMarkup = grailsApplication.parentContext.getResource("classpath:aaf/vhr/organization_approval.scr").inputStream.text
-          organization_approval = new WorkflowScript(name:'organization_approval', description:'Executed to finalize new Organization', definition:scriptMarkup, , processVersion:1, creator:subject)
+          organization_approval = new WorkflowScript(name:'organization_approval', description:'Executed to finalize new Organization', definition:scriptMarkup, , processVersion:1, creator:subject_vho)
           if(!organization_approval.save()) {
             organization_approval.errors.each {
               println it
@@ -105,7 +105,7 @@ class BoostStrap {
         if(!organization_creation_process) {
 
           def suMetaClass = new ExpandoMetaClass(SecurityUtils)
-          suMetaClass.'static'.getSubject = {[getPrincipal:{subject.id}] as Subject}
+          suMetaClass.'static'.getSubject = {[getPrincipal:{subject_vho.id}] as Subject}
           suMetaClass.initialize()
           SecurityUtils.metaClass = suMetaClass
 
