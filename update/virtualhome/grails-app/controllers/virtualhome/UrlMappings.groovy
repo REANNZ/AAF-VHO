@@ -98,10 +98,10 @@ class UrlMappings {
     }
 
     // Errors
-    "403"(controller:'error', action:'notPermitted')
+    /*"403"(controller:'error', action:'notPermitted')
     "404"(controller:'error', action:'notFound')
     "405"(controller:'error', action:'notAllowed')
-    "500"(controller:'error', action:'internalServerError')
+    "500"(controller:'error', action:'internalServerError')*/
 
     // Greenmail (Development mode only)
     "/greenmail/$action?/$id?"{
