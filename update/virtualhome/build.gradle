@@ -152,3 +152,10 @@ assets {
     minifyJs = true
     minifyCss = true
 }
+
+grails {
+    plugins {
+        compile project(":applicationbase")
+        compile project(':grails-sanitizer')
+    }
+}

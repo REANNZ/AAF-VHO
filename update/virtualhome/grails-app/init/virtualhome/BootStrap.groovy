@@ -19,24 +19,6 @@ class BoostStrap {
   def permissionService
   def workflowProcessService
 
-  // Inject the authenticated Subject object
-  private void injectAuthn(def clazz) {
-    clazz.metaClass.getPrincipal = {
-      def subject = SecurityUtils.getSubject()
-    }
-
-    clazz.metaClass.getSubject = {
-      def subject = null
-      def principal = SecurityUtils.subject?.principal
-
-      if(principal) {
-        subject = aaf.base.identity.Subject.get(principal)
-        log.debug "returning $subject"
-      }
-      subject
-    }
-  }
-
   def init = { servletContext ->
 
     if(Environment.current != Environment.TEST) {
