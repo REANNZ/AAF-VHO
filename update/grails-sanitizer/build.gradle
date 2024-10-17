@@ -50,6 +50,12 @@ dependencies {
     testCompile "org.grails:grails-gorm-testing-support"
     testCompile "org.grails:grails-plugin-testing"
     testCompile "org.grails:grails-web-testing-support"
+
+    // Required for the ported grails-sanitizer code
+    compile 'org.owasp.antisamy:antisamy:1.5.1'
+    runtime 'net.sourceforge.nekohtml:nekohtml:1.9.16', {
+        exclude group: "xml-apis"
+    }
 }
 
 bootRun {

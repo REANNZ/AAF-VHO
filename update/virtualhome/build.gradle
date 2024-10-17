@@ -132,12 +132,6 @@ dependencies {
 
     // Locally installed submodule of the grails-sanitizer-plugin plugin
     //compile project(':grails-sanitizer-plugin')
-
-    // Required for the ported grails-sanitizer code
-    compile 'org.owasp.antisamy:antisamy:1.5.1'
-    runtime 'net.sourceforge.nekohtml:nekohtml:1.9.16', {
-        exclude group: "xml-apis"
-    }
 }
 
 bootRun {
