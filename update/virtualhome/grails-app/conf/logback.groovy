@@ -104,13 +104,13 @@ logger("aaf.vhr", INFO, ['app-appender'], false)
 logger("org.apache.shiro", INFO, ['app-appender'], false)
 
 // Port of the 'app-grails' logger
-logger("org.codehaus.groovy.grails.web.servlet", WARN, ['app-grails-appender'], false)
-logger("org.codehaus.groovy.grails.web.pages", WARN, ['app-grails-appender'], false)
-logger("org.codehaus.groovy.grails.web.sitemesh", WARN, ['app-grails-appender'], false)
-logger("org.codehaus.groovy.grails.web.mapping.filter", WARN, ['app-grails-appender'], false)
-logger("org.codehaus.groovy.grails.web.mapping", WARN, ['app-grails-appender'], false)
-logger("org.codehaus.groovy.grails.commons", WARN, ['app-grails-appender'], false)
-logger("org.codehaus.groovy.grails.plugins", WARN, ['app-grails-appender'], false)
+logger("org.grails.web.servlet", WARN, ['app-grails-appender'], false)
+logger("grails.web.pages", WARN, ['app-grails-appender'], false)
+//logger("org.codehaus.groovy.grails.web.sitemesh", WARN, ['app-grails-appender'], false)
+//logger("org.codehaus.groovy.grails.web.mapping.filter", WARN, ['app-grails-appender'], false)
+logger("org.grails.web.mapping", WARN, ['app-grails-appender'], false)
+logger("org.grails.commons", WARN, ['app-grails-appender'], false)
+logger("grails.plugins", WARN, ['app-grails-appender'], false)
 
 
 if(Environment.current == Environment.TEST) {
@@ -143,11 +143,11 @@ if(Environment.current == Environment.TEST) {
     logger('org.apache.shiro', DEBUG, ['aafbase'], false)
     logger('org.spockframework', DEBUG, ['aafbase'], false)
 
-    logger('org.codehaus.groovy.grails.web.servlet', WARN, ['aafbase-grails'], false)
-    logger('org.codehaus.groovy.grails.web.pages', WARN, ['aafbase-grails'], false)
-    logger('org.codehaus.groovy.grails.web.sitemesh', WARN, ['aafbase-grails'], false)
-    logger('org.codehaus.groovy.grails.web.mapping.filter', WARN, ['aafbase-grails'], false)
-    logger('org.codehaus.groovy.grails.web.mapping', WARN, ['aafbase-grails'], false)
-    logger('org.codehaus.groovy.grails.commons', WARN, ['aafbase-grails'], false)
-    logger('org.codehaus.groovy.grails.plugins', WARN, ['aafbase-grails'], false)
+    logger('org.grails.web.servlet', WARN, ['aafbase-grails'], false)
+    logger('grails.web.pages', WARN, ['aafbase-grails'], false)
+    //logger('org.codehaus.groovy.grails.web.sitemesh', WARN, ['aafbase-grails'], false)
+    //logger('org.codehaus.groovy.grails.web.mapping.filter', WARN, ['aafbase-grails'], false)
+    logger('org.grails.web.mapping', WARN, ['aafbase-grails'], false)
+    logger('org.grails.commons', WARN, ['aafbase-grails'], false)
+    logger('grails.plugins', WARN, ['aafbase-grails'], false)
 }
