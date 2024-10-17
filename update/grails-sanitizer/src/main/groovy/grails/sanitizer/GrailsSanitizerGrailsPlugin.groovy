@@ -2,6 +2,9 @@ package grails.sanitizer
 
 import grails.plugins.*
 
+// NOTE: This looks like something from the web but it's a local file
+import org.codehaus.groovy.grails.validation.ApplicationContextAwareConstraintFactory
+
 class GrailsSanitizerGrailsPlugin extends Plugin {
 
     // the version or versions of Grails the plugin is designed for
@@ -13,11 +16,35 @@ class GrailsSanitizerGrailsPlugin extends Plugin {
 
     // TODO Fill in these fields
     def title = "Grails Sanitizer" // Headline display name of the plugin
-    def author = "Your name"
-    def authorEmail = ""
-    def description = '''\
-Brief summary/description of the plugin.
+    def author = "Daniel Bower and Jamie Getty"
+    def authorEmail = "daniel@bowerstudios.com"
+    def description =  '''\
+Plugin for Sanitizing Markup(HTML, XHTML, CSS) using OWASP AntiSamy.
+Filters malicious content from User generated content (such as that entered through Rich Text boxes).
+
+Features -
+* Ruleset in web-app/WEB-INF/antisamy-policy.xml
+* Constraint "markup"
+  - can be added to domain/command classes to validate that a string is valid and safe markup
+  - important note:  The constraint is for validation only, it does not sanitize the string
+* Encoding-only Codec "myText.encodeAsSanitizedMarkup()"
+  - use the codec or the service to sanitize the string
+  - (the codec uses the service, too)
+* MarkupSanitizerService
+  - use the codec or the service to sanitize the string
+  - access in your controllers/services via
+    	def markupSanitizerService
+  - method MarkupSanitizerResult sanitize(String dirtyString)
+  - method MarkupValidatorResult validateMarkup(String htmlString)
+  - effectively a singleton, which means the ruleset only needs to be read once on startup
+
+Please note the beta nature of the version number.  This plugin has not been extensively tested.  Please feel
+free to send me any results of any testing you may do.
+
+This module does not sanitize a string that does not contain valid markup.  If it does not contain
+valid markup, it will simply return an empty string.
 '''
+
     def profiles = ['web']
 
     // URL to the plugin's documentation
@@ -50,7 +77,10 @@ Brief summary/description of the plugin.
     }
 
     void doWithApplicationContext() {
-        // TODO Implement post initialization spring config (optional)
+		// Implement post initialization spring config (optional)
+		def factory = new ApplicationContextAwareConstraintFactory(
+			applicationContext, MarkupConstraint, ["markupSanitizerService"])
+		ConstrainedProperty.registerNewConstraint(MarkupConstraint.MARKUP_CONSTRAINT, factory)
     }
 
     void onChange(Map<String, Object> event) {

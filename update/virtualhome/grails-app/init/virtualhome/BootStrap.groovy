@@ -7,8 +7,6 @@ import aaf.base.admin.*
 import aaf.base.workflow.*
 
 import org.apache.shiro.subject.Subject
-import org.apache.shiro.util.ThreadContext
-import org.apache.shiro.SecurityUtils
 
 import grails.util.Environment
 
@@ -117,21 +115,9 @@ class BoostStrap {
         seedEmailTemplate('email_password_code')
         seedEmailTemplate('email_lost_username')
     }
-
-    // Supply authenticated subject to filters
-    grailsApplication.filtersClasses.each { filter ->
-      // Should be used after verified call to 'accessControl'
-      injectAuthn(filter.clazz)
-    }
-
-    // Supply authenticated subject to controllers
-    grailsApplication.controllerClasses?.each { controller ->
-      injectAuthn(controller.clazz)
-    }
-
-    // Supply authenticated subject to services
-    grailsApplication.serviceClasses?.each { service ->
-      injectAuthn(service.clazz)
-    }
   }
+
+  def destroy = {
+  }
+
 }

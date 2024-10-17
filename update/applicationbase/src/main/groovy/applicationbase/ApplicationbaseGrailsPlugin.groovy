@@ -2,6 +2,10 @@ package applicationbase
 
 import grails.plugins.*
 
+import aaf.base.SMSDeliveryService
+import aaf.base.identity.Subject
+import org.apache.shiro.SecurityUtils
+
 class ApplicationbaseGrailsPlugin extends Plugin {
 
     // the version or versions of Grails the plugin is designed for
@@ -12,16 +16,18 @@ class ApplicationbaseGrailsPlugin extends Plugin {
     ]
 
     // TODO Fill in these fields
-    def title = "Applicationbase" // Headline display name of the plugin
-    def author = "Your name"
-    def authorEmail = ""
+    def title = "REANNZ Application Base" // Headline display name of the plugin
+    def author = "Jamie Getty"
+    def authorEmail = "jamie.getty@reannz.co.nz"
     def description = '''\
-Brief summary/description of the plugin.
+Collection of code required to make the virtualhome application run
 '''
     def profiles = ['web']
 
     // URL to the plugin's documentation
     def documentation = "http://grails.org/plugin/applicationbase"
+
+    def watchedResources = ["file:./grails-app/**/services/*Service.groovy", "file:./grails-app/controllers/**/*Controller.groovy"]
 
     // Extra (optional) plugin metadata
 
@@ -40,23 +46,36 @@ Brief summary/description of the plugin.
     // Online location of the plugin's browseable source code.
 //    def scm = [ url: "http://svn.codehaus.org/grails-plugins/" ]
 
-    Closure doWithSpring() { {->
-            // TODO Implement runtime spring config (optional)
+    Closure doWithSpring() {
+        smsDeliveryService(SMSDeliveryService) {
+            it.autowire = 'byName'
         }
     }
 
     void doWithDynamicMethods() {
-        // TODO Implement registering dynamic methods to classes (optional)
-    }
+        // Supply authenticated subject to filters
+        application.filtersClasses.each { filter ->
+            // Should be used after verified call to 'accessControl' 
+            injectAuthn(filter.clazz)      
+        }
+
+        // Supply authenticated subject to controllers
+        application.controllerClasses?.each { controller ->
+            injectAuthn(controller.clazz)
+        }
+
+        // Supply authenticated subject to services
+        application.serviceClasses?.each { service ->
+            injectAuthn(service.clazz)
+        }
+  }
 
     void doWithApplicationContext() {
         // TODO Implement post initialization spring config (optional)
     }
 
     void onChange(Map<String, Object> event) {
-        // TODO Implement code that is executed when any artefact that this plugin is
-        // watching is modified and reloaded. The event contains: event.source,
-        // event.application, event.manager, event.ctx, and event.plugin.
+        injectAuthn(event.source)
     }
 
     void onConfigChange(Map<String, Object> event) {
@@ -66,5 +85,23 @@ Brief summary/description of the plugin.
 
     void onShutdown(Map<String, Object> event) {
         // TODO Implement code that is executed when the application shuts down (optional)
+    }
+
+    // Inject the authenticated Subject object
+    private void injectAuthn(def clazz) {
+        clazz.metaClass.getPrincipal = {
+        def subject = SecurityUtils.getSubject()
+        }
+        
+        clazz.metaClass.getSubject = {
+        def subject = null
+        def principal = SecurityUtils.subject?.principal
+
+        if(principal) {
+            subject = aaf.base.identity.Subject.get(principal)
+            log.debug "returning $subject"
+        }
+        subject
+        }
     }
 }
