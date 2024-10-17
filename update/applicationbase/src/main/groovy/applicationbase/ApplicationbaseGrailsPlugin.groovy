@@ -47,9 +47,6 @@ Collection of code required to make the virtualhome application run
 //    def scm = [ url: "http://svn.codehaus.org/grails-plugins/" ]
 
     Closure doWithSpring() {
-        smsDeliveryService(SMSDeliveryService) {
-            it.autowire = 'byName'
-        }
     }
 
     void doWithDynamicMethods() {
