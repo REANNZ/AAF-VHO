@@ -50,6 +50,13 @@ dependencies {
     testCompile "org.grails:grails-gorm-testing-support"
     testCompile "org.grails:grails-plugin-testing"
     testCompile "org.grails:grails-web-testing-support"
+
+    // Required for org.apache.shiro.SecurityUtils
+    compile "org.apache.shiro:shiro-core:1.2.5"
+    // Required for the Auditable class
+    compile "org.grails.plugins:audit-logging:3.0.6" // Required for Grails 3+
+    // Required for the HTTPBuilder class
+    compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
 }
 
 bootRun {
