@@ -51,18 +51,18 @@ Collection of code required to make the virtualhome application run
 
     void doWithDynamicMethods() {
         // Supply authenticated subject to filters
-        application.filtersClasses.each { filter ->
+        /*grailsApplication.filtersClasses.each { filter ->
             // Should be used after verified call to 'accessControl' 
             injectAuthn(filter.clazz)      
-        }
+        }*/
 
         // Supply authenticated subject to controllers
-        application.controllerClasses?.each { controller ->
+        grailsApplication.controllerClasses?.each { controller ->
             injectAuthn(controller.clazz)
         }
 
         // Supply authenticated subject to services
-        application.serviceClasses?.each { service ->
+        grailsApplication.serviceClasses?.each { service ->
             injectAuthn(service.clazz)
         }
   }

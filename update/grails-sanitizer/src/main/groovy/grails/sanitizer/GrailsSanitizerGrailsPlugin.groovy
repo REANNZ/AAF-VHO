@@ -5,6 +5,8 @@ import grails.plugins.*
 // NOTE: This looks like something from the web but it's a local file
 import org.codehaus.groovy.grails.validation.ApplicationContextAwareConstraintFactory
 
+import grails.validation.ConstrainedProperty
+
 class GrailsSanitizerGrailsPlugin extends Plugin {
 
     // the version or versions of Grails the plugin is designed for
