@@ -4,7 +4,7 @@ import grails.plugins.*
 
 // NOTE: This looks like something from the web but it's a local file
 import org.codehaus.groovy.grails.validation.ApplicationContextAwareConstraintFactory
-
+import org.grails.plugins.sanitizer.MarkupConstraint
 import grails.validation.ConstrainedProperty
 
 class GrailsSanitizerGrailsPlugin extends Plugin {
