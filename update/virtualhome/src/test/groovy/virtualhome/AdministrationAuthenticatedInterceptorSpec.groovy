@@ -14,7 +14,7 @@ class AdministrationAuthenticatedInterceptorSpec extends Specification implement
 
     void "Test administrationAuthenticated interceptor matching"() {
         when:"A request matches the interceptor"
-            withRequest(controller:"administrationAuthenticated")
+            withRequest(uri:"/administration/")
 
         then:"The interceptor does match"
             interceptor.doesMatch()
