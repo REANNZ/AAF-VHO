@@ -6,6 +6,7 @@ buildscript {
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.14.2"
+        classpath "org.grails.plugins:hibernate5:${gormVersion-".RELEASE"}"
     }
 }
 
@@ -57,6 +58,19 @@ dependencies {
     compile "org.grails.plugins:audit-logging:3.0.6" // Required for Grails 3+
     // Required for the HTTPBuilder class
     compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
+    // Required for the GormEncryptedStringType class
+    compile "org.grails.plugins:jasypt-encryption:2.0.2"
+    // Required for the class org.hibernate.usertype.UserType
+    compile "org.grails.plugins:hibernate5"
+    compile "org.hibernate:hibernate-core:5.1.5.Final"
+    // Required for edu.vt.middleware imports
+    compile "edu.vt.middleware:vt-dictionary:3.0"
+    compile "edu.vt.middleware:vt-password:3.1.1"
+    // Required for the class com.google.common.cache.*
+    compile "com.google.guava:guava:14.0"
+    // Required for com.google.zxing.*
+    compile "com.google.zxing:core:3.5.3"
+    compile "com.google.zxing:javase:3.5.3"
 }
 
 bootRun {
