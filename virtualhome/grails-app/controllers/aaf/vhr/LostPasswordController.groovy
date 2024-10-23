@@ -21,6 +21,7 @@ class LostPasswordController {
   def cryptoService
   def emailManagerService
   def smsDeliveryService
+  def lostPasswordService
 
   def beforeInterceptor = [action: this.&validManagedSubjectInstance, except: ['start', 'emailed', 'obtainsubject', 'complete', 'unavailable', 'support', 'logout']]
 
@@ -28,7 +29,21 @@ class LostPasswordController {
   }
 
   def emailed() {
+
+    if (!params.login) {
+      log.error "No username was specified! We can't perform any lookup!"
+      flash.type = 'error'
+      flash.message = controllers.aaf.vhr.lostpassword.requiresaccount
+      redirect action: 'start'
+      return
+    }
+
     log.info "User ${params.login} has requested a password reset!"
+
+    def managedSubjectInstance = ManagedSubject.findWhere(login: params.login)
+    if (managedSubjectInstance) {
+      lostPasswordService.sendResetEmail(managedSubjectInstance)
+    }
   }
 
   def obtainsubject() {
