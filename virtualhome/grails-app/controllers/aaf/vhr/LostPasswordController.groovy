@@ -22,9 +22,13 @@ class LostPasswordController {
   def emailManagerService
   def smsDeliveryService
 
-  def beforeInterceptor = [action: this.&validManagedSubjectInstance, except: ['start', 'obtainsubject', 'complete', 'unavailable', 'support', 'logout']]
+  def beforeInterceptor = [action: this.&validManagedSubjectInstance, except: ['start', 'emailed', 'obtainsubject', 'complete', 'unavailable', 'support', 'logout']]
 
   def start() {
+  }
+
+  def emailed() {
+    log.info "User ${params.login} has requested a password reset!"
   }
 
   def obtainsubject() {
