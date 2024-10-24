@@ -31,7 +31,7 @@ class LostPasswordService {
     }
 
     def emailSubject = messageSource.getMessage(EMAIL_SUBJECT, [] as Object[], EMAIL_SUBJECT, LocaleContextHolder.locale)
-    def url = grailsLinkGenerator.link(controller: 'lostpassword', action: 'reset', absolute: true, params: [emailClicked:true])
+    def url = grailsLinkGenerator.link(controller: 'lostpassword', action: 'obtainsubject', absolute: true)
 
     emailManagerService.send(managedSubject.email, emailSubject, emailTemplate, [managedSubject:managedSubject, emailURL:url])
   }

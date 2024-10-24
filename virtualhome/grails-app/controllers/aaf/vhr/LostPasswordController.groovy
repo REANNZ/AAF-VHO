@@ -9,7 +9,7 @@ import aaf.vhr.switchch.vho.DeprecatedSubject
 
 class LostPasswordController {
 
-  static allowedMethods = [obtainsubject: 'POST', validatereset: 'POST']
+  static allowedMethods = [obtainsubject: 'GET', validatereset: 'POST']
 
   final String CURRENT_USER = "aaf.vhr.LostPasswordController.CURRENT_USER"
   final String EMAIL_CODE_SUBJECT ='controllers.aaf.vhr.lostpassword.email.code.subject'
@@ -48,49 +48,11 @@ class LostPasswordController {
   }
 
   def obtainsubject() {
-    def managedSubjectInstance
-    if (params.login) {
-        managedSubjectInstance = ManagedSubject.findWhere(login: params.login)
-    }
-
-    if(!managedSubjectInstance) {
-      log.error "No ManagedSubject representing ${params.login} found, requesting login before accessing password change"
-
-      flash.type = 'info'
-      flash.message = 'controllers.aaf.vhr.lostpassword.requiresaccount'
-      redirect action: 'start'
-
-
-    } else {
-      session.setAttribute(CURRENT_USER, managedSubjectInstance.id)
-
-      if(!managedSubjectInstance.canChangePassword()) {
-        log.error "Unable to reset password for $managedSubjectInstance as account is not currently able to change passwords"
-        redirect action: 'support'
-
-        return
-      }
-
-      if(!managedSubjectInstance.isFinalized()) {
-        log.error "Unable to reset password for $managedSubjectInstance as account has not been finalized"
-        redirect action: 'support'
-
-        return
-      }
-
-      redirect action: 'reset'
-    }
+    redirect action: 'reset'
   }
 
   def reset() {
     def managedSubjectInstance = ManagedSubject.get(session.getAttribute(CURRENT_USER))
-
-    // Users need to follow the email to get here, so make sure the correct variable was set.
-    if (params.emailClicked) {
-      log.info "The email link was followed since params.emailClicked equals ${params.emailClicked}"
-    } else {
-      log.info "The email link was NOT followed since params.emailClicked equals ${params.emailClicked}"
-    }
 
     // When not using 2FA, generate and send a resetCode if we don't have one yet.
     // When using 2FA and the user has a mobileNumber, generate and send a resetCodeExternal if we don't have one yet.
