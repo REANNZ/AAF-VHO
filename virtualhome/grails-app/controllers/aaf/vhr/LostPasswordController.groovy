@@ -42,6 +42,7 @@ class LostPasswordController {
 
     def managedSubjectInstance = ManagedSubject.findWhere(login: params.login)
     if (managedSubjectInstance) {
+      session.setAttribute(CURRENT_USER, managedSubjectInstance.id)
       lostPasswordService.sendResetEmail(managedSubjectInstance)
     }
   }
@@ -83,6 +84,13 @@ class LostPasswordController {
 
   def reset() {
     def managedSubjectInstance = ManagedSubject.get(session.getAttribute(CURRENT_USER))
+
+    // Users need to follow the email to get here, so make sure the correct variable was set.
+    if (params.emailClicked) {
+      log.info "The email link was followed since params.emailClicked equals ${params.emailClicked}"
+    } else {
+      log.info "The email link was NOT followed since params.emailClicked equals ${params.emailClicked}"
+    }
 
     // When not using 2FA, generate and send a resetCode if we don't have one yet.
     // When using 2FA and the user has a mobileNumber, generate and send a resetCodeExternal if we don't have one yet.
