@@ -4,6 +4,7 @@ import grails.transaction.Transactional
 import org.springframework.context.i18n.LocaleContextHolder
 
 import aaf.base.admin.EmailTemplate
+import aaf.base.identity.Role
 
 @Transactional
 class LostPasswordService {
@@ -27,7 +28,7 @@ class LostPasswordService {
 
     def emailTemplate = EmailTemplate.findWhere(name:'email_password_reset_with_link')
     if(!emailTemplate) {
-      throw new RuntimeException("Email template for advising about deactivated accounts 'deactivated_managed_subject' does not exist")  // Rollback transaction
+      throw new RuntimeException("Email template for advising about deactivated accounts 'email_password_reset_with_link' does not exist")  // Rollback transaction
     }
 
     def emailSubject = messageSource.getMessage(EMAIL_SUBJECT, [] as Object[], EMAIL_SUBJECT, LocaleContextHolder.locale)
@@ -41,10 +42,13 @@ class LostPasswordService {
 
     def emailTemplate = EmailTemplate.findWhere(name:'email_password_reset_without_link')
     if(!emailTemplate) {
-      throw new RuntimeException("Email template for advising about deactivated accounts 'deactivated_managed_subject' does not exist")  // Rollback transaction
+      throw new RuntimeException("Email template for advising about deactivated accounts 'email_password_reset_without_link' does not exist")  // Rollback transaction
     }
 
+    def groupAdminRole = Role.findWhere(name:"group:${managedSubject.group.id}:administrators")
+    def organizationAdminRole = Role.findWhere(name:"organization:${managedSubject.organization.id}:administrators")
+
     def emailSubject = messageSource.getMessage(EMAIL_SUBJECT, [] as Object[], EMAIL_SUBJECT, LocaleContextHolder.locale)
-    emailManagerService.send(managedSubject.email, emailSubject, emailTemplate, [managedSubject:managedSubject])
+    emailManagerService.send(managedSubject.email, emailSubject, emailTemplate, [managedSubject:managedSubject, groupAdminRole:groupAdminRole, organizationAdminRole:organizationAdminRole])
   }
 }
