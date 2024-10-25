@@ -54,25 +54,22 @@ class LostPasswordController {
   def reset() {
     def managedSubjectInstance = ManagedSubject.get(session.getAttribute(CURRENT_USER))
 
-    // When not using 2FA, generate and send a resetCode if we don't have one yet.
-    // When using 2FA and the user has a mobileNumber, generate and send a resetCodeExternal if we don't have one yet.
-    // When using 2FA and the user does not have a mobileNumber, do nothing (skip this block) - the user needs to get the resetCodeExternal code out-of-band
-    if( (!grailsApplication.config.aaf.vhr.passwordreset.second_factor_required && managedSubjectInstance.resetCode == null) ||
-         (grailsApplication.config.aaf.vhr.passwordreset.second_factor_required && managedSubjectInstance.mobileNumber && managedSubjectInstance.resetCodeExternal == null)) {
-      if(grailsApplication.config.aaf.vhr.passwordreset.second_factor_required) {
-        managedSubjectInstance.resetCodeExternal = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
-
-        flash.type = 'info'
-        flash.message = 'controllers.aaf.vhr.lostpassword.reset.sent.externalcode'
-      } else {
-        // When second factor is disabled (i.e no SMS such as in the test federation) do it over email.
-        managedSubjectInstance.resetCode = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
-
-        flash.type = 'info'
-        flash.message = 'controllers.aaf.vhr.lostpassword.reset.sent.email'
-      }
-      sendResetCodes(managedSubjectInstance)
+    // Send the user an SMS code to their mobile number.
+    // If they do not have one, this is an error.
+    if (!managedSubjectInstance.mobileNumber) {
+      log.error "User ${managedSubjectInstance} does not have a mobile number!"
+      flash.type = 'error'
+      flash.message = 'controllers.aaf.vhr.lostpassword.reset.mobile.missing'
+      redirect action: start
+      return
     }
+
+    // If we haven't generated an SMS code already, generate an SMS code and sent it to the user (even if we have already sent one)
+    def smsCode = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
+    managedSubjectInstance.resetCodeExternal = smsCode
+    flash.type = 'info'
+    flash.message = 'controllers.aaf.vhr.lostpassword.reset.sent.externalcode'
+    sendResetCodes(managedSubjectInstance)
 
     def groupRole = Role.findWhere(name:"group:${managedSubjectInstance.group.id}:administrators")
     def organizationRole = Role.findWhere(name:"organization:${managedSubjectInstance.organization.id}:administrators")
