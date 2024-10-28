@@ -45,6 +45,8 @@ class LostPasswordController {
       session.setAttribute(CURRENT_USER, managedSubjectInstance.id)
       lostPasswordService.sendResetEmail(managedSubjectInstance)
     }
+
+    [login: params.login]
   }
 
   def obtainsubject() {

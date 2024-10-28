@@ -11,6 +11,10 @@
       <g:render template="/templates/flash" plugin="aafApplicationBase"/>
 
       <p>Please follow the instructions.</p>
+
+      <h3>Didn't receive an email?</p>
+
+      <p>Click <g:link controller="lostpassword" action="emailed" params="[login:login]">here</g:link> to re-send.</p>
     </div>
 
   </body>
