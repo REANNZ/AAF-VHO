@@ -6,7 +6,7 @@
   <body>
 
     <div class="hero-unit">
-      <h2>An email has been sent to this user.</h2>
+      <h2>If you have an account here, an email has been sent to you.</h2>
 
       <g:render template="/templates/flash" plugin="aafApplicationBase"/>
 
