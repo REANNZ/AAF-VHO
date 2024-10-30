@@ -346,11 +346,7 @@ class ManagedSubjectController {
   def admincode(Long id) {
     def managedSubjectInstance = ManagedSubject.get(id)
     if(managedSubjectInstance.canMutate()) {
-      if(grailsApplication.config.aaf.vhr.passwordreset.second_factor_required) {
-        managedSubjectInstance.resetCodeExternal = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
-      } else {
-        managedSubjectInstance.resetCode = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
-      }
+      managedSubjectInstance.resetCodeExternal = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
 
       if (!managedSubjectInstance.save()) {
         flash.type = 'error'
