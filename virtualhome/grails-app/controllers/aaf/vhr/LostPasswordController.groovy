@@ -50,6 +50,26 @@ class LostPasswordController {
   }
 
   def obtainsubject() {
+    // Check that the clicked link is for the session user
+    def managedSubjectInstance = ManagedSubject.get(session.getAttribute(CURRENT_USER))
+    if (!managedSubjectInstance) {
+      flash.type = 'error'
+      flash.message = 'controllers.aaf.vhr.lostpassword.reset.url.badsecret'
+      redirect action: 'start'
+      return
+    }
+
+    def userCode = managedSubjectInstance.resetCode
+    def urlCode = params.code
+
+    if (urlCode != userCode) {
+      log.error "User has tried to initiate password reset but doesn't have correct code! User = ${managedSubjectInstance}, URL code = ${urlCode}, User code = ${userCode}"
+      flash.type = 'error'
+      flash.message = 'controllers.aaf.vhr.lostpassword.reset.url.badsecret'
+      redirect action: 'start'
+      return
+    }
+
     redirect action: 'reset'
   }
 
