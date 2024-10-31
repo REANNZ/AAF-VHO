@@ -33,7 +33,7 @@ class LostPasswordController {
     if (!params.login) {
       log.error "No username was specified! We can't perform any lookup!"
       flash.type = 'error'
-      flash.message = controllers.aaf.vhr.lostpassword.requiresaccount
+      flash.message = 'controllers.aaf.vhr.lostpassword.requiresaccount'
       redirect action: 'start'
       return
     }
