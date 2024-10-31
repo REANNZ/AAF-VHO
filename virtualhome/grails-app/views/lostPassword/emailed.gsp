@@ -12,9 +12,13 @@
 
       <p>Please follow the instructions in the email.</p>
 
-      <h3>Did not receive the email?</p>
+      <h3>Didn't receive the email?</p>
 
-      <p>Click <g:link controller="lostpassword" action="emailed" params="[login:login]">here</g:link> to re-send.</p>
+      <g:form action="emailed" params="[login:login]">
+        <button type="submit" class="btn btn-large">Re-send email.</button>
+        <g:link controller="lostpassword"></g:link>
+      </g:form>
+
     </div>
 
   </body>
