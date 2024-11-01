@@ -68,8 +68,8 @@ class BootStrap {
         seedEmailTemplate('deactivated_managed_subject')
         seedEmailTemplate('approved_new_organization')
         seedEmailTemplate('email_lost_username')
-        seedEmailTemplate('email_password_reset_with_link')
-        seedEmailTemplate('email_password_reset_without_link')
+        seedEmailTemplate('email_password_reset_with_phone')
+        seedEmailTemplate('email_password_reset_without_phone')
       }
     }
 

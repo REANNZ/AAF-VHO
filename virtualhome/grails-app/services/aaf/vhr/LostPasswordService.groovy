@@ -36,9 +36,10 @@ class LostPasswordService {
   public void sendResetEmailWithLink(ManagedSubject managedSubject) {
     log.info "Sending password reset email for user ${managedSubject.cn} with phone number ${managedSubject.mobileNumber} ."
 
-    def emailTemplate = EmailTemplate.findWhere(name:'email_password_reset_with_link')
+    def emailTemplateName = 'email_password_reset_with_phone'
+    def emailTemplate = EmailTemplate.findWhere(name:emailTemplateName)
     if(!emailTemplate) {
-      throw new RuntimeException("Email template for advising about deactivated accounts 'email_password_reset_with_link' does not exist")  // Rollback transaction
+      throw new RuntimeException("Email template for advising about deactivated accounts '${emailTemplateName}' does not exist")  // Rollback transaction
     }
 
     def emailSubject = messageSource.getMessage(EMAIL_SUBJECT, [] as Object[], EMAIL_SUBJECT, LocaleContextHolder.locale)
@@ -50,15 +51,18 @@ class LostPasswordService {
   public void sendResetEmailWithoutLink(ManagedSubject managedSubject) {
     log.info "Sending password reset email for user ${managedSubject.cn} with no phone number."
 
-    def emailTemplate = EmailTemplate.findWhere(name:'email_password_reset_without_link')
+    def emailTemplateName = 'email_password_reset_without_phone'
+    def emailTemplate = EmailTemplate.findWhere(name:emailTemplateName)
     if(!emailTemplate) {
-      throw new RuntimeException("Email template for advising about deactivated accounts 'email_password_reset_without_link' does not exist")  // Rollback transaction
+      throw new RuntimeException("Email template for advising about deactivated accounts '${emailTemplateName}' does not exist")  // Rollback transaction
     }
 
     def groupAdminRole = Role.findWhere(name:"group:${managedSubject.group.id}:administrators")
     def organizationAdminRole = Role.findWhere(name:"organization:${managedSubject.organization.id}:administrators")
 
+    def url = generateEmailLink(managedSubject)
+
     def emailSubject = messageSource.getMessage(EMAIL_SUBJECT, [] as Object[], EMAIL_SUBJECT, LocaleContextHolder.locale)
-    emailManagerService.send(managedSubject.email, emailSubject, emailTemplate, [managedSubject:managedSubject, groupAdminRole:groupAdminRole, organizationAdminRole:organizationAdminRole])
+    emailManagerService.send(managedSubject.email, emailSubject, emailTemplate, [managedSubject:managedSubject, emailURL:url, groupAdminRole:groupAdminRole, organizationAdminRole:organizationAdminRole])
   }
 }

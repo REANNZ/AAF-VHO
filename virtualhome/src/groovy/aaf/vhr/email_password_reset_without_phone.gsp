@@ -2,11 +2,11 @@ Hello ${managedSubject.cn.encodeAsHTML()},<br><br>
 
 You are attempting to recover a lost password.<br><br>
 
-However, you do not have a mobile number configured for this account.<br>
+Please note that you do not have a mobile number configured for this account.<br>
 
 A mobile number is required for SMS confirmation of your identity.<br>
 
-This requires contacting one of the administators of your account.<br><br>
+<strong>Please contact one of your listed administrators to obtain the required SMS code!</strong><br><br>
 
 <g:if test="${groupAdminRole.subjects?.size() > 0}">
   <h5>Primary Administrators</h5>
@@ -25,5 +25,7 @@ This requires contacting one of the administators of your account.<br><br>
     </g:each>
   </ul>
 </g:if>
+
+Once you have obtained the SMS code from your administrator, <a href="${emailURL}">click the link</a> to proceed with your password reset.<br><br>
 
 In no adminstrators are available for this account, please email <a href="mailto:tuakiri@reannz.co.nz">Tuakiri support at tuakiri@reannz.co.nz</a>
