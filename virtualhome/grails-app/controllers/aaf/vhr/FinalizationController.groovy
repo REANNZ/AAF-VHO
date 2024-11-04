@@ -35,11 +35,24 @@ class FinalizationController {
       return
     }
 
+    def id = session.getAttribute(MANAGED_SUBJECT_ID)
+    if (!id) {
+      render status: '403'
+      return
+    }
+
     def managedSubjectInstance = ManagedSubject.findWhere(login:login)
-    if(managedSubjectInstance && managedSubjectInstance.id != session.getAttribute(MANAGED_SUBJECT_ID))
-      render "false"
-    else
+    if (!managedSubjectInstance) {
       render "true"
+      return
+    }
+
+    if (managedSubjectInstance.id != id) {
+      render "false"
+      return
+    }
+
+    render "true"
   }
 
   def complete(String inviteCode, String login, String plainPassword, String plainPasswordConfirmation, String mobileNumber) {
@@ -50,6 +63,8 @@ class FinalizationController {
       redirect action: 'error'
       return
     }
+
+    session.removeAttribute(MANAGED_SUBJECT_ID)
 
     def (outcome, managedSubjectInstance) = managedSubjectService.finalize(invitationInstance, login, plainPassword, plainPasswordConfirmation, mobileNumber ?:null)
     if(!outcome) {
