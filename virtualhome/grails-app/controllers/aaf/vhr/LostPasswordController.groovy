@@ -75,16 +75,6 @@ class LostPasswordController {
   def reset() {
     def managedSubjectInstance = ManagedSubject.get(session.getAttribute(CURRENT_USER))
 
-    // Send the user an SMS code to their mobile number.
-    // If they do not have one, this is an error.
-    if (!managedSubjectInstance.mobileNumber) {
-      log.error "User ${managedSubjectInstance} does not have a mobile number!"
-      flash.type = 'error'
-      flash.message = 'controllers.aaf.vhr.lostpassword.reset.mobile.missing'
-      redirect action: start
-      return
-    }
-
     // If we haven't generated an SMS code already, generate an SMS code and sent it to the user (even if we have already sent one)
     def smsCode = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
     managedSubjectInstance.resetCodeExternal = smsCode
