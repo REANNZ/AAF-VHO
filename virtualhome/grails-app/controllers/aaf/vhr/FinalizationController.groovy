@@ -13,7 +13,6 @@ class FinalizationController {
   
   def index(String inviteCode) {
     def invitationInstance = ManagedSubjectInvitation.findWhere(inviteCode:inviteCode)
-    session.setAttribute(MANAGED_SUBJECT_ID, invitationInstance?.managedSubject?.id)
 
     if(!invitationInstance) {
       log.error "no such invitation exists"
@@ -25,6 +24,8 @@ class FinalizationController {
       redirect action: 'used'
       return
     }
+
+    session.setAttribute(MANAGED_SUBJECT_ID, invitationInstance?.managedSubject?.id)
 
     [managedSubjectInstance:invitationInstance.managedSubject, invitationInstance:invitationInstance]
   }
