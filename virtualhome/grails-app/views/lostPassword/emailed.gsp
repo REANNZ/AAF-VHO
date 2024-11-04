@@ -14,7 +14,8 @@
 
       <h3>Didn't receive the email?</p>
 
-      <g:form action="emailed" params="[login:login]">
+      <g:form action="emailed">
+        <g:hiddenField name="login" value="${login}"/>
         <button type="submit" class="btn btn-large">Re-send email.</button>
         <g:link controller="lostpassword"></g:link>
       </g:form>
