@@ -42,7 +42,6 @@ class LostPasswordController {
 
     def managedSubjectInstance = ManagedSubject.findWhere(login: params.login)
     if (managedSubjectInstance) {
-      session.setAttribute(CURRENT_USER, managedSubjectInstance.id)
       lostPasswordService.sendResetEmail(managedSubjectInstance)
     }
 
