@@ -43,17 +43,13 @@ class FinalizationController {
     }
 
     def managedSubjectInstance = ManagedSubject.findWhere(login:login)
-    if (!managedSubjectInstance) {
-      render "true"
-      return
-    }
-
-    if (managedSubjectInstance.id != id) {
+    if (managedSubjectInstance && managedSubjectInstance.id != id ) {
       render "false"
-      return
     }
-
-    render "true"
+    else
+    {
+      render "true"
+    }
   }
 
   def complete(String inviteCode, String login, String plainPassword, String plainPasswordConfirmation, String mobileNumber) {
