@@ -12,6 +12,7 @@ class LostPasswordService {
   def emailManagerService
   def messageSource
   def grailsLinkGenerator
+  def grailsApplication
 
   private final String EMAIL_SUBJECT ='aaf.vhr.lostpasswordservice.email.subject'
 
@@ -20,7 +21,7 @@ class LostPasswordService {
     // Generate a secret embedded in the URL.
     // We store it in the resetCode parameter since its original purpose is not required any more.
     // This saves us from having to create a new database schema.
-    def code = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(128)
+    def code = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.email_code_length)
     managedSubject.resetCode = code
     return grailsLinkGenerator.link(controller: 'lostpassword', action: 'obtainsubject', absolute: true, params: [code: code])
   }

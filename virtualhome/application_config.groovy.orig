@@ -84,6 +84,8 @@ aaf {
       reset_code_length = 6
       reset_sms_text = "Your VHR 'SMS Code' to reset your lost password is: {0}"
       reset_attempt_limit = 5
+
+      email_code_length = 128
     }
     login {
       ssl_only_cookie = true
