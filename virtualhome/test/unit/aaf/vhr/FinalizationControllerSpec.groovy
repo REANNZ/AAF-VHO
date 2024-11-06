@@ -84,6 +84,7 @@ class FinalizationControllerSpec  extends spock.lang.Specification {
     def managedSubjectTestInstance = ManagedSubject.build(login:'testusername')
 
     when:
+    session.setAttribute(FinalizationController.MANAGED_SUBJECT_ID, managedSubjectTestInstance.id + 1)
     params.login = "testusername"
     controller.loginAvailable()
 
@@ -96,6 +97,7 @@ class FinalizationControllerSpec  extends spock.lang.Specification {
     def managedSubjectTestInstance = ManagedSubject.build(login:'testusername')
 
     when:
+    session.setAttribute(FinalizationController.MANAGED_SUBJECT_ID, managedSubjectTestInstance.id)
     params.login = "myusername"
     controller.loginAvailable()
 
