@@ -16,10 +16,11 @@
 
       <g:form action="emailed">
         <g:hiddenField name="login" value="${login}"/>
-        <button type="submit" class="btn btn-large">Re-send email.</button>
+        <button type="submit" class="btn btn-large">Send another email.</button>
         <g:link controller="lostpassword"></g:link>
       </g:form>
 
+      <h3><strong>NOTE: </strong>Only the most recently sent email will contain a vaild URL</h3>
     </div>
 
   </body>
