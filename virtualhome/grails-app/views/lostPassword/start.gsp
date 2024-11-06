@@ -9,7 +9,7 @@
 
     <g:render template="/templates/flash" plugin="aafApplicationBase"/>
 
-    <g:form action="obtainsubject" class="form-horizontal form-validating myaccount">
+    <g:form action="emailed" class="form-horizontal form-validating myaccount">
       <div class="control-group">
         <label class="control-label" for="login">Username</label>
         <div class="controls">

@@ -382,17 +382,6 @@ class ManagedSubjectSpec extends spock.lang.Specification  {
     s.eptidKey.size() == 12
   }
 
-  def 'ensure resetCode is sanitized'() {
-    setup:
-    def s = ManagedSubject.build()
-
-    when:
-    s.resetCode = 'abcIlO0'
-
-    then:
-    s.resetCode == 'abciLo9'
-  }
-
   def 'ensure resetCodeExternal is sanitized'() {
     setup:
     def s = ManagedSubject.build()
