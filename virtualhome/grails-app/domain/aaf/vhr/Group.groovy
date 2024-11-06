@@ -16,7 +16,7 @@ class Group {
 
   String welcomeMessage
 
-  boolean totpForce       // All accounts must setup 2-Step Verification and can't opt out
+  boolean totpForce = true       // All accounts must setup 2-Step Verification and can't opt out
 
   boolean active = true
   boolean blocked = false
