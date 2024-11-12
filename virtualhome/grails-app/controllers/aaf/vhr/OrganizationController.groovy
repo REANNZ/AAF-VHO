@@ -4,6 +4,7 @@ import org.springframework.dao.DataIntegrityViolationException
 import org.apache.shiro.SecurityUtils
 
 import aaf.base.identity.Role
+import aaf.base.identity.Subject
 
 class OrganizationController {
 
@@ -14,9 +15,36 @@ class OrganizationController {
 
   def organizationService
 
+  def getAdminOrganisations() {
+    def adminList = []
+
+    def subject = Subject.get(SecurityUtils.getSubject()?.getPrincipal())
+    subject.roles.each { role ->
+      def roleComponents = role.name.split(':')
+      if (roleComponents.size() == 3 && roleComponents[0] == "organization" && roleComponents[2] == "administrators") {
+        def id = roleComponents[1] as Integer
+        adminList.add(Organization.get(id))
+      }
+    }
+
+    return adminList
+  }
+
+  def getFilteredList(parameters) {
+    def orgs = Organization.list(parameters)
+    def adminOrgs = getAdminOrganisations()
+    return orgs.intersect(adminOrgs)
+  }
+
   def list() {
     log.info "Action: list, Subject: $subject"
-    [organizationInstanceList: Organization.list(params), organizationInstanceTotal: Organization.count()]
+    // If you are not an admin, only show organizations you are an admin of
+    if (SecurityUtils.subject.isPermitted("app:administration")) {
+      [organizationInstanceList: Organization.list(params), organizationInstanceTotal: Organization.count()]
+    } else {
+      def orgList = getFilteredList(params)
+      [organizationInstanceList: orgList, organizationInstanceTotal: orgList.size()]
+    }
   }
 
   def show(Long id) {

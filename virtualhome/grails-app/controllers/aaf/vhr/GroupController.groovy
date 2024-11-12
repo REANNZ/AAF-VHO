@@ -5,6 +5,7 @@ import org.apache.shiro.SecurityUtils
 
 import aaf.base.identity.Role
 import aaf.base.identity.Permission
+import aaf.base.identity.Subject
 
 class GroupController {
 
@@ -15,9 +16,36 @@ class GroupController {
 
   def roleService
 
+  def getAdminGroups() {
+    def adminList = []
+
+    def subject = Subject.get(SecurityUtils.getSubject()?.getPrincipal())
+    subject.roles.each { role ->
+      def roleComponents = role.name.split(':')
+      if (roleComponents.size() == 3 && roleComponents[0] == "group" && roleComponents[2] == "administrators") {
+        def id = roleComponents[1] as Integer
+        adminList.add(Group.get(id))
+      }
+    }
+
+    return adminList
+  }
+
+  def getFilteredList(parameters) {
+    def groups = Group.list(parameters)
+    def adminGroups = getAdminGroups()
+    return groups.intersect(adminGroups)
+  }
+
   def list() {
     log.info "Action: list, Subject: $subject"
-    [groupInstanceList: Group.list(params), groupInstanceTotal: Group.count()]
+    // If you are not an admin, only show groups that you are an admin of
+    if (SecurityUtils.subject.isPermitted("app:administration")) {
+      [groupInstanceList: Group.list(params), groupInstanceTotal: Group.count()]
+    } else {
+      def groupList = getFilteredList(params)
+      [groupInstanceList: groupList, groupInstanceTotal: groupList.size()]
+    }
   }
 
   def show(Long id) {
