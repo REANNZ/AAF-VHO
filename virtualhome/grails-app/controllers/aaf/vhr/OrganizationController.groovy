@@ -5,6 +5,7 @@ import org.apache.shiro.SecurityUtils
 
 import aaf.base.identity.Role
 import aaf.base.identity.Subject
+import aaf.vhr.AdminHelper
 
 class OrganizationController {
 
@@ -53,7 +54,10 @@ class OrganizationController {
 
     def role = Role.findWhere(name:"organization:${organizationInstance.id}:administrators")
     def subject = Subject.get(SecurityUtils.getSubject()?.getPrincipal())
-    def allowedToSee = SecurityUtils.subject.isPermitted("app:administration") || subject.roles.contains(role)
+
+    // Only organisation admins, or admins of groups within the organisation, can see these details.
+    def groupsIAmAnAdminOf = AdminHelper.getAdminGroups()
+    def allowedToSee = SecurityUtils.subject.isPermitted("app:administration") || subject.roles.contains(role) || organisationInstance.groups.intersect(groupsIAmAnAdminOf)
     if (!allowedToSee) {
       log.error "User ${subject} is trying to access organisation ${organisationInstance} despite not being an admin!"
       response.sendError 403
