@@ -53,6 +53,14 @@ class GroupController {
     def groupInstance = Group.get(id)
 
     def role = Role.findWhere(name:"group:${groupInstance.id}:administrators")
+    def subject = Subject.get(SecurityUtils.getSubject()?.getPrincipal())
+    def allowedToSee = SecurityUtils.subject.isPermitted("app:administration") || subject.roles.contains(role)
+    if (!allowedToSee) {
+      log.error "User ${subject} is trying to access group ${groupInstance} despite not being an admin!"
+      response.sendError 403
+      return
+    }
+
     [groupInstance: groupInstance, role:role]
   }
 

@@ -52,6 +52,14 @@ class OrganizationController {
     def organizationInstance = Organization.get(id)
 
     def role = Role.findWhere(name:"organization:${organizationInstance.id}:administrators")
+    def subject = Subject.get(SecurityUtils.getSubject()?.getPrincipal())
+    def allowedToSee = SecurityUtils.subject.isPermitted("app:administration") || subject.roles.contains(role)
+    if (!allowedToSee) {
+      log.error "User ${subject} is trying to access organisation ${organisationInstance} despite not being an admin!"
+      response.sendError 403
+      return
+    }
+
     [organizationInstance: organizationInstance, role:role]
   }
 
