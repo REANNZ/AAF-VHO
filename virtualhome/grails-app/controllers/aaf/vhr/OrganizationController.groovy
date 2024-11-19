@@ -55,16 +55,29 @@ class OrganizationController {
     def role = Role.findWhere(name:"organization:${organizationInstance.id}:administrators")
     def subject = Subject.get(SecurityUtils.getSubject()?.getPrincipal())
 
-    // Only organisation admins, or admins of groups within the organisation, can see these details.
-    def groupsIAmAnAdminOf = AdminHelper.getAdminGroups()
-    def allowedToSee = SecurityUtils.subject.isPermitted("app:administration") || subject.roles.contains(role) || organisationInstance.groups.intersect(groupsIAmAnAdminOf)
-    if (!allowedToSee) {
-      log.error "User ${subject} is trying to access organisation ${organisationInstance} despite not being an admin!"
-      response.sendError 403
-      return
+    // App admins can view this information with no restrictions.
+    if (SecurityUtils.subject.isPermitted("app:administration")) {
+      log.info "${subject} is an admin, they are allowed to access this page."
+      return [organizationInstance: organizationInstance, role:role]
     }
 
-    [organizationInstance: organizationInstance, role:role]
+    // If we have the admin role of this organisation, we can see it
+    if (subject.roles.contains(role)) {
+      log.info "${subject} is an admin of the organization ${organizationInstance}, they are allowed to access this page."
+      return [organizationInstance: organizationInstance, role:role]
+    }
+
+    // If we are an admin of a group within this organisation, we can see the organisation.
+    def groupsIAmAnAdminOf = AdminHelper.getAdminGroups()
+    if (organisationInstance.groups.intersect(groupsIAmAnAdminOf)) {
+      log.info "${subject} is an admin of one of the groups in organization ${organizationInstance}, they are allowed to access this page."
+      return [organizationInstance: organizationInstance, role:role]
+    }
+
+    log.error "User ${subject} is forbidden from accessing organization ${organizationInstance}"
+    flash.type = 'error'
+    flash.message = 'controllers.aaf.vhr.organization.show.error'
+    redirect action: 'list'
   }
 
   def create() {
