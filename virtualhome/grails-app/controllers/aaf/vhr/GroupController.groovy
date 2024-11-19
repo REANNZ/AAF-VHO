@@ -43,7 +43,9 @@ class GroupController {
     def allowedToSee = SecurityUtils.subject.isPermitted("app:administration") || subject.roles.contains(role)
     if (!allowedToSee) {
       log.error "User ${subject} is trying to access group ${groupInstance} despite not being an admin!"
-      response.sendError 403
+      flash.type = 'error'
+      flash.message = 'controllers.aaf.vhr.organization.show.error'
+      redirect action: 'list'
       return
     }
 
