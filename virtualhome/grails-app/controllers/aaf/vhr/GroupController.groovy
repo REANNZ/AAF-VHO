@@ -44,7 +44,7 @@ class GroupController {
     if (!allowedToSee) {
       log.error "User ${subject} is trying to access group ${groupInstance} despite not being an admin!"
       flash.type = 'error'
-      flash.message = 'controllers.aaf.vhr.organization.show.error'
+      flash.message = 'controllers.aaf.vhr.group.show.error'
       redirect action: 'list'
       return
     }
