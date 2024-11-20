@@ -20,6 +20,17 @@ class GroupController {
   def getFilteredList(parameters) {
     def groups = Group.list(parameters)
     def adminGroups = AdminHelper.getAdminGroups()
+    def subject = Subject.get(SecurityUtils.getSubject()?.getPrincipal())
+
+    // If the user is an admin of an organisation that this group belongs to, let them see it.
+    groups.each {grp ->
+      orgAdminRole = Role.findWhere(name:"organization:${grp.organization.id}:administrators")
+      if (subject.roles.contains(orgAdminRole)) {
+        log.info "You are an admin of org ${grp.organization} so you should be able to see group ${grp}"
+        adminGroups.add(grp)
+      }
+    }
+
     return groups.intersect(adminGroups)
   }
 
@@ -40,16 +51,29 @@ class GroupController {
 
     def role = Role.findWhere(name:"group:${groupInstance.id}:administrators")
     def subject = Subject.get(SecurityUtils.getSubject()?.getPrincipal())
-    def allowedToSee = SecurityUtils.subject.isPermitted("app:administration") || subject.roles.contains(role)
-    if (!allowedToSee) {
-      log.error "User ${subject} is trying to access group ${groupInstance} despite not being an admin!"
-      flash.type = 'error'
-      flash.message = 'controllers.aaf.vhr.group.show.error'
-      redirect action: 'list'
-      return
+
+    // App admins can view this information with no restrictions.
+    if (SecurityUtils.subject.isPermitted("app:administration")) {
+      log.info "${subject} is an admin, they are allowed to access group ${groupInstance}."
+      return [groupInstance: groupInstance, role:role]
     }
 
-    [groupInstance: groupInstance, role:role]
+    // Check if you have the admin role for this group
+    if (subject.roles.contains(role)) {
+      log.info "${subject} is an admin of group ${groupInstance}, they are allowed to see it"
+      return [groupInstance: groupInstance, role:role]
+    }
+
+    // If the user is an admin of an organisation that this group belongs to, let them see it.
+    def orgAdminRole = Role.findWhere(name:"organization:${groupInstance.organization.id}:administrators")
+    if (subject.roles.contains(orgAdminRole)) {
+      return [groupInstance: groupInstance, role:role]
+    }
+
+    log.error "User ${subject} is trying to access group ${groupInstance} despite not being an admin!"
+    flash.type = 'error'
+    flash.message = 'controllers.aaf.vhr.group.show.error'
+    redirect action: 'list'
   }
 
   def create() {

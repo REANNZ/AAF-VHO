@@ -34,6 +34,16 @@ class OrganizationController {
   def getFilteredList(parameters) {
     def orgs = Organization.list(parameters)
     def adminOrgs = getAdminOrganisations()
+
+    // In addition to orgs we are an admin of, we should be able to see orgs that contain groups we are an admin of
+    def groupsIAmAnAdminOf = AdminHelper.getAdminGroups()
+    adminOrgs.each { org ->
+      if (org.groups.intersect(groupsIAmAnAdminOf)) {
+        adminOrgs.add(org)
+      }
+    }
+
+    adminOrgs.unique()
     return orgs.intersect(adminOrgs)
   }
 
