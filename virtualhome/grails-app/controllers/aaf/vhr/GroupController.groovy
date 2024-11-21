@@ -24,7 +24,7 @@ class GroupController {
 
     // If the user is an admin of an organisation that this group belongs to, let them see it.
     groups.each {grp ->
-      orgAdminRole = Role.findWhere(name:"organization:${grp.organization.id}:administrators")
+      def orgAdminRole = Role.findWhere(name:"organization:${grp.organization.id}:administrators")
       if (subject.roles.contains(orgAdminRole)) {
         log.info "You are an admin of org ${grp.organization} so you should be able to see group ${grp}"
         adminGroups.add(grp)
