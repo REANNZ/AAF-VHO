@@ -36,11 +36,8 @@ class OrganizationController {
     def adminOrgs = getAdminOrganisations()
 
     // In addition to orgs we are an admin of, we should be able to see orgs that contain groups we are an admin of
-    def groupsIAmAnAdminOf = AdminHelper.getAdminGroups()
-    adminOrgs.each { org ->
-      if (org.groups.intersect(groupsIAmAnAdminOf)) {
-        adminOrgs.add(org)
-      }
+    AdminHelper.getAdminGroups().each { group ->
+      adminOrgs.add(group.organization)
     }
 
     adminOrgs.unique()
