@@ -33,7 +33,7 @@ class OrganizationController {
 
   def getFilteredList(parameters) {
     def orgs = Organization.list(parameters)
-    def adminOrgs = getAdminOrganisations()
+    def adminOrgs = AdminHelper.getAdminOrganisations()
 
     // In addition to orgs we are an admin of, we should be able to see orgs that contain groups we are an admin of
     AdminHelper.getAdminGroups().each { group ->
@@ -59,29 +59,26 @@ class OrganizationController {
     log.info "Action: show, Subject: $subject"
     def organizationInstance = Organization.get(id)
 
-    def role = Role.findWhere(name:"organization:${organizationInstance.id}:administrators")
+    def adminRole = Role.findWhere(name:"organization:${organizationInstance.id}:administrators")
     def subject = Subject.get(SecurityUtils.getSubject()?.getPrincipal())
 
     // App admins can view this information with no restrictions.
     if (SecurityUtils.subject.isPermitted("app:administration")) {
-      log.info "${subject} is an admin, they are allowed to access this page."
-      return [organizationInstance: organizationInstance, role:role]
+      return [organizationInstance: organizationInstance, role:adminRole, visibleGroups:organizationInstance.groups]
     }
 
     // If we have the admin role of this organisation, we can see it
-    if (subject.roles.contains(role)) {
-      log.info "${subject} is an admin of the organization ${organizationInstance}, they are allowed to access this page."
-      return [organizationInstance: organizationInstance, role:role]
+    if (subject.roles.contains(adminRole)) {
+      return [organizationInstance: organizationInstance, role:adminRole, visibleGroups:organizationInstance.groups]
     }
 
     // If we are an admin of a group within this organisation, we can see the organisation.
-    def groupsIAmAnAdminOf = AdminHelper.getAdminGroups()
-    if (organizationInstance.groups.intersect(groupsIAmAnAdminOf)) {
-      log.info "${subject} is an admin of one of the groups in organization ${organizationInstance}, they are allowed to access this page."
-      return [organizationInstance: organizationInstance, role:role]
+    if (AdminHelper.isOrganizationInsider(id as Integer)) {
+      return [organizationInstance: organizationInstance, role:adminRole, visibleGroups:intersection]
     }
 
-    log.error "User ${subject} is forbidden from accessing organization ${organizationInstance}"
+
+    log.error "User ${subject.cn} is forbidden from accessing organization ${organizationInstance}"
     flash.type = 'error'
     flash.message = 'controllers.aaf.vhr.organization.show.error'
     redirect action: 'list'
