@@ -21,6 +21,20 @@ class AdminHelper {
         return adminList
     }
 
+    // This is all groups that we are an admin of, plus all groups in any organization that owns a group we are an admin of.
+    static def getInsiderGroups() {
+        def groups = getAdminGroups()
+        def insiderGroups = []
+        // Check the org for each group and find any other groups present
+        groups.each { group ->
+            group.organization.groups.each { orgGroup ->
+                insiderGroups.add(orgGroup)
+            }
+        }
+
+        return insiderGroups.unique()
+    }
+
     static def getAdminOrganisations() {
         def adminList = []
 
