@@ -74,7 +74,8 @@ class OrganizationController {
 
     // If we are an admin of a group within this organisation, we can see the organisation.
     if (AdminHelper.isOrganizationInsider(id as Integer)) {
-      return [organizationInstance: organizationInstance, role:adminRole, visibleGroups:intersection]
+      def visibleGroups = organizationInstance.groups.intersect(AdminHelper.getInsiderGroups())
+      return [organizationInstance: organizationInstance, role:adminRole, visibleGroups:visibleGroups]
     }
 
 
