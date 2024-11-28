@@ -7,6 +7,11 @@ import aaf.vhr.Organization
 import org.apache.shiro.SecurityUtils
 
 class AdminHelper {
+
+    static def isGlobalAdmin() {
+        return SecurityUtils.subject.isPermitted("app:administration")
+    }
+
     static def getAdminGroups() {
         def adminList = []
 

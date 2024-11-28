@@ -2,6 +2,7 @@ package aaf.vhr
 
 import org.springframework.dao.DataIntegrityViolationException
 import org.apache.shiro.SecurityUtils
+import aaf.vhr.AdminHelper
 
 class ManagedSubjectController {
 
@@ -365,7 +366,7 @@ class ManagedSubjectController {
 
   def toggleBlock(Long id, Long version) {
     def managedSubjectInstance = ManagedSubject.get(id)
-    if(SecurityUtils.subject.isPermitted("app:administration")) {
+    if(AdminHelper.isGlobalAdmin()) {
       if (version == null) {
         flash.type = 'error'
         flash.message = 'controllers.aaf.vhr.managedsubject.toggleblock.noversion'

@@ -32,7 +32,7 @@ class OrganizationController {
   def list() {
     log.info "Action: list, Subject: $subject"
     // If you are not an admin, only show organizations you are an admin of
-    if (SecurityUtils.subject.isPermitted("app:administration")) {
+    if (AdminHelper.isGlobalAdmin()) {
       [organizationInstanceList: Organization.list(params), organizationInstanceTotal: Organization.count()]
     } else {
       def orgList = getFilteredList(params)
@@ -48,7 +48,7 @@ class OrganizationController {
     def subject = Subject.get(SecurityUtils.getSubject()?.getPrincipal())
 
     // App admins can view this information with no restrictions.
-    if (SecurityUtils.subject.isPermitted("app:administration")) {
+    if (AdminHelper.isGlobalAdmin()) {
       return [organizationInstance: organizationInstance, role:adminRole]
     }
 
@@ -137,7 +137,7 @@ class OrganizationController {
         return
       }
 
-      if(SecurityUtils.subject.isPermitted("app:administration"))
+      if(AdminHelper.isGlobalAdmin())
         bindData(organizationInstance, params, [include: ['name', 'displayName', 'description', 'subjectLimit', 'groupLimit', 'orgScope']])
       else
         bindData(organizationInstance, params, [include: ['description', 'orgScope']])
@@ -220,7 +220,7 @@ class OrganizationController {
   }
 
   def toggleArchive(Long id, Long version) {
-    if(SecurityUtils.subject.isPermitted("app:administration")) {
+    if(AdminHelper.isGlobalAdmin()) {
       def organizationInstance = Organization.get(id)
       
       if (version == null) {
@@ -257,7 +257,7 @@ class OrganizationController {
   }
 
   def toggleBlocked(Long id, Long version) {
-    if(SecurityUtils.subject.isPermitted("app:administration")) {
+    if(AdminHelper.isGlobalAdmin()) {
       def organizationInstance = Organization.get(id)
       
       if (version == null) {

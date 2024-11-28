@@ -25,7 +25,7 @@ class GroupController {
   def list() {
     log.info "Action: list, Subject: $subject"
     // If you are not an admin, only show groups that you are an admin of
-    if (SecurityUtils.subject.isPermitted("app:administration")) {
+    if (AdminHelper.isGlobalAdmin()) {
       [groupInstanceList: Group.list(params), groupInstanceTotal: Group.count()]
     } else {
       def groupList = getFilteredList(params)
@@ -41,7 +41,7 @@ class GroupController {
     def subject = Subject.get(SecurityUtils.getSubject()?.getPrincipal())
 
     // App admins can view this information with no restrictions.
-    if (SecurityUtils.subject.isPermitted("app:administration")) {
+    if (AdminHelper.isGlobalAdmin()) {
       log.info "${subject} is an admin, they are allowed to access group ${groupInstance}."
       return [groupInstance: groupInstance, role:role]
     }
