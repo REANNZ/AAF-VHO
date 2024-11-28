@@ -64,12 +64,12 @@ class OrganizationController {
 
     // App admins can view this information with no restrictions.
     if (SecurityUtils.subject.isPermitted("app:administration")) {
-      return [organizationInstance: organizationInstance, role:adminRole, visibleGroups:organizationInstance.groups]
+      return [organizationInstance: organizationInstance, role:adminRole]
     }
 
     // If we are an admin of a group within this organisation, we can see the organisation.
     if (AdminHelper.isOrganizationInsider(id as Integer)) {
-      return [organizationInstance: organizationInstance, role:adminRole, visibleGroups:organizationInstance.groups]
+      return [organizationInstance: organizationInstance, role:adminRole]
     }
 
 

@@ -164,7 +164,7 @@
             </tr>
           </thead>
           <tbody>
-          <g:each in="${visibleGroups.findAll{!it.archived}}" status="i" var="groupInstance">
+          <g:each in="${organizationInstance.groups.findAll{!it.archived}}" status="i" var="groupInstance">
             <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
               <td>${fieldValue(bean: groupInstance, field: "name")}</td>
               <td>${fieldValue(bean: groupInstance, field: "description")}</td>
@@ -175,7 +175,7 @@
           </tbody>
         </table>
 
-        <g:if test="${visibleGroups.findAll{it.archived}?.size() > 0}">
+        <g:if test="${organizationInstance.groups.findAll{it.archived}?.size() > 0}">
           <hr>
           <h4><g:message encodeAs='HTML' code="label.archived"/></h4>
           <table class="table table-borderless table-sortable">
@@ -188,7 +188,7 @@
               </tr>
             </thead>
             <tbody>
-            <g:each in="${visibleGroups.findAll{it.archived}}" status="i" var="groupInstance">
+            <g:each in="${organizationInstance.groups.findAll{it.archived}}" status="i" var="groupInstance">
               <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
                 <td>${fieldValue(bean: groupInstance, field: "name")}</td>
                 <td>${fieldValue(bean: groupInstance, field: "description")}</td>
