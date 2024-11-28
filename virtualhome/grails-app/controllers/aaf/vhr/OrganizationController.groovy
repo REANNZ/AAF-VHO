@@ -67,15 +67,9 @@ class OrganizationController {
       return [organizationInstance: organizationInstance, role:adminRole, visibleGroups:organizationInstance.groups]
     }
 
-    // If we have the admin role of this organisation, we can see it
-    if (subject.roles.contains(adminRole)) {
-      return [organizationInstance: organizationInstance, role:adminRole, visibleGroups:organizationInstance.groups]
-    }
-
     // If we are an admin of a group within this organisation, we can see the organisation.
     if (AdminHelper.isOrganizationInsider(id as Integer)) {
-      def visibleGroups = organizationInstance.groups.intersect(AdminHelper.getInsiderGroups())
-      return [organizationInstance: organizationInstance, role:adminRole, visibleGroups:visibleGroups]
+      return [organizationInstance: organizationInstance, role:adminRole, visibleGroups:organizationInstance.groups]
     }
 
 

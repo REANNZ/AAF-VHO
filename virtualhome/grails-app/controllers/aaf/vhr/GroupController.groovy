@@ -61,13 +61,7 @@ class GroupController {
       return [groupInstance: groupInstance, role:role]
     }
 
-    // If the user is an admin of an organisation that this group belongs to, let them see it.
-    def orgAdminRole = Role.findWhere(name:"organization:${groupInstance.organization.id}:administrators")
-    if (subject.roles.contains(orgAdminRole)) {
-      return [groupInstance: groupInstance, role:role]
-    }
-
-    // If the user is an insider of this group's organization, let them see it
+    // If the user is an insider, let them see it
     if (AdminHelper.isOrganizationInsider(groupInstance.organization.id as Integer)) {
       return [groupInstance: groupInstance, role:role]
     }

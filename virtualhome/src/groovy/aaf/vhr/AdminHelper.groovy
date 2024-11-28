@@ -1,6 +1,7 @@
 package aaf.vhr
 
 import aaf.base.identity.Subject
+import aaf.base.identity.Role
 import aaf.vhr.Group
 import aaf.vhr.Organization
 import org.apache.shiro.SecurityUtils
@@ -35,6 +36,12 @@ class AdminHelper {
         return insiderGroups.unique()
     }
 
+    static def isOrganizationAdmin(Integer organizationID) {
+        def subject = Subject.get(SecurityUtils.getSubject()?.getPrincipal())
+        def adminRole = Role.findWhere(name:"organization:${organizationID}:administrators")
+        return subject.roles.contains(adminRole)
+    }
+
     static def getAdminOrganisations() {
         def adminList = []
 
@@ -56,6 +63,6 @@ class AdminHelper {
         if (orgGroups.intersect(adminGroups))
             return true
 
-        return false
+        return isOrganizationAdmin(organizationID)
     }
 }
