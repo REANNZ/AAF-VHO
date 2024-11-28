@@ -2,7 +2,6 @@ package aaf.vhr
 
 import groovy.time.TimeCategory
 import aaf.base.identity.SessionRecord
-import aaf.vhr.AdminHelper
 
 class DashboardController {
   
@@ -40,11 +39,6 @@ class DashboardController {
             if(!groupInstanceList.contains(group)){
               groupInstanceList << group
             }
-            // We also need to add any organization that owns a group we're an admin of, even if we're not in that organization.
-            def groupOrg = group.organization
-            if (AdminHelper.isOrganizationInsider(groupOrg.id as Integer)) {
-              organizationInstanceList << groupOrg
-            }
           }
         }
       }
@@ -76,8 +70,6 @@ class DashboardController {
         collatedGroupInstanceList."${it.organization.displayName}" << it
     }
 
-    // There's a risk that when we add an org due to us being a group admin that we have duplicated
-    organizationInstanceList.unique()
     [organizationInstanceList:organizationInstanceList, groupInstanceList: collatedGroupInstanceList, statistics:statistics]
   }
 
