@@ -22,12 +22,21 @@ class AdminHelper {
         return adminList
     }
 
-    // This is all groups that we are an admin of, plus all groups in any organization that owns a group we are an admin of.
+    // An insider group is a group where:
+    // (1) You are the admin of the group.
+    // (2) You are an admin of an organization the group is a part of.
+    // (3) You are not the admin of the group, but are an admin of another group in the same organization.
     static def getInsiderGroups() {
-        def groups = getAdminGroups()
+
         def insiderGroups = []
-        // Check the org for each group and find any other groups present
-        groups.each { group ->
+
+        // Condition (2)
+        getAdminOrganisations().each { adminOrg ->
+            insiderGroups += adminOrg.groups
+        }
+
+        // Condition (1) and (3)
+        getAdminGroups().each { group ->
             group.organization.groups.each { orgGroup ->
                 insiderGroups.add(orgGroup)
             }

@@ -18,17 +18,8 @@ class GroupController {
   def roleService
 
   def getFilteredList(parameters) {
-    def groups = Group.list(parameters)
-
-    // We should be able to see all groups we are an admin of, as well as all groups we are an insider for
-    def filteredGroups = []
-    AdminHelper.getAdminOrganisations().each { adminOrg ->
-      filteredGroups += adminOrg.groups
-    }
-
-    filteredGroups += AdminHelper.getInsiderGroups()
-    filteredGroups.unique()
-    return groups.intersect(filteredGroups)
+    def filteredGroups = AdminHelper.getInsiderGroups().unique()
+    return Group.list(parameters).intersect(filteredGroups)
   }
 
   def list() {
