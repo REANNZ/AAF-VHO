@@ -24,7 +24,7 @@ class GroupController {
 
   def list() {
     log.info "Action: list, Subject: $subject"
-    // If you are not an admin, only show groups that you are an admin of
+    // If you are not a global admin, only show groups that you are an admin of
     if (AdminHelper.isGlobalAdmin()) {
       [groupInstanceList: Group.list(params), groupInstanceTotal: Group.count()]
     } else {
@@ -40,20 +40,8 @@ class GroupController {
     def role = Role.findWhere(name:"group:${groupInstance.id}:administrators")
     def subject = Subject.get(SecurityUtils.getSubject()?.getPrincipal())
 
-    // App admins can view this information with no restrictions.
-    if (AdminHelper.isGlobalAdmin()) {
-      log.info "${subject} is an admin, they are allowed to access group ${groupInstance}."
-      return [groupInstance: groupInstance, role:role]
-    }
-
-    // Check if you have the admin role for this group
-    if (subject.roles.contains(role)) {
-      log.info "${subject} is an admin of group ${groupInstance}, they are allowed to see it"
-      return [groupInstance: groupInstance, role:role]
-    }
-
-    // If the user is an insider, let them see it
-    if (AdminHelper.isOrganizationInsider(groupInstance.organization.id as Integer)) {
+    // Check if you are a gobal admin, a group admin, or an organization insider.
+    if (AdminHelper.isGlobalAdmin() || subject.roles.contains(role) || AdminHelper.isOrganizationInsider(groupInstance.organization.id as Integer)) {
       return [groupInstance: groupInstance, role:role]
     }
 

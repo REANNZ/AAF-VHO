@@ -18,7 +18,7 @@ class OrganizationController {
 
   def getFilteredList(parameters) {
     def orgs = Organization.list(parameters)
-    def adminOrgs = AdminHelper.getAdminOrganisations()
+    def adminOrgs = AdminHelper.getAdminOrganizations()
 
     // In addition to orgs we are an admin of, we should be able to see orgs that contain groups we are an admin of
     AdminHelper.getAdminGroups().each { group ->
@@ -31,7 +31,7 @@ class OrganizationController {
 
   def list() {
     log.info "Action: list, Subject: $subject"
-    // If you are not an admin, only show organizations you are an admin of
+    // If you are not a global admin, only show organizations you are an admin of
     if (AdminHelper.isGlobalAdmin()) {
       [organizationInstanceList: Organization.list(params), organizationInstanceTotal: Organization.count()]
     } else {
@@ -48,17 +48,13 @@ class OrganizationController {
     def subject = Subject.get(SecurityUtils.getSubject()?.getPrincipal())
 
     // App admins can view this information with no restrictions.
-    if (AdminHelper.isGlobalAdmin()) {
-      return [organizationInstance: organizationInstance, role:adminRole]
-    }
-
     // If we are an admin of a group within this organisation, we can see the organisation.
-    if (AdminHelper.isOrganizationInsider(id as Integer)) {
+    if (AdminHelper.isGlobalAdmin() || AdminHelper.isOrganizationInsider(id as Integer)) {
       return [organizationInstance: organizationInstance, role:adminRole]
     }
 
 
-    log.error "User ${subject.cn} is forbidden from accessing organization ${organizationInstance}"
+    log.error "User ${subject.cn} does not have permissions to access organization ${organizationInstance}"
     flash.type = 'error'
     flash.message = 'controllers.aaf.vhr.organization.show.error'
     redirect action: 'list'

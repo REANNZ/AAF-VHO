@@ -36,7 +36,7 @@ class AdminHelper {
         def insiderGroups = []
 
         // Condition (2)
-        getAdminOrganisations().each { adminOrg ->
+        getAdminOrganizations().each { adminOrg ->
             insiderGroups += adminOrg.groups
         }
 
@@ -56,7 +56,7 @@ class AdminHelper {
         return subject.roles.contains(adminRole)
     }
 
-    static def getAdminOrganisations() {
+    static def getAdminOrganizations() {
         def adminList = []
 
         def subject = Subject.get(SecurityUtils.getSubject()?.getPrincipal())
