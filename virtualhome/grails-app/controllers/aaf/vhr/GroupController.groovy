@@ -5,6 +5,8 @@ import org.apache.shiro.SecurityUtils
 
 import aaf.base.identity.Role
 import aaf.base.identity.Permission
+import aaf.base.identity.Subject
+import aaf.vhr.AdminHelper
 
 class GroupController {
 
@@ -15,9 +17,20 @@ class GroupController {
 
   def roleService
 
+  def getFilteredList(parameters) {
+    def filteredGroups = AdminHelper.getInsiderGroups()
+    return Group.list(parameters).intersect(filteredGroups)
+  }
+
   def list() {
     log.info "Action: list, Subject: $subject"
-    [groupInstanceList: Group.list(params), groupInstanceTotal: Group.count()]
+    // If you are not a global admin, only show groups that you are an admin of
+    if (AdminHelper.isGlobalAdmin()) {
+      [groupInstanceList: Group.list(params), groupInstanceTotal: Group.count()]
+    } else {
+      def groupList = getFilteredList(params)
+      [groupInstanceList: groupList, groupInstanceTotal: groupList.size()]
+    }
   }
 
   def show(Long id) {
@@ -25,7 +38,17 @@ class GroupController {
     def groupInstance = Group.get(id)
 
     def role = Role.findWhere(name:"group:${groupInstance.id}:administrators")
-    [groupInstance: groupInstance, role:role]
+    def subject = Subject.get(SecurityUtils.getSubject()?.getPrincipal())
+
+    // Check if you are a global admin, a group admin, or an organization insider.
+    if (AdminHelper.isGlobalAdmin() || subject.roles.contains(role) || AdminHelper.isOrganizationInsider(groupInstance.organization.id as Integer)) {
+      return [groupInstance: groupInstance, role:role]
+    }
+
+    log.error "User ${subject} is trying to access group ${groupInstance} despite not being an admin!"
+    flash.type = 'error'
+    flash.message = 'controllers.aaf.vhr.group.show.error'
+    redirect action: 'list'
   }
 
   def create() {
