@@ -18,7 +18,7 @@ class GroupController {
   def roleService
 
   def getFilteredList(parameters) {
-    def filteredGroups = AdminHelper.getInsiderGroups().unique()
+    def filteredGroups = AdminHelper.getInsiderGroups()
     return Group.list(parameters).intersect(filteredGroups)
   }
 
@@ -40,7 +40,7 @@ class GroupController {
     def role = Role.findWhere(name:"group:${groupInstance.id}:administrators")
     def subject = Subject.get(SecurityUtils.getSubject()?.getPrincipal())
 
-    // Check if you are a gobal admin, a group admin, or an organization insider.
+    // Check if you are a global admin, a group admin, or an organization insider.
     if (AdminHelper.isGlobalAdmin() || subject.roles.contains(role) || AdminHelper.isOrganizationInsider(groupInstance.organization.id as Integer)) {
       return [groupInstance: groupInstance, role:role]
     }
