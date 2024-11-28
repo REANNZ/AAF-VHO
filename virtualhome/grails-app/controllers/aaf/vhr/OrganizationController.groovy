@@ -16,21 +16,6 @@ class OrganizationController {
 
   def organizationService
 
-  def getAdminOrganisations() {
-    def adminList = []
-
-    def subject = Subject.get(SecurityUtils.getSubject()?.getPrincipal())
-    subject.roles.each { role ->
-      def roleComponents = role.name.split(':')
-      if (roleComponents.size() == 3 && roleComponents[0] == "organization" && roleComponents[2] == "administrators") {
-        def id = roleComponents[1] as Integer
-        adminList.add(Organization.get(id))
-      }
-    }
-
-    return adminList
-  }
-
   def getFilteredList(parameters) {
     def orgs = Organization.list(parameters)
     def adminOrgs = AdminHelper.getAdminOrganisations()
