@@ -13,7 +13,6 @@ class FinalizationController {
   
   def index(String inviteCode) {
     def invitationInstance = ManagedSubjectInvitation.findWhere(inviteCode:inviteCode)
-    session.setAttribute(MANAGED_SUBJECT_ID, invitationInstance?.managedSubject?.id)
 
     if(!invitationInstance) {
       log.error "no such invitation exists"
@@ -26,6 +25,8 @@ class FinalizationController {
       return
     }
 
+    session.setAttribute(MANAGED_SUBJECT_ID, invitationInstance?.managedSubject?.id)
+
     [managedSubjectInstance:invitationInstance.managedSubject, invitationInstance:invitationInstance]
   }
 
@@ -35,11 +36,20 @@ class FinalizationController {
       return
     }
 
+    def id = session.getAttribute(MANAGED_SUBJECT_ID)
+    if (!id) {
+      render status: '403'
+      return
+    }
+
     def managedSubjectInstance = ManagedSubject.findWhere(login:login)
-    if(managedSubjectInstance && managedSubjectInstance.id != session.getAttribute(MANAGED_SUBJECT_ID))
+    if (managedSubjectInstance && managedSubjectInstance.id != id ) {
       render "false"
+    }
     else
+    {
       render "true"
+    }
   }
 
   def complete(String inviteCode, String login, String plainPassword, String plainPasswordConfirmation, String mobileNumber) {
@@ -50,6 +60,8 @@ class FinalizationController {
       redirect action: 'error'
       return
     }
+
+    session.removeAttribute(MANAGED_SUBJECT_ID)
 
     def (outcome, managedSubjectInstance) = managedSubjectService.finalize(invitationInstance, login, plainPassword, plainPasswordConfirmation, mobileNumber ?:null)
     if(!outcome) {

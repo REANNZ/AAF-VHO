@@ -21,7 +21,7 @@
     <div class="hero-unit">
       <h2>Password reset code </h2>
 
-      <div class="alert"><center><h3>${grailsApplication.config.aaf.vhr.passwordreset.second_factor_required ? managedSubjectInstance.resetCodeExternal : managedSubjectInstance.resetCode}</h3></center></div>
+      <div class="alert"><center><h3>${managedSubjectInstance.resetCodeExternal}</h3></center></div>
 
       <p>Please provide this code to <strong>${managedSubjectInstance.cn}</strong> via any communications means you have available to allow them to use the VHR lost password reset service at <g:link controller="lostPassword" action="start">${createLink(controller:'lostPassword', action:'start', absolute:true)}</g:link>.</p>
       <p>We recommend all accounts provide a mobile phone number to automate and further secure the lost password reset process. You may like to also request this information and update the account accordingly.</p>

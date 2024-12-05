@@ -93,88 +93,44 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     result
   }
 
-  def 'obtainsubject errors if invalid login provided'() {
-    setup:
-    params.login = 'testuser'
-
+  def 'obtainsubject errors if no secret code is in the URL parameters'() {
     when:
-    request.method = 'POST'
+    request.method = 'GET'
     controller.obtainsubject()
 
     then:
-    flash.type == 'info'
-    flash.message == 'controllers.aaf.vhr.lostpassword.requiresaccount'
+    flash.type == 'error'
+    flash.message == 'controllers.aaf.vhr.lostpassword.reset.url.badsecret'
     response.redirectedUrl == "/lostPassword/start"
   }
 
-  def 'obtainsubject errors if account can not change password'() {
+  def 'obtainsubject errors if no subject has been assigned the secret code from the URL parameters'() {
     setup:
-    def ms = ManagedSubject.build(login:'testuser', locked:true)
-    params.login = 'testuser'
+    params.code = 'ABC'
+    def ms = ManagedSubject.build(resetCode: 'DEF')
 
     when:
-    request.method = 'POST'
+    request.method = 'GET'
     controller.obtainsubject()
 
     then:
-    response.redirectedUrl == "/lostPassword/support"
+    flash.type == 'error'
+    flash.message == 'controllers.aaf.vhr.lostpassword.reset.url.badsecret'
+    response.redirectedUrl == "/lostPassword/start"
   }
 
-  def 'obtainsubject errors if account has not been finalized'() {
+  def 'obtainsubject allows users with the correct secret code to access the reset page'() {
     setup:
-    def ms = ManagedSubject.build(login:'testuser2')
-    ms.hash = null
-    params.login = 'testuser2'
+    def secret = 'ABC'
+    params.code = secret
+    def ms = ManagedSubject.build(resetCode: secret)
 
     when:
-    request.method = 'POST'
-    controller.obtainsubject()
-
-    then:
-    response.redirectedUrl == "/lostPassword/support"
-  }
-
-  def 'obtainsubject does not reset codes if not requested'() {
-    setup:
-    def o = Organization.build()
-    def ms = ManagedSubject.build(login:'testuser', resetCode:'1234', resetCodeExternal:'5678')
-    ms.organization.active = true
-    params.login = 'testuser'
-
-    when:
-    request.method = 'POST'
+    request.method = 'GET'
     controller.obtainsubject()
 
     then:
     response.redirectedUrl == "/lostPassword/reset"
-    ms.resetCode == '1234'
-    ms.resetCodeExternal == '5678'
-  }
-
-  def 'reset generates email code if not present'() {
-    setup:
-    def ms = ManagedSubject.build()
-    session.setAttribute(controller.CURRENT_USER, ms.id)
-
-    grailsApplication.config.aaf.vhr.passwordreset.second_factor_required = false
-    grailsApplication.config.aaf.vhr.passwordreset.reset_code_length = 6
-
-    Role.build(name:"group:${ms.group.id}:administrators")
-    Role.build(name:"organization:${ms.organization.id}:administrators")
-
-    expect:
-    ms.resetCode == null
-
-    when:
-    def model = controller.reset()
-
-    then:
-    1 * emailManagerService.send(ms.email, _, _, [managedSubject:ms])
-    ms.resetCode.length() == 6
-
-    model.managedSubjectInstance == ms
-    model.groupRole
-    model.organizationRole
   }
 
   def 'reset does not sms if no mobileNumber'() {
@@ -375,37 +331,6 @@ class LostPasswordControllerSpec extends spock.lang.Specification {
     flash.type == 'error'
     flash.message == 'controllers.aaf.vhr.lostpassword.externalcode.error'
     response.redirectedUrl == "/lostPassword/reset"
-  }
-
-  def 'validatereset does not increase failure count if resetCodeExternal does not match with second_factor_required disabled'() {
-    setup:
-    def ms = ManagedSubject.build(resetCode:'1234', resetCodeExternal:'5678')
-    session.setAttribute(controller.CURRENT_USER, ms.id)
-
-    Role.build(name:"group:${ms.group.id}:administrators")
-    Role.build(name:"organization:${ms.organization.id}:administrators")
-
-    params.resetCode = '1234'
-    params.resetCodeExternal = 'abcd'
-
-    grailsApplication.config.aaf.vhr.passwordreset.second_factor_required = false
-
-    expect:
-    ms.failedResets == 0
-
-    when:
-    request.method = 'POST'
-    controller.validatereset()
-
-    then:
-    ms.failedResets == 0
-    1 * passwordValidationService.validate(_) >>> [[false, null]]
-    flash.type == 'error'
-    flash.message == 'controllers.aaf.vhr.lostpassword.validatereset.new.password.invalid'
-    view == '/lostPassword/reset'
-    model.managedSubjectInstance == ms
-    model.groupRole
-    model.organizationRole
   }
 
   def 'validatereset does not increase counts but fails to pass on password format error'() {

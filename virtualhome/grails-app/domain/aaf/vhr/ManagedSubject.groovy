@@ -254,10 +254,7 @@ class ManagedSubject {
   }
 
   public void setResetCode(String resetCode) {
-    if(resetCode)
-      this.resetCode = cleanCode(resetCode)
-    else
-      this.resetCode = null
+    this.resetCode = resetCode
   }
 
   public void setResetCodeExternal(String resetCodeExternal) {

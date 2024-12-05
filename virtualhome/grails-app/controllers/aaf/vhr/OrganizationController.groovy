@@ -4,6 +4,8 @@ import org.springframework.dao.DataIntegrityViolationException
 import org.apache.shiro.SecurityUtils
 
 import aaf.base.identity.Role
+import aaf.base.identity.Subject
+import aaf.vhr.AdminHelper
 
 class OrganizationController {
 
@@ -14,17 +16,48 @@ class OrganizationController {
 
   def organizationService
 
+  def getFilteredList(parameters) {
+    def orgs = Organization.list(parameters)
+    def adminOrgs = AdminHelper.getAdminOrganizations()
+
+    // In addition to orgs we are an admin of, we should be able to see orgs that contain groups we are an admin of
+    AdminHelper.getAdminGroups().each { group ->
+      adminOrgs.add(group.organization)
+    }
+
+    adminOrgs.unique()
+    return orgs.intersect(adminOrgs)
+  }
+
   def list() {
     log.info "Action: list, Subject: $subject"
-    [organizationInstanceList: Organization.list(params), organizationInstanceTotal: Organization.count()]
+    // If you are not a global admin, only show organizations you are an admin of
+    if (AdminHelper.isGlobalAdmin()) {
+      [organizationInstanceList: Organization.list(params), organizationInstanceTotal: Organization.count()]
+    } else {
+      def orgList = getFilteredList(params)
+      [organizationInstanceList: orgList, organizationInstanceTotal: orgList.size()]
+    }
   }
 
   def show(Long id) {
     log.info "Action: show, Subject: $subject"
     def organizationInstance = Organization.get(id)
 
-    def role = Role.findWhere(name:"organization:${organizationInstance.id}:administrators")
-    [organizationInstance: organizationInstance, role:role]
+    def adminRole = Role.findWhere(name:"organization:${organizationInstance.id}:administrators")
+    def subject = Subject.get(SecurityUtils.getSubject()?.getPrincipal())
+
+    // App admins can view this information with no restrictions.
+    // If we are an admin of a group within this organisation, we can see the organisation.
+    if (AdminHelper.isGlobalAdmin() || AdminHelper.isOrganizationInsider(id as Integer)) {
+      return [organizationInstance: organizationInstance, role:adminRole]
+    }
+
+
+    log.error "User ${subject.cn} does not have permissions to access organization ${organizationInstance}"
+    flash.type = 'error'
+    flash.message = 'controllers.aaf.vhr.organization.show.error'
+    redirect action: 'list'
   }
 
   def create() {
@@ -100,7 +133,7 @@ class OrganizationController {
         return
       }
 
-      if(SecurityUtils.subject.isPermitted("app:administration"))
+      if(AdminHelper.isGlobalAdmin())
         bindData(organizationInstance, params, [include: ['name', 'displayName', 'description', 'subjectLimit', 'groupLimit', 'orgScope']])
       else
         bindData(organizationInstance, params, [include: ['description', 'orgScope']])
@@ -183,7 +216,7 @@ class OrganizationController {
   }
 
   def toggleArchive(Long id, Long version) {
-    if(SecurityUtils.subject.isPermitted("app:administration")) {
+    if(AdminHelper.isGlobalAdmin()) {
       def organizationInstance = Organization.get(id)
       
       if (version == null) {
@@ -220,7 +253,7 @@ class OrganizationController {
   }
 
   def toggleBlocked(Long id, Long version) {
-    if(SecurityUtils.subject.isPermitted("app:administration")) {
+    if(AdminHelper.isGlobalAdmin()) {
       def organizationInstance = Organization.get(id)
       
       if (version == null) {
