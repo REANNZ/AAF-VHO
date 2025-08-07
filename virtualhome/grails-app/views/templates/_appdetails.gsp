@@ -15,8 +15,6 @@
     <ul>
       <li><strong>iPhone</strong> search the <a href="http://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8">Apple App Store</a> for “Google Authenticator” (published by Google, Inc.)</li>
       <li><strong>Android</strong> search the <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Google Play Store</a> for “Google Authenticator” (published by Google, Inc.)  </li>
-      <li><strong>Blackberry</strong> search the <a href="http://appworld.blackberry.com/webstore/content/22517879/?lang=en&countrycode=AU">Blackberry World</a> for “Authomator” (published by Pulsecode Inc.) </li>
-      <li><strong>Windows Phone 8</strong> search the <a href="http://www.windowsphone.com/en-us/store/app/authenticator/e7994dbc-2336-4950-91ba-ca22d653759b">Windows Phone Store</a> for “Authenticator” (published by Microsoft Corporation) </li>
     </ul>
   </li>
 
