@@ -13,7 +13,7 @@
     <h5>Step 1: Using your device, download the authenticator application (app) from an app store </h5>
     <p>Download instructions for each app store is below. If you have already downloaded the app, proceed to step 2. </p>
     <ul>
-      <li><strong>iPhone</strong> search the <a href="http://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8">Apple App Store</a> for “Google Authenticator” (published by Google, Inc.)</li>
+      <li><strong>iPhone</strong> search the <a href="https://apps.apple.com/us/app/google-authenticator/id388497605">Apple App Store</a> for “Google Authenticator” (published by Google, Inc.)</li>
       <li><strong>Android</strong> search the <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Google Play Store</a> for “Google Authenticator” (published by Google, Inc.)  </li>
     </ul>
   </li>
