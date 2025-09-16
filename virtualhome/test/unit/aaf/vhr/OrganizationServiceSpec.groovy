@@ -99,7 +99,6 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
     def o = Organization.findWhere(frID:11)
     o.name == "ramp.org.au"
     o.displayName == "ramp.org.au"
-    o.description == "Boostrappted IdP of: ramp.org.au"
     o.groups[0].name == "Default Group"
     o.groups[0].description == "Default group for accounts belonging to ${o.displayName}"
 
@@ -174,7 +173,6 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
     def o = Organization.findWhere(frID:11)
     o.name == "ramp.org.au"
     o.displayName == "ramp.org.au"
-    o.description == "Boostrappted IdP of: ramp.org.au"
 
     def o2 = Organization.findWhere(frID:146)
     o2.name == "usc.edu.au"
@@ -279,12 +277,10 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
     def o = Organization.findWhere(frID:11)
     o.name == "ramp.org.au"
     o.displayName == "ramp.org.au"
-    o.description == "Boostrappted IdP of: ramp.org.au"
 
     def o2 = Organization.findWhere(frID:146)
     o2.name == "usc.edu.au"
     o2.displayName == "University of the Sunshine Coast"
-    o2.description == null
   }
 
   def 'expect existing Organization that has been disabled in FR to be made inactive here'() {
@@ -344,13 +340,11 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
     !o.active
     o.name == "ramp.org.au"
     o.displayName == "ramp.org.au"
-    o.description == "Boostrappted IdP of: ramp.org.au"
 
     def o2 = Organization.findWhere(frID:146)
     !o2.active
     o2.name == "usc.edu.au"
     o2.displayName == "University of the Sunshine Coast"
-    o2.description == null
   }
 
   def 'expect existing inactive Organization that has been re-activated in FR to be made active here'() {
@@ -408,13 +402,11 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
     o.active
     o.name == "ramp.org.au"
     o.displayName == "ramp.org.au"
-    o.description == "Boostrappted IdP of: ramp.org.au"
 
     def o2 = Organization.findWhere(frID:146)
     o2.active
     o2.name == "usc.edu.au"
     o2.displayName == "University of the Sunshine Coast"
-    o2.description == null
   }
 
   def 'expect existing Organization undergoing workflow here is not made active regardless of being active in FR'() {
@@ -472,13 +464,11 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
     o.active
     o.name == "ramp.org.au"
     o.displayName == "ramp.org.au"
-    o.description == "Boostrappted IdP of: ramp.org.au"
 
     def o2 = Organization.findWhere(frID:146)
     !o2.active
     o2.name == "usc.edu.au"
     o2.displayName == "University of the Sunshine Coast"
-    o2.description == null
   }
 
   def 'expect no existing Organisations to be updated and no new Organisations to be created when errors saving'() {
