@@ -6,7 +6,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/2",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "qut.edu.au",
+          "OrganizationDisplayName": "Queensland University of Technology"
+        }
+      }
     },
     {
       "id": 5,
@@ -14,7 +21,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/5",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "auth86.ac3.edu.au",
+          "OrganizationDisplayName": "auth86.ac3.edu.au"
+        }
+      }
     },
     {
       "id": 8,
@@ -22,7 +36,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/8",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "griffith.edu.au",
+          "OrganizationDisplayName": "Griffith University"
+        }
+      }
     },
     {
       "id": 11,
@@ -30,7 +51,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/11",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "ramp.org.au",
+          "OrganizationDisplayName": "ramp.org.au"
+        }
+      }
     },
     {
       "id": 14,
@@ -38,7 +66,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/14",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "starflower.qut.edu.au",
+          "OrganizationDisplayName": "starflower.qut.edu.au"
+        }
+      }
     },
     {
       "id": 17,
@@ -46,7 +81,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/17",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "ecu.edu.au",
+          "OrganizationDisplayName": "Edith Cowan University"
+        }
+      }
     },
     {
       "id": 20,
@@ -54,7 +96,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/20",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "uq.edu.au",
+          "OrganizationDisplayName": "The University of Queensland"
+        }
+      }
     },
     {
       "id": 23,
@@ -62,7 +111,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/23",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "arcs.org.au",
+          "OrganizationDisplayName": "arcs.org.au"
+        }
+      }
     },
     {
       "id": 26,
@@ -70,7 +126,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/26",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "vho.test.aaf.edu.au",
+          "OrganizationDisplayName": "AAF Virtual Home Organization"
+        }
+      }
     },
     {
       "id": 29,
@@ -78,7 +141,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/29",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "canterbury.ac.nz",
+          "OrganizationDisplayName": "University of Canterbury TEST"
+        }
+      }
     },
     {
       "id": 32,
@@ -86,7 +156,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/32",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "acu.edu.au",
+          "OrganizationDisplayName": "Australian Catholic University"
+        }
+      }
     },
     {
       "id": 35,
@@ -94,7 +171,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/35",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "utas.edu.au",
+          "OrganizationDisplayName": "Uni of Tasmania"
+        }
+      }
     },
     {
       "id": 38,
@@ -102,7 +186,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/38",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "mams.melcoe.mq.edu.au",
+          "OrganizationDisplayName": "MELCOE IdP"
+        }
+      }
     },
     {
       "id": 41,
@@ -110,7 +201,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/41",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "versi.edu.au",
+          "OrganizationDisplayName": "IdP versi.edu.au"
+        }
+      }
     },
     {
       "id": 44,
@@ -118,7 +216,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/44",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "monash.edu.au",
+          "OrganizationDisplayName": "Monash University"
+        }
+      }
     },
     {
       "id": 47,
@@ -126,7 +231,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/47",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "csiro.au",
+          "OrganizationDisplayName": "CSIRO"
+        }
+      }
     },
     {
       "id": 50,
@@ -134,7 +246,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/50",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "coneflower.qut.edu.au",
+          "OrganizationDisplayName": "coneflower.qut.edu.au"
+        }
+      }
     },
     {
       "id": 53,
@@ -142,7 +261,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/53",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "uws.edu.au",
+          "OrganizationDisplayName": "University of Western Sydney"
+        }
+      }
     },
     {
       "id": 56,
@@ -150,7 +276,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/56",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "curtin.edu.au",
+          "OrganizationDisplayName": "Curtin University"
+        }
+      }
     },
     {
       "id": 59,
@@ -158,7 +291,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/59",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "auth03.ac3.edu.au",
+          "OrganizationDisplayName": "auth03.ac3.edu.au"
+        }
+      }
     },
     {
       "id": 62,
@@ -166,7 +306,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/62",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "rmit.edu.au",
+          "OrganizationDisplayName": "RMIT"
+        }
+      }
     },
     {
       "id": 65,
@@ -174,7 +321,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/65",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "intersect.org.au",
+          "OrganizationDisplayName": "Intersect_Test"
+        }
+      }
     },
     {
       "id": 68,
@@ -182,7 +336,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/68",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "uts.edu.au",
+          "OrganizationDisplayName": "University of Technology, Sydney"
+        }
+      }
     },
     {
       "id": 71,
@@ -190,7 +351,14 @@
       "functioning": false,
       "archived": true,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/71",
-      "format": "json"
+      "format": "json",
+      "active": false,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "ckn.dotsec.com",
+          "OrganizationDisplayName": "ckn.dotsec.com"
+        }
+      }
     },
     {
       "id": 74,
@@ -198,7 +366,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/74",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "unisa.edu.au",
+          "OrganizationDisplayName": "University of South Australia"
+        }
+      }
     },
     {
       "id": 77,
@@ -206,7 +381,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/77",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "uwa.edu.au",
+          "OrganizationDisplayName": "The University of Western Australia"
+        }
+      }
     },
     {
       "id": 80,
@@ -214,7 +396,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/80",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "aafidp2x.aaf.edu.au",
+          "OrganizationDisplayName": "aafidp2x.aaf.edu.au"
+        }
+      }
     },
     {
       "id": 83,
@@ -222,7 +411,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/83",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "deakin.edu.au",
+          "OrganizationDisplayName": "deakin.edu.au"
+        }
+      }
     },
     {
       "id": 86,
@@ -230,7 +426,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/86",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "adelaide.edu.au",
+          "OrganizationDisplayName": "adelaide.edu.au"
+        }
+      }
     },
     {
       "id": 89,
@@ -238,7 +441,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/89",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "aa.unisa.edu.au",
+          "OrganizationDisplayName": "University of South Australia Attribute Authority"
+        }
+      }
     },
     {
       "id": 92,
@@ -246,7 +456,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/92",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "unimelb.edu.au",
+          "OrganizationDisplayName": "The University of Melbourne"
+        }
+      }
     },
     {
       "id": 98,
@@ -254,7 +471,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/98",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "latrobe.edu.au",
+          "OrganizationDisplayName": "La Trobe University"
+        }
+      }
     },
     {
       "id": 101,
@@ -262,7 +486,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/101",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "anu.edu.au",
+          "OrganizationDisplayName": "anu.edu.au"
+        }
+      }
     },
     {
       "id": 104,
@@ -270,7 +501,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/104",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "gmt.test.aaf.edu.au",
+          "OrganizationDisplayName": "AAF Group Management Tool"
+        }
+      }
     },
     {
       "id": 107,
@@ -278,7 +516,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/107",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "auth02.ac3.edu.au",
+          "OrganizationDisplayName": "auth02.ac3.edu.au"
+        }
+      }
     },
     {
       "id": 110,
@@ -286,7 +531,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/110",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "csu.edu.au",
+          "OrganizationDisplayName": "Charles Sturt University "
+        }
+      }
     },
     {
       "id": 113,
@@ -294,7 +546,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/113",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "usq.edu.au",
+          "OrganizationDisplayName": "usq.edu.au"
+        }
+      }
     },
     {
       "id": 116,
@@ -302,7 +561,14 @@
       "functioning": false,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/116",
-      "format": "json"
+      "format": "json",
+      "active": false,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "arcs.ramp.org.au",
+          "OrganizationDisplayName": "arcs.ramp.org.au"
+        }
+      }
     },
     {
       "id": 122,
@@ -310,7 +576,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/122",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Stuart's Test Organisation for Documenting",
+          "OrganizationDisplayName": "Stuart's Organisation for Documenting"
+        }
+      }
     },
     {
       "id": 125,
@@ -318,7 +591,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/125",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Bond University",
+          "OrganizationDisplayName": "Bond University"
+        }
+      }
     },
     {
       "id": 128,
@@ -326,7 +606,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/128",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Terry's Test Org",
+          "OrganizationDisplayName": "TRS is only 3 charaters long..."
+        }
+      }
     },
     {
       "id": 131,
@@ -334,7 +621,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/131",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Deakin University",
+          "OrganizationDisplayName": "Deakin University"
+        }
+      }
     },
     {
       "id": 134,
@@ -342,7 +636,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/134",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Cambridge University Press",
+          "OrganizationDisplayName": "Cambridge University Press"
+        }
+      }
     },
     {
       "id": 140,
@@ -350,7 +651,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/140",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "National Institute of Informatics JP",
+          "OrganizationDisplayName": "NII-JP"
+        }
+      }
     },
     {
       "id": 143,
@@ -358,7 +666,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/143",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Australian Institute of Marine Science",
+          "OrganizationDisplayName": "AIMS"
+        }
+      }
     },
     {
       "id": 146,
@@ -366,7 +681,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/146",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "usc.edu.au",
+          "OrganizationDisplayName": "University of the Sunshine Coast"
+        }
+      }
     },
     {
       "id": 170,
@@ -374,7 +696,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/170",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "University of New South wales - Test",
+          "OrganizationDisplayName": "University of New South wales - Test"
+        }
+      }
     },
     {
       "id": 185,
@@ -382,7 +711,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/185",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "The Sax Institute",
+          "OrganizationDisplayName": "The Sax Institute"
+        }
+      }
     },
     {
       "id": 188,
@@ -390,7 +726,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/188",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Test for Workflow Diagram",
+          "OrganizationDisplayName": "Test for Workflow Diagram"
+        }
+      }
     },
     {
       "id": 191,
@@ -398,7 +741,14 @@
       "functioning": false,
       "archived": true,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/191",
-      "format": "json"
+      "format": "json",
+      "active": false,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Landcare Research NZ ltd TEST",
+          "OrganizationDisplayName": "Landcare-TEST"
+        }
+      }
     },
     {
       "id": 194,
@@ -406,7 +756,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/194",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "dfgh",
+          "OrganizationDisplayName": "BB TEST"
+        }
+      }
     },
     {
       "id": 200,
@@ -414,7 +771,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/200",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "trs.test.home",
+          "OrganizationDisplayName": "TRS Test Organisation"
+        }
+      }
     },
     {
       "id": 203,
@@ -422,7 +786,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/203",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "SWINBURNE UNIVERSITY OF TECHNOLOGY",
+          "OrganizationDisplayName": "SWINBURNE UNIVERSITY OF TECHNOLOGY"
+        }
+      }
     },
     {
       "id": 206,
@@ -430,7 +801,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/206",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "aaf.nd.edu.au",
+          "OrganizationDisplayName": "The University of Notre Dame Australia"
+        }
+      }
     },
     {
       "id": 209,
@@ -438,7 +816,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/209",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "nSynergy",
+          "OrganizationDisplayName": "nSynergy"
+        }
+      }
     },
     {
       "id": 218,
@@ -446,7 +831,14 @@
       "functioning": false,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/218",
-      "format": "json"
+      "format": "json",
+      "active": false,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Test Org",
+          "OrganizationDisplayName": "Test Org that will be deleted soon"
+        }
+      }
     },
     {
       "id": 221,
@@ -454,7 +846,14 @@
       "functioning": false,
       "archived": true,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/221",
-      "format": "json"
+      "format": "json",
+      "active": false,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "auckland.ac.nz",
+          "OrganizationDisplayName": "The University of Auckland (TEST)"
+        }
+      }
     },
     {
       "id": 227,
@@ -462,7 +861,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/227",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "JOHN WILEY & SONS ",
+          "OrganizationDisplayName": "JOHN WILEY & SONS"
+        }
+      }
     },
     {
       "id": 230,
@@ -470,7 +876,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/230",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Flinder University",
+          "OrganizationDisplayName": "Flinder University"
+        }
+      }
     },
     {
       "id": 233,
@@ -478,7 +891,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/233",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "cqu.edu.au",
+          "OrganizationDisplayName": "CQUniversity"
+        }
+      }
     },
     {
       "id": 236,
@@ -486,7 +906,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/236",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "ballarat.edu.au",
+          "OrganizationDisplayName": "University of Ballarat (Test)"
+        }
+      }
     },
     {
       "id": 239,
@@ -494,7 +921,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/239",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "QRNO/QuestNET",
+          "OrganizationDisplayName": "QRNO/QuestNET"
+        }
+      }
     },
     {
       "id": 242,
@@ -502,7 +936,14 @@
       "functioning": false,
       "archived": true,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/242",
-      "format": "json"
+      "format": "json",
+      "active": false,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "National Institute of Water and Atmospheric Research Limited",
+          "OrganizationDisplayName": "NIWA"
+        }
+      }
     },
     {
       "id": 245,
@@ -510,7 +951,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/245",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "uow.edu.au",
+          "OrganizationDisplayName": "University of Wollongong"
+        }
+      }
     },
     {
       "id": 248,
@@ -518,7 +966,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/248",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Ingram Content",
+          "OrganizationDisplayName": "Ingram Content Group"
+        }
+      }
     },
     {
       "id": 251,
@@ -526,7 +981,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/251",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Victoria University",
+          "OrganizationDisplayName": "Victoria University"
+        }
+      }
     },
     {
       "id": 254,
@@ -534,7 +996,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/254",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Southern Cross University",
+          "OrganizationDisplayName": "Southern Cross University"
+        }
+      }
     },
     {
       "id": 257,
@@ -542,7 +1011,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/257",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Doco Test",
+          "OrganizationDisplayName": "Documentation Testing"
+        }
+      }
     },
     {
       "id": 260,
@@ -550,7 +1026,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/260",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "AAF Training",
+          "OrganizationDisplayName": "AAF Training Workshop"
+        }
+      }
     },
     {
       "id": 263,
@@ -558,7 +1041,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/263",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "sso-shibboleth-dev.its.rmit.edu.au",
+          "OrganizationDisplayName": "RMIT Development IDP"
+        }
+      }
     },
     {
       "id": 266,
@@ -566,7 +1056,14 @@
       "functioning": false,
       "archived": true,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/266",
-      "format": "json"
+      "format": "json",
+      "active": false,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "AUT University",
+          "OrganizationDisplayName": "AUT University"
+        }
+      }
     },
     {
       "id": 269,
@@ -574,7 +1071,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/269",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "University of Canberra",
+          "OrganizationDisplayName": "University of Canberra"
+        }
+      }
     },
     {
       "id": 275,
@@ -582,7 +1086,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/275",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Open Universities Australia",
+          "OrganizationDisplayName": "Open Universities Australia"
+        }
+      }
     },
     {
       "id": 278,
@@ -590,7 +1101,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/278",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "University of Western Sydney",
+          "OrganizationDisplayName": "UWS"
+        }
+      }
     },
     {
       "id": 284,
@@ -598,7 +1116,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/284",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "idp-test.adf.murdoch.edu.au",
+          "OrganizationDisplayName": "Murdoch University"
+        }
+      }
     },
     {
       "id": 287,
@@ -606,7 +1131,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/287",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "www.rsc.org",
+          "OrganizationDisplayName": "Royal Society of Chemistry Test"
+        }
+      }
     },
     {
       "id": 290,
@@ -614,7 +1146,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/290",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "une.edu.au",
+          "OrganizationDisplayName": "University of New England"
+        }
+      }
     },
     {
       "id": 293,
@@ -622,7 +1161,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/293",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "SWITCH",
+          "OrganizationDisplayName": "SWITCH"
+        }
+      }
     },
     {
       "id": 296,
@@ -630,7 +1176,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/296",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "jacl.animats.net",
+          "OrganizationDisplayName": "The JACL Institute"
+        }
+      }
     },
     {
       "id": 299,
@@ -638,7 +1191,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/299",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Charles Darwin University",
+          "OrganizationDisplayName": "Charles Darwin University"
+        }
+      }
     },
     {
       "id": 302,
@@ -646,7 +1206,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/302",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "test.idem-aaf.it",
+          "OrganizationDisplayName": "ITA IDEM Test Organization"
+        }
+      }
     },
     {
       "id": 311,
@@ -654,7 +1221,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/311",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "University of Newcastle",
+          "OrganizationDisplayName": "University of Newcastle"
+        }
+      }
     },
     {
       "id": 314,
@@ -662,7 +1236,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/314",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "VeRSI",
+          "OrganizationDisplayName": "VeRSI"
+        }
+      }
     },
     {
       "id": 317,
@@ -670,7 +1251,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/317",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "NICTA",
+          "OrganizationDisplayName": "NICTA"
+        }
+      }
     },
     {
       "id": 320,
@@ -678,7 +1266,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/320",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "jcu.edu.au",
+          "OrganizationDisplayName": "James Cook University"
+        }
+      }
     },
     {
       "id": 323,
@@ -686,7 +1281,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/323",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "HighWire Press",
+          "OrganizationDisplayName": "HighWire Press"
+        }
+      }
     },
     {
       "id": 329,
@@ -694,7 +1296,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/329",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "emeraldinsight.com",
+          "OrganizationDisplayName": "Emerald"
+        }
+      }
     },
     {
       "id": 332,
@@ -702,7 +1311,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/332",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "The University of Hong Kong",
+          "OrganizationDisplayName": "The University of Hong Kong"
+        }
+      }
     },
     {
       "id": 335,
@@ -710,7 +1326,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/335",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "UNiDAYS",
+          "OrganizationDisplayName": "UNiDAYS"
+        }
+      }
     },
     {
       "id": 338,
@@ -718,7 +1341,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/338",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "aurin.org.au",
+          "OrganizationDisplayName": "AuRIN"
+        }
+      }
     },
     {
       "id": 365,
@@ -726,7 +1356,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/365",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "one.edu.au",
+          "OrganizationDisplayName": "University One"
+        }
+      }
     },
     {
       "id": 368,
@@ -734,7 +1371,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/368",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "test2.edu.au",
+          "OrganizationDisplayName": "Test Edu"
+        }
+      }
     },
     {
       "id": 377,
@@ -742,7 +1386,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/377",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "sydney.edu.au",
+          "OrganizationDisplayName": "The University of Sydney"
+        }
+      }
     },
     {
       "id": 380,
@@ -750,7 +1401,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/380",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "trs.edu.au",
+          "OrganizationDisplayName": "TRS AU "
+        }
+      }
     },
     {
       "id": 383,
@@ -758,7 +1416,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/383",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "TRS",
+          "OrganizationDisplayName": "TRS IdP 2.3.6 "
+        }
+      }
     },
     {
       "id": 389,
@@ -766,7 +1431,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/389",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Identity Concepts",
+          "OrganizationDisplayName": "IDC Test IDP"
+        }
+      }
     },
     {
       "id": 392,
@@ -774,7 +1446,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/392",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Department of Environment and Conservation, Western Australia",
+          "OrganizationDisplayName": "DEC WA"
+        }
+      }
     },
     {
       "id": 395,
@@ -782,7 +1461,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/395",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "paulstepowski.org",
+          "OrganizationDisplayName": "Paul's Test Organisation"
+        }
+      }
     },
     {
       "id": 398,
@@ -790,7 +1476,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/398",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "cochlear.com",
+          "OrganizationDisplayName": "Cochlear"
+        }
+      }
     },
     {
       "id": 401,
@@ -798,7 +1491,14 @@
       "functioning": true,
       "archived": false,
       "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/401",
-      "format": "json"
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "NetSpot Pty Ltd",
+          "OrganizationDisplayName": "NetSpot Pty Ltd"
+        }
+      }
     }
   ]
 }
