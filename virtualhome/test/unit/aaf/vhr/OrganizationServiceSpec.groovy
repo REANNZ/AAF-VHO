@@ -56,19 +56,6 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
       json.organizations
     }
 
-    os.metaClass.queryOrganization = { String server, String api ->
-      assert server == grailsApplication.config.aaf.vhr.federationregistry.server
-      assert api.startsWith('/federationregistry/api/v1/organizations/')
-
-      def jsonFile = new File("test/data/orgJSON/${api.replace('/','-')}.json".replace('-federationregistry-api-v1-organizations', 'organization'))
-      def json2 = JSON.parse(new FileInputStream(jsonFile), "UTF-8")
-
-      if(workflows == 27 || workflows == 56)
-        json2.organization.functioning == false
-
-      json2.organization
-    }
-
     wps.metaClass {
       initiate = { String processName, String instanceDescription, ProcessPriority priority, Map params ->
         aaf.base.workflow.ProcessInstance instance = new aaf.base.workflow.ProcessInstance()
@@ -140,15 +127,6 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
       json.organizations
     }
 
-    os.metaClass.queryOrganization = { String server, String api ->
-      assert server == grailsApplication.config.aaf.vhr.federationregistry.server
-      assert api.startsWith('/federationregistry/api/v1/organizations/')
-
-      def jsonFile = new File("test/data/orgJSON/${api.replace('/','-')}.json".replace('-federationregistry-api-v1-organizations', 'organization'))
-      def json2 = JSON.parse(new FileInputStream(jsonFile), "UTF-8")
-      json2.organization
-    }
-
     wps.metaClass {
       initiate = { String processName, String instanceDescription, ProcessPriority priority, Map params ->
         [false, null]
@@ -192,15 +170,6 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
       json.organizations
     }
 
-    os.metaClass.queryOrganization = { String server, String api ->
-      assert server == grailsApplication.config.aaf.vhr.federationregistry.server
-      assert api.startsWith('/federationregistry/api/v1/organizations/')
-
-      def jsonFile = new File("test/data/orgJSON/${api.replace('/','-')}.json".replace('-federationregistry-api-v1-organizations', 'organization'))
-      def json2 = JSON.parse(new FileInputStream(jsonFile), "UTF-8")
-      json2.organization
-    }
-
     Organization.metaClass.save = { null }
 
     wps.metaClass {
@@ -239,15 +208,6 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
       assert api == grailsApplication.config.aaf.vhr.federationregistry.api.organisations
 
       json.organizations
-    }
-
-    os.metaClass.queryOrganization = { String server, String api ->
-      assert server == grailsApplication.config.aaf.vhr.federationregistry.server
-      assert api.startsWith('/federationregistry/api/v1/organizations/')
-
-      def jsonFile = new File("test/data/orgJSON/${api.replace('/','-')}.json".replace('-federationregistry-api-v1-organizations', 'organization'))
-      def json2 = JSON.parse(new FileInputStream(jsonFile), "UTF-8")
-      json2.organization
     }
 
     wps.metaClass {
@@ -296,21 +256,12 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
       assert server == grailsApplication.config.aaf.vhr.federationregistry.server
       assert api == grailsApplication.config.aaf.vhr.federationregistry.api.organisations
 
-      json.organizations
-    }
-
-    os.metaClass.queryOrganization = { String server, String api ->
-      assert server == grailsApplication.config.aaf.vhr.federationregistry.server
-      assert api.startsWith('/federationregistry/api/v1/organizations/')
-
-      def jsonFile = new File("test/data/orgJSON/${api.replace('/','-')}.json".replace('-federationregistry-api-v1-organizations', 'organization'))
-      def json2 = JSON.parse(new FileInputStream(jsonFile), "UTF-8")
-
-      if(json2.organization.id == 11 || json2.organization.id == 146) {
-        json2.organization.functioning = false
+      json.organizations.each { o ->
+        if(o.id == 11 || o.id == 146) {
+          o.active = false
+        }
       }
-
-      json2.organization
+      json.organizations
     }
 
     wps.metaClass {
@@ -361,16 +312,6 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
       assert api == grailsApplication.config.aaf.vhr.federationregistry.api.organisations
 
       json.organizations
-    }
-
-    os.metaClass.queryOrganization = { String server, String api ->
-      assert server == grailsApplication.config.aaf.vhr.federationregistry.server
-      assert api.startsWith('/federationregistry/api/v1/organizations/')
-
-      def jsonFile = new File("test/data/orgJSON/${api.replace('/','-')}.json".replace('-federationregistry-api-v1-organizations', 'organization'))
-      def json2 = JSON.parse(new FileInputStream(jsonFile), "UTF-8")
-
-      json2.organization
     }
 
     wps.metaClass {
@@ -425,16 +366,6 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
       json.organizations
     }
 
-    os.metaClass.queryOrganization = { String server, String api ->
-      assert server == grailsApplication.config.aaf.vhr.federationregistry.server
-      assert api.startsWith('/federationregistry/api/v1/organizations/')
-
-      def jsonFile = new File("test/data/orgJSON/${api.replace('/','-')}.json".replace('-federationregistry-api-v1-organizations', 'organization'))
-      def json2 = JSON.parse(new FileInputStream(jsonFile), "UTF-8")
-
-      json2.organization
-    }
-
     wps.metaClass {
       initiate = { String processName, String instanceDescription, ProcessPriority priority, Map params ->
         def instance = [] as ProcessInstance
@@ -485,15 +416,6 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
       assert api == grailsApplication.config.aaf.vhr.federationregistry.api.organisations
 
       json.organizations
-    }
-
-    os.metaClass.queryOrganization = { String server, String api ->
-      assert server == grailsApplication.config.aaf.vhr.federationregistry.server
-      assert api.startsWith('/federationregistry/api/v1/organizations/')
-
-      def jsonFile = new File("test/data/orgJSON/${api.replace('/','-')}.json".replace('-federationregistry-api-v1-organizations', 'organization'))
-      def json2 = JSON.parse(new FileInputStream(jsonFile), "UTF-8")
-      json2.organization
     }
 
     Organization.metaClass.save = { null }
