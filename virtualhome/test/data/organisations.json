@@ -1,1 +1,1504 @@
-{"organizations":[{"id":2,"name":"qut.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/2","format":"json"},{"id":5,"name":"auth86.ac3.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/5","format":"json"},{"id":8,"name":"griffith.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/8","format":"json"},{"id":11,"name":"ramp.org.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/11","format":"json"},{"id":14,"name":"starflower.qut.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/14","format":"json"},{"id":17,"name":"ecu.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/17","format":"json"},{"id":20,"name":"uq.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/20","format":"json"},{"id":23,"name":"arcs.org.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/23","format":"json"},{"id":26,"name":"vho.test.aaf.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/26","format":"json"},{"id":29,"name":"canterbury.ac.nz","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/29","format":"json"},{"id":32,"name":"acu.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/32","format":"json"},{"id":35,"name":"utas.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/35","format":"json"},{"id":38,"name":"mams.melcoe.mq.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/38","format":"json"},{"id":41,"name":"versi.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/41","format":"json"},{"id":44,"name":"monash.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/44","format":"json"},{"id":47,"name":"csiro.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/47","format":"json"},{"id":50,"name":"coneflower.qut.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/50","format":"json"},{"id":53,"name":"uws.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/53","format":"json"},{"id":56,"name":"curtin.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/56","format":"json"},{"id":59,"name":"auth03.ac3.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/59","format":"json"},{"id":62,"name":"rmit.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/62","format":"json"},{"id":65,"name":"intersect.org.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/65","format":"json"},{"id":68,"name":"uts.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/68","format":"json"},{"id":71,"name":"ckn.dotsec.com","functioning":false,"archived":true,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/71","format":"json"},{"id":74,"name":"unisa.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/74","format":"json"},{"id":77,"name":"uwa.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/77","format":"json"},{"id":80,"name":"aafidp2x.aaf.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/80","format":"json"},{"id":83,"name":"deakin.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/83","format":"json"},{"id":86,"name":"adelaide.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/86","format":"json"},{"id":89,"name":"aa.unisa.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/89","format":"json"},{"id":92,"name":"unimelb.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/92","format":"json"},{"id":98,"name":"latrobe.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/98","format":"json"},{"id":101,"name":"anu.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/101","format":"json"},{"id":104,"name":"gmt.test.aaf.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/104","format":"json"},{"id":107,"name":"auth02.ac3.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/107","format":"json"},{"id":110,"name":"csu.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/110","format":"json"},{"id":113,"name":"usq.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/113","format":"json"},{"id":116,"name":"arcs.ramp.org.au","functioning":false,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/116","format":"json"},{"id":122,"name":"Stuart's Test Organisation for Documenting","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/122","format":"json"},{"id":125,"name":"Bond University","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/125","format":"json"},{"id":128,"name":"Terry's Test Org","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/128","format":"json"},{"id":131,"name":"Deakin University","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/131","format":"json"},{"id":134,"name":"Cambridge University Press","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/134","format":"json"},{"id":140,"name":"National Institute of Informatics JP","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/140","format":"json"},{"id":143,"name":"Australian Institute of Marine Science","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/143","format":"json"},{"id":146,"name":"University of the Sunshine Coast","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/146","format":"json"},{"id":170,"name":"University of New South wales - Test","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/170","format":"json"},{"id":185,"name":"The Sax Institute","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/185","format":"json"},{"id":188,"name":"Test for Workflow Diagram","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/188","format":"json"},{"id":191,"name":"Landcare Research NZ ltd TEST","functioning":false,"archived":true,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/191","format":"json"},{"id":194,"name":"dfgh","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/194","format":"json"},{"id":200,"name":"trs.test.home","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/200","format":"json"},{"id":203,"name":"SWINBURNE UNIVERSITY OF TECHNOLOGY","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/203","format":"json"},{"id":206,"name":"aaf.nd.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/206","format":"json"},{"id":209,"name":"nSynergy","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/209","format":"json"},{"id":218,"name":"Test Org","functioning":false,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/218","format":"json"},{"id":221,"name":"auckland.ac.nz","functioning":false,"archived":true,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/221","format":"json"},{"id":227,"name":"JOHN WILEY & SONS ","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/227","format":"json"},{"id":230,"name":"Flinder University","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/230","format":"json"},{"id":233,"name":"cqu.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/233","format":"json"},{"id":236,"name":"ballarat.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/236","format":"json"},{"id":239,"name":"QRNO/QuestNET","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/239","format":"json"},{"id":242,"name":"National Institute of Water and Atmospheric Research Limited","functioning":false,"archived":true,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/242","format":"json"},{"id":245,"name":"uow.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/245","format":"json"},{"id":248,"name":"Ingram Content","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/248","format":"json"},{"id":251,"name":"Victoria University","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/251","format":"json"},{"id":254,"name":"Southern Cross University","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/254","format":"json"},{"id":257,"name":"Doco Test","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/257","format":"json"},{"id":260,"name":"AAF Training","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/260","format":"json"},{"id":263,"name":"sso-shibboleth-dev.its.rmit.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/263","format":"json"},{"id":266,"name":"AUT University","functioning":false,"archived":true,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/266","format":"json"},{"id":269,"name":"University of Canberra","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/269","format":"json"},{"id":275,"name":"Open Universities Australia","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/275","format":"json"},{"id":278,"name":"University of Western Sydney","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/278","format":"json"},{"id":284,"name":"idp-test.adf.murdoch.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/284","format":"json"},{"id":287,"name":"www.rsc.org","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/287","format":"json"},{"id":290,"name":"une.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/290","format":"json"},{"id":293,"name":"SWITCH","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/293","format":"json"},{"id":296,"name":"jacl.animats.net","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/296","format":"json"},{"id":299,"name":"Charles Darwin University","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/299","format":"json"},{"id":302,"name":"test.idem-aaf.it","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/302","format":"json"},{"id":311,"name":"University of Newcastle","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/311","format":"json"},{"id":314,"name":"VeRSI","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/314","format":"json"},{"id":317,"name":"NICTA","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/317","format":"json"},{"id":320,"name":"jcu.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/320","format":"json"},{"id":323,"name":"HighWire Press","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/323","format":"json"},{"id":329,"name":"emeraldinsight.com","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/329","format":"json"},{"id":332,"name":"The University of Hong Kong","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/332","format":"json"},{"id":335,"name":"UNiDAYS","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/335","format":"json"},{"id":338,"name":"aurin.org.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/338","format":"json"},{"id":365,"name":"one.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/365","format":"json"},{"id":368,"name":"test2.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/368","format":"json"},{"id":377,"name":"sydney.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/377","format":"json"},{"id":380,"name":"trs.edu.au","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/380","format":"json"},{"id":383,"name":"TRS","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/383","format":"json"},{"id":389,"name":"Identity Concepts","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/389","format":"json"},{"id":392,"name":"Department of Environment and Conservation, Western Australia","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/392","format":"json"},{"id":395,"name":"paulstepowski.org","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/395","format":"json"},{"id":398,"name":"cochlear.com","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/398","format":"json"},{"id":401,"name":"NetSpot Pty Ltd","functioning":true,"archived":false,"link":"https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/401","format":"json"}]}
+{
+  "organizations": [
+    {
+      "id": 2,
+      "name": "qut.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/2",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "qut.edu.au",
+          "OrganizationDisplayName": "Queensland University of Technology"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "name": "auth86.ac3.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/5",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "auth86.ac3.edu.au",
+          "OrganizationDisplayName": "auth86.ac3.edu.au"
+        }
+      }
+    },
+    {
+      "id": 8,
+      "name": "griffith.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/8",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "griffith.edu.au",
+          "OrganizationDisplayName": "Griffith University"
+        }
+      }
+    },
+    {
+      "id": 11,
+      "name": "ramp.org.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/11",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "ramp.org.au",
+          "OrganizationDisplayName": "ramp.org.au"
+        }
+      }
+    },
+    {
+      "id": 14,
+      "name": "starflower.qut.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/14",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "starflower.qut.edu.au",
+          "OrganizationDisplayName": "starflower.qut.edu.au"
+        }
+      }
+    },
+    {
+      "id": 17,
+      "name": "ecu.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/17",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "ecu.edu.au",
+          "OrganizationDisplayName": "Edith Cowan University"
+        }
+      }
+    },
+    {
+      "id": 20,
+      "name": "uq.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/20",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "uq.edu.au",
+          "OrganizationDisplayName": "The University of Queensland"
+        }
+      }
+    },
+    {
+      "id": 23,
+      "name": "arcs.org.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/23",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "arcs.org.au",
+          "OrganizationDisplayName": "arcs.org.au"
+        }
+      }
+    },
+    {
+      "id": 26,
+      "name": "vho.test.aaf.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/26",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "vho.test.aaf.edu.au",
+          "OrganizationDisplayName": "AAF Virtual Home Organization"
+        }
+      }
+    },
+    {
+      "id": 29,
+      "name": "canterbury.ac.nz",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/29",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "canterbury.ac.nz",
+          "OrganizationDisplayName": "University of Canterbury TEST"
+        }
+      }
+    },
+    {
+      "id": 32,
+      "name": "acu.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/32",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "acu.edu.au",
+          "OrganizationDisplayName": "Australian Catholic University"
+        }
+      }
+    },
+    {
+      "id": 35,
+      "name": "utas.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/35",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "utas.edu.au",
+          "OrganizationDisplayName": "Uni of Tasmania"
+        }
+      }
+    },
+    {
+      "id": 38,
+      "name": "mams.melcoe.mq.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/38",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "mams.melcoe.mq.edu.au",
+          "OrganizationDisplayName": "MELCOE IdP"
+        }
+      }
+    },
+    {
+      "id": 41,
+      "name": "versi.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/41",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "versi.edu.au",
+          "OrganizationDisplayName": "IdP versi.edu.au"
+        }
+      }
+    },
+    {
+      "id": 44,
+      "name": "monash.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/44",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "monash.edu.au",
+          "OrganizationDisplayName": "Monash University"
+        }
+      }
+    },
+    {
+      "id": 47,
+      "name": "csiro.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/47",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "csiro.au",
+          "OrganizationDisplayName": "CSIRO"
+        }
+      }
+    },
+    {
+      "id": 50,
+      "name": "coneflower.qut.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/50",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "coneflower.qut.edu.au",
+          "OrganizationDisplayName": "coneflower.qut.edu.au"
+        }
+      }
+    },
+    {
+      "id": 53,
+      "name": "uws.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/53",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "uws.edu.au",
+          "OrganizationDisplayName": "University of Western Sydney"
+        }
+      }
+    },
+    {
+      "id": 56,
+      "name": "curtin.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/56",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "curtin.edu.au",
+          "OrganizationDisplayName": "Curtin University"
+        }
+      }
+    },
+    {
+      "id": 59,
+      "name": "auth03.ac3.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/59",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "auth03.ac3.edu.au",
+          "OrganizationDisplayName": "auth03.ac3.edu.au"
+        }
+      }
+    },
+    {
+      "id": 62,
+      "name": "rmit.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/62",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "rmit.edu.au",
+          "OrganizationDisplayName": "RMIT"
+        }
+      }
+    },
+    {
+      "id": 65,
+      "name": "intersect.org.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/65",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "intersect.org.au",
+          "OrganizationDisplayName": "Intersect_Test"
+        }
+      }
+    },
+    {
+      "id": 68,
+      "name": "uts.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/68",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "uts.edu.au",
+          "OrganizationDisplayName": "University of Technology, Sydney"
+        }
+      }
+    },
+    {
+      "id": 71,
+      "name": "ckn.dotsec.com",
+      "functioning": false,
+      "archived": true,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/71",
+      "format": "json",
+      "active": false,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "ckn.dotsec.com",
+          "OrganizationDisplayName": "ckn.dotsec.com"
+        }
+      }
+    },
+    {
+      "id": 74,
+      "name": "unisa.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/74",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "unisa.edu.au",
+          "OrganizationDisplayName": "University of South Australia"
+        }
+      }
+    },
+    {
+      "id": 77,
+      "name": "uwa.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/77",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "uwa.edu.au",
+          "OrganizationDisplayName": "The University of Western Australia"
+        }
+      }
+    },
+    {
+      "id": 80,
+      "name": "aafidp2x.aaf.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/80",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "aafidp2x.aaf.edu.au",
+          "OrganizationDisplayName": "aafidp2x.aaf.edu.au"
+        }
+      }
+    },
+    {
+      "id": 83,
+      "name": "deakin.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/83",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "deakin.edu.au",
+          "OrganizationDisplayName": "deakin.edu.au"
+        }
+      }
+    },
+    {
+      "id": 86,
+      "name": "adelaide.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/86",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "adelaide.edu.au",
+          "OrganizationDisplayName": "adelaide.edu.au"
+        }
+      }
+    },
+    {
+      "id": 89,
+      "name": "aa.unisa.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/89",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "aa.unisa.edu.au",
+          "OrganizationDisplayName": "University of South Australia Attribute Authority"
+        }
+      }
+    },
+    {
+      "id": 92,
+      "name": "unimelb.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/92",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "unimelb.edu.au",
+          "OrganizationDisplayName": "The University of Melbourne"
+        }
+      }
+    },
+    {
+      "id": 98,
+      "name": "latrobe.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/98",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "latrobe.edu.au",
+          "OrganizationDisplayName": "La Trobe University"
+        }
+      }
+    },
+    {
+      "id": 101,
+      "name": "anu.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/101",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "anu.edu.au",
+          "OrganizationDisplayName": "anu.edu.au"
+        }
+      }
+    },
+    {
+      "id": 104,
+      "name": "gmt.test.aaf.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/104",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "gmt.test.aaf.edu.au",
+          "OrganizationDisplayName": "AAF Group Management Tool"
+        }
+      }
+    },
+    {
+      "id": 107,
+      "name": "auth02.ac3.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/107",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "auth02.ac3.edu.au",
+          "OrganizationDisplayName": "auth02.ac3.edu.au"
+        }
+      }
+    },
+    {
+      "id": 110,
+      "name": "csu.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/110",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "csu.edu.au",
+          "OrganizationDisplayName": "Charles Sturt University "
+        }
+      }
+    },
+    {
+      "id": 113,
+      "name": "usq.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/113",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "usq.edu.au",
+          "OrganizationDisplayName": "usq.edu.au"
+        }
+      }
+    },
+    {
+      "id": 116,
+      "name": "arcs.ramp.org.au",
+      "functioning": false,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/116",
+      "format": "json",
+      "active": false,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "arcs.ramp.org.au",
+          "OrganizationDisplayName": "arcs.ramp.org.au"
+        }
+      }
+    },
+    {
+      "id": 122,
+      "name": "Stuart's Test Organisation for Documenting",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/122",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Stuart's Test Organisation for Documenting",
+          "OrganizationDisplayName": "Stuart's Organisation for Documenting"
+        }
+      }
+    },
+    {
+      "id": 125,
+      "name": "Bond University",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/125",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Bond University",
+          "OrganizationDisplayName": "Bond University"
+        }
+      }
+    },
+    {
+      "id": 128,
+      "name": "Terry's Test Org",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/128",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Terry's Test Org",
+          "OrganizationDisplayName": "TRS is only 3 charaters long..."
+        }
+      }
+    },
+    {
+      "id": 131,
+      "name": "Deakin University",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/131",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Deakin University",
+          "OrganizationDisplayName": "Deakin University"
+        }
+      }
+    },
+    {
+      "id": 134,
+      "name": "Cambridge University Press",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/134",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Cambridge University Press",
+          "OrganizationDisplayName": "Cambridge University Press"
+        }
+      }
+    },
+    {
+      "id": 140,
+      "name": "National Institute of Informatics JP",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/140",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "National Institute of Informatics JP",
+          "OrganizationDisplayName": "NII-JP"
+        }
+      }
+    },
+    {
+      "id": 143,
+      "name": "Australian Institute of Marine Science",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/143",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Australian Institute of Marine Science",
+          "OrganizationDisplayName": "AIMS"
+        }
+      }
+    },
+    {
+      "id": 146,
+      "name": "University of the Sunshine Coast",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/146",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "usc.edu.au",
+          "OrganizationDisplayName": "University of the Sunshine Coast"
+        }
+      }
+    },
+    {
+      "id": 170,
+      "name": "University of New South wales - Test",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/170",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "University of New South wales - Test",
+          "OrganizationDisplayName": "University of New South wales - Test"
+        }
+      }
+    },
+    {
+      "id": 185,
+      "name": "The Sax Institute",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/185",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "The Sax Institute",
+          "OrganizationDisplayName": "The Sax Institute"
+        }
+      }
+    },
+    {
+      "id": 188,
+      "name": "Test for Workflow Diagram",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/188",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Test for Workflow Diagram",
+          "OrganizationDisplayName": "Test for Workflow Diagram"
+        }
+      }
+    },
+    {
+      "id": 191,
+      "name": "Landcare Research NZ ltd TEST",
+      "functioning": false,
+      "archived": true,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/191",
+      "format": "json",
+      "active": false,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Landcare Research NZ ltd TEST",
+          "OrganizationDisplayName": "Landcare-TEST"
+        }
+      }
+    },
+    {
+      "id": 194,
+      "name": "dfgh",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/194",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "dfgh",
+          "OrganizationDisplayName": "BB TEST"
+        }
+      }
+    },
+    {
+      "id": 200,
+      "name": "trs.test.home",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/200",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "trs.test.home",
+          "OrganizationDisplayName": "TRS Test Organisation"
+        }
+      }
+    },
+    {
+      "id": 203,
+      "name": "SWINBURNE UNIVERSITY OF TECHNOLOGY",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/203",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "SWINBURNE UNIVERSITY OF TECHNOLOGY",
+          "OrganizationDisplayName": "SWINBURNE UNIVERSITY OF TECHNOLOGY"
+        }
+      }
+    },
+    {
+      "id": 206,
+      "name": "aaf.nd.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/206",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "aaf.nd.edu.au",
+          "OrganizationDisplayName": "The University of Notre Dame Australia"
+        }
+      }
+    },
+    {
+      "id": 209,
+      "name": "nSynergy",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/209",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "nSynergy",
+          "OrganizationDisplayName": "nSynergy"
+        }
+      }
+    },
+    {
+      "id": 218,
+      "name": "Test Org",
+      "functioning": false,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/218",
+      "format": "json",
+      "active": false,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Test Org",
+          "OrganizationDisplayName": "Test Org that will be deleted soon"
+        }
+      }
+    },
+    {
+      "id": 221,
+      "name": "auckland.ac.nz",
+      "functioning": false,
+      "archived": true,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/221",
+      "format": "json",
+      "active": false,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "auckland.ac.nz",
+          "OrganizationDisplayName": "The University of Auckland (TEST)"
+        }
+      }
+    },
+    {
+      "id": 227,
+      "name": "JOHN WILEY & SONS ",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/227",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "JOHN WILEY & SONS ",
+          "OrganizationDisplayName": "JOHN WILEY & SONS"
+        }
+      }
+    },
+    {
+      "id": 230,
+      "name": "Flinder University",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/230",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Flinder University",
+          "OrganizationDisplayName": "Flinder University"
+        }
+      }
+    },
+    {
+      "id": 233,
+      "name": "cqu.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/233",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "cqu.edu.au",
+          "OrganizationDisplayName": "CQUniversity"
+        }
+      }
+    },
+    {
+      "id": 236,
+      "name": "ballarat.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/236",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "ballarat.edu.au",
+          "OrganizationDisplayName": "University of Ballarat (Test)"
+        }
+      }
+    },
+    {
+      "id": 239,
+      "name": "QRNO/QuestNET",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/239",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "QRNO/QuestNET",
+          "OrganizationDisplayName": "QRNO/QuestNET"
+        }
+      }
+    },
+    {
+      "id": 242,
+      "name": "National Institute of Water and Atmospheric Research Limited",
+      "functioning": false,
+      "archived": true,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/242",
+      "format": "json",
+      "active": false,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "National Institute of Water and Atmospheric Research Limited",
+          "OrganizationDisplayName": "NIWA"
+        }
+      }
+    },
+    {
+      "id": 245,
+      "name": "uow.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/245",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "uow.edu.au",
+          "OrganizationDisplayName": "University of Wollongong"
+        }
+      }
+    },
+    {
+      "id": 248,
+      "name": "Ingram Content",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/248",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Ingram Content",
+          "OrganizationDisplayName": "Ingram Content Group"
+        }
+      }
+    },
+    {
+      "id": 251,
+      "name": "Victoria University",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/251",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Victoria University",
+          "OrganizationDisplayName": "Victoria University"
+        }
+      }
+    },
+    {
+      "id": 254,
+      "name": "Southern Cross University",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/254",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Southern Cross University",
+          "OrganizationDisplayName": "Southern Cross University"
+        }
+      }
+    },
+    {
+      "id": 257,
+      "name": "Doco Test",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/257",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Doco Test",
+          "OrganizationDisplayName": "Documentation Testing"
+        }
+      }
+    },
+    {
+      "id": 260,
+      "name": "AAF Training",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/260",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "AAF Training",
+          "OrganizationDisplayName": "AAF Training Workshop"
+        }
+      }
+    },
+    {
+      "id": 263,
+      "name": "sso-shibboleth-dev.its.rmit.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/263",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "sso-shibboleth-dev.its.rmit.edu.au",
+          "OrganizationDisplayName": "RMIT Development IDP"
+        }
+      }
+    },
+    {
+      "id": 266,
+      "name": "AUT University",
+      "functioning": false,
+      "archived": true,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/266",
+      "format": "json",
+      "active": false,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "AUT University",
+          "OrganizationDisplayName": "AUT University"
+        }
+      }
+    },
+    {
+      "id": 269,
+      "name": "University of Canberra",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/269",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "University of Canberra",
+          "OrganizationDisplayName": "University of Canberra"
+        }
+      }
+    },
+    {
+      "id": 275,
+      "name": "Open Universities Australia",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/275",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Open Universities Australia",
+          "OrganizationDisplayName": "Open Universities Australia"
+        }
+      }
+    },
+    {
+      "id": 278,
+      "name": "University of Western Sydney",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/278",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "University of Western Sydney",
+          "OrganizationDisplayName": "UWS"
+        }
+      }
+    },
+    {
+      "id": 284,
+      "name": "idp-test.adf.murdoch.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/284",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "idp-test.adf.murdoch.edu.au",
+          "OrganizationDisplayName": "Murdoch University"
+        }
+      }
+    },
+    {
+      "id": 287,
+      "name": "www.rsc.org",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/287",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "www.rsc.org",
+          "OrganizationDisplayName": "Royal Society of Chemistry Test"
+        }
+      }
+    },
+    {
+      "id": 290,
+      "name": "une.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/290",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "une.edu.au",
+          "OrganizationDisplayName": "University of New England"
+        }
+      }
+    },
+    {
+      "id": 293,
+      "name": "SWITCH",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/293",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "SWITCH",
+          "OrganizationDisplayName": "SWITCH"
+        }
+      }
+    },
+    {
+      "id": 296,
+      "name": "jacl.animats.net",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/296",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "jacl.animats.net",
+          "OrganizationDisplayName": "The JACL Institute"
+        }
+      }
+    },
+    {
+      "id": 299,
+      "name": "Charles Darwin University",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/299",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Charles Darwin University",
+          "OrganizationDisplayName": "Charles Darwin University"
+        }
+      }
+    },
+    {
+      "id": 302,
+      "name": "test.idem-aaf.it",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/302",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "test.idem-aaf.it",
+          "OrganizationDisplayName": "ITA IDEM Test Organization"
+        }
+      }
+    },
+    {
+      "id": 311,
+      "name": "University of Newcastle",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/311",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "University of Newcastle",
+          "OrganizationDisplayName": "University of Newcastle"
+        }
+      }
+    },
+    {
+      "id": 314,
+      "name": "VeRSI",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/314",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "VeRSI",
+          "OrganizationDisplayName": "VeRSI"
+        }
+      }
+    },
+    {
+      "id": 317,
+      "name": "NICTA",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/317",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "NICTA",
+          "OrganizationDisplayName": "NICTA"
+        }
+      }
+    },
+    {
+      "id": 320,
+      "name": "jcu.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/320",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "jcu.edu.au",
+          "OrganizationDisplayName": "James Cook University"
+        }
+      }
+    },
+    {
+      "id": 323,
+      "name": "HighWire Press",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/323",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "HighWire Press",
+          "OrganizationDisplayName": "HighWire Press"
+        }
+      }
+    },
+    {
+      "id": 329,
+      "name": "emeraldinsight.com",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/329",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "emeraldinsight.com",
+          "OrganizationDisplayName": "Emerald"
+        }
+      }
+    },
+    {
+      "id": 332,
+      "name": "The University of Hong Kong",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/332",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "The University of Hong Kong",
+          "OrganizationDisplayName": "The University of Hong Kong"
+        }
+      }
+    },
+    {
+      "id": 335,
+      "name": "UNiDAYS",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/335",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "UNiDAYS",
+          "OrganizationDisplayName": "UNiDAYS"
+        }
+      }
+    },
+    {
+      "id": 338,
+      "name": "aurin.org.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/338",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "aurin.org.au",
+          "OrganizationDisplayName": "AuRIN"
+        }
+      }
+    },
+    {
+      "id": 365,
+      "name": "one.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/365",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "one.edu.au",
+          "OrganizationDisplayName": "University One"
+        }
+      }
+    },
+    {
+      "id": 368,
+      "name": "test2.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/368",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "test2.edu.au",
+          "OrganizationDisplayName": "Test Edu"
+        }
+      }
+    },
+    {
+      "id": 377,
+      "name": "sydney.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/377",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "sydney.edu.au",
+          "OrganizationDisplayName": "The University of Sydney"
+        }
+      }
+    },
+    {
+      "id": 380,
+      "name": "trs.edu.au",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/380",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "trs.edu.au",
+          "OrganizationDisplayName": "TRS AU "
+        }
+      }
+    },
+    {
+      "id": 383,
+      "name": "TRS",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/383",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "TRS",
+          "OrganizationDisplayName": "TRS IdP 2.3.6 "
+        }
+      }
+    },
+    {
+      "id": 389,
+      "name": "Identity Concepts",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/389",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Identity Concepts",
+          "OrganizationDisplayName": "IDC Test IDP"
+        }
+      }
+    },
+    {
+      "id": 392,
+      "name": "Department of Environment and Conservation, Western Australia",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/392",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "Department of Environment and Conservation, Western Australia",
+          "OrganizationDisplayName": "DEC WA"
+        }
+      }
+    },
+    {
+      "id": 395,
+      "name": "paulstepowski.org",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/395",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "paulstepowski.org",
+          "OrganizationDisplayName": "Paul's Test Organisation"
+        }
+      }
+    },
+    {
+      "id": 398,
+      "name": "cochlear.com",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/398",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "cochlear.com",
+          "OrganizationDisplayName": "Cochlear"
+        }
+      }
+    },
+    {
+      "id": 401,
+      "name": "NetSpot Pty Ltd",
+      "functioning": true,
+      "archived": false,
+      "link": "https://manager.test.aaf.edu.au/federationregistry/api/v1/organizations/401",
+      "format": "json",
+      "active": true,
+      "organizationInfoData": {
+        "en": {
+          "OrganizationName": "NetSpot Pty Ltd",
+          "OrganizationDisplayName": "NetSpot Pty Ltd"
+        }
+      }
+    }
+  ]
+}
