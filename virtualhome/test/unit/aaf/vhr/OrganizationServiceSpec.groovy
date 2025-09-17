@@ -56,19 +56,6 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
       json.organizations
     }
 
-    os.metaClass.queryOrganization = { String server, String api ->
-      assert server == grailsApplication.config.aaf.vhr.federationregistry.server
-      assert api.startsWith('/federationregistry/api/v1/organizations/')
-
-      def jsonFile = new File("test/data/orgJSON/${api.replace('/','-')}.json".replace('-federationregistry-api-v1-organizations', 'organization'))
-      def json2 = JSON.parse(new FileInputStream(jsonFile), "UTF-8")
-
-      if(workflows == 27 || workflows == 56)
-        json2.organization.functioning == false
-
-      json2.organization
-    }
-
     wps.metaClass {
       initiate = { String processName, String instanceDescription, ProcessPriority priority, Map params ->
         aaf.base.workflow.ProcessInstance instance = new aaf.base.workflow.ProcessInstance()
@@ -99,7 +86,6 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
     def o = Organization.findWhere(frID:11)
     o.name == "ramp.org.au"
     o.displayName == "ramp.org.au"
-    o.description == "Boostrappted IdP of: ramp.org.au"
     o.groups[0].name == "Default Group"
     o.groups[0].description == "Default group for accounts belonging to ${o.displayName}"
 
@@ -141,15 +127,6 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
       json.organizations
     }
 
-    os.metaClass.queryOrganization = { String server, String api ->
-      assert server == grailsApplication.config.aaf.vhr.federationregistry.server
-      assert api.startsWith('/federationregistry/api/v1/organizations/')
-
-      def jsonFile = new File("test/data/orgJSON/${api.replace('/','-')}.json".replace('-federationregistry-api-v1-organizations', 'organization'))
-      def json2 = JSON.parse(new FileInputStream(jsonFile), "UTF-8")
-      json2.organization
-    }
-
     wps.metaClass {
       initiate = { String processName, String instanceDescription, ProcessPriority priority, Map params ->
         [false, null]
@@ -174,7 +151,6 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
     def o = Organization.findWhere(frID:11)
     o.name == "ramp.org.au"
     o.displayName == "ramp.org.au"
-    o.description == "Boostrappted IdP of: ramp.org.au"
 
     def o2 = Organization.findWhere(frID:146)
     o2.name == "usc.edu.au"
@@ -192,15 +168,6 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
       assert api == grailsApplication.config.aaf.vhr.federationregistry.api.organisations
 
       json.organizations
-    }
-
-    os.metaClass.queryOrganization = { String server, String api ->
-      assert server == grailsApplication.config.aaf.vhr.federationregistry.server
-      assert api.startsWith('/federationregistry/api/v1/organizations/')
-
-      def jsonFile = new File("test/data/orgJSON/${api.replace('/','-')}.json".replace('-federationregistry-api-v1-organizations', 'organization'))
-      def json2 = JSON.parse(new FileInputStream(jsonFile), "UTF-8")
-      json2.organization
     }
 
     Organization.metaClass.save = { null }
@@ -243,15 +210,6 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
       json.organizations
     }
 
-    os.metaClass.queryOrganization = { String server, String api ->
-      assert server == grailsApplication.config.aaf.vhr.federationregistry.server
-      assert api.startsWith('/federationregistry/api/v1/organizations/')
-
-      def jsonFile = new File("test/data/orgJSON/${api.replace('/','-')}.json".replace('-federationregistry-api-v1-organizations', 'organization'))
-      def json2 = JSON.parse(new FileInputStream(jsonFile), "UTF-8")
-      json2.organization
-    }
-
     wps.metaClass {
       initiate = { String processName, String instanceDescription, ProcessPriority priority, Map params ->
         def instance = [] as ProcessInstance
@@ -279,12 +237,10 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
     def o = Organization.findWhere(frID:11)
     o.name == "ramp.org.au"
     o.displayName == "ramp.org.au"
-    o.description == "Boostrappted IdP of: ramp.org.au"
 
     def o2 = Organization.findWhere(frID:146)
     o2.name == "usc.edu.au"
     o2.displayName == "University of the Sunshine Coast"
-    o2.description == null
   }
 
   def 'expect existing Organization that has been disabled in FR to be made inactive here'() {
@@ -300,21 +256,12 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
       assert server == grailsApplication.config.aaf.vhr.federationregistry.server
       assert api == grailsApplication.config.aaf.vhr.federationregistry.api.organisations
 
-      json.organizations
-    }
-
-    os.metaClass.queryOrganization = { String server, String api ->
-      assert server == grailsApplication.config.aaf.vhr.federationregistry.server
-      assert api.startsWith('/federationregistry/api/v1/organizations/')
-
-      def jsonFile = new File("test/data/orgJSON/${api.replace('/','-')}.json".replace('-federationregistry-api-v1-organizations', 'organization'))
-      def json2 = JSON.parse(new FileInputStream(jsonFile), "UTF-8")
-
-      if(json2.organization.id == 11 || json2.organization.id == 146) {
-        json2.organization.functioning = false
+      json.organizations.each { o ->
+        if(o.id == 11 || o.id == 146) {
+          o.active = false
+        }
       }
-
-      json2.organization
+      json.organizations
     }
 
     wps.metaClass {
@@ -344,13 +291,11 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
     !o.active
     o.name == "ramp.org.au"
     o.displayName == "ramp.org.au"
-    o.description == "Boostrappted IdP of: ramp.org.au"
 
     def o2 = Organization.findWhere(frID:146)
     !o2.active
     o2.name == "usc.edu.au"
     o2.displayName == "University of the Sunshine Coast"
-    o2.description == null
   }
 
   def 'expect existing inactive Organization that has been re-activated in FR to be made active here'() {
@@ -369,16 +314,6 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
       json.organizations
     }
 
-    os.metaClass.queryOrganization = { String server, String api ->
-      assert server == grailsApplication.config.aaf.vhr.federationregistry.server
-      assert api.startsWith('/federationregistry/api/v1/organizations/')
-
-      def jsonFile = new File("test/data/orgJSON/${api.replace('/','-')}.json".replace('-federationregistry-api-v1-organizations', 'organization'))
-      def json2 = JSON.parse(new FileInputStream(jsonFile), "UTF-8")
-
-      json2.organization
-    }
-
     wps.metaClass {
       initiate = { String processName, String instanceDescription, ProcessPriority priority, Map params ->
         def instance = [] as ProcessInstance
@@ -408,13 +343,11 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
     o.active
     o.name == "ramp.org.au"
     o.displayName == "ramp.org.au"
-    o.description == "Boostrappted IdP of: ramp.org.au"
 
     def o2 = Organization.findWhere(frID:146)
     o2.active
     o2.name == "usc.edu.au"
     o2.displayName == "University of the Sunshine Coast"
-    o2.description == null
   }
 
   def 'expect existing Organization undergoing workflow here is not made active regardless of being active in FR'() {
@@ -433,16 +366,6 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
       json.organizations
     }
 
-    os.metaClass.queryOrganization = { String server, String api ->
-      assert server == grailsApplication.config.aaf.vhr.federationregistry.server
-      assert api.startsWith('/federationregistry/api/v1/organizations/')
-
-      def jsonFile = new File("test/data/orgJSON/${api.replace('/','-')}.json".replace('-federationregistry-api-v1-organizations', 'organization'))
-      def json2 = JSON.parse(new FileInputStream(jsonFile), "UTF-8")
-
-      json2.organization
-    }
-
     wps.metaClass {
       initiate = { String processName, String instanceDescription, ProcessPriority priority, Map params ->
         def instance = [] as ProcessInstance
@@ -472,13 +395,11 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
     o.active
     o.name == "ramp.org.au"
     o.displayName == "ramp.org.au"
-    o.description == "Boostrappted IdP of: ramp.org.au"
 
     def o2 = Organization.findWhere(frID:146)
     !o2.active
     o2.name == "usc.edu.au"
     o2.displayName == "University of the Sunshine Coast"
-    o2.description == null
   }
 
   def 'expect no existing Organisations to be updated and no new Organisations to be created when errors saving'() {
@@ -495,15 +416,6 @@ class OrganizationServiceSpec extends spock.lang.Specification  {
       assert api == grailsApplication.config.aaf.vhr.federationregistry.api.organisations
 
       json.organizations
-    }
-
-    os.metaClass.queryOrganization = { String server, String api ->
-      assert server == grailsApplication.config.aaf.vhr.federationregistry.server
-      assert api.startsWith('/federationregistry/api/v1/organizations/')
-
-      def jsonFile = new File("test/data/orgJSON/${api.replace('/','-')}.json".replace('-federationregistry-api-v1-organizations', 'organization'))
-      def json2 = JSON.parse(new FileInputStream(jsonFile), "UTF-8")
-      json2.organization
     }
 
     Organization.metaClass.save = { null }

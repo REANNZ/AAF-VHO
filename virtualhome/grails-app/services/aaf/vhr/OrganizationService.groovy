@@ -39,18 +39,17 @@ class OrganizationService {
 
     if(organisations) {
       organisations.each { o ->
-        def result = queryOrganization(server, o.link.replace(server, ''))
-        if(result) {
+          def org_data_en = o.organizationInfoData.en
           def org = Organization.findWhere(frID: o.id.longValue())
           if(org) {
             // Ensure we cache any updates coming down from FR
-            org.name = result.name
-            org.displayName = result.displayName
-            org.description = !result.description.equals(null) ? result.description:null
+            org.name = org_data_en.OrganizationName
+            org.displayName = org_data_en.OrganizationDisplayName
+            // org.description = ... not available in MDTool (and unset in FR), ignoring
 
             if(!org.undergoingWorkflow) {
-              org.active = result.functioning
-              org.archived = result.archived
+              org.active = o.active
+              // org.archived = ... not available in MDTool, ignoring
             }
 
             if(!org.save()) {
@@ -60,13 +59,12 @@ class OrganizationService {
               }
             }
           } else {
-            if(result.functioning) {
-              create(result.name, result.displayName, result.description, result.id)
+            if(o.active) {
+              create(org_data_en.OrganizationName, org_data_en.OrganizationDisplayName, null, o.id)
             } else {
-              log.warn "Not creating new Organization instance to represent ${result.name} as currently not functioning in Federation Registry"
+              log.warn "Not creating new Organization instance to represent ${org_data_en.OrganizationName} as currently not functioning in Federation Registry"
             }
           }
-        }
       }
     }
   }
@@ -163,37 +161,5 @@ class OrganizationService {
       log.error e.message
     }  
     organisations
-  }
-
-  private def queryOrganization(server, api) {
-    def organisation = null
-    try {
-      def http = new HTTPBuilder(server)
-
-      http.request(Method.GET, ContentType.JSON) {req ->
-        uri.path = api
-        contentType = 'application/json; charset=UTF-8'
-
-        response.success = {resp, json ->
-          log.info "Collected ${json.organization} from Federation Registry ${server}${api}"
-          organisation = json.organization
-        }
-
-        response.failure = {resp ->
-          log.error "Error requesting list of Organization from Federation Registry ${server}${api}"
-          log.error resp.statusLine
-        }
-      }
-    } catch (JSONException jsonException) {
-      log.error "JSONException requesting list of Organization from Federation Registry ${server}${api}"
-      log.error jsonException.message
-    } catch (ResponseParseException parseException) {
-      log.error "ResponseParseException requesting list of Organization from Federation Registry ${server}${api}"
-      log.error parseException.message
-    } catch (Exception e) {
-      log.error "Exception requesting list of Organization from Federation Registry ${server}${api}"
-      log.error e.message
-    }
-    organisation  
   }
 }

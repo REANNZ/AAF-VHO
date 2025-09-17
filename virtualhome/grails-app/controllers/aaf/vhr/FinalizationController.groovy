@@ -61,13 +61,14 @@ class FinalizationController {
       return
     }
 
-    session.removeAttribute(MANAGED_SUBJECT_ID)
-
     def (outcome, managedSubjectInstance) = managedSubjectService.finalize(invitationInstance, login, plainPassword, plainPasswordConfirmation, mobileNumber ?:null)
     if(!outcome) {
       render (view: 'index', model:[managedSubjectInstance:managedSubjectInstance, invitationInstance:invitationInstance])
       return
     }
+
+    session.removeAttribute(MANAGED_SUBJECT_ID)
+
     [managedSubjectInstance: managedSubjectInstance]
   }
 
