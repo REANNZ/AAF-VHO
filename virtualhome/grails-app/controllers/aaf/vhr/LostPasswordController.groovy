@@ -42,6 +42,11 @@ class LostPasswordController {
 
     def managedSubjectInstance = ManagedSubject.findWhere(login: params.login)
     if (managedSubjectInstance) {
+
+      def smsCode = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
+      managedSubjectInstance.resetCodeExternal = smsCode
+      managedSubjectInstance.save()
+
       lostPasswordService.sendResetEmail(managedSubjectInstance)
     }
 
@@ -69,9 +74,6 @@ class LostPasswordController {
 
     session.setAttribute(CURRENT_USER, managedSubjectInstance.id)
 
-    // If we haven't generated an SMS code already, generate an SMS code and sent it to the user (even if we have already sent one)
-    def smsCode = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
-    managedSubjectInstance.resetCodeExternal = smsCode
     flash.type = 'info'
     flash.message = 'controllers.aaf.vhr.lostpassword.reset.sent.externalcode'
     sendResetCodes(managedSubjectInstance)
