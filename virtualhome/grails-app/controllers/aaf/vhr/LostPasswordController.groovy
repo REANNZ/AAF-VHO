@@ -105,7 +105,12 @@ class LostPasswordController {
         flash.type = 'error'
         flash.message = 'controllers.aaf.vhr.lostpassword.resend.error'
       } else {
-        sendResetCodes(managedSubjectInstance)
+        if (!sendResetCodes(managedSubjectInstance)) {
+          flash.type = 'error'
+          flash.message = 'controllers.aaf.vhr.lostpassword.mobile.invalid'
+          redirect action: 'unavailable'
+          return
+        }
 
         managedSubjectInstance.lastCodeResend = new Date()
         managedSubjectInstance.save()
