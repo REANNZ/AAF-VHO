@@ -74,10 +74,15 @@ class LostPasswordController {
 
     session.setAttribute(CURRENT_USER, managedSubjectInstance.id)
 
+    if (!sendResetCodes(managedSubjectInstance)) {
+      flash.type = 'error'
+      flash.message = 'controllers.aaf.vhr.lostpassword.mobile.invalid'
+      redirect action: 'unavailable'
+      return
+    }
+
     flash.type = 'info'
     flash.message = 'controllers.aaf.vhr.lostpassword.reset.sent.externalcode'
-    sendResetCodes(managedSubjectInstance)
-
     redirect action: 'reset'
   }
 
@@ -217,14 +222,19 @@ Remote IP: ${request.getRemoteAddr()}"""
     true
   }
 
-  private void sendResetCodes(ManagedSubject managedSubjectInstance) {
-    // SMS reset code (UI asks to contact admin if no mobile)
-    if(managedSubjectInstance.mobileNumber) {
-      if(!sendsms(managedSubjectInstance)) {
-        redirect action: 'unavailable'
-        return
-      }
+  private boolean sendResetCodes(ManagedSubject managedSubjectInstance) {
+
+    if(!managedSubjectInstance.mobileNumber) {
+      log.error "Cannot send SMS to ${managedSubjectInstance} since they have no mobile number!"
+      return false;
     }
+
+    if(!ManagedSubject.validMobileNumber(managedSubjectInstance.mobileNumber, managedSubjectInstance)) {
+      log.error "Cannot send SMS to ${managedSubjectInstance} since they have an invalid mobile number ${managedSubjectInstance.mobileNumber} !"
+      return false
+    }
+
+    sendsms(managedSubjectInstance)
   }
 
   private boolean sendsms(ManagedSubject managedSubjectInstance) {
