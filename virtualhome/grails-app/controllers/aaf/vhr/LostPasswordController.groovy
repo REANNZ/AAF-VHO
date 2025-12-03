@@ -9,7 +9,7 @@ import aaf.vhr.switchch.vho.DeprecatedSubject
 
 class LostPasswordController {
 
-  static allowedMethods = [emailed: 'POST', validatereset: 'POST']
+  static allowedMethods = [emailed: 'POST', validatereset: 'POST', obtainsubject: 'GET']
 
   final String CURRENT_USER = "aaf.vhr.LostPasswordController.CURRENT_USER"
   final String EMAIL_CODE_SUBJECT ='controllers.aaf.vhr.lostpassword.email.code.subject'
