@@ -517,6 +517,8 @@ class ManagedSubject {
 
     checkedNumber = checkedNumber.replace(' ','')
 
+    checkedNumber = checkedNumber.replace('-','')
+
     if(!checkedNumber.startsWith('+')) {
       return false
     } else {
