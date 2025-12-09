@@ -516,7 +516,7 @@ class ManagedSubject {
     }
 
     // Silently remove anything that might be entered by users in a valid-looking phone number.
-    checkedNumber = checkedNumber.replaceAll("[ .\\-()]", '')
+    checkedNumber = checkedNumber.replaceAll("[- .()]", '')
 
     // Valid phone numbers for the app only contain '+' and 0-9. Anything else is probably junk that users will be warned about.
     def newNumber = checkedNumber.replaceAll("[^0-9+]", '')
