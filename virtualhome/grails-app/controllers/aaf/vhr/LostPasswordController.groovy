@@ -9,7 +9,7 @@ import aaf.vhr.switchch.vho.DeprecatedSubject
 
 class LostPasswordController {
 
-  static allowedMethods = [emailed: 'POST', validatereset: 'POST']
+  static allowedMethods = [emailed: 'POST', validatereset: 'POST', obtainsubject: 'GET']
 
   final String CURRENT_USER = "aaf.vhr.LostPasswordController.CURRENT_USER"
   final String EMAIL_CODE_SUBJECT ='controllers.aaf.vhr.lostpassword.email.code.subject'
@@ -42,6 +42,11 @@ class LostPasswordController {
 
     def managedSubjectInstance = ManagedSubject.findWhere(login: params.login)
     if (managedSubjectInstance) {
+
+      def smsCode = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
+      managedSubjectInstance.resetCodeExternal = smsCode
+      managedSubjectInstance.save()
+
       lostPasswordService.sendResetEmail(managedSubjectInstance)
     }
 
@@ -69,13 +74,15 @@ class LostPasswordController {
 
     session.setAttribute(CURRENT_USER, managedSubjectInstance.id)
 
-    // If we haven't generated an SMS code already, generate an SMS code and sent it to the user (even if we have already sent one)
-    def smsCode = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
-    managedSubjectInstance.resetCodeExternal = smsCode
+    if (!sendResetCodes(managedSubjectInstance)) {
+      flash.type = 'error'
+      flash.message = 'controllers.aaf.vhr.lostpassword.mobile.invalid'
+      redirect action: 'unavailable'
+      return
+    }
+
     flash.type = 'info'
     flash.message = 'controllers.aaf.vhr.lostpassword.reset.sent.externalcode'
-    sendResetCodes(managedSubjectInstance)
-
     redirect action: 'reset'
   }
 
@@ -98,7 +105,12 @@ class LostPasswordController {
         flash.type = 'error'
         flash.message = 'controllers.aaf.vhr.lostpassword.resend.error'
       } else {
-        sendResetCodes(managedSubjectInstance)
+        if (!sendResetCodes(managedSubjectInstance)) {
+          flash.type = 'error'
+          flash.message = 'controllers.aaf.vhr.lostpassword.mobile.invalid'
+          redirect action: 'unavailable'
+          return
+        }
 
         managedSubjectInstance.lastCodeResend = new Date()
         managedSubjectInstance.save()
@@ -215,14 +227,19 @@ Remote IP: ${request.getRemoteAddr()}"""
     true
   }
 
-  private void sendResetCodes(ManagedSubject managedSubjectInstance) {
-    // SMS reset code (UI asks to contact admin if no mobile)
-    if(managedSubjectInstance.mobileNumber) {
-      if(!sendsms(managedSubjectInstance)) {
-        redirect action: 'unavailable'
-        return
-      }
+  private boolean sendResetCodes(ManagedSubject managedSubjectInstance) {
+
+    if(!managedSubjectInstance.mobileNumber) {
+      log.error "Cannot send SMS to ${managedSubjectInstance} since they have no mobile number!"
+      return false;
     }
+
+    if(!ManagedSubject.validMobileNumber(managedSubjectInstance.mobileNumber, managedSubjectInstance)) {
+      log.error "Cannot send SMS to ${managedSubjectInstance} since they have an invalid mobile number ${managedSubjectInstance.mobileNumber} !"
+      return false
+    }
+
+    sendsms(managedSubjectInstance)
   }
 
   private boolean sendsms(ManagedSubject managedSubjectInstance) {
