@@ -43,9 +43,13 @@ class LostPasswordController {
     def managedSubjectInstance = ManagedSubject.findWhere(login: params.login)
     if (managedSubjectInstance) {
 
-      def smsCode = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
-      managedSubjectInstance.resetCodeExternal = smsCode
-      managedSubjectInstance.save()
+      // If a reset code already exists, it was created by an admin, or by a previous email reset attempt, and we don't need to create a new one.
+      // Reset codes are set to null after a successful password reset.
+      if (managedSubjectInstance.resetCodeExternal == null) {
+        def smsCode = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(grailsApplication.config.aaf.vhr.passwordreset.reset_code_length)
+        managedSubjectInstance.resetCodeExternal = smsCode
+        managedSubjectInstance.save()
+      }
 
       lostPasswordService.sendResetEmail(managedSubjectInstance)
     }
