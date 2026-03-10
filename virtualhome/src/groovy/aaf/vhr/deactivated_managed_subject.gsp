@@ -9,20 +9,17 @@ Your username for this account is: <em>${managedSubject.login.encodeAsHTML()}</e
 
 To have your account checked and re-enabled please contact one of the administrators shown below.<br><br>
 
-<h5>Primary Administrators</h5>
 <g:if test="${groupRole.subjects?.size() > 0}">
+<h5>Primary Administrators</h5>
   <ul>
     <g:each in="${groupRole.subjects?.sort{it.cn}}" var="subject">
       <li><g:fieldValue bean="${subject}" field="cn"/> - <a href="mailto:${subject.email}"><g:fieldValue bean="${subject}" field="email"/></a></li>
     </g:each>
   </ul>
-</g:if>
-<g:else>
-  Unfortunately there are no primary administrators available for your account.
-</g:else>
-<br><br>
+<br>
 
 <h5>Secondary Administrators</h5>
+</g:if>
 <g:if test="${organizationRole.subjects?.size() > 0}">
   <ul>
     <g:each in="${organizationRole.subjects?.sort{it.cn}}" var="subject">
@@ -31,7 +28,7 @@ To have your account checked and re-enabled please contact one of the administra
   </ul>
 </g:if>
 <g:else>
-  Unfortunately there are no secondary administrators available for your account.
+  Unfortunately there are no administrators available for your account.<br>
 </g:else>
 <br>
 
