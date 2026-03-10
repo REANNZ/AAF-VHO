@@ -5,6 +5,7 @@
         <thead>
           <tr>
               <th><g:message encodeAs='HTML' code="label.login" /></th>
+              <th><g:message encodeAs='HTML' code="label.accountexpires" /></th>
               <th><g:message encodeAs='HTML' code="label.cn" /></th>
               <th><g:message encodeAs='HTML' code="label.email" /></th>
               <th/>
@@ -14,6 +15,14 @@
         <g:each in="${collection}" status="i" var="managedSubjectInstance">
           <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
             <td>${fieldValue(bean: managedSubjectInstance, field: "login")}</td>
+            <td>
+                <g:if test="${managedSubjectInstance.accountExpires}">
+                    <g:formatDate format="yyyy-MM-dd" date="${managedSubjectInstance.accountExpires}"/>
+                </g:if>
+                <g:else>
+                    <g:message encodeAs='HTML' code="label.doesnotexpire"/>
+                </g:else>
+            </td>
             <td>${fieldValue(bean: managedSubjectInstance, field: "cn")}</td>
             <td>${fieldValue(bean: managedSubjectInstance, field: "email")}</td>
             <td>
