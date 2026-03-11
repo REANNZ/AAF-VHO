@@ -9,7 +9,6 @@ import org.springframework.beans.factory.InitializingBean
 
 import aaf.base.identity.Role
 import aaf.vhr.switchch.vho.DeprecatedSubject
-import aaf.vhr.MigrateController
 
 import aaf.vhr.crypto.GoogleAuthenticator
 
@@ -83,13 +82,6 @@ class LoginController implements InitializingBean {
   }
 
   def login(String username, String password) {
-    def deprecatedSubject = username != null ? DeprecatedSubject.findWhere(login:username, migrated:false) : null
-    if(deprecatedSubject) {
-      session.setAttribute(MigrateController.MIGRATION_USER, username)
-      redirect (controller:'migrate', action:'introduction')
-      return
-    }
-
     def redirectURL = session.getAttribute(SSO_URL)
     if(!redirectURL) {
       log.error "No redirectURL set for login, redirecting to oops"
