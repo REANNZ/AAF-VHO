@@ -41,7 +41,6 @@ class AccountController {
 
     if(!validPassword) {
       log.info "LoginService indicates failure for password login by $managedSubjectInstance to myaccount"
-      session.setAttribute(CURRENT_USER, managedSubjectInstance.id)
       def failedCaptcha = managedSubjectInstance.stateChanges?.sort{it.dateCreated}?.last()?.event == StateChangeType.FAILCAPTCHA
       render view:'index', model:[loginError: !failedCaptcha, loginWarning: failedCaptcha, requiresChallenge:managedSubjectInstance.requiresLoginCaptcha()]
       return
