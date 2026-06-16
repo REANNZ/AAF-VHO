@@ -433,8 +433,10 @@ class ManagedSubject {
     }
   }
 
-  public successfulLogin(String reason, String category, String environment, Subject actionedBy) {
-    this.failedLogins = 0
+  public successfulLogin(String reason, String category, String environment, Subject actionedBy, boolean resetFailedLogins) {
+    if (resetFailedLogins) {
+      this.failedLogins = 0
+    }
 
     def change = new StateChange(event:StateChangeType.LOGIN, reason:reason, category:category, environment:environment, actionedBy:actionedBy)
     this.addToStateChanges(change)

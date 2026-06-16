@@ -86,7 +86,7 @@ class LoginService implements InitializingBean{
 
     String reason = "User provided correct password at login."
     String requestDetails = createRequestDetails(request)
-    managedSubjectInstance.successfulLogin(reason, 'login_attempt', requestDetails, null)
+    managedSubjectInstance.successfulLogin(reason, 'login_attempt', requestDetails, null, !managedSubjectInstance.isUsingTwoStepLogin())
 
     true
   }
@@ -130,7 +130,7 @@ class LoginService implements InitializingBean{
 
     String reason = "Valid code for 2-Step verification. Assigned 90 day sessionID of ${twoStepSession.value}."
     String requestDetails = createRequestDetails(request)
-    managedSubjectInstance.successfulLogin(reason, 'login_attempt', requestDetails, null)
+    managedSubjectInstance.successfulLogin(reason, 'login_attempt', requestDetails, null, true)
 
     int maxAge = 90 * 24 * 60 * 60 // 90 days in seconds
     Cookie cookie = new Cookie(LoginService.TWOSTEP_COOKIE_NAME, twoStepSession.value)
