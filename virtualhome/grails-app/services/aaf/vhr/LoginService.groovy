@@ -86,7 +86,7 @@ class LoginService implements InitializingBean{
 
     String reason = "User provided correct password at login."
     String requestDetails = createRequestDetails(request)
-    managedSubjectInstance.successfulLogin(reason, 'login_attempt', requestDetails, null)
+    managedSubjectInstance.successfulLogin(reason, 'login_attempt', requestDetails, null, !managedSubjectInstance.isUsingTwoStepLogin())
 
     true
   }
@@ -130,7 +130,7 @@ class LoginService implements InitializingBean{
 
     String reason = "Valid code for 2-Step verification. Assigned 90 day sessionID of ${twoStepSession.value}."
     String requestDetails = createRequestDetails(request)
-    managedSubjectInstance.successfulLogin(reason, 'login_attempt', requestDetails, null)
+    managedSubjectInstance.successfulLogin(reason, 'login_attempt', requestDetails, null, true)
 
     int maxAge = 90 * 24 * 60 * 60 // 90 days in seconds
     Cookie cookie = new Cookie(LoginService.TWOSTEP_COOKIE_NAME, twoStepSession.value)
@@ -148,6 +148,18 @@ class LoginService implements InitializingBean{
     managedSubjectInstance.cleanupEstablishedTwoStepLogin()
 
     true
+  }
+
+  public boolean checkTwoStepCookie(ManagedSubject managedSubjectInstance, String twoStepCookie, def request, def response) {
+    def hasValidSession = managedSubjectInstance.hasEstablishedTwoStepLogin(twoStepCookie)
+    if (hasValidSession) {
+      log.info "Cookie confirming previous 2-Step verification supplied for $managedSubjectInstance was valid."
+
+      String reason = "Valid cookie for 2-Step verification (sessionID ${twoStepCookie})."
+      String requestDetails = createRequestDetails(request)
+      managedSubjectInstance.successfulLogin(reason, 'login_attempt', requestDetails, null, true)
+    }
+    hasValidSession
   }
 
   public String establishSession(ManagedSubject managedSubjectInstance) {

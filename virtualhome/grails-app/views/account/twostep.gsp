@@ -7,7 +7,7 @@
     <div class="row">
       <div class="span12">
         <div class="well well-small">
-          <g:form action="twosteplogin" id="${managedSubjectInstance.id}" method="post" class="form form-login form-validating">
+          <g:form action="twosteplogin" method="post" class="form form-login form-validating">
             <h2><g:message code="templates.aaf.vhr.loginform.twostep.title"/></h2>
 
             <g:if test="${loginError}">

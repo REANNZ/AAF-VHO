@@ -13,6 +13,7 @@ class AccountController {
   static allowedMethods = [login: 'POST', twosteplogin:'POST', finishenablingtwostep: 'POST', completedetailschange: 'POST']
 
   static final CURRENT_USER = "aaf.vhr.AccountController.CURRENT_USER"
+  static final PENDING_USER = "aaf.vhr.AccountController.PENDING_USER"
   static final INVALID_USER = "aaf.vhr.AccountController.INVALID_USER"
   static final NEW_TOTP_KEY = "aaf.vhr.AccountController.NEW_TOTP_KEY"
 
@@ -40,13 +41,13 @@ class AccountController {
 
     if(!validPassword) {
       log.info "LoginService indicates failure for password login by $managedSubjectInstance to myaccount"
-      session.setAttribute(CURRENT_USER, managedSubjectInstance.id)
       def failedCaptcha = managedSubjectInstance.stateChanges?.sort{it.dateCreated}?.last()?.event == StateChangeType.FAILCAPTCHA
       render view:'index', model:[loginError: !failedCaptcha, loginWarning: failedCaptcha, requiresChallenge:managedSubjectInstance.requiresLoginCaptcha()]
       return
     }
 
     if(managedSubjectInstance.isUsingTwoStepLogin()){
+      session.setAttribute(PENDING_USER, managedSubjectInstance.id)
       render(view: "twostep", model: [managedSubjectInstance: managedSubjectInstance])
       return
     }
@@ -55,12 +56,11 @@ class AccountController {
     redirect action:'show'
   }
 
-  def twosteplogin(long id, long totp) {
-    def managedSubjectInstance = ManagedSubject.get(id)
+  def twosteplogin(long totp) {
+    def managedSubjectInstance = ManagedSubject.get(session.getAttribute(PENDING_USER))
     if(!managedSubjectInstance) {
-      log.error "No ManagedSubject represented by $id in extendedlogin"
-      session.setAttribute(INVALID_USER, true)
-      redirect action:"index"
+      log.error "A valid session does not already exist to allow twosteplogin to function"
+      response.sendError 403
       return
     }
 
@@ -80,7 +80,6 @@ class AccountController {
     session.removeAttribute(CURRENT_USER)
     session.removeAttribute(INVALID_USER)
     session.removeAttribute(NEW_TOTP_KEY)
-    session.removeAttribute(MigrateController.MIGRATION_USER)
     redirect controller:'dashboard', action:'welcome'
   }
 
