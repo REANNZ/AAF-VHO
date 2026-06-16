@@ -150,6 +150,18 @@ class LoginService implements InitializingBean{
     true
   }
 
+  public boolean checkTwoStepCookie(ManagedSubject managedSubjectInstance, String twoStepCookie, def request, def response) {
+    def hasValidSession = managedSubjectInstance.hasEstablishedTwoStepLogin(twoStepCookie)
+    if (hasValidSession) {
+      log.info "Cookie confirming previous 2-Step verification supplied for $managedSubjectInstance was valid."
+
+      String reason = "Valid cookie for 2-Step verification (sessionID ${twoStepCookie})."
+      String requestDetails = createRequestDetails(request)
+      managedSubjectInstance.successfulLogin(reason, 'login_attempt', requestDetails, null, true)
+    }
+    hasValidSession
+  }
+
   public String establishSession(ManagedSubject managedSubjectInstance) {
     def sessionID = aaf.vhr.crypto.CryptoUtil.randomAlphanumeric(64)
     def authnTuple = new AuthnTuple(managedSubjectInstance.login, new Date(), managedSubjectInstance.isUsingTwoStepLogin())

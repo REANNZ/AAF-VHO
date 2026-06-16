@@ -131,7 +131,7 @@ class LoginController implements InitializingBean {
 
     if(managedSubjectInstance.isUsingTwoStepLogin()) {
       def twoStepCookie = request.cookies.find { it.name == LoginService.TWOSTEP_COOKIE_NAME }
-      if(!twoStepCookie || !managedSubjectInstance.hasEstablishedTwoStepLogin(twoStepCookie.value)) {
+      if(!twoStepCookie || !loginService.checkTwoStepCookie(managedSubjectInstance, twoStepCookie.value, request, response)) {
         // No existing 2 step login or existing session is invalid
         log.info "Requesting 2-Step verification for ${managedSubjectInstance} as valid existing 2-Step verification was not found."
         render(view: "twostep", model: [managedSubjectInstance: managedSubjectInstance])
