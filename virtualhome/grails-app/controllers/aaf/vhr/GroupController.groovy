@@ -183,12 +183,14 @@ class GroupController {
         def groupRole = Role.findByName("group:${groupInstance.id}:administrators")
         if (groupRole) roleService.deleteRole(groupRole)
 
+        def organizationInstance = groupInstance.organization
+        organizationInstance .removeFromGroups(groupInstance)
         groupInstance.delete()
 
         log.info "Action: delete, Subject: $subject, Object: groupInstance"
         flash.type = 'success'
         flash.message = 'controllers.aaf.vhr.group.delete.success'
-        redirect(controller:"organization", action: "show", id: groupInstance.organization.id, fragment:"tab-groups")
+        redirect(controller:"organization", action: "show", id: organizationInstance.id, fragment:"tab-groups")
       }
       catch (DataIntegrityViolationException e) {
         flash.type = 'error'
